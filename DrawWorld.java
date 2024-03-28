@@ -80,6 +80,7 @@ public class DrawWorld extends World
             previousTilePos = new Vector(-1, -1);
         }
         else if ("[".equals(key)) {
+            System.out.println("a");
             board.loadBoard(preset1);
         }
         else if ("]".equals(key)) {

@@ -22,4 +22,7 @@ public class SimulationWorld extends World
         addObject(board, 0, 0);
         Tile.setTimeFlow(true);
     }
+    public Board getBoard() {
+        return board;
+    }
 }

@@ -14,7 +14,7 @@ public class GrassTile extends Tile
      */
     private int grassAmount = 100;
     private int growSpeed = 1;
-    private int maxGrowth = Greenfoot.getRandomNumber(200) + 300;
+    private int maxGrowth = Greenfoot.getRandomNumber(200) + 600;
     public GrassTile() {
         super(new GreenfootImage("tile_grass.png"));
         growSpeed = 1;

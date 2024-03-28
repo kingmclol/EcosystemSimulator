@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Tile
+comment0.text=\n\ Write\ a\ description\ of\ class\ Tile\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=image
+comment1.target=Tile(greenfoot.GreenfootImage)
+comment2.params=a
+comment2.target=Tile(boolean)
+comment3.params=
+comment3.target=Tile()
+comment4.params=c
+comment4.target=void\ setTile(greenfoot.Color)
+comment5.params=img
+comment5.target=void\ setTile(greenfoot.GreenfootImage)
+comment6.params=
+comment6.target=void\ drawBorder()
+numComments=7

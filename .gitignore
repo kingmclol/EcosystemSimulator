@@ -1,4 +1,5 @@
-.ctxt
+*.ctxt
 project.greenfoot
-.class
+*.class
 /doc
+.DS_Store

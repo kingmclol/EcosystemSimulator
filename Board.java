@@ -57,20 +57,35 @@ public class Board extends Actor
         initBoard(chunks[3]);
     }
     /**
-     * Given a buildString, load it.
+     * Given a buildString, load it as a Board.
      * @param buildString the Board to load.
      */
     public void loadBoard(String buildString) {
+        destroyBoard();
         String[] chunks = buildString.split("~");
         map = new Tile[Integer.parseInt(chunks[1])][Integer.parseInt(chunks[0])];
         tileSize = Integer.parseInt(chunks[2]);
         initBoard(chunks[3]);
         drawBoard(getWorld());
     }
+    /**
+     * Removes all Tiles from the World, essentially destroying the Board. However,
+     * references to each tile is still kept internally within Board, so it can be re-added by running
+     * drawBoard()
+     * @see drawBoard(World w)
+     */
+    public void destroyBoard() {
+        World w = getWorld();
+        for (Tile[] row : map) {
+            for (Tile t : row) {
+                w.removeObject(t);
+            }
+        }
+    }
     public void addedToWorld(World w) {
         drawBoard(w);
     }
-    private void drawBoard(World w) {
+    public void drawBoard(World w) {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[i].length; j++) {
                 w.addObject(map[i][j],(j)*tileSize+tileSize/2, i*tileSize+tileSize/2);

@@ -3,3 +3,5 @@ project.greenfoot
 *.class
 ./doc
 .DS_Store
+*.ctxt
+*.ctxt

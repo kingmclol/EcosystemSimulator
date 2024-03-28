@@ -5,12 +5,16 @@ import greenfoot.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Tile extends Actor
+public abstract class Tile extends SuperActor
 {
-    private static int size = 64;
+    public static final int size = 64;
+    protected Vector tilePosition;
+    private static final boolean drawBorders = false;
     public Tile(GreenfootImage image) {
-        setImage(image);
-        //drawBorder();
+        setTile(image);
+    }
+    public void addedToWorld(World w) {
+        tilePosition = Board.getTilePosition(getPosition());
     }
     public Tile(boolean a) {
         setTile(Color.GRAY);
@@ -39,15 +43,22 @@ public class Tile extends Actor
         img.setColor(c);
         img.fill();
         setImage(img);
-        //drawBorder();
+        if (drawBorders) drawBorder();
     }
     public void setTile(GreenfootImage img) {
         img.scale(size, size);
         setImage(img);
-        //drawBorder();
+        if (drawBorders) drawBorder();
     }
     public void drawBorder(){
         getImage().setColor(Color.BLACK);
         getImage().drawRect(0,0,size, size);
+    }
+    public Vector getTilePosition() {
+        return tilePosition;
+    }
+    public void replaceMe(Tile t) {
+        getWorld().addObject(t, getX(), getY());
+        getWorld().removeObject(this);
     }
 }

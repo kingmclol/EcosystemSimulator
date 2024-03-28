@@ -9,11 +9,13 @@ import java.util.ArrayList;
  */
 public class DrawWorld extends World
 {
-    private static Board board;
+    //private static Board board;
     private static Vector previousTilePos, currentTilePos;
     private static int mouseDrawType;
     private static boolean drawing;
     private static Cursor cursor = new Cursor();
+    private static Board board;
+    private String preset1 = "16~12~64~eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeewggeeweeeeeeeewwwgggwweeeeegeweewgeggwweeeegggeewgewwgweeeeegggewggwwegweeeeggeggwgweeegeeeeeggegggwwggeeeeeeeegggggggeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -24,13 +26,15 @@ public class DrawWorld extends World
         super(1024, 768, 1); 
         setPaintOrder(Cursor.class, Tile.class);
         
-        board = new Board(16,12, 64, this);
-        board.init();
+        //board = new Board(64, this);
+        board = new Board(preset1);
+        addObject(board, 0, 0);
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);
         previousTilePos = new Vector();
         currentTilePos = new Vector();
+        Tile.setTimeFlow(false);
     }
     public void act() {
         checkMouseState();
@@ -40,7 +44,7 @@ public class DrawWorld extends World
             if (a instanceof Tile) {
                 currentTilePos = Board.getTilePosition(cursor.getPosition());
                 if (!currentTilePos.equals(previousTilePos)) {
-                    board.setTileAt(currentTilePos, getDrawnTile());
+                    ((Tile) a).replaceMe(getDrawnTile());
                 }
             }
             previousTilePos = currentTilePos;
@@ -61,6 +65,12 @@ public class DrawWorld extends World
         }
         else if ("e".equals(key)) {
             mouseDrawType = 4;
+        }
+        else if ("l".equals(key)) {
+            Greenfoot.setWorld(new SimulationWorld(board));
+        }
+        else if ("p".equals(key)) {
+            System.out.println(board);
         }
     }
     private void checkMouseState() {
@@ -86,28 +96,4 @@ public class DrawWorld extends World
         }
         return new EmptyTile();
     }
-    public Board getBoard() {
-        return board;
-    }
-    // private void drawNewTile(Tile t) {
-        // switch(mouseDrawType) {
-            // case 0:
-                // //setTile(Color.BLUE);
-                // t.setTile(new GreenfootImage("tile_water.png"));
-                // break;
-            // case 1:
-                // //setTile(Color.RED);
-                // t.setTile(new GreenfootImage("tile_grass.png"));
-                // break;
-            // case 2:
-                // //setTile(Color.GREEN);
-                // t.setTile(new GreenfootImage("tile_berries.png"));
-                // break;
-            // case 3:
-                // t.setTile(new GreenfootImage("tile_trees.png"));
-                // break;
-            // case 4:
-                // t.setTile(Color.GRAY);
-        // }
-    // }
 }

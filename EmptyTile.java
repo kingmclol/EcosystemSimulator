@@ -13,8 +13,7 @@ public class EmptyTile extends Tile
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public EmptyTile() {
-        super();
-        setTile(Color.GRAY);
+        super(Color.GRAY);
     }
     public void act()
     {

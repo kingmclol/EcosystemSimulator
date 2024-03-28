@@ -1,5 +1,5 @@
 *.ctxt
 project.greenfoot
 *.class
-./doc
+/doc
 .DS_Store

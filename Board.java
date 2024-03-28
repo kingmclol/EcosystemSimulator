@@ -51,11 +51,21 @@ public class Board extends Actor
      * @param buildString The build string to follow when constructing the board.
      */
     public Board (String buildString) {
-        System.out.println(buildString);
         String[] chunks = buildString.split("~");
         map = new Tile[Integer.parseInt(chunks[1])][Integer.parseInt(chunks[0])];
         tileSize = Integer.parseInt(chunks[2]);
         initBoard(chunks[3]);
+    }
+    /**
+     * Given a buildString, load it.
+     * @param buildString the Board to load.
+     */
+    public void loadBoard(String buildString) {
+        String[] chunks = buildString.split("~");
+        map = new Tile[Integer.parseInt(chunks[1])][Integer.parseInt(chunks[0])];
+        tileSize = Integer.parseInt(chunks[2]);
+        initBoard(chunks[3]);
+        drawBoard(getWorld());
     }
     public void addedToWorld(World w) {
         drawBoard(w);
@@ -179,4 +189,24 @@ public class Board extends Actor
         System.out.println("err: unexpected char while parsing Build string.");
         return null;
     }
+    /**
+     * Returns whether the Board is ready for play. That is, there are no EmptyTiles that exist.
+     * @return true if there are no EmptyTiles.
+     */
+    public boolean isReady(){
+        for (Tile[] row : map) {
+            for (Tile t : row) {
+                if (t instanceof EmptyTile) return false;
+            }
+        }
+        return true;
+    }
+    // public static void drawBorders(boolean visible) {
+        // if (!visible) return;
+        // for (Tile[] row : map) {
+            // for (Tile t : row) {
+                // t.drawBorder();
+            // }
+        // }
+    // }
 }

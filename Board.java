@@ -1,5 +1,4 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
 /**
  * <p>The Board is a class that is used to manage the tilemap for the World. It represents the map as a 
  * 2D array, and is the thing that manages building and adding each tile to the World assigned to the Board class
@@ -47,6 +46,7 @@ public class Board
         
         map = new Tile[height][width];
         Board.tileSize = tileSize;
+        Tile.setSize(tileSize);
         Board.w = w;
         initBoard(); // initialize Board
         
@@ -65,6 +65,7 @@ public class Board
         String[] chunks = buildString.split("~");
         map = new Tile[Integer.parseInt(chunks[1])][Integer.parseInt(chunks[0])];
         tileSize = Integer.parseInt(chunks[2]);
+        Tile.setSize(tileSize);
         initBoard(chunks[3]);
         
         drawBoard(); // draw board on world
@@ -85,8 +86,9 @@ public class Board
      * @see drawBoard()
      */
     public static void destroyBoard() {
-        if (map == null) { // If map is null means Board not initialized. Nothing to remove.
-            System.out.println("warn: Attempted to destroy board before creating one. This is fine if this warning only appears once.");
+        // If map is null means Board not initialized. Nothing to remove. Expected to occur when loading the first board, after compliing.
+        if (map == null) {
+            System.out.println("warn: Attempted to destroy board before creating one. This is fine if this warning only appears once after compilation.");
             return; 
         }
         for (Tile[] row : map) {
@@ -99,7 +101,7 @@ public class Board
      * Draws the Board onto the World that Board is assigned.
      */
     public static void drawBoard() {
-        if (w == null) {
+        if (w == null) { // Can't add anything to a null world...
             System.out.println("err: Attempted to draw board when no World exists!");
             return;
         }

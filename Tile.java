@@ -8,7 +8,14 @@ import greenfoot.*;
  */
 public abstract class Tile extends SuperActor
 {
-    private static int size = 64;
+    private static int size;
+    protected GreenfootImage[] animationImages;
+    protected int animationIndex = 0;
+    /**
+     * The height level of a tile is basically how tall it is. Used to determine
+     * Whether animals should be able to walk through it. 0 is sea level.
+     */
+    protected int heightLevel;
     /**
      * The tilePosition is the current Position of this specific tile on the Board.
      */
@@ -22,11 +29,14 @@ public abstract class Tile extends SuperActor
         // drawBorders = visible;
         // Board.drawBorders(visible);
     // }
+    public int getHeightLevel() {
+        return heightLevel;
+    }
     /**
      * Sets the tileSize for Tiles to adhere to.
      * @param newSize The new Size for tiles.
      */
-    public static void setTileSize(int newSize) {
+    public static void setSize(int newSize) {
         size = newSize;
     }
     /**
@@ -86,7 +96,7 @@ public abstract class Tile extends SuperActor
         return tilePosition;
     }
     /**
-     * Replaces this Tile with the given Tile. Will adjust the Board on its own.
+     * Replaces this Tile with the given Tile. Will updated the Board automagically.
      * @param t The Tile to replace this Tile with.
      */
     public void replaceMe(Tile t) {
@@ -95,3 +105,5 @@ public abstract class Tile extends SuperActor
         getWorld().removeObject(this);
     }
 }
+ 
+

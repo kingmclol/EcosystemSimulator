@@ -1,7 +1,8 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class WaterTile here.
+ * <p>WaterTiles are tiles that represent Water. They have the lowest height level of 0, but
+ * Animals need to swim, rather than walk, on these tiles. If they aren't careful, they might drown!</p>
  * 
  * @author (your name) 
  * @version (a version number or a date)
@@ -14,7 +15,7 @@ public class WaterTile extends Tile
      */
     public WaterTile() {
         super(new GreenfootImage("tile_water.png"));
-        
+        heightLevel = 0;
     }
     public void act()
     {

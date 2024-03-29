@@ -19,7 +19,7 @@ public class TreeTile extends Tile
     {
         if (!timeFlowing) return;
         if (Greenfoot.getRandomNumber(1000) == 0) {
-            Tile[] adjacent = ((SimulationWorld)getWorld()).getBoard().getAdjacentTiles(tilePosition);
+            Tile[] adjacent = Board.getAdjacentTiles(tilePosition);
             for (Tile t : adjacent) {
                 if (t instanceof GrassTile) {
                     t.replaceMe(new TreeTile());

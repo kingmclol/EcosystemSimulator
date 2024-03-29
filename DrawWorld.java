@@ -10,12 +10,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class DrawWorld extends World
 {
-    //private static Board board;
     private static Vector previousTilePos, currentTilePos;
     private static int mouseDrawType;
     private static boolean drawing;
     private static Cursor cursor = new Cursor();
-    private static Board board;
     private String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
     private String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
     /**
@@ -28,9 +26,7 @@ public class DrawWorld extends World
         super(1024, 768, 1); 
         setPaintOrder(Cursor.class, Tile.class);
         
-        board = new Board(64, this);
-        //board = new Board(preset1);
-        addObject(board, 0, 0);
+        Board.loadBoard(this, 64);
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);
@@ -80,20 +76,19 @@ public class DrawWorld extends World
             previousTilePos = new Vector(-1, -1);
         }
         else if ("[".equals(key)) {
-            System.out.println("a");
-            board.loadBoard(preset1);
+            Board.loadBoard(this, preset1);
         }
         else if ("]".equals(key)) {
-            board.loadBoard(preset2);
+            Board.loadBoard(this, preset2);
         }
         else if ("l".equals(key)) { // submit
-            if (board.isReady()) {
-                Greenfoot.setWorld(new SimulationWorld(board));
+            if (Board.isReady()) {
+                Greenfoot.setWorld(new SimulationWorld());
             }
             else System.out.println("There are still empty Tiles on the Board!");
         }
         else if ("p".equals(key)) { // prints out the board
-            System.out.println(board);
+            Board.printBuildString();
         }
     }
     private void checkMouseState() {

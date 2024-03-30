@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Cursor extends Actor
+public class Cursor extends SuperActor
 {
     /**
      * Act - do whatever the Cursor wants to do. This method is called whenever

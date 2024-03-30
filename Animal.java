@@ -31,5 +31,3 @@ public class Animal extends Actor {
         getWorld().removeObject(this);
     }
 }
-
-

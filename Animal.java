@@ -7,12 +7,20 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (Osmond Lin) 
  */
 
-public class Animal extends Actor {
-    private int speed;
-    private int energy;
+public abstract class Animal extends SuperActor {
+    protected double speed;
+    protected int energy;
+    protected int stamina;
+    protected int sprintSpeed;
+    protected int waterSpeed;
+    
+    /**
+     * timeFlowing determines whether Tiles should act on their own.
+     */
+    protected static boolean timeFlowing = true;
 
     public Animal() {
-        
+        enableStaticRotation();
     }
 
     public void act() {
@@ -29,5 +37,12 @@ public class Animal extends Actor {
 
     public void die() {
         getWorld().removeObject(this);
+    }
+    
+    public void moveRandomly() {
+        if (Greenfoot.getRandomNumber (60) == 50)
+        {
+            turn (Greenfoot.getRandomNumber(360));
+        }
     }
 }

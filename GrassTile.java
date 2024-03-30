@@ -21,7 +21,7 @@ public class GrassTile extends Tile
     private int grassAmount = 1000;
     private int growSpeed;
     
-    private static double PROBABILITY_SEED_SELF = 1/10000d;
+    private static double PROBABILITY_SEED_SELF = 1/50000d;
     private int growAct, growTime;
     private Tile mySeed = null;
     
@@ -38,6 +38,7 @@ public class GrassTile extends Tile
     public int nibble(int value) {
         if (grassAmount < value) { // Not enough grass to eat... Return what was remaining.
             grassAmount = 0;
+            //replaceMe(new EmptyTile());
             return grassAmount;
         }
         grassAmount = Math.max(0, grassAmount-value); 
@@ -69,10 +70,19 @@ public class GrassTile extends Tile
         this.growTime = growTime;
     }
     /**
+     * Returns the amount of grass current grass tile has
+     */
+    public int getGrassAmount() {
+        return grassAmount;
+    }
+    /**
      * Grows grass and the seed, if it exists.
      */
     private void grow() {
-        grassAmount = Math.min(MAX_GRASS, grassAmount+growSpeed);
+        if(grassAmount <= 50){
+            grassAmount = Math.min(MAX_GRASS, grassAmount+growSpeed);
+        }
+        
         if (mySeed != null) {
             if (++growAct >= growTime) {
                 replaceMe(mySeed);

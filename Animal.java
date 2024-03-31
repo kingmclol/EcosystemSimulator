@@ -14,12 +14,19 @@ public abstract class Animal extends SuperActor {
     protected int sprintSpeed;
     protected int waterSpeed;
     
+    protected boolean alive;
+    protected boolean eating;
+    protected boolean full;
     /**
      * timeFlowing determines whether Tiles should act on their own.
      */
     protected static boolean timeFlowing = true;
 
     public Animal() {
+        alive = true;
+        eating = false;
+        full = true;
+        energy = 2000;
         enableStaticRotation();
     }
 
@@ -31,6 +38,14 @@ public abstract class Animal extends SuperActor {
         }
     }
 
+    public boolean isAlive() {
+        return alive;
+    }
+
+    public boolean isEating() {
+        return eating;
+    }
+    
     public void eat(int energyGain) {
         energy += energyGain;
     }

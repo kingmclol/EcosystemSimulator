@@ -9,18 +9,14 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Rabbit extends Animal
 {
     GrassTile targetGrass;
-    private boolean alive;
-    private boolean eating;
     private boolean beingEaten;
-    private boolean full;
-
+    private boolean wantToEat;
+    
     public Rabbit() {
-        alive = true;
-        eating = false;
+        super();
         beingEaten = false;
-        full = true;
-        energy = 2000;
         speed = 1.0;
+        wantToEat = false;
     }
 
     /**
@@ -29,18 +25,31 @@ public class Rabbit extends Animal
      */
     public void act()
     {
+        System.out.println(eating);
         if(timeFlowing == false){
             return;
         }
-        /*if(alive) {
-        move(speed);
-        }*/
-
-        energy--;
+        
         if(energy < 1000){
+            wantToEat = true;
+        }else if(energy >= 1800){
+            wantToEat = false;
+        }
+
+        if((targetGrass == null) || !(distanceFrom(targetGrass) < 5)){
+            eating = false;
+        }else{
+            eating = true;
+        }
+
+        if(!eating){
+            energy--;
+        }
+        if(wantToEat){
             full = false;
             findGrassAndEat();
-        }else if(!eating){
+        }else{
+            targetGrass = null;
             full = true;
             move(speed);
             moveRandomly();
@@ -65,24 +74,17 @@ public class Rabbit extends Animal
         if(targetGrass != null) {
             //turnTowards(targetGrass.getX(), targetGrass.getY());
             moveTowards(targetGrass, 1.0);
+        }else{
+            move(speed);
+            moveRandomly();
         }
+
         if(targetGrass != null){
             if(distanceFrom(targetGrass) < 5){
-                eating = true;
-                targetGrass.nibble(200);
-                eat(250);
-            }else{
-                eating = false;
+                targetGrass.nibble(4);
+                eat(4);
             }
         }
-    }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public boolean isEating() {
-        return eating;
     }
 
     public boolean isBeingEaten() {

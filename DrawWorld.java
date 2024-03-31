@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.ArrayList;
 /**
  * The DrawWorld is where the User is able to create the World Environment (the map). The user can swap between Tile types and
  * draw on the Board being displayed. Once satisfied, the user can submit this board to the SimulationWorld, where the simulation
@@ -14,6 +14,7 @@ public class DrawWorld extends World
     private static int mouseDrawType;
     private static boolean drawing;
     private static Cursor cursor = new Cursor();
+    private static Vector pathStart, pathEnd;
     private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
     private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
     private static final String preset3 = "16~12~64~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
@@ -93,6 +94,18 @@ public class DrawWorld extends World
         }
         else if ("p".equals(key)) { // prints out the board
             Board.printBuildString();
+        }
+        else if (",".equals(key)) {
+            pathStart = Board.getTilePosition(cursor.getPosition());
+        }
+        else if (".".equals(key)) {
+            pathEnd = Board.getTilePosition(cursor.getPosition());
+            if (pathStart != null && pathEnd != null) {
+                ArrayList<Node> path = Board.findPath(pathStart, pathEnd);
+                Board.loadBoard(this, preset3);
+                Board.displayPath(path, Color.YELLOW);
+            }
+            else System.out.println("one of the nodes are not existing");
         }
     }
     private void checkMouseState() {

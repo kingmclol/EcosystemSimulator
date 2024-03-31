@@ -1,4 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.ArrayList;
+import java.util.Collections;
 /**
  * <p>The Board is a class that is used to manage the tilemap for the World. It represents the map as a 
  * 2D array, and is the thing that manages building and adding each tile to the World assigned to the Board class
@@ -18,9 +20,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Board
 {
-    private static Tile[][] map;
+    private static Tile[][] map = new Tile[0][0]; // make map not null so destroyBoard() will not error on first run.
     private static int tileSize;  
     private static World w;
+    private static int width, height;
     /**
      * Act - do whatever the Board wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -45,6 +48,8 @@ public class Board
         destroyBoard(); // clear previous board, if exists
         
         map = new Tile[height][width];
+        Board.width = width;
+        Board.height = height;
         Board.tileSize = tileSize;
         Tile.setSize(tileSize);
         Board.w = w;
@@ -63,7 +68,9 @@ public class Board
         destroyBoard(); // clear previous board, if exists
         
         String[] chunks = buildString.split("~");
-        map = new Tile[Integer.parseInt(chunks[1])][Integer.parseInt(chunks[0])];
+        Board.width = Integer.parseInt(chunks[0]);
+        Board.height = Integer.parseInt(chunks[1]);
+        map = new Tile[height][width];
         tileSize = Integer.parseInt(chunks[2]);
         Tile.setSize(tileSize);
         initBoard(chunks[3]);
@@ -168,6 +175,23 @@ public class Board
         int tileY = (int)Math.round((realPosition.getY()-tileSize/2)/tileSize);
         return new Vector(tileX, tileY);
     }
+    public static ArrayList<Tile> getNeighbouringTiles(Vector tilePosition) {
+        ArrayList<Tile> adjacent = new ArrayList();
+        int tileX = (int)Math.round(tilePosition.getX());
+        int tileY = (int)Math.round(tilePosition.getY());
+        for (int y = -1; y <=1; y++) { // Iterate through possible y values (top row, current row, bottom row)
+            for (int x = -1; x <= -1; x++) { // Iterate through possible x vslues (left row, current row, right row)
+                if (x == 0 && y == 0) continue;
+                
+                int checkX = tileX + x;
+                int checkY = tileY + y;
+                
+                Tile t = getTile(checkX, checkY);
+                if (t != null) adjacent.add(t);
+            }
+        }
+        return adjacent;
+    }
     /**
      * <p>Returns the adjacent Tiles from a given position in terms of Tiles.</p>
      * <p>The returned array is read as follows:</p>
@@ -181,16 +205,28 @@ public class Board
      *  @param tilePosition The position, in terms of Tiles, to check around.
      *  @return An array that stores the adjacent Tiles.
      */
-    public static Tile[] getAdjacentTiles(Vector tilePosition) {
-        int tileX = (int)Math.round(tilePosition.getX());
-        int tileY = (int)Math.round(tilePosition.getY());
-        Tile[] adjacentTiles = new Tile[4];
-        adjacentTiles[0] = getTile(tileX, tileY-1);
-        adjacentTiles[1] = getTile(tileX+1, tileY);
-        adjacentTiles[2] = getTile(tileX, tileY+1);
-        adjacentTiles[3] = getTile(tileX-1, tileY);
-        return adjacentTiles;
+    public static ArrayList<Node> getNeighbours(Node n) {
+        ArrayList<Node> neighbours = new ArrayList();
+        int nodeX = (int)Math.round(n.getPosition().getX());
+        int nodeY = (int)Math.round(n.getPosition().getY());
+        for (int y = -1; y <=1; y++) { // Iterate through possible y values (top row, current row, bottom row)
+            for (int x = -1; x <= 1; x++) { // Iterate through possible x vslues (left row, current row, right row)
+                if (x == 0 && y == 0) continue; // If center (current tile), skip.
+                
+                int checkX = nodeX + x;
+                int checkY = nodeY + y;
+                
+                // If the coordinate is within the bounds of the grid,
+                if (checkX >= 0 && checkX < width && checkY >= 0 && checkY < height) {
+                    // THIS SHOULD NOT GIVE NEW NODES; USE AN ALTERNATIVE WAY TO STORE NODES SOMEWHERE
+                    // AS LONG AS I DONT RETURN ANY NEW NODES SHOULD BE MUCH BETTER
+                    neighbours.add(new Node(true, new Vector(checkX, checkY))); // add it to be returned
+                }
+            }
+        }
+        return neighbours;
     }
+    
     /**
      * Prints out a String that represents a Board, which can be loaded with loadBoard(String), for easier
      * access in the Terminal.
@@ -266,18 +302,91 @@ public class Board
         }
         return true;
     }
-    // /**
-     // * Returns the tile map of the Board.
-     // */
-    // public static Tile[][] getTileMap() {
-        // return map;
-    // }
-    // public static void drawBorders(boolean visible) {
-        // if (!visible) return;
-        // for (Tile[] row : map) {
-            // for (Tile t : row) {
-                // t.drawBorder();
-            // }
-        // }
-    // }
+    /**
+     * A* pathfinding algorithm.
+     * @param startPos the starting position to path from, relative to grid.
+     * @param targetPost the ending position to be at, relative to grid
+     */
+    public static ArrayList<Node> findPath(Vector startPos, Vector targetPos) {
+        // Create nodes based on the given positions.
+        Node startNode = new Node(true, startPos);
+        Node endNode = new Node(true, targetPos);
+        
+        // Create two lists.
+        ArrayList<Node> openSet = new ArrayList(); // Holds unexplored, accessbile nodes?
+        ArrayList<Node> closedSet = new ArrayList(); // Holds explored nodes?
+        
+        openSet.add(startNode); // Begin with exploring aroud the start node.
+        
+        while (openSet.size() > 0) { // While there are still nodes to explore,
+            Node currentNode = openSet.get(0); // Get the 0th node.
+            for (int i = 1; i < openSet.size(); i++) { // Iterate through the other open nodes.
+                Node n = openSet.get(i);
+                // If n is more efficent to get to the ending node, then use that node instead.
+                if (n.fCost() < currentNode.fCost() || n.fCost() == currentNode.fCost() && n.hCost() < currentNode.hCost()) {
+                    currentNode = openSet.get(i);
+                }
+            }
+            
+            // Remove the current node from the open set (currently is exploring from it)
+            openSet.remove(currentNode);
+            closedSet.add(currentNode); // Add the node into the closed set (since after were done we have finished exploring
+            
+            // if (currentNode == endNode) { // uses references instead, MUCH BETTER
+            if (currentNode.equals(endNode)) { // If the current node is equal to the end node (path found);
+                return retracePath(startNode, currentNode); // Return the path found.
+            }
+            
+            for (Node neighbour : getNeighbours(currentNode)) { // For each adjacent tile to the current node,
+                if (!neighbour.isWalkable() || closedSet.contains(neighbour)) { // If this neighbouring tile is not walkable, or has been cheked already,
+                    continue; // skip.
+                }
+                // Calculate the cost to get to the neighbouring node.
+                int moveCostToNeighbour = currentNode.gCost() + Node.getDistance(currentNode, neighbour);
+                
+                // If the move cost to the neighbour is more efficient, and it is not already existing.
+                // THERE MAY BE AN ERROR HERE. BECAUSE I RETURN NEW NODES FROM getNeighbours(), neighbour.gCost() MAY NOT HAVE ANYTHING.
+                // AGAIN, THIS CAN BE FIXED BY HOLDING A 2D ARRAY OF NODES, AND RETURNING THOSE REFERENCES INSTEAD OF NEWING ONE.
+                if (moveCostToNeighbour < neighbour.gCost() || !openSet.contains(neighbour)) {
+                    neighbour.setGCost(moveCostToNeighbour);
+                    neighbour.setHCost(Node.getDistance(neighbour, endNode));
+                    neighbour.setParent(currentNode);
+                    
+                    if (!openSet.contains(neighbour)) {
+                        openSet.add(neighbour);
+                    }
+                }
+            }
+        }
+        return null;
+    } 
+    /**
+     * Retraces the path taken, given a starting node and ending node.
+     * @param startNode the starting node
+     * @param endNode the ending node.
+     * @return The actual path from start node to end node, in order.
+     */
+    private static ArrayList<Node> retracePath(Node startNode, Node endNode) {
+        ArrayList<Node> path = new ArrayList<Node>();
+        Node currentNode = endNode; // Start with the ending node.
+        path.add(currentNode); // Add it to the path.
+        while (!currentNode.equals(startNode)) { // While the current node is not the starting node (still need to backtrack). Same issue, currentNode != startNode is much better
+            currentNode = currentNode.getParent(); // get the parent of the current node, and
+            path.add(currentNode); // add it to the pat.
+        }
+        Collections.reverse(path); // Reverse the path, so it goes from start -> end instead of end -> start.
+        return path;
+    }
+    /**
+     * Given a list of nodes, color them to show that path.
+     */
+    public static void displayPath(ArrayList<Node> path, Color c) {
+        Tile start = getTile(path.get(0).getX(), path.get(0).getY());
+        start.setTile(Color.ORANGE);
+        for (int i = 1; i < path.size(); i++) {
+            Node n = path.get(i);
+            Tile t = getTile(n.getX(), n.getY());
+            t.setTile(c);
+        }
+    }
 }

@@ -17,7 +17,7 @@ public class TreeTile extends Tile
      */
     private static int GROW_TIME_MIN = 600;
     private static int GROW_TIME_MAX = 1600;
-    private static double PROBABILITY_DROP_SEED = 1/2000d;
+    private static double PROBABILITY_DROP_SEED = 1/20000d;
     public TreeTile() {
         super(new GreenfootImage("tile_trees.png"));
         heightLevel = 2;

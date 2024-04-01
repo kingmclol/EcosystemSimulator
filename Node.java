@@ -1,3 +1,4 @@
+import greenfoot.*;
 /**
  * A Node is a specific coordinate on a given grid, used for A* pathfinding. It holds a parent node, and some variables
  * relating to its distance from the start and end node.
@@ -5,23 +6,34 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Node  
+public class Node extends Actor
 {
     // instance variables - replace the example below with your own
     private Node parent;
     private boolean walkable;
-    private Vector position;
     private int gCost;
     private int hCost;
+    private int x, y;
     /**
      * Creates a Node that is accessable or inaccesible, and gives it a position (which would be relative
      * to the grid it is in).
      * @param walkable Whether this node should be considered as applicable to walk over in pathfinding.
      * @param position The position of this node on the grid.
      */
-    public Node(boolean walkable, Vector position) {
+    public Node(boolean walkable, int x, int y) {
+        this(x, y);
         this.walkable = walkable;
-        this.position = position;
+    }
+    public Node(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public void setImage(Color c, int dimension) {
+        GreenfootImage img = new GreenfootImage(dimension, dimension);
+        img.setColor(c);
+        img.fill();
+        
+        setImage(img);
     }
     /**
      * Sets the parent of this node.
@@ -54,6 +66,9 @@ public class Node
     public boolean isWalkable() {
         return walkable;
     }
+    public void setWalkable(boolean walkable) {
+        this.walkable = walkable;
+    }
     /**
      * Returns the H cost of this node.
      */
@@ -71,24 +86,18 @@ public class Node
      */
     public int fCost() {
         return gCost + hCost;
-    }
-    /**
-     * Returns the position of this Node. Relative to the grid, not the World.
-     */
-    public Vector getPosition() {
-        return position;
-    }
+    }    
     /**
      * Get the X position of this Node. Relative to the grid.
      */
     public int getX() {
-        return (int) Math.round(position.getX());
+        return x;
     }
     /**
      * Get the Y position of this node. Relative to the grid.
      */
     public int getY() {
-        return (int) Math.round(position.getY());
+        return y;
     }
     /**
      * Returns the distance cost needed to travel from Node a to node b
@@ -103,16 +112,5 @@ public class Node
             return 14*dY + 10*(dX - dY);
         }
         else return 14 * dX + 10*(dY - dX);
-    }
-    /**
-     * Quickly implemented way to check if two nodes are equal, meaning that their positions are the same.
-     * TODO: Rework how I get nodes, so reference comparisons can be used instead. That is, I should not 
-     *       be creating new nodes in getNeighbours(). Maybe i can merge node functionality with Tiles? Or another
-     *       2D array holding nodes only?
-     * @param other The node to compare to.
-     * @return true if they occupy the same position.
-     */
-    public boolean equals(Node other) {
-        return getPosition().equals(other.getPosition());
     }
 }

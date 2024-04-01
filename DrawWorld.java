@@ -14,7 +14,7 @@ public class DrawWorld extends World
     private static int mouseDrawType;
     private static boolean drawing;
     private static Cursor cursor = new Cursor();
-    private static Vector pathStart, pathEnd;
+    private static Node pathStart, pathEnd;
     private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
     private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
     private static final String preset3 = "16~12~64~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
@@ -26,7 +26,7 @@ public class DrawWorld extends World
     public DrawWorld()
     {    
         super(1024, 768, 1); 
-        setPaintOrder(Rabbit.class, Cursor.class, Tile.class);
+        setPaintOrder(Rabbit.class, Cursor.class, Node.class, Tile.class);
         
         Board.loadBoard(this, 64);
         mouseDrawType = 0;
@@ -96,13 +96,12 @@ public class DrawWorld extends World
             Board.printBuildString();
         }
         else if (",".equals(key)) {
-            pathStart = Board.getTilePosition(cursor.getPosition());
+            pathStart = Board.getNodeWithRealPosition(cursor.getPosition());
         }
         else if (".".equals(key)) {
-            pathEnd = Board.getTilePosition(cursor.getPosition());
+            pathEnd = Board.getNodeWithRealPosition(cursor.getPosition());
             if (pathStart != null && pathEnd != null) {
-                ArrayList<Node> path = Board.findPath(pathStart, pathEnd);
-                Board.loadBoard(this, preset3);
+                ArrayList<Node> path = Board.findPath(pathStart, pathEnd, 1);
                 Board.displayPath(path, Color.YELLOW);
             }
             else System.out.println("one of the nodes are not existing");

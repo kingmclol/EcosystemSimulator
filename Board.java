@@ -231,7 +231,7 @@ public class Board
         else if (t instanceof TreeTile) return 't';
         else if (t instanceof BushTile) return 'b';
         else if (t instanceof WaterTile) return 'w';
-        
+        else if (t instanceof MountainTile) return 'm';
         System.out.println("err: given unknown tile type.");
         return '?';
     }
@@ -250,6 +250,8 @@ public class Board
                 return new BushTile();
             case 'w':
                 return new WaterTile();
+            case 'm':
+                return new MountainTile();
         }
         System.out.println("err: unexpected char while parsing Build string.");
         return new EmptyTile();

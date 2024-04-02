@@ -42,7 +42,7 @@ public class GrassTile extends Tile
         if (grassAmount < value) { // Not enough grass to eat... Return what was remaining.
             grassAmount = 0;
             grassAvailable = false;
-            setTile(Color.RED);
+            setTile(new GreenfootImage("tile_grass_empty.png"));
             return grassAmount;
         }
         grassAmount = Math.max(0, grassAmount-value); 

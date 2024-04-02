@@ -13,7 +13,7 @@ public class MountainTile extends Tile
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public MountainTile() {
-        super(Color.BLACK);
+        super(new GreenfootImage("tile_mountain.png"));
         heightLevel = 3;
     }
     public void act()

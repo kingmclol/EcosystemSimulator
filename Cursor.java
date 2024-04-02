@@ -33,6 +33,6 @@ public class Cursor extends SuperActor
         return getOneObjectAtOffset(0,0,Actor.class);
     }
     public ArrayList<Actor> getHoveredActors() {
-        return (ArrayList<Actor>) getObjectsInRange(10,Actor.class);
+        return (ArrayList<Actor>) getObjectsAtOffset(0, 0, Actor.class);
     }
 }

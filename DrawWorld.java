@@ -25,7 +25,7 @@ public class DrawWorld extends World
     public DrawWorld()
     {    
         super(1024, 768, 1); 
-        setPaintOrder(Rabbit.class, Cursor.class, Tile.class);
+        setPaintOrder(Cursor.class, Tile.class);
         
         Board.loadBoard(this, 64);
         mouseDrawType = 0;

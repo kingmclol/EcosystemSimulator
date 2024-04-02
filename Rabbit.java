@@ -12,6 +12,9 @@ public class Rabbit extends Animal
     private boolean beingEaten;
 
     private boolean wantToEat;
+    //Animation
+    private GreenfootImage[] eatingAnimation = new GreenfootImage[8];
+    private GreenfootImage[] walkingAnimation = new GreenfootImage[8];
     //https://opengameart.org/content/reorganised-lpc-rabbit
     public Rabbit() {
         super();

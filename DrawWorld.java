@@ -121,4 +121,8 @@ public class DrawWorld extends World
         }
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
     }
+    public static Cursor getCursor(){
+        return cursor;
+        
+    }
 }

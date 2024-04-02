@@ -1,10 +1,8 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class MountainTile here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
+ * The MountainTile is a tile that solely exists as an obstacle. Does not
+ * do anything else, really. Has a heightLevel of 3.
  */
 public class MountainTile extends Tile
 {

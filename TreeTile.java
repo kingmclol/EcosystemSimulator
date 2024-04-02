@@ -1,7 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-// import java.util.Collections;
-// import java.util.Arrays;
-// import java.util.List;
+import java.util.Collections;
+import java.util.ArrayList;
 /**
  * <p>TreeTiles are tiles with... trees on them. They have the ability to drop seeds onto nearby GrassTiles.</p>
  * 
@@ -35,19 +34,10 @@ public class TreeTile extends Tile
     }
     private void dropSeed() {
         // Get adjacent tiles as an array
-        Tile[] adjacentArr = Board.getAdjacentTiles(tilePosition);
-        
-        // // Convert into a list
-        // List<Tile> adjacentList = Arrays.asList(adjacentArr);
-        
-        // // Shuffle the list (randomize)
-        // Collections.shuffle(adjacentList);
-        
-        // // Convert back into an array
-        // adjacentList.toArray(adjacentArr);
-        
+        ArrayList<Tile> neighbours = Board.getNeighbouringTiles(tilePosition);
+        Collections.shuffle(neighbours);
         // Iterate through for eligble tiles on the array.
-        for (Tile t : adjacentArr) {
+        for (Tile t : neighbours) {
             if (t instanceof GrassTile) {
                 GrassTile g = (GrassTile) t;
                 g.setSeed(new TreeTile(), getGrowTime());

@@ -18,10 +18,6 @@ public abstract class Animal extends SuperActor {
     protected boolean eating;
     protected boolean full;
     protected boolean wantToEat;
-    /**
-     * timeFlowing determines whether Tiles should act on their own.
-     */
-    protected static boolean timeFlowing = true;
 
     public Animal() {
         alive = true;

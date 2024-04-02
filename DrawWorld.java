@@ -13,7 +13,6 @@ public class DrawWorld extends World
     private static Vector previousTilePos, currentTilePos;
     private static int mouseDrawType;
     private static boolean drawing;
-    private static Cursor cursor = new Cursor();
     private static Node pathStart, pathEnd;
     public static Cursor cursor = new Cursor();
     private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
@@ -27,11 +26,7 @@ public class DrawWorld extends World
     public DrawWorld()
     {    
         super(1024, 768, 1); 
-        setPaintOrder(Cursor.class, UI.class,  Animal.class,  Tile.class);
-        
-        
-
-        
+        setPaintOrder(Cursor.class, UI.class, Node.class, Animal.class, Tile.class);
         Board.loadBoard(this, 64);
         mouseDrawType = 0;
         drawing = false;

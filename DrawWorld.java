@@ -73,6 +73,10 @@ public class DrawWorld extends World
             mouseDrawType = 3;
             previousTilePos = new Vector(-1, -1);
         }
+        else if ("4".equals(key)) {
+            mouseDrawType = 5;
+            previousTilePos = new Vector(-1, -1);
+        }
         else if ("e".equals(key)) {
             mouseDrawType = 4;
             previousTilePos = new Vector(-1, -1);
@@ -128,6 +132,8 @@ public class DrawWorld extends World
                 return new BushTile();
             case 4:
                 return new EmptyTile();
+            case 5:
+                return new MountainTile();
         }
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
     }

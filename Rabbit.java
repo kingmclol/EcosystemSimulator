@@ -11,6 +11,8 @@ public class Rabbit extends Animal
     GrassTile targetGrass;
     private boolean beingEaten;
 
+    private boolean wantToEat;
+    //https://opengameart.org/content/reorganised-lpc-rabbit
     public Rabbit() {
         super();
         beingEaten = false;

@@ -18,7 +18,10 @@ public class Rabbit extends Animal
     public Rabbit() {
         super();
         beingEaten = false;
-        speed = 1.0;
+        defaultSpeed = 1.0;
+        currentSpeed = defaultSpeed;
+        sprintSpeed = 1.2 * defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
     }
 
@@ -28,7 +31,7 @@ public class Rabbit extends Animal
      */
     public void act() {
         super.act();
-
+        
         if(alive && !beingEaten){
             if((targetGrass == null) || !(distanceFrom(targetGrass) < 5)){
                 eating = false;
@@ -42,7 +45,7 @@ public class Rabbit extends Animal
             }else{
                 targetGrass = null;
                 full = true;
-                move(speed);
+                move(currentSpeed);
                 moveRandomly();
             }
         }
@@ -67,7 +70,7 @@ public class Rabbit extends Animal
                 eat(4);
             }
         }else{
-            move(speed);
+            move(currentSpeed);
             moveRandomly();
         }
     }

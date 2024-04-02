@@ -42,7 +42,7 @@ public class DrawWorld extends World
         if (drawing) {
             Actor a = cursor.getHoveredActor();
             if (a instanceof Tile) {
-                currentTilePos = Board.getTilePosition(cursor.getPosition());
+                currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
                 // Only draw on a tile IF the user is drawing on a new tile. This way,
                 // will not draw on the same tile multiple times.
                 if (!currentTilePos.equals(previousTilePos)) {

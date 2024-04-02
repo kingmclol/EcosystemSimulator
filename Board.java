@@ -148,7 +148,7 @@ public class Board
         }
     }
     /**
-     * Given a position, in terms of Tiles, assign that specific index in the Board as the given Tile. Please note that
+     * Given a position, <strong>in terms of Tiles</strong>, assign that specific Tile present in the Board as the given Tile. Please note that
      * this <strong>does not</strong> manage adding the Tile to the World. It only handles modifying the 2D array representation.
      * @param tilePosition The position of the Tile, in terms of Tiles.
      * @param t The Tile to set in the given Position.
@@ -165,7 +165,7 @@ public class Board
      * @param y The y coordinate of the Tile on the Board.
      * @return The Tile that resides at that coordinate. Returns <code>null</code> if out of range.
      */
-    public static Tile getTile(int x, int y) {
+    private static Tile getTile(int x, int y) {
         if (x < 0 || x >= map[0].length) return null;
         else if (y < 0 || y >= map.length) return null;
         return map[y][x];
@@ -185,6 +185,16 @@ public class Board
         int tileX = (int) realPosition.getX()/tileSize;
         int tileY = (int) realPosition.getY()/tileSize;
         return getTile(tileX, tileY);
+    }
+    /**
+     * Given a real position, convert it into a position in terms of tiles.
+     * @param realPostion The position in the world.
+     * @return A position, in terms of tiles.
+     */
+    public static Vector convertRealToTilePosition(Vector realPosition) {
+        int tileX = (int) realPosition.getX()/tileSize;
+        int tileY = (int) realPosition.getY()/tileSize;
+        return new Vector (tileX, tileY);
     }
     /**
      * Get neighbouring tiles in terms of grid coordinates.
@@ -234,6 +244,7 @@ public class Board
      *   <li>TreeTiles are represented as 't'
      *   <li>BushTiles are represented as 'b'
      *   <li>WaterTiles are represented as 'w'
+     *   <li>MountainTiles are represented as 'm'
      *  </ul>
      * @param t The Tile to analyze.
      * @return The char representation of the Tile.
@@ -250,6 +261,8 @@ public class Board
     }
     /**
      * Converts the given char into its corresponding Tile.
+     * @param c The char to analyze.
+     * @return An instance of that char's corresponding Tile.
      */
     public static Tile charToTile(char c) {
         switch (c) {
@@ -282,16 +295,16 @@ public class Board
         return true;
     }
     /**
-     * In terms of grid coordinates.
-     * @param start The start position, in grid coordinates
-     * @param end the end position, in grid coordinates
+     * In terms of world coordinates.
+     * @param start The start position, in world coordinates
+     * @param end the end position, in world coordinates
      * @param maxTileHeight The maximum tile height to be considered in pathfinding.
      */
     public static ArrayList<Node> findPath(Vector start, Vector end, int maxTileHeight) {
-        Node startNode = nodeGrid.getNode(start);
-        startNode.setWalkable(true);
-        Node endNode = nodeGrid.getNode(end);
-        endNode.setWalkable(checkIfWalkable(endNode.getX(), endNode.getY(), maxTileHeight));
+        Node startNode = getNodeWithRealPosition(start);
+        Node endNode = getNodeWithRealPosition(end);
+        startNode.setWalkable(true); // assume start tile is walkable. how would it be there otherwise?
+        endNode.setWalkable(checkIfWalkable(endNode.getX(), endNode.getY(), maxTileHeight)); // end node may or may not be walkable
         return nodeGrid.findPath(startNode, endNode, maxTileHeight);
     }
     /**
@@ -306,7 +319,7 @@ public class Board
         return true;
     }
     /**
-     * Find a path.
+     * Find a path, given the nodes to start and end on.
      * @param startNode the starting node
      * @param endNode the ending node
      * @param the maximum tile height to be considered in pathfinding.

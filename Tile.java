@@ -58,7 +58,7 @@ public abstract class Tile extends SuperActor
         setTile(c);
     }
     public void addedToWorld(World w) {
-        tilePosition = Board.getTilePosition(getPosition());
+        tilePosition = Board.convertRealToTilePosition(getPosition());
     }
     /**
      * Sets the Tile's appearance based on the given Color.

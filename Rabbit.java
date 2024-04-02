@@ -29,9 +29,6 @@ public class Rabbit extends Animal
      */
     public void act() {
         super.act();
-        if(timeFlowing == false){
-            return;
-        }
 
         if(alive && !beingEaten){
             if((targetGrass == null) || !(distanceFrom(targetGrass) < 5)){

@@ -58,4 +58,8 @@ public class TreeTile extends Tile
     public static int getGrowTime() {
         return GROW_TIME_MIN + Greenfoot.getRandomNumber(GROW_TIME_MAX - GROW_TIME_MIN);
     }
+    
+    public String toString() {
+        return "TreeTile";
+    }
 }

@@ -170,18 +170,21 @@ public class Board
         else if (y < 0 || y >= map.length) return null;
         return map[y][x];
     }
+    /**
+     * Temporray
+     */
     public static Node getNodeWithRealPosition(Vector realPosition) {
         return nodeGrid.getNode(nodeGrid.getNodePosition(realPosition));
     }
     /**
-     * Converts a real Position into a position in terms of grid coordinates.
+     * Given a position relative to the World, retorn the Tile that the position is residing in.
      * @param realPosition The position in terms of pixels.
-     * @return The position in terms of Tiles.
+     * @return The Tile at the given position.
      */
-    public static Vector getTilePosition(Vector realPosition) {
-        int tileX = (int)Math.round((realPosition.getX()-tileSize/2)/tileSize);
-        int tileY = (int)Math.round((realPosition.getY()-tileSize/2)/tileSize);
-        return new Vector(tileX, tileY);
+    public static Tile getTile(Vector realPosition) {
+        int tileX = (int) realPosition.getX()/tileSize;
+        int tileY = (int) realPosition.getY()/tileSize;
+        return getTile(tileX, tileY);
     }
     /**
      * Get neighbouring tiles in terms of grid coordinates.

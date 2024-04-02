@@ -25,7 +25,7 @@ public class DrawWorld extends World
     public DrawWorld()
     {    
         super(1024, 768, 1); 
-        setPaintOrder(Cursor.class, UI.class,  Rabbit.class,  Tile.class);
+        setPaintOrder(Cursor.class, UI.class,  Animal.class,  Tile.class);
         
         
 

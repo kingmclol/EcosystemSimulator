@@ -13,7 +13,7 @@ public class DrawWorld extends World
     private static Vector previousTilePos, currentTilePos;
     private static int mouseDrawType;
     private static boolean drawing;
-    private static Cursor cursor = new Cursor();
+    public static Cursor cursor = new Cursor();
     private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
     private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
     private static final String preset3 = "16~12~64~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
@@ -25,7 +25,9 @@ public class DrawWorld extends World
     public DrawWorld()
     {    
         super(1024, 768, 1); 
-        setPaintOrder(Rabbit.class, Cursor.class, Tile.class);
+        setPaintOrder(Cursor.class, UI.class,  Rabbit.class,  Tile.class);
+        
+        
         
         Board.loadBoard(this, 64);
         mouseDrawType = 0;

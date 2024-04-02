@@ -5,8 +5,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * integer value. There are 2 buttons that can increment that values on either side.
  * 
  */
-public class ButtonIncrement extends Actor
+public class ButtonIncrement extends UI
 {
+    private int maxVal;
+   
     private int width;
     private int height;
     private int textBoxWidth;
@@ -15,16 +17,18 @@ public class ButtonIncrement extends Actor
     private Button decrementButton;
     private Button incrementButton;
     
+    private Cursor cursor = DrawWorld.cursor;
     private World world;
     private SuperTextBox textBox;
     private GreenfootImage img;
-    public ButtonIncrement(int width, int height, int textBoxWidth){
+    public ButtonIncrement(int width, int height, int textBoxWidth, int maxVal){
         this.width = width;
         this.height = height;
         this.textBoxWidth = textBoxWidth;
         decrementButton = new Button((width - textBoxWidth)/2, height);
         incrementButton = new Button((width - textBoxWidth)/2, height);
         value = 0;
+        this.maxVal = maxVal;
         textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(36), true, textBoxWidth, 0, Color.BLACK);
         
     }
@@ -40,12 +44,12 @@ public class ButtonIncrement extends Actor
 
     public void act()
     {
-        if(Greenfoot.mousePressed(decrementButton) && value > 0){
+        if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(decrementButton) && value > 0){
             value--;
             textBox.update(String.valueOf(value));
             
         }
-        else if(Greenfoot.mousePressed(incrementButton) && value < 50){
+        else if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(incrementButton) && value < 50){
             value++;
             textBox.update(String.valueOf(value));
         }

@@ -20,7 +20,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author Jordan Cohen
  * @version 1.0 (November 30, 2021)
  */
-public class SuperTextBox extends Actor
+public class SuperTextBox extends UI
 {
 
     private GreenfootImage image;

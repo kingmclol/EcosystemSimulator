@@ -6,18 +6,20 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class Button extends Actor
+public class Button extends UI
 {
     private int width;
     private int height;
     private GreenfootImage img;
-    
+    private Cursor cursor = DrawWorld.cursor;
     private GreenfootImage hoverImg;
     private GreenfootImage pressedImg;
- 
+    private boolean clicked;
+     
     public Button(int width, int height){
         this.width = width;
         this.height = height;
+        clicked = false;
        
         img = new GreenfootImage(width, height);
         img.fill();
@@ -38,11 +40,36 @@ public class Button extends Actor
 
     public void act()
     {
+        
         mouseEffect();
     }
     
     private void mouseEffect(){
-         
+        System.out.println(cursor.getHoveredActors());
+        
+        if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(this)){
+            setImage(pressedImg);
+            clicked = true;
+        }
+        else if(!clicked && cursor.getHoveredActors().contains(this)){
+            setImage(hoverImg);
+            
+        }
+        else if(Greenfoot.mouseClicked(null)){
+            if(cursor.getHoveredActors().contains(this)){
+                setImage(hoverImg);
+            }
+            
+            clicked = false;
+        }
+
+        else if (!clicked){
+            setImage(img);
+        }
+
+
+       
+        /*
         if(Greenfoot.mouseMoved(this)){
             setImage(hoverImg);
             
@@ -58,6 +85,7 @@ public class Button extends Actor
             setImage(hoverImg);
             
         }
+        */
        
 
     }

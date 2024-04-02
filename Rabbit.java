@@ -10,8 +10,9 @@ public class Rabbit extends Animal
 {
     GrassTile targetGrass;
     private boolean beingEaten;
+
     private boolean wantToEat;
-    
+    //https://opengameart.org/content/reorganised-lpc-rabbit
     public Rabbit() {
         super();
         beingEaten = false;
@@ -23,41 +24,30 @@ public class Rabbit extends Animal
      * Act - do whatever the Rabbit wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    public void act()
-    {
-        System.out.println(eating);
+    public void act() {
+        super.act();
         if(timeFlowing == false){
             return;
         }
-        
-        if(energy < 1000){
-            wantToEat = true;
-        }else if(energy >= 1800){
-            wantToEat = false;
+
+        if(alive && !beingEaten){
+            if((targetGrass == null) || !(distanceFrom(targetGrass) < 5)){
+                eating = false;
+            }else{
+                eating = true;
+            }
+
+            if(wantToEat){
+                full = false;
+                findGrassAndEat();
+            }else{
+                targetGrass = null;
+                full = true;
+                move(speed);
+                moveRandomly();
+            }
         }
 
-        if((targetGrass == null) || !(distanceFrom(targetGrass) < 5)){
-            eating = false;
-        }else{
-            eating = true;
-        }
-
-        if(!eating){
-            energy--;
-        }
-        if(wantToEat){
-            full = false;
-            findGrassAndEat();
-        }else{
-            targetGrass = null;
-            full = true;
-            move(speed);
-            moveRandomly();
-        }
-        if(energy <= 0){
-            disableStaticRotation();
-            setRotation(90);
-        }
     }
 
     public void findGrassAndEat() {
@@ -72,23 +62,31 @@ public class Rabbit extends Animal
         }
 
         if(targetGrass != null) {
-            //turnTowards(targetGrass.getX(), targetGrass.getY());
             moveTowards(targetGrass, 1.0);
-        }else{
-            move(speed);
-            moveRandomly();
-        }
-
-        if(targetGrass != null){
             if(distanceFrom(targetGrass) < 5){
                 targetGrass.nibble(4);
                 eat(4);
             }
+        }else{
+            move(speed);
+            moveRandomly();
         }
+    }
+
+    public void takeDamage(int dmg) {
+        hp = hp - dmg;
+    }
+
+    public int getHp() {
+        return hp;
     }
 
     public boolean isBeingEaten() {
         return beingEaten;
+    }
+    
+    public void setBeingEaten(boolean eaten) {
+        beingEaten = eaten;
     }
 
 }

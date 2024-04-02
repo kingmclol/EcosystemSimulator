@@ -11,7 +11,6 @@ public class Rabbit extends Animal
     GrassTile targetGrass;
     private boolean beingEaten;
 
-    private boolean wantToEat;
     //Animation
     private GreenfootImage[] eatingAnimation = new GreenfootImage[8];
     private GreenfootImage[] walkingAnimation = new GreenfootImage[8];

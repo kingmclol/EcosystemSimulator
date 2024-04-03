@@ -8,11 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Wolf extends Animal
 {
-    Rabbit targetRabbit;
+    private Rabbit targetRabbit;
+    private Deer targetDeer;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     public Wolf() {
         super();
-        currentSpeed = 1.2;
+        defaultSpeed = 1.2;
         currentSpeed = defaultSpeed;
         sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
@@ -27,7 +28,7 @@ public class Wolf extends Animal
         super.act();
 
         if(alive){
-            if((targetRabbit == null) || !(distanceFrom(targetRabbit) < 5)){
+            if(((targetRabbit == null) || !(distanceFrom(targetRabbit) < 5)) || (targetDeer == null) || !(distanceFrom(targetDeer) < 5)){
                 eating = false;
             }else{
                 eating = true;
@@ -36,7 +37,8 @@ public class Wolf extends Animal
             if(wantToEat){
                 full = false;
                 findPreyAndEat();
-            }else{
+            }else if(!drinking){
+                targetDeer = null;
                 targetRabbit = null;
                 full = true;
                 move(currentSpeed);
@@ -55,6 +57,16 @@ public class Wolf extends Animal
                 targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 250, r -> !((Rabbit)r).isAlive());
             }
         }
+        
+        if(targetDeer == null || !targetDeer.isAlive()){
+            targetDeer = (Deer)getClosestInRange(Deer.class, 100, d -> !((Deer)d).isAlive());
+            if(targetDeer == null) {
+                targetDeer = (Deer)getClosestInRange(Deer.class, 180, d -> !((Deer)d).isAlive());
+            }
+            if(targetDeer == null) {
+                targetDeer = (Deer)getClosestInRange(Deer.class, 250, d -> !((Deer)d).isAlive());
+            }
+        }
 
         if(targetRabbit != null) {
             moveTowards(targetRabbit, currentSpeed);
@@ -64,6 +76,17 @@ public class Wolf extends Animal
                 if(targetRabbit.getHp() < 400){
                     targetRabbit.disableStaticRotation();
                     targetRabbit.setRotation(90);
+                }
+                eat(5);
+            }
+        }else if(targetDeer != null){
+            moveTowards(targetDeer, currentSpeed);
+            if(distanceFrom(targetDeer) < 5){
+                targetDeer.takeDamage(10);
+                targetDeer.setBeingEaten(true);
+                if(targetDeer.getHp() < 400){
+                    targetDeer.disableStaticRotation();
+                    targetDeer.setRotation(90);
                 }
                 eat(5);
             }

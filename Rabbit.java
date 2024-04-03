@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Rabbit extends Animal
 {
-    GrassTile targetGrass;
+    private GrassTile targetGrass;
     private boolean beingEaten;
 
     //Animation
@@ -42,7 +42,7 @@ public class Rabbit extends Animal
             if(wantToEat){
                 full = false;
                 findGrassAndEat();
-            }else{
+            }else if(!drinking){
                 targetGrass = null;
                 full = true;
                 move(currentSpeed);
@@ -65,7 +65,7 @@ public class Rabbit extends Animal
 
         if(targetGrass != null) {
             moveTowards(targetGrass, currentSpeed);
-            if(distanceFrom(targetGrass) < 5){
+            if(distanceFrom(targetGrass) < 12){
                 targetGrass.nibble(7);
                 eat(4);
             }
@@ -73,14 +73,6 @@ public class Rabbit extends Animal
             move(currentSpeed);
             moveRandomly();
         }
-    }
-
-    public void takeDamage(int dmg) {
-        hp = hp - dmg;
-    }
-
-    public int getHp() {
-        return hp;
     }
 
     public boolean isBeingEaten() {

@@ -7,7 +7,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Deer extends Animal
 {
-    BushTile targetBush;
+    private BushTile targetBush;
     private boolean beingEaten;
     
     public Deer() {
@@ -37,7 +37,7 @@ public class Deer extends Animal
             if(wantToEat){
                 full = false;
                 findBerriesAndEat();
-            }else{
+            }else if(!drinking){
                 targetBush = null;
                 full = true;
                 move(currentSpeed);
@@ -48,12 +48,12 @@ public class Deer extends Animal
     
     public void findBerriesAndEat() {
         if(targetBush == null || targetBush.getWorld() == null || targetBush.getBerryAmount() <= 150){
-            targetBush = (BushTile)getClosestInRange(BushTile.class, 100, g -> ((BushTile)g).getBerryAmount() <= 150);
+            targetBush = (BushTile)getClosestInRange(BushTile.class, 100, b -> ((BushTile)b).getBerryAmount() <= 150);
             if(targetBush == null) {
-                targetBush = (BushTile)getClosestInRange(BushTile.class, 180, g -> ((BushTile)g).getBerryAmount() <= 150);
+                targetBush = (BushTile)getClosestInRange(BushTile.class, 180, b -> ((BushTile)b).getBerryAmount() <= 150);
             }
             if(targetBush == null) {
-                targetBush = (BushTile)getClosestInRange(BushTile.class, 250, g -> ((BushTile)g).getBerryAmount() <= 150);
+                targetBush = (BushTile)getClosestInRange(BushTile.class, 250, b -> ((BushTile)b).getBerryAmount() <= 150);
             }
         }
 
@@ -67,5 +67,13 @@ public class Deer extends Animal
             move(currentSpeed);
             moveRandomly();
         }
+    }
+    
+    public boolean isBeingEaten() {
+        return beingEaten;
+    }
+    
+    public void setBeingEaten(boolean eaten) {
+        beingEaten = eaten;
     }
 }

@@ -44,7 +44,7 @@ public abstract class Animal extends SuperActor {
         int tileY = animalY / 64;
 
         // Access the tile at the converted coordinates using Board.getTile()
-        Tile currentTile = Board.getTile(tileX, tileY);
+        Tile currentTile = Board.getTile(getPosition());
         
         if(currentTile instanceof WaterTile){
             energy--;

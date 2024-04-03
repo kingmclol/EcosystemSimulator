@@ -37,7 +37,7 @@ public abstract class Animal extends SuperActor {
         eating = false;
         drinking = false;
         full = true;
-        hydration = 1500;
+        hydration = 3000;
         energy = 2000;
         hp = 1000;
         enableStaticRotation();
@@ -68,7 +68,7 @@ public abstract class Animal extends SuperActor {
 
         if(hydration < 1000){
             wantToDrink = true;
-        }else if(hydration>= 2500){
+        }else if(hydration >= 2800){
             wantToDrink = false;
         }
 
@@ -87,7 +87,7 @@ public abstract class Animal extends SuperActor {
         
         if(currentTile instanceof WaterTile && energy <= 0){
             drown();
-        }else if(energy <= 0 || hp <= 0){
+        }else if(energy <= 0 || hp <= 0 || hydration <= 0){
             die();
         }
     }

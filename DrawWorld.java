@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.ArrayList;
 /**
  * The DrawWorld is where the User is able to create the World Environment (the map). The user can swap between Tile types and
  * draw on the Board being displayed. Once satisfied, the user can submit this board to the SimulationWorld, where the simulation
@@ -13,7 +13,8 @@ public class DrawWorld extends World
     private static Vector previousTilePos, currentTilePos;
     private static int mouseDrawType;
     private static boolean drawing;
-    public static Cursor cursor = new Cursor();
+    private static Node pathStart, pathEnd;
+    private static Cursor cursor = new Cursor();
     private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
     private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
     private static final String preset3 = "16~12~64~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
@@ -25,15 +26,13 @@ public class DrawWorld extends World
     public DrawWorld()
     {    
         super(1024, 768, 1); 
-        setPaintOrder(Cursor.class, UI.class,  Rabbit.class,  Tile.class);
-        
-        
 
-        
+        setPaintOrder(Cursor.class, UI.class, Node.class, Animal.class, Tile.class);
         Board.loadBoard(this, 64);
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);
+        addObject(new TileSelector(), getWidth() + 100, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false);
@@ -45,7 +44,7 @@ public class DrawWorld extends World
         if (drawing) {
             Actor a = cursor.getHoveredActor();
             if (a instanceof Tile) {
-                currentTilePos = Board.getTilePosition(cursor.getPosition());
+                currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
                 // Only draw on a tile IF the user is drawing on a new tile. This way,
                 // will not draw on the same tile multiple times.
                 if (!currentTilePos.equals(previousTilePos)) {
@@ -75,6 +74,10 @@ public class DrawWorld extends World
             mouseDrawType = 3;
             previousTilePos = new Vector(-1, -1);
         }
+        else if ("4".equals(key)) {
+            mouseDrawType = 5;
+            previousTilePos = new Vector(-1, -1);
+        }
         else if ("e".equals(key)) {
             mouseDrawType = 4;
             previousTilePos = new Vector(-1, -1);
@@ -96,6 +99,17 @@ public class DrawWorld extends World
         }
         else if ("p".equals(key)) { // prints out the board
             Board.printBuildString();
+        }
+        else if (",".equals(key)) {
+            pathStart = Board.getNodeWithRealPosition(cursor.getPosition());
+        }
+        else if (".".equals(key)) {
+            pathEnd = Board.getNodeWithRealPosition(cursor.getPosition());
+            if (pathStart != null && pathEnd != null) {
+                ArrayList<Node> path = Board.findPath(pathStart, pathEnd, 1);
+                Board.displayPath(path, Color.YELLOW);
+            }
+            else System.out.println("one of the nodes are not existing");
         }
     }
     private void checkMouseState() {
@@ -119,7 +133,13 @@ public class DrawWorld extends World
                 return new BushTile();
             case 4:
                 return new EmptyTile();
+            case 5:
+                return new MountainTile();
         }
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
+    }
+    public static Cursor getCursor(){
+        return cursor;
+        
     }
 }

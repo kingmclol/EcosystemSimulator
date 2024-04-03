@@ -8,18 +8,25 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 
 public abstract class Animal extends SuperActor {
-    protected double speed;
+    protected double defaultSpeed;
+    protected double currentSpeed;
     protected int energy;
     protected int hp;
-    protected int sprintSpeed;
-    protected int waterSpeed;
+    protected double sprintSpeed;
+    protected double waterSpeed;
 
     protected boolean alive;
     protected boolean eating;
     protected boolean full;
     protected boolean wantToEat;
+    protected boolean swimming;
+    protected boolean runningAway;
 
+    protected int transparency;
     public Animal() {
+        transparency = 255;
+        runningAway = false;
+        swimming = false;
         alive = true;
         eating = false;
         full = true;
@@ -50,7 +57,9 @@ public abstract class Animal extends SuperActor {
         if(!eating && alive){
             energy--;
         }
-        if(energy <= 0 || hp <= 0){
+        if(currentTile instanceof WaterTile && energy <= 0){
+            drown();
+        }else if(energy <= 0 || hp <= 0){
             die();
         }
     }
@@ -74,9 +83,25 @@ public abstract class Animal extends SuperActor {
     }
 
     public void moveRandomly() {
-        if (Greenfoot.getRandomNumber (60) == 50)
-        {
+        if (Greenfoot.getRandomNumber (60) == 50) {
             turn (Greenfoot.getRandomNumber(360));
+        }
+    }
+    
+    public void decreaseTransparency(int value) {
+        transparency = transparency - value;
+        getImage().setTransparency(transparency);
+        if(transparency == 0){
+            getWorld().removeObject(this);
+        }
+    }
+    
+    public void drown() {
+        alive = false;
+        transparency--;
+        getImage().setTransparency(transparency);
+        if(transparency == 0){
+            getWorld().removeObject(this);
         }
     }
 }

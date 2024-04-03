@@ -12,7 +12,10 @@ public class Wolf extends Animal
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     public Wolf() {
         super();
-        speed = 1.2;
+        currentSpeed = 1.2;
+        currentSpeed = defaultSpeed;
+        sprintSpeed = 1.2 * defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
     }
 
@@ -35,7 +38,7 @@ public class Wolf extends Animal
             }else{
                 targetRabbit = null;
                 full = true;
-                move(speed);
+                move(currentSpeed);
                 moveRandomly();
             }
         }
@@ -64,7 +67,7 @@ public class Wolf extends Animal
                 eat(5);
             }
         }else{
-            move(speed);
+            move(currentSpeed);
             moveRandomly();
         }
     }

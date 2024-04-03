@@ -25,7 +25,7 @@ public class DrawWorld extends World
     public DrawWorld()
     {    
         super(1024, 768, 1); 
-        setPaintOrder(Cursor.class, UI.class,  Rabbit.class,  Tile.class);
+        setPaintOrder(Cursor.class, UI.class,  Animal.class,  Tile.class);
         
         
 
@@ -34,6 +34,7 @@ public class DrawWorld extends World
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);
+        addObject(new TileSelector(), getWidth() + 100, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false);

@@ -33,7 +33,7 @@ public class ButtonIncrement extends UI
         
     }
     public void addedToWorld(World w){
-        if (getWorldOfType(IntroWorld.class) != null){
+        if (w instanceof IntroWorld){
             cursor = IntroWorld.getCursor();
         }
         else{

@@ -18,9 +18,13 @@ public class TreeTile extends Tile
     private static int GROW_TIME_MIN = 600;
     private static int GROW_TIME_MAX = 1600;
     private static double PROBABILITY_DROP_SEED = 1/20000d;
+    private static int LIFESPAN_MIN = 3600;
+    private static int LIFESPAN_MAX = 10800;
+    private int lifespan;
     public TreeTile() {
         super(new GreenfootImage("tile_trees.png"));
         heightLevel = 2;
+        lifespan = getLifespan();
     }
     public void act()
     {
@@ -28,6 +32,12 @@ public class TreeTile extends Tile
         if (shouldDropSeed()) {
             dropSeed();
         }
+        if (--lifespan <= 0) { // The tree is old and ded now
+            replaceMe(new GrassTile());
+        }
+    }
+    private int getLifespan() {
+        return LIFESPAN_MIN + Greenfoot.getRandomNumber(LIFESPAN_MAX-LIFESPAN_MIN);
     }
     private boolean shouldDropSeed() {
         return Greenfoot.getRandomNumber((int) Math.round(1/PROBABILITY_DROP_SEED)) == 0;

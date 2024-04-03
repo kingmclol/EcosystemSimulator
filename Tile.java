@@ -20,7 +20,7 @@ public abstract class Tile extends SuperActor
      * The tilePosition is the current Position of this specific tile on the Board.
      */
     protected Vector tilePosition;
-    private static final boolean drawBorders = false;
+    private static final boolean drawBorders = true;
     /**
      * timeFlowing determines whether Tiles should act on their own.
      */

@@ -12,12 +12,12 @@ public class Rabbit extends Animal
     private boolean beingEaten;
 
     //Animation
-    
+    private int indexAnimation = 0;
     private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationLeft = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationRight = new GreenfootImage[4];
-    
+
     private GreenfootImage[] walkingAnimationUp = new GreenfootImage[4];
     private GreenfootImage[] walkingAnimationDown = new GreenfootImage[4];
     private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[4];
@@ -32,7 +32,7 @@ public class Rabbit extends Animal
             eatingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
             eatingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
-            
+
             //walking Animation:
             walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
             walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
@@ -53,7 +53,7 @@ public class Rabbit extends Animal
      */
     public void act() {
         super.act();
-        
+
         if(alive && !beingEaten){
             if((targetGrass == null) || targetGrass.getWorld() == null || !(distanceFrom(targetGrass) < 5)){
                 eating = false;
@@ -101,6 +101,56 @@ public class Rabbit extends Animal
         hp = hp - dmg;
     }
 
+    public void animate()
+    {
+        if(eating)
+        {
+            if(facing.equals("right"))
+            {
+                setImage(eatingAnimationRight[indexAnimation]);
+                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
+            }
+            else if(facing.equals("left"))
+            {
+                setImage(eatingAnimationLeft[indexAnimation]);
+                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
+            }
+            else if(facing.equals("up"))
+            {
+                setImage(eatingAnimationUp[indexAnimation]);
+                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
+            }
+            else
+            {
+                setImage(eatingAnimationDown[indexAnimation]);
+                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
+            } 
+        }
+        else
+        {
+            if(facing.equals("right"))
+            {
+                setImage(walkingAnimationRight[indexAnimation]);
+                indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
+            }
+            else if(facing.equals("left"))
+            {
+                setImage(walkingAnimationLeft[indexAnimation]);
+                indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
+            }
+            else if(facing.equals("up"))
+            {
+                setImage(walkingAnimationUp[indexAnimation]);
+                indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
+            }
+            else
+            {
+                setImage(walkingAnimationDown[indexAnimation]);
+                indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
+            }
+        }
+    }
+
     public int getHp() {
         return hp;
     }
@@ -108,7 +158,7 @@ public class Rabbit extends Animal
     public boolean isBeingEaten() {
         return beingEaten;
     }
-    
+
     public void setBeingEaten(boolean eaten) {
         beingEaten = eaten;
     }

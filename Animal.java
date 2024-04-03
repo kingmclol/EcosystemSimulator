@@ -14,6 +14,7 @@ public abstract class Animal extends SuperActor {
     protected int hp;
     protected double sprintSpeed;
     protected double waterSpeed;
+    protected String facing;
 
     protected boolean alive;
     protected boolean eating;
@@ -34,7 +35,7 @@ public abstract class Animal extends SuperActor {
         hp = 1000;
         enableStaticRotation();
     }
-
+    protected abstract void animate();
     public void act() {
         int animalX = getX();
         int animalY = getY();

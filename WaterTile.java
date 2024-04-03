@@ -21,4 +21,8 @@ public class WaterTile extends Tile
     {
         // Add your action code here.
     }
+    
+    public String toString() {
+        return "WaterTile";
+    }
 }

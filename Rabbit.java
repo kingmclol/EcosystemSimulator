@@ -53,7 +53,7 @@ public class Rabbit extends Animal
     }
 
     public void findGrassAndEat() {
-        if(targetGrass == null || targetGrass.getWorld() == null || targetGrass.getGrassAmount() <= 150){
+        if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
             targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> !((GrassTile)g).grassAvailable());
             if(targetGrass == null) {
                 targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 180, g -> !((GrassTile)g).grassAvailable());
@@ -64,10 +64,10 @@ public class Rabbit extends Animal
         }
 
         if(targetGrass != null) {
-            moveTowards(targetGrass, 1.0);
+            moveTowards(targetGrass, currentSpeed);
             if(distanceFrom(targetGrass) < 5){
-                targetGrass.nibble(500);
-                eat(50);
+                targetGrass.nibble(7);
+                eat(4);
             }
         }else{
             move(currentSpeed);

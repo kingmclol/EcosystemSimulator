@@ -69,13 +69,13 @@ public class Vulture extends Animal
         }
         
         if(targetRabbit != null) {
-            moveTowards(targetRabbit, 1.3);
+            moveTowards(targetRabbit, currentSpeed);
             if(distanceFrom(targetRabbit) < 5){
                 targetRabbit.decreaseTransparency(1);
                 eat(4);
             }
         }else if(targetWolf != null){
-            moveTowards(targetWolf, 1.3);
+            moveTowards(targetWolf, currentSpeed);
             if(distanceFrom(targetWolf) < 5){
                 targetWolf.decreaseTransparency(1);
                 eat(4);

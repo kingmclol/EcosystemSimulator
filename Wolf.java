@@ -57,7 +57,7 @@ public class Wolf extends Animal
         }
 
         if(targetRabbit != null) {
-            moveTowards(targetRabbit, 1.2);
+            moveTowards(targetRabbit, currentSpeed);
             if(distanceFrom(targetRabbit) < 5){
                 targetRabbit.takeDamage(10);
                 targetRabbit.setBeingEaten(true);

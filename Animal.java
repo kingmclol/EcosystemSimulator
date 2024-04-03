@@ -29,6 +29,27 @@ public abstract class Animal extends SuperActor {
     }
 
     public void act() {
+        int animalX = getX();
+        int animalY = getY();
+
+        // Convert position to tile coordinates
+        int tileX = animalX / 64;
+        int tileY = animalY / 64;
+
+        // Access the tile at the converted coordinates using Board.getTile()
+        Tile currentTile = Board.getTile(getPosition());
+        
+        if(currentTile instanceof WaterTile){
+            energy--;
+            swimming = true;
+            currentSpeed = waterSpeed;
+        }else{
+            swimming = false;
+            if(!runningAway){
+                currentSpeed = defaultSpeed;
+            }
+        }
+        
         if(energy < 1000){
             wantToEat = true;
         }else if(energy >= 1800){

@@ -15,9 +15,13 @@ public class DrawWorld extends World
     private static boolean drawing;
     private static Node pathStart, pathEnd;
     public static Cursor cursor = new Cursor();
-    private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
-    private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
-    private static final String preset3 = "16~12~64~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
+    //private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
+    private static final String preset1 = "21~16~48~wwwwwwwwwwwwwwwwwwwwwwwwwwwwgggggwwwwwwbwwwwtggggmtbggggwwwwgwwwwbggbgtgggwwwwwgggwwwggggggggwwwbbgggtgwwwggmtgbwwwgggmmggtgwwwbbmggwwgggtggggbgbwwwgggggwgbgggggwwggggwwgggbwwtggbgggwwgmmmwwwbgwwgggggmtggggggmwwwwwwgtgbgbgtggggtggwwwwggggmgggggtmgbggwwmbwgtgbggwggwgggggwwwtgwggwwgwwwwwwggttwwwwgwwwwwwwgbgwwwwgtwwwwwwwwwwwwwwwwwwwwwwww";
+    //private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
+    private static final String preset2 = "21~16~48~ttttttttttttttttttttttbbbggggggmgggggggggttbwwggggggbbggggggggttbwwggggggggggggmbbgttgwwggggggmmggggmbbgttgwwgggwwwwwwwwgggggttggggggwtmbbmtwgggggttggggggwtmbbmtwgttttttttttggwtmbbmtwgggggttggggggwtmbbmtwgggggttggggggwwwwwwwwggwwgttgbbmgggggmmgggggwwgttgbbmggggggggggggwwbttgggggggggbbgggggwwbttggggggggggmgggggbbbtttttttttttttttttttttt";
+    //private static final String preset3 = "16~12~64~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
+    private static final String preset3 = "21~16~48~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
+
     //private static final String preset3 = "32~24~32~eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeteeeeeeeweeeeeeeeeeeeeeeeeeeeettbeeeeeeweeeeeeeeeeewwweeeeeeettebeeeeeeweeeeeeeewwweeeeeeeteetebeeeeeeeeeeeeeeewweeeeeeeeeteeetbeeeeeeweeeeeeeettettttteeetteetbeeeeeeweeeeeeetwweeeeeteeettttteeeeeeeeeeeeeteeeweeeeeteeeteebeeeeeeeeweeeeteeeeewweeeteeetewteeeeeeeeweeeteeeeeeeteeeteeetwwtteeeeeeeweebbeeeeeeteeeeteeewbetteeeeeeewwebtbbbeeteeeeetewwbeeeeeeeeeeeewwbettbbbbeeeettwweeeeeeeeeeeeeeewbeeeeeebbbbbbwweeeeeewwweeeeeeeewweeeeeeeeeeeweeeeewweeweeeeeeeeeewwebebebebewwwewweeeeweeeeeeeeeeeewwweeeeeeeeeeeeeeewweeeeeeeeeeeeeeewweeeeeeeeeeeeweeeeeeeeeeeeeeeeeeeweweeeeeeeewweeeeeeeeeeeeeeeeeeeeeewewweweweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
     /**
      * Constructor for objects of class MyWorld.
@@ -25,9 +29,9 @@ public class DrawWorld extends World
      */
     public DrawWorld()
     {    
-        super(1024, 768, 1); 
+        super(1008, 768, 1); 
         setPaintOrder(Cursor.class, UI.class, Node.class, Animal.class, Tile.class);
-        Board.loadBoard(this, 64);
+        Board.loadBoard(this, 48);
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);

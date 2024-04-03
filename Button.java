@@ -11,7 +11,7 @@ public class Button extends UI
     private int width;
     private int height;
     private GreenfootImage img;
-    private Cursor cursor = DrawWorld.cursor;
+    private Cursor cursor;
     private GreenfootImage hoverImg;
     private GreenfootImage pressedImg;
     private boolean clicked;
@@ -20,6 +20,7 @@ public class Button extends UI
         this.width = width;
         this.height = height;
         clicked = false;
+
        
         img = new GreenfootImage(width, height);
         img.fill();
@@ -30,6 +31,14 @@ public class Button extends UI
         pressedImg.setColor(Color.GREEN);
         pressedImg.fill();
         setImage(img);
+    }
+    public void addedToWorld(World w){
+        if (w instanceof IntroWorld){
+            cursor = IntroWorld.getCursor();
+        }
+        else{
+            cursor = DrawWorld.getCursor();
+        }
     }
     public Button(int width, int height, GreenfootImage hoverImg, GreenfootImage pressedImg){
         this.width = width;
@@ -45,7 +54,7 @@ public class Button extends UI
     }
     
     private void mouseEffect(){
-        System.out.println(cursor.getHoveredActors());
+        System.out.println(cursor);
         
         if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(this)){
             setImage(pressedImg);

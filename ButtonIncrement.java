@@ -17,7 +17,7 @@ public class ButtonIncrement extends UI
     private Button decrementButton;
     private Button incrementButton;
     
-    private Cursor cursor = DrawWorld.cursor;
+    private Cursor cursor;
     private World world;
     private SuperTextBox textBox;
     private GreenfootImage img;
@@ -29,11 +29,16 @@ public class ButtonIncrement extends UI
         incrementButton = new Button((width - textBoxWidth)/2, height);
         value = 0;
         this.maxVal = maxVal;
-        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(36), true, textBoxWidth, 0, Color.BLACK);
+        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(27), true, textBoxWidth, 0, Color.BLACK);
         
     }
     public void addedToWorld(World w){
-        
+        if (w instanceof IntroWorld){
+            cursor = IntroWorld.getCursor();
+        }
+        else{
+            cursor = DrawWorld.getCursor();
+        }
         w.addObject(decrementButton, (getX() - width/2) + (width - textBoxWidth)/4, getY());
         w.addObject(incrementButton, (getX() + width/2) - (width - textBoxWidth)/4, getY());
         w.addObject(textBox, getX(), getY());

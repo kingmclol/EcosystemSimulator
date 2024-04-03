@@ -14,7 +14,7 @@ public class DrawWorld extends World
     private static int mouseDrawType;
     private static boolean drawing;
     private static Node pathStart, pathEnd;
-    public static Cursor cursor = new Cursor();
+    private static Cursor cursor = new Cursor();
     private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
     private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
     private static final String preset3 = "16~12~64~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
@@ -26,11 +26,13 @@ public class DrawWorld extends World
     public DrawWorld()
     {    
         super(1024, 768, 1); 
+
         setPaintOrder(Cursor.class, UI.class, Node.class, Animal.class, Tile.class);
         Board.loadBoard(this, 64);
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);
+        addObject(new TileSelector(), getWidth() + 100, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false);
@@ -135,5 +137,9 @@ public class DrawWorld extends World
                 return new MountainTile();
         }
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
+    }
+    public static Cursor getCursor(){
+        return cursor;
+        
     }
 }

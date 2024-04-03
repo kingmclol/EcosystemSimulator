@@ -11,12 +11,17 @@ public class Rabbit extends Animal
     GrassTile targetGrass;
     private boolean beingEaten;
 
-    private boolean wantToEat;
+    //Animation
+    private GreenfootImage[] eatingAnimation = new GreenfootImage[8];
+    private GreenfootImage[] walkingAnimation = new GreenfootImage[8];
     //https://opengameart.org/content/reorganised-lpc-rabbit
     public Rabbit() {
         super();
         beingEaten = false;
-        speed = 1.0;
+        defaultSpeed = 1.0;
+        currentSpeed = defaultSpeed;
+        sprintSpeed = 1.2 * defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
     }
 
@@ -26,12 +31,9 @@ public class Rabbit extends Animal
      */
     public void act() {
         super.act();
-        if(timeFlowing == false){
-            return;
-        }
-
+        
         if(alive && !beingEaten){
-            if((targetGrass == null) || !(distanceFrom(targetGrass) < 5)){
+            if((targetGrass == null) || targetGrass.getWorld() == null || !(distanceFrom(targetGrass) < 5)){
                 eating = false;
             }else{
                 eating = true;
@@ -43,7 +45,7 @@ public class Rabbit extends Animal
             }else{
                 targetGrass = null;
                 full = true;
-                move(speed);
+                move(currentSpeed);
                 moveRandomly();
             }
         }
@@ -51,24 +53,24 @@ public class Rabbit extends Animal
     }
 
     public void findGrassAndEat() {
-        if(targetGrass == null || targetGrass.getGrassAmount() <= 150){
-            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> ((GrassTile)g).getGrassAmount() < 250);
+        if(targetGrass == null || targetGrass.getWorld() == null || targetGrass.getGrassAmount() <= 150){
+            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> !((GrassTile)g).grassAvailable());
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 180, g -> ((GrassTile)g).getGrassAmount() < 250);
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 180, g -> !((GrassTile)g).grassAvailable());
             }
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 250, g -> ((GrassTile)g).getGrassAmount() < 250);
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 250, g -> !((GrassTile)g).grassAvailable());
             }
         }
 
         if(targetGrass != null) {
             moveTowards(targetGrass, 1.0);
             if(distanceFrom(targetGrass) < 5){
-                targetGrass.nibble(4);
-                eat(4);
+                targetGrass.nibble(500);
+                eat(50);
             }
         }else{
-            move(speed);
+            move(currentSpeed);
             moveRandomly();
         }
     }

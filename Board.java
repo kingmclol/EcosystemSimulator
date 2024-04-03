@@ -1,4 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.ArrayList;
+import java.util.Collections;
 /**
  * <p>The Board is a class that is used to manage the tilemap for the World. It represents the map as a 
  * 2D array, and is the thing that manages building and adding each tile to the World assigned to the Board class
@@ -14,13 +16,15 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * World you are currently using!!!1!!1!!</p>
  * 
  * @author Freeman Wang 
- * @version 2023-03-29
+ * @version 2023-03-31
  */
 public class Board
 {
-    private static Tile[][] map;
+    private static Tile[][] map = new Tile[0][0]; // make map not null so destroyBoard() will not error on first run.
+    private static NodeGrid nodeGrid;
     private static int tileSize;  
     private static World w;
+    private static int width, height;
     /**
      * Act - do whatever the Board wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -45,6 +49,11 @@ public class Board
         destroyBoard(); // clear previous board, if exists
         
         map = new Tile[height][width];
+        
+        nodeGrid = new NodeGrid(width, height, tileSize);
+        
+        Board.width = width;
+        Board.height = height;
         Board.tileSize = tileSize;
         Tile.setSize(tileSize);
         Board.w = w;
@@ -63,9 +72,12 @@ public class Board
         destroyBoard(); // clear previous board, if exists
         
         String[] chunks = buildString.split("~");
-        map = new Tile[Integer.parseInt(chunks[1])][Integer.parseInt(chunks[0])];
+        Board.width = Integer.parseInt(chunks[0]);
+        Board.height = Integer.parseInt(chunks[1]);
+        map = new Tile[height][width];
         tileSize = Integer.parseInt(chunks[2]);
         Tile.setSize(tileSize);
+        nodeGrid = new NodeGrid(width, height, tileSize);
         initBoard(chunks[3]);
         
         drawBoard(); // draw board on world
@@ -136,7 +148,7 @@ public class Board
         }
     }
     /**
-     * Given a position, in terms of Tiles, assign that specific index in the Board as the given Tile. Please note that
+     * Given a position, <strong>in terms of Tiles</strong>, assign that specific Tile present in the Board as the given Tile. Please note that
      * this <strong>does not</strong> manage adding the Tile to the World. It only handles modifying the 2D array representation.
      * @param tilePosition The position of the Tile, in terms of Tiles.
      * @param t The Tile to set in the given Position.
@@ -153,43 +165,56 @@ public class Board
      * @param y The y coordinate of the Tile on the Board.
      * @return The Tile that resides at that coordinate. Returns <code>null</code> if out of range.
      */
-    public static Tile getTile(int x, int y) {
+    private static Tile getTile(int x, int y) {
         if (x < 0 || x >= map[0].length) return null;
         else if (y < 0 || y >= map.length) return null;
         return map[y][x];
     }
     /**
-     * Converts a real Position into a position in terms of Tiles.
-     * @param realPosition The position in terms of pixels.
-     * @return The position in terms of Tiles.
+     * Temporray
      */
-    public static Vector getTilePosition(Vector realPosition) {
-        int tileX = (int)Math.round((realPosition.getX()-tileSize/2)/tileSize);
-        int tileY = (int)Math.round((realPosition.getY()-tileSize/2)/tileSize);
-        return new Vector(tileX, tileY);
+    public static Node getNodeWithRealPosition(Vector realPosition) {
+        return nodeGrid.getNode(nodeGrid.getNodePosition(realPosition));
     }
     /**
-     * <p>Returns the adjacent Tiles from a given position in terms of Tiles.</p>
-     * <p>The returned array is read as follows:</p>
-     * <ul>
-     *   <li>Index 0 is the top Tile.
-     *   <li>Index 1 is the right Tile.
-     *   <li>Index 2 is the bottom Tile.
-     *   <li>Index 3 is the left Tile.
-     *  </ul>
-     *  <p>May also return null, if that given tile does not exist.</p>
-     *  @param tilePosition The position, in terms of Tiles, to check around.
-     *  @return An array that stores the adjacent Tiles.
+     * Given a position relative to the World, retorn the Tile that the position is residing in.
+     * @param realPosition The position in terms of pixels.
+     * @return The Tile at the given position.
      */
-    public static Tile[] getAdjacentTiles(Vector tilePosition) {
+    public static Tile getTile(Vector realPosition) {
+        int tileX = (int) realPosition.getX()/tileSize;
+        int tileY = (int) realPosition.getY()/tileSize;
+        return getTile(tileX, tileY);
+    }
+    /**
+     * Given a real position, convert it into a position in terms of tiles.
+     * @param realPostion The position in the world.
+     * @return A position, in terms of tiles.
+     */
+    public static Vector convertRealToTilePosition(Vector realPosition) {
+        int tileX = (int) realPosition.getX()/tileSize;
+        int tileY = (int) realPosition.getY()/tileSize;
+        return new Vector (tileX, tileY);
+    }
+    /**
+     * Get neighbouring tiles in terms of grid coordinates.
+     */
+    public static ArrayList<Tile> getNeighbouringTiles(Vector tilePosition) {
+        ArrayList<Tile> adjacent = new ArrayList();
         int tileX = (int)Math.round(tilePosition.getX());
         int tileY = (int)Math.round(tilePosition.getY());
-        Tile[] adjacentTiles = new Tile[4];
-        adjacentTiles[0] = getTile(tileX, tileY-1);
-        adjacentTiles[1] = getTile(tileX+1, tileY);
-        adjacentTiles[2] = getTile(tileX, tileY+1);
-        adjacentTiles[3] = getTile(tileX-1, tileY);
-        return adjacentTiles;
+        for (int y = -1; y <=1; y++) { // Iterate through possible y values (top row, current row, bottom row)
+            for (int x = -1; x <= -1; x++) { // Iterate through possible x vslues (left row, current row, right row)
+                if (x == 0 && y == 0) continue;
+                
+                int checkX = tileX + x;
+                int checkY = tileY + y;
+                
+                Tile t = getTile(checkX, checkY);
+                if (t != null) adjacent.add(t);
+            }
+        }
+        return adjacent;
     }
     /**
      * Prints out a String that represents a Board, which can be loaded with loadBoard(String), for easier
@@ -203,8 +228,6 @@ public class Board
      * @return the build string that represents this Board,
      */
     public static String getBuildString() {
-        int width = map[0].length;
-        int height = map.length;
         String boardString = width + "~" + height + "~" + tileSize + "~";
         for (Tile[] row : map) {
             for (Tile t : row) {
@@ -221,6 +244,7 @@ public class Board
      *   <li>TreeTiles are represented as 't'
      *   <li>BushTiles are represented as 'b'
      *   <li>WaterTiles are represented as 'w'
+     *   <li>MountainTiles are represented as 'm'
      *  </ul>
      * @param t The Tile to analyze.
      * @return The char representation of the Tile.
@@ -231,12 +255,14 @@ public class Board
         else if (t instanceof TreeTile) return 't';
         else if (t instanceof BushTile) return 'b';
         else if (t instanceof WaterTile) return 'w';
-        
+        else if (t instanceof MountainTile) return 'm';
         System.out.println("err: given unknown tile type.");
         return '?';
     }
     /**
      * Converts the given char into its corresponding Tile.
+     * @param c The char to analyze.
+     * @return An instance of that char's corresponding Tile.
      */
     public static Tile charToTile(char c) {
         switch (c) {
@@ -250,6 +276,8 @@ public class Board
                 return new BushTile();
             case 'w':
                 return new WaterTile();
+            case 'm':
+                return new MountainTile();
         }
         System.out.println("err: unexpected char while parsing Build string.");
         return new EmptyTile();
@@ -266,18 +294,61 @@ public class Board
         }
         return true;
     }
-    // /**
-     // * Returns the tile map of the Board.
-     // */
-    // public static Tile[][] getTileMap() {
-        // return map;
-    // }
-    // public static void drawBorders(boolean visible) {
-        // if (!visible) return;
-        // for (Tile[] row : map) {
-            // for (Tile t : row) {
-                // t.drawBorder();
-            // }
-        // }
-    // }
+    /**
+     * In terms of world coordinates.
+     * @param start The start position, in world coordinates
+     * @param end the end position, in world coordinates
+     * @param maxTileHeight The maximum tile height to be considered in pathfinding.
+     */
+    public static ArrayList<Node> findPath(Vector start, Vector end, int maxTileHeight) {
+        Node startNode = getNodeWithRealPosition(start);
+        Node endNode = getNodeWithRealPosition(end);
+        startNode.setWalkable(true); // assume start tile is walkable. how would it be there otherwise?
+        endNode.setWalkable(checkIfWalkable(endNode.getX(), endNode.getY(), maxTileHeight)); // end node may or may not be walkable
+        return nodeGrid.findPath(startNode, endNode, maxTileHeight);
+    }
+    /**
+     * Given x and y coordinates in terms of the grid, and a maximum height, compare to see if can pathfind over that tile at
+     * tat pint
+     */
+    public static boolean checkIfWalkable(int x, int y, int maxTileHeight) {
+        Tile t = getTile(x,y);
+        if (t.getHeightLevel() > maxTileHeight) {
+            return false;
+        }
+        return true;
+    }
+    /**
+     * Find a path, given the nodes to start and end on.
+     * @param startNode the starting node
+     * @param endNode the ending node
+     * @param the maximum tile height to be considered in pathfinding.
+     */
+    public static ArrayList<Node> findPath(Node startNode, Node endNode, int maxTileHeight) {
+        return nodeGrid.findPath(startNode, endNode, maxTileHeight);
+    }
+    /**
+     * Given a list of nodes, color them to show that path. Not meant for normal use, only quick debugging when
+     * visualization of the path is required. I'm so sorry everyone for my trash code.
+     * @param path The path to visualize.
+     * @param c The color of the path. Start will always be orange.
+     */
+    public static void displayPath(ArrayList<Node> path, Color c) {
+        if (path == null) {
+            System.out.println("warn: attempted to display a path, but path was null");
+            return;
+        }
+        ArrayList<Node> existingNodes = (ArrayList<Node>)w.getObjects(Node.class);
+        for (Node node : existingNodes) {
+            w.removeObject(node);
+        }
+        Node start = path.get(0);
+        start.setImage(Color.ORANGE, tileSize);
+        w.addObject(start, nodeGrid.getTrueX(start.getX()), nodeGrid.getTrueY(start.getY()));
+        for (int i = 1; i < path.size(); i++) {
+            Node n = path.get(i);
+            n.setImage(c, tileSize);
+            w.addObject(n, nodeGrid.getTrueX(n.getX()), nodeGrid.getTrueY(n.getY()));
+        }
+    }
 }

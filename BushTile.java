@@ -1,7 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-// import java.util.List;
-// import java.util.Arrays;
-// import java.util.Collections;
+import java.util.Collections;
+import java.util.ArrayList;
 /**
  * <p>BushTiles are tiles with bushes on them which can also grow berries for Animals to eat. They can also
  * drop seeds onto nearby GrassTiles.</p>
@@ -66,19 +65,11 @@ public class BushTile extends Tile
      */
     private void dropSeed() {
         // Get adjacent tiles as an array
-        Tile[] adjacentArr = Board.getAdjacentTiles(tilePosition);
+        ArrayList<Tile> neighbours = Board.getNeighbouringTiles(tilePosition);
         
-        // // Convert into a list
-        // List<Tile> adjacentList = Arrays.asList(adjacentArr);
-        
-        // // Shuffle the list (randomize)
-        // Collections.shuffle(adjacentList);
-        
-        // // Convert back into an array
-        // adjacentList.toArray(adjacentArr);
-        
+        Collections.shuffle(neighbours);
         // Iterate through for eligble tiles on the array.
-        for (Tile t : adjacentArr) {
+        for (Tile t : neighbours) {
             if (t instanceof GrassTile) {
                 GrassTile g = (GrassTile) t;
                 g.setSeed(new TreeTile(), getGrowTime());
@@ -88,5 +79,9 @@ public class BushTile extends Tile
     }
     public static int getGrowTime() {
         return GROW_TIME_MIN + Greenfoot.getRandomNumber(GROW_TIME_MAX - GROW_TIME_MIN);
+    }
+    
+    public String toString() {
+        return "BushTile";
     }
 }

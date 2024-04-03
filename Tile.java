@@ -20,7 +20,7 @@ public abstract class Tile extends SuperActor
      * The tilePosition is the current Position of this specific tile on the Board.
      */
     protected Vector tilePosition;
-    private static final boolean drawBorders = true;
+    private static final boolean drawBorders = false;
     /**
      * timeFlowing determines whether Tiles should act on their own.
      */
@@ -58,7 +58,7 @@ public abstract class Tile extends SuperActor
         setTile(c);
     }
     public void addedToWorld(World w) {
-        tilePosition = Board.getTilePosition(getPosition());
+        tilePosition = Board.convertRealToTilePosition(getPosition());
     }
     /**
      * Sets the Tile's appearance based on the given Color.

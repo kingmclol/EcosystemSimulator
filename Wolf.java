@@ -22,7 +22,6 @@ public class Wolf extends Animal
      */
     public void act() {
         super.act();
-
         if(alive){
             if((targetRabbit == null) || !(distanceFrom(targetRabbit) < 5)){
                 eating = false;

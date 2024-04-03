@@ -11,13 +11,32 @@ public class Rabbit extends Animal
     GrassTile targetGrass;
     private boolean beingEaten;
 
-    private boolean wantToEat;
     //Animation
-    private GreenfootImage[] eatingAnimation = new GreenfootImage[8];
-    private GreenfootImage[] walkingAnimation = new GreenfootImage[8];
+    private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationRight = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationLeft = new GreenfootImage[4];
+    
+    private GreenfootImage[] walkingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationDown = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
     //https://opengameart.org/content/reorganised-lpc-rabbit
     public Rabbit() {
         super();
+        for(int i = 0; i<walkingAnimationUp.length; i++)
+        {
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            
+            eatingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            eatingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+
+        }
         beingEaten = false;
         speed = 1.0;
         wantToEat = false;
@@ -29,7 +48,6 @@ public class Rabbit extends Animal
      */
     public void act() {
         super.act();
-
         if(alive && !beingEaten){
             if((targetGrass == null) || !(distanceFrom(targetGrass) < 5)){
                 eating = false;

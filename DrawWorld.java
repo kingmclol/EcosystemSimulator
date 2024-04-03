@@ -32,7 +32,7 @@ public class DrawWorld extends World
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);
-        addObject(new TileSelector(), getWidth() + 100, getHeight()/2);
+        addObject(new TileSelector(), getWidth(), getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false);

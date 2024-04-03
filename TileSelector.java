@@ -12,14 +12,15 @@ public class TileSelector extends UI
     private boolean closed;
     private boolean transition;
     private Cursor cursor;
+    private int menuWidth;
     public TileSelector(){
         img = new GreenfootImage(200, 768);
         img.setColor(Color.WHITE);
-        img.fill();
+        img.fillRect(200, 0, 200, 768);
         setImage(img);
         menuButton = new Button(30, 80);
         closed = true;
-        
+        menuWidth = 200;
     }
     public void addedToWorld(World w){
         if (w instanceof IntroWorld){
@@ -32,25 +33,26 @@ public class TileSelector extends UI
     }
     public void act()
     {
+        
         if(transition){
-            
-            if (closed && getX() > getWorld().getWidth() - 100){
-                 setLocation(getX() - 2, getY());
+            if (!closed && menuWidth > 0){
+                menuWidth-= 2;
+                img.fillRect(menuWidth, 0, 200, 768);
             }
-            else if(getX() < getWorld().getWidth() + 100 && !closed){
-                setLocation(getX() + 2, getY());
+            else if(menuWidth < 200 && closed){
+                menuWidth+= 2;
+                img.clear();
+                img.fillRect(menuWidth, 0, 200, 768);
             }
             else {
                 transition = false;
-                
-                closed = !closed;
             }
             
         }
-        if(Greenfoot.mousePressed(null)){
-            
+        if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(this)){
             transition = true;
- 
+            closed = !closed;
+             
         }
     }
 }

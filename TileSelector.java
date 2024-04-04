@@ -31,6 +31,9 @@ public class TileSelector extends UI
     public boolean getState(){
         return transition;
     }
+    public boolean getClosed(){
+        return closed;
+    }
     public void act()
     {
         

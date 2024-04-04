@@ -46,8 +46,14 @@ public class DrawWorld extends World
             Tile tileHovered = null;
             ArrayList<Actor> hoveredActors = (ArrayList<Actor>)cursor.getHoveredActors();
             for(Actor a : hoveredActors){
-                if ((a instanceof TileSelector && ((TileSelector)a).getState()) || (!(a instanceof TileSelector) && a instanceof UI )) {
-                    
+                if (a instanceof TileSelector) {
+                    if((((TileSelector)a).getState() || !((TileSelector)a).getClosed())){
+                        tileHovered = null;
+                        break;
+                    }
+
+                }
+                else if (a instanceof UI){
                     tileHovered = null;
                     break;
                 }

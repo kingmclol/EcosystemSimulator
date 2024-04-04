@@ -66,7 +66,7 @@ public class DrawWorld extends World
                 }
             }
             if (tileHovered != null) {
-                System.out.println("test2");
+                
                 currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
                 // Only draw on a tile IF the user is drawing on a new tile. This way,
                 // will not draw on the same tile multiple times.

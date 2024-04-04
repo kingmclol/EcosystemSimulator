@@ -165,7 +165,7 @@ public class Board
      * @param y The y coordinate of the Tile on the Board.
      * @return The Tile that resides at that coordinate. Returns <code>null</code> if out of range.
      */
-    private static Tile getTile(int x, int y) {
+    public static Tile getTile(int x, int y) {
         if (x < 0 || x >= map[0].length) return null;
         else if (y < 0 || y >= map.length) return null;
         return map[y][x];

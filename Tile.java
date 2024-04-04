@@ -104,6 +104,15 @@ public abstract class Tile extends SuperActor
         getWorld().addObject(t, getX(), getY());
         getWorld().removeObject(this);
     }
+    /**
+     * Sets the image of this tile as the given transparency;
+     */
+    public void setTransparency(int x) {
+        if (x < 0 || x > 255) {
+            System.out.println("tried to change tile transparency but given invalid value!");
+        }
+        getImage().setTransparency(x);
+    }
 }
  
 

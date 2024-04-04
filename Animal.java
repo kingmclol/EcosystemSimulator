@@ -16,6 +16,7 @@ public abstract class Animal extends SuperActor {
     protected double currentSpeed;
     protected double sprintSpeed;
     protected double waterSpeed;
+    protected String facing;
 
     protected boolean alive;
     protected boolean eating;
@@ -45,9 +46,10 @@ public abstract class Animal extends SuperActor {
         hp = 1000;
         enableStaticRotation();
     }
-
+    protected abstract void animate();
     public void act() {
         actsSinceLastBreeding++;
+
         
         Tile currentTile = Board.getTile(getPosition());
 

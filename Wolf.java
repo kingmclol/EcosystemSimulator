@@ -94,4 +94,8 @@ public class Wolf extends Animal
             moveRandomly();
         }
     }
+    public void animate()
+    {
+        
+    }
 }

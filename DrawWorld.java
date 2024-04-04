@@ -159,6 +159,8 @@ public class DrawWorld extends World
     private void checkMouseState() {
         if (Greenfoot.mousePressed(null)) { // Mouse has went not pressed to pressed.
             drawing = true; // Currently drawing, until mouse released.
+            Tile hoveredTile = Board.getTile(cursor.getPosition());
+            hoveredTile.setTransparency(255); // Just in case.
         }
         else if (Greenfoot.mouseClicked(null)) { // Mouse has went from pressed to not pressed.
             drawing = false; // Not drawing anymore.

@@ -33,11 +33,11 @@ public class Rabbit extends Animal
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
             eatingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
 
-            //walking Animation:
+            //Walking Animation:
             walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
-            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
-            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
-            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
+            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
         }
         beingEaten = false;
         defaultSpeed = 1.0;
@@ -60,7 +60,7 @@ public class Rabbit extends Animal
             }else{
                 eating = true;
             }
-
+            animate();
             if(wantToEat){
                 full = false;
                 findGrassAndEat();
@@ -143,7 +143,7 @@ public class Rabbit extends Animal
                 setImage(walkingAnimationUp[indexAnimation]);
                 indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
             }
-            else
+            else // Down
             {
                 setImage(walkingAnimationDown[indexAnimation]);
                 indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);

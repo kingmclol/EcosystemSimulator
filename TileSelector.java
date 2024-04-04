@@ -11,48 +11,56 @@ public class TileSelector extends UI
     private Button menuButton;
     private boolean closed;
     private boolean transition;
-    private Cursor cursor;
+
     private int menuWidth;
     public TileSelector(){
-        img = new GreenfootImage(200, 768);
+        img = new GreenfootImage(250, 768);
         img.setColor(Color.WHITE);
-        img.fillRect(200, 0, 200, 768);
+        
+        img.fillRect(0, 0, 0, 768);
+        
         setImage(img);
-        menuButton = new Button(30, 80);
+        menuButton = new Button(24, 80);
         closed = true;
-        menuWidth = 200;
+        menuWidth = 0;
     }
     public void addedToWorld(World w){
-        if (w instanceof IntroWorld){
-            cursor = IntroWorld.getCursor();
-        }
-        else{
-            cursor = DrawWorld.getCursor();
-        }
-        w.addObject(menuButton, w.getWidth() - 25, w.getHeight()/2);
+        cursor = getCursor(w);
+        w.addObject(menuButton, w.getWidth() - 12, w.getHeight()/2);
+    }
+    public boolean getState(){
+        return transition;
     }
     public void act()
     {
         
         if(transition){
-            if (!closed && menuWidth > 0){
-                menuWidth-= 2;
-                img.fillRect(menuWidth, 0, 200, 768);
-            }
-            else if(menuWidth < 200 && closed){
-                menuWidth+= 2;
+            if (!closed && menuWidth < 200){
+                menuWidth+= 4;
+                
+                menuButton.setLocation(menuButton.getX() - 4, getY());
                 img.clear();
-                img.fillRect(menuWidth, 0, 200, 768);
+                
+                img.fillRect(0, 0, menuWidth, 768);
+                img.mirrorHorizontally();
+            }
+            
+            else if(menuWidth > 0 && closed){
+                menuWidth-= 4;
+                menuButton.setLocation(menuButton.getX() + 4, getY());
+                img.clear();
+                img.fillRect(0, 0, menuWidth, 768);
+                img.mirrorHorizontally();
             }
             else {
                 transition = false;
             }
             
         }
-        if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(this)){
+        if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(menuButton)){
             transition = true;
             closed = !closed;
-             
+            
         }
     }
 }

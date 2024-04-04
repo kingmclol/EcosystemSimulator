@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public class DrawWorld extends World
 {
+    
     private static Vector previousTilePos, currentTilePos;
     private static int mouseDrawType;
     private static boolean drawing;
@@ -32,7 +33,7 @@ public class DrawWorld extends World
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);
-        addObject(new TileSelector(), getWidth(), getHeight()/2);
+        addObject(new TileSelector(), getWidth() - 125, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false);
@@ -42,6 +43,31 @@ public class DrawWorld extends World
         
         // NEEDS REWORK
         if (drawing) {
+            Tile tileHovered = null;
+            ArrayList<Actor> hoveredActors = (ArrayList<Actor>)cursor.getHoveredActors();
+            for(Actor a : hoveredActors){
+                if ((a instanceof TileSelector && ((TileSelector)a).getState()) || (!(a instanceof TileSelector) && a instanceof UI )) {
+                    
+                    tileHovered = null;
+                    break;
+                }
+                else if (a instanceof Tile) {
+                    
+                    tileHovered = (Tile)a;
+                    
+                }
+            }
+            if (tileHovered != null) {
+                System.out.println("test2");
+                currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
+                // Only draw on a tile IF the user is drawing on a new tile. This way,
+                // will not draw on the same tile multiple times.
+                if (!currentTilePos.equals(previousTilePos)) {
+                    tileHovered.replaceMe(getDrawnTile());
+                }
+            }
+            previousTilePos = currentTilePos;
+            /*
             Actor a = cursor.getHoveredActor();
             if (a instanceof Tile) {
                 currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
@@ -52,6 +78,7 @@ public class DrawWorld extends World
                 }
             }
             previousTilePos = currentTilePos;
+            */
         }
         
         manageKeyInput();

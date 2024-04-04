@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class BushTile extends Tile
 {
     private static final int MAX_BERRIES = 1000;
-    private int berryAmount = 200;
+    private int berryAmount = 800;
     private int berryGrowSpeed = 1;
     
     private static int GROW_TIME_MIN = 300;
@@ -79,6 +79,10 @@ public class BushTile extends Tile
     }
     public static int getGrowTime() {
         return GROW_TIME_MIN + Greenfoot.getRandomNumber(GROW_TIME_MAX - GROW_TIME_MIN);
+    }
+    
+    public int getBerryAmount() {
+        return berryAmount;
     }
     
     public String toString() {

@@ -17,8 +17,8 @@ public class GrassTile extends Tile
      * Act - do whatever the GrassTile wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    private static final int MAX_GRASS = 3000;
-    private int grassAmount = 1000;
+    private static final int MAX_GRASS = 1000;
+    private int grassAmount = 800;
     private int growSpeed;
     
     private boolean grassAvailable;

@@ -46,6 +46,20 @@ public class Deer extends Animal
         }
     }
     
+    public void breed() {
+        // Find another animal of the same type nearby
+        Deer partner = (Deer) getClosestInRange(this.getClass(), 100); // Adjust range as needed
+
+        if (partner != null && partner.isAlive()) {
+            // Add the baby to the world
+            getWorld().addObject(this, getX(), getY());
+        }
+    }
+    
+    public void animate(){
+        
+    }
+    
     public void findBerriesAndEat() {
         if(targetBush == null || targetBush.getWorld() == null || targetBush.getBerryAmount() <= 150){
             targetBush = (BushTile)getClosestInRange(BushTile.class, 100, b -> ((BushTile)b).getBerryAmount() <= 150);

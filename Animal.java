@@ -29,8 +29,9 @@ public abstract class Animal extends SuperActor {
 
     protected int transparency;
     
-    protected int actsSinceLastBreeding = 0;
-    public static final int BREEDING_THRESHOLDD = 3000;
+    protected boolean ableToBreed;
+    protected int actsSinceLastBreeding;
+    public static final int BREEDING_THRESHOLD = 3000;
 
     protected WaterTile targetWater;
     public Animal() {
@@ -44,12 +45,18 @@ public abstract class Animal extends SuperActor {
         hydration = 3000;
         energy = 2000;
         hp = 1000;
+        actsSinceLastBreeding = 0;
+        ableToBreed = false;
         enableStaticRotation();
     }
+    
     protected abstract void animate();
+    
     public void act() {
         actsSinceLastBreeding++;
-
+        if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
+            breed();
+        }
         
         Tile currentTile = Board.getTile(getPosition());
 
@@ -110,6 +117,8 @@ public abstract class Animal extends SuperActor {
     public void eat(int energyGain) {
         energy += energyGain;
     }
+    
+    protected abstract void breed();
 
     public void die() {
         alive = false;

@@ -77,6 +77,16 @@ public class Rabbit extends Animal
 
     }
 
+    public void breed() {
+        // Find another animal of the same type nearby
+        Deer partner = (Deer) getClosestInRange(this.getClass(), 100); // Adjust range as needed
+
+        if (partner != null && partner.isAlive()) {
+            // Add the baby to the world
+            getWorld().addObject(this, getX(), getY());
+        }
+    }
+    
     public void findGrassAndEat() {
         if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
             targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> !((GrassTile)g).grassAvailable());

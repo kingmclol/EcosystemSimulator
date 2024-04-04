@@ -45,6 +45,16 @@ public class Vulture extends Animal
         }
     }
     
+    public void breed() {
+        // Find another animal of the same type nearby
+        Deer partner = (Deer) getClosestInRange(this.getClass(), 100); // Adjust range as needed
+
+        if (partner != null && partner.isAlive()) {
+            // Add the baby to the world
+            getWorld().addObject(this, getX(), getY());
+        }
+    }
+    
     public void findDeadAnimalsAndEat() {
         if(targetAnimal == null || targetAnimal.isAlive() || targetAnimal.getWorld() == null){
             targetAnimal = (Animal)getClosestInRange(Animal.class, 100, a -> ((Animal)a).isAlive());

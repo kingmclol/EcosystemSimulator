@@ -27,6 +27,9 @@ public abstract class Animal extends SuperActor {
     protected boolean runningAway;
 
     protected int transparency;
+    
+    protected int actsSinceLastBreeding = 0;
+    public static final int BREEDING_THRESHOLDD = 3000;
 
     protected WaterTile targetWater;
     public Animal() {
@@ -44,6 +47,8 @@ public abstract class Animal extends SuperActor {
     }
 
     public void act() {
+        actsSinceLastBreeding++;
+        
         Tile currentTile = Board.getTile(getPosition());
 
         if(currentTile instanceof WaterTile){

@@ -16,8 +16,7 @@ public class ButtonIncrement extends UI
     private int value;
     private Button decrementButton;
     private Button incrementButton;
-    
-    private Cursor cursor;
+
     private World world;
     private SuperTextBox textBox;
     private GreenfootImage img;
@@ -33,12 +32,7 @@ public class ButtonIncrement extends UI
         
     }
     public void addedToWorld(World w){
-        if (w instanceof IntroWorld){
-            cursor = IntroWorld.getCursor();
-        }
-        else{
-            cursor = DrawWorld.getCursor();
-        }
+        cursor = getCursor(w);
         w.addObject(decrementButton, (getX() - width/2) + (width - textBoxWidth)/4, getY());
         w.addObject(incrementButton, (getX() + width/2) - (width - textBoxWidth)/4, getY());
         w.addObject(textBox, getX(), getY());

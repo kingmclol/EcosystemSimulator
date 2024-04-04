@@ -9,7 +9,7 @@ public class Deer extends Animal
 {
     private BushTile targetBush;
     private boolean beingEaten;
-    
+    private Deer partner;
     public Deer() {
         super();
         beingEaten = false;
@@ -26,8 +26,15 @@ public class Deer extends Animal
     public void act()
     {
         super.act();
+        actsSinceLastBreeding++;
+        if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
+            ableToBreed = true;
+            breed();
+        }else{
+            ableToBreed = false;
+        }
         
-        if(alive && !beingEaten){
+        if(alive && !beingEaten && !breeding){
             if((targetBush == null) || targetBush.getWorld() == null || !(distanceFrom(targetBush) < 5)){
                 eating = false;
             }else{
@@ -47,12 +54,26 @@ public class Deer extends Animal
     }
     
     public void breed() {
-        // Find another animal of the same type nearby
-        Deer partner = (Deer) getClosestInRange(this.getClass(), 100); // Adjust range as needed
-
-        if (partner != null && partner.isAlive()) {
-            // Add the baby to the world
-            getWorld().addObject(this, getX(), getY());
+        // Find another deer nearby
+        partner = (Deer) getClosestInRange(this.getClass(), 200, d -> !((Deer)d).isAbleToBreed()); // Adjust range as needed
+        if(partner != null){
+            moveTowards(partner, currentSpeed);
+        }
+        
+        if (partner != null && partner.isAlive() && partner.isAbleToBreed() && isTouching(Deer.class)) {
+            breeding = true;
+            breedingCounter++;
+            if(breedingCounter > BREEDING_DELAY){
+                // Add the baby to the world
+                getWorld().addObject(new Deer(), getX(), getY());
+                ableToBreed = false;
+                partner.setAbleToBreed(false);
+                breeding = false;
+                partner.setIsBreeding(false);
+                breedingCounter = 0;
+                partner = null;
+                actsSinceLastBreeding = 0;
+            }
         }
     }
     

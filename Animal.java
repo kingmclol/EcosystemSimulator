@@ -30,8 +30,11 @@ public abstract class Animal extends SuperActor {
     protected int transparency;
     
     protected boolean ableToBreed;
+    protected boolean breeding;
     protected int actsSinceLastBreeding;
-    public static final int BREEDING_THRESHOLD = 3000;
+    protected int breedingCounter;
+    public static final int BREEDING_THRESHOLD = 300;
+    public static final int BREEDING_DELAY = 150;
 
     protected WaterTile targetWater;
     public Animal() {
@@ -47,17 +50,14 @@ public abstract class Animal extends SuperActor {
         hp = 1000;
         actsSinceLastBreeding = 0;
         ableToBreed = false;
+        breeding = false;
+        breedingCounter = 0;
         enableStaticRotation();
     }
     
     protected abstract void animate();
     
     public void act() {
-        actsSinceLastBreeding++;
-        if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
-            breed();
-        }
-        
         Tile currentTile = Board.getTile(getPosition());
 
         if(currentTile instanceof WaterTile){
@@ -86,7 +86,7 @@ public abstract class Animal extends SuperActor {
             wantToDrink = false;
         }
 
-        if(wantToDrink && !eating && alive){
+        if(wantToDrink && !eating && alive && !breeding){
             findAndDrinkWater();
         }else if(alive){
             targetWater = null;
@@ -94,7 +94,7 @@ public abstract class Animal extends SuperActor {
             moveRandomly();
         }
 
-        if(!drinking && !eating && alive){
+        if(!drinking && !eating && alive && !breeding){
             energy--;
             hydration--;
         }
@@ -132,6 +132,22 @@ public abstract class Animal extends SuperActor {
 
     public int getHp() {
         return hp;
+    }
+    
+    public boolean isBreeding() {
+        return breeding;
+    }
+    
+    public boolean isAbleToBreed() {
+        return ableToBreed;
+    }
+    
+    public void setAbleToBreed(boolean able) {
+        ableToBreed = able;
+    }
+    
+    public void setIsBreeding(boolean breed){
+        breeding = breed;
     }
 
     public void moveRandomly() {

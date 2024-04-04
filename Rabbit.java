@@ -12,11 +12,32 @@ public class Rabbit extends Animal
     private boolean beingEaten;
 
     //Animation
-    private GreenfootImage[] eatingAnimation = new GreenfootImage[8];
-    private GreenfootImage[] walkingAnimation = new GreenfootImage[8];
+    private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationRight = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationLeft = new GreenfootImage[4];
+    
+    private GreenfootImage[] walkingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationDown = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
     //https://opengameart.org/content/reorganised-lpc-rabbit
     public Rabbit() {
         super();
+        for(int i = 0; i<4; i++)
+        {
+            //eating Animation:
+            eatingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            eatingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            eatingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            
+            //walking Animation:
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+        }
         beingEaten = false;
         defaultSpeed = 1.0;
         currentSpeed = defaultSpeed;

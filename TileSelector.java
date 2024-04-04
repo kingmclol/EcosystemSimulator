@@ -11,16 +11,23 @@ public class TileSelector extends UI
     private Button menuButton;
     private boolean closed;
     private boolean transition;
+    private Cursor cursor;
     public TileSelector(){
         img = new GreenfootImage(200, 768);
         img.setColor(Color.WHITE);
         img.fill();
         setImage(img);
-        menuButton = new Button(50, 100);
+        menuButton = new Button(30, 80);
         closed = true;
         
     }
     public void addedToWorld(World w){
+        if (w instanceof IntroWorld){
+            cursor = IntroWorld.getCursor();
+        }
+        else{
+            cursor = DrawWorld.getCursor();
+        }
         w.addObject(menuButton, w.getWidth() - 25, w.getHeight()/2);
     }
     public void act()
@@ -40,7 +47,7 @@ public class TileSelector extends UI
             }
             
         }
-        if(Greenfoot.mousePressed(menuButton)){
+        if(Greenfoot.mousePressed(null)){
             
             transition = true;
  

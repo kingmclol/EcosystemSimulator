@@ -6,18 +6,13 @@ public abstract class UI extends SuperActor
     protected Cursor cursor;
 
     protected void addedToWorld(World w){
-        cursor = getCursor(w);
+        cursor = getCursor();
     }
 
-    protected Cursor getCursor(World w)
+    protected Cursor getCursor()
     {
-        if (w instanceof IntroWorld){
-            cursor = IntroWorld.getCursor();
-        }
-        else{
-            cursor = DrawWorld.getCursor();
-        }
-        return cursor;
+        return CursorWorld.getCursor();
+        
     }
 
 }

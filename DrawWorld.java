@@ -8,14 +8,15 @@ import java.util.ArrayList;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class DrawWorld extends World
+public class DrawWorld extends CursorWorld
 {
     
     private static Vector currentTilePos, previousTilePos;
     private static int mouseDrawType;
     private static boolean drawing;
     private static Node pathStart, pathEnd;
-    private static Cursor cursor = new Cursor();
+    
+
     //private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
     private static final String preset1 = "21~16~48~wwwwwwwwwwwwwwwwwwwwwwwwwwwwgggggwwwwwwbwwwwtggggmtbggggwwwwgwwwwbggbgtgggwwwwwgggwwwggggggggwwwbbgggtgwwwggmtgbwwwgggmmggtgwwwbbmggwwgggtggggbgbwwwgggggwgbgggggwwggggwwgggbwwtggbgggwwgmmmwwwbgwwgggggmtggggggmwwwwwwgtgbgbgtggggtggwwwwggggmgggggtmgbggwwmbwgtgbggwggwgggggwwwtgwggwwgwwwwwwggttwwwwgwwwwwwwgbgwwwwgtwwwwwwwwwwwwwwwwwwwwwwww";
     //private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
@@ -29,13 +30,14 @@ public class DrawWorld extends World
      */
     public DrawWorld()
     {    
-        super(1008, 768, 1); 
-        setPaintOrder(Cursor.class, UI.class, Node.class, Animal.class, Tile.class);
+
+        super(); 
         Board.loadBoard(this, 48);
+
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);
-        addObject(new TileSelector(), getWidth() - 125, getHeight()/2);
+        addObject(new TileSelector(), getWidth() + 75, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false);
@@ -187,8 +189,5 @@ public class DrawWorld extends World
         System.out.println("err: tried to draw tile, but not cannot recognize mouseDrawType: " + mouseDrawType);
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
     }
-    public static Cursor getCursor(){
-        return cursor;
-        
-    }
+
 }

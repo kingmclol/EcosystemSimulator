@@ -78,9 +78,15 @@ public class DrawWorld extends CursorWorld
             Tile previousTile = Board.getTile((int)previousTilePos.getX(), (int)previousTilePos.getY());
             if (previousTile != null) previousTile.setTransparency(255);
             
-            // Make new hovered tile slightly transparent (cooler effect)
-            Tile hoveredTile = Board.getTile(cursor.getPosition());
-            hoveredTile.setTransparency(150);
+            // Make new hovered tile slightly transparent (cooler effect)\
+            if(cursor != null){
+                Tile hoveredTile = Board.getTile(cursor.getPosition());
+                hoveredTile.setTransparency(150);
+            }
+            
+
+
+            
         }
         previousTilePos = currentTilePos;
         

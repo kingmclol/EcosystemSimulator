@@ -30,6 +30,7 @@ public class Rabbit extends Animal
     public Rabbit() {
         super();
         facing = "right";
+        
         for(int i = 0; i<4; i++)
         {
             //eating Animation:
@@ -47,7 +48,7 @@ public class Rabbit extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
     }
-
+    
     /**
      * Act - do whatever the Rabbit wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -101,7 +102,19 @@ public class Rabbit extends Animal
     public void takeDamage(int dmg) {
         hp = hp - dmg;
     }
-
+    public static void init()
+    {
+        for(int i = 0; i<4; i++)
+        {
+            //eating Animation:
+            
+            //Walking Animation:
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
+            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
+        }
+    }
     public void animate()
     {
         if(eating)

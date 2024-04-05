@@ -131,8 +131,6 @@ public abstract class Animal extends SuperActor {
             int angle = Greenfoot.getRandomNumber(360);
             turn (angle);
             int rotation = this.getRotation()%360;
-            System.out.println(rotation);
-            
             if((rotation >= 0 && rotation < 45) || (rotation > 315 && rotation < 360))
             {
                 facing = "right";

@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class BushTile extends Tile
 {
     private static final int MAX_BERRIES = 1000;
-    private int berryAmount = 800;
+    private int berryAmount = 500;
     private int berryGrowSpeed = 1;
-    
+    private boolean berriesAvailable;
     private static int GROW_TIME_MIN = 300;
     private static int GROW_TIME_MAX = 1000;
     private static double PROBABILITY_DROP_SEED = 1/2000d;
@@ -26,6 +26,7 @@ public class BushTile extends Tile
     public BushTile() {
         super(new GreenfootImage("tile_berries.png"));
         heightLevel = 1;
+        berriesAvailable = true;
     }
     public void act()
     {
@@ -43,7 +44,9 @@ public class BushTile extends Tile
     public int nibble(int value) {
         if (berryAmount < value) { // Not enough berries to eat... Return what was remaining.
             berryAmount = 0;
-            return berryAmount;
+            berriesAvailable = false;
+            setTile(Color.RED);
+            return value;
         }
         berryAmount = Math.max(0, berryAmount-value); 
         return value; // Enough berries, return amount eaten.
@@ -53,6 +56,11 @@ public class BushTile extends Tile
      */
     private void growBerries() {
         berryAmount = Math.min(MAX_BERRIES, berryAmount+berryGrowSpeed);
+        
+        if (!berriesAvailable && berryAmount >= 350) {
+            berriesAvailable = true;
+            setTile(new GreenfootImage("tile_berries.png"));
+        }
     }
     /**
      * Determine if this BushTile should attempt to drop its seeds on neighbouring grass tiles.

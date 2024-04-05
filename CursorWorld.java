@@ -16,7 +16,7 @@ public abstract class CursorWorld extends World
     public CursorWorld()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(1024, 768, 1, false); 
+        super(1008, 768, 1, false); 
         setPaintOrder(Cursor.class, UI.class, Node.class, Animal.class, Tile.class);
     }
     protected static Cursor getCursor(){

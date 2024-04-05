@@ -8,10 +8,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Rabbit extends Animal
 {
-    GrassTile targetGrass;
+    private GrassTile targetGrass;
     private boolean beingEaten;
 
     //Animation
+
     private int indexAnimation = 0;
     private int currentAct = 0;
     
@@ -24,6 +25,7 @@ public class Rabbit extends Animal
     private static GreenfootImage[] walkingAnimationDown = new GreenfootImage[4];
     private static GreenfootImage[] walkingAnimationLeft = new GreenfootImage[4];
     private static GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
+
     //https://opengameart.org/content/reorganised-lpc-rabbit
     public Rabbit() {
         super();
@@ -63,7 +65,7 @@ public class Rabbit extends Animal
             if(wantToEat){
                 full = false;
                 findGrassAndEat();
-            }else{
+            }else if(!drinking){
                 targetGrass = null;
                 full = true;
                 move(currentSpeed);
@@ -74,7 +76,7 @@ public class Rabbit extends Animal
     }
 
     public void findGrassAndEat() {
-        if(targetGrass == null || targetGrass.getWorld() == null || targetGrass.getGrassAmount() <= 150){
+        if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
             targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> !((GrassTile)g).grassAvailable());
             if(targetGrass == null) {
                 targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 180, g -> !((GrassTile)g).grassAvailable());
@@ -85,10 +87,10 @@ public class Rabbit extends Animal
         }
 
         if(targetGrass != null) {
-            moveTowards(targetGrass, 1.0);
-            if(distanceFrom(targetGrass) < 5){
-                targetGrass.nibble(500);
-                eat(50);
+            moveTowards(targetGrass, currentSpeed);
+            if(distanceFrom(targetGrass) < 12){
+                targetGrass.nibble(7);
+                eat(4);
             }
         }else{
             move(currentSpeed);
@@ -155,6 +157,7 @@ public class Rabbit extends Animal
     public int getHp() {
         return hp;
     }
+
 
     public boolean isBeingEaten() {
         return beingEaten;

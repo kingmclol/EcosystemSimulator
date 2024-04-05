@@ -27,14 +27,14 @@ public class Wolf extends Animal
     public void act() {
         super.act();
         actsSinceLastBreeding++;
-        if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
+        if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
             breed();
         }else{
             ableToBreed = false;
         }
         
-        if(alive){
+        if(alive && !breeding && !drinking){
             if(((targetRabbit == null) || !(distanceFrom(targetRabbit) < 5)) || (targetDeer == null) || !(distanceFrom(targetDeer) < 5)){
                 eating = false;
             }else{
@@ -44,7 +44,7 @@ public class Wolf extends Animal
             if(wantToEat){
                 full = false;
                 findPreyAndEat();
-            }else if(!drinking){
+            }else{
                 targetDeer = null;
                 targetRabbit = null;
                 full = true;
@@ -55,27 +55,32 @@ public class Wolf extends Animal
     }
     
     public void breed() {
-        // Find another rabbit nearby
-        partner = (Wolf) getClosestInRange(this.getClass(), 300, w -> !((Wolf)w).isAbleToBreed() && ((Wolf)w).isAlive()); // Adjust range as needed
-        if(partner != null && !((Wolf)getOneIntersectingObject(Wolf.class)).equals(partner)){
-            moveTowards(partner, currentSpeed);
+        // Find another wolf nearby
+        partner = (Wolf) getClosestInRange(this.getClass(), 300, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
+        if(partner != null){
+            if(distanceFrom(partner) < 40){
+                breeding = true;
+                breedingCounter++;
+                if(breedingCounter > BREEDING_DELAY){
+                    // Add the baby to the world
+                    getWorld().addObject(new Wolf(), getX(), getY());
+                    ableToBreed = false;
+                    partner.setAbleToBreed(false);
+                    breeding = false;
+                    partner.setIsBreeding(false);
+                    breedingCounter = 0;
+                    partner = null;
+                    actsSinceLastBreeding = 0;
+
+                }
+            }else{
+                moveTowards(partner, currentSpeed);
+            }
+        }else{
+            move(currentSpeed);
+            moveRandomly();
         }
 
-        if (partner != null && partner.isAlive() && partner.isAbleToBreed() && ((Wolf)getOneIntersectingObject(Wolf.class)).equals(partner)) {
-            breeding = true;
-            breedingCounter++;
-            if(breedingCounter > BREEDING_DELAY){
-                // Add the baby to the world
-                getWorld().addObject(new Wolf(), getX(), getY());
-                ableToBreed = false;
-                partner.setAbleToBreed(false);
-                breeding = false;
-                partner.setIsBreeding(false);
-                breedingCounter = 0;
-                partner = null;
-                actsSinceLastBreeding = 0;
-            }
-        }
     }
 
     public void findPreyAndEat() {

@@ -35,7 +35,7 @@ public class Deer extends Animal
             ableToBreed = false;
         }
 
-        if(alive && !beingEaten && !breeding){
+        if(alive && !beingEaten && !breeding && !drinking){
             if((targetBush == null) || targetBush.getWorld() == null || !(distanceFrom(targetBush) < 5)){
                 eating = false;
             }else{
@@ -45,7 +45,7 @@ public class Deer extends Animal
             if(wantToEat){
                 full = false;
                 findBerriesAndEat();
-            }else if(!drinking){
+            }else{
                 targetBush = null;
                 full = true;
                 move(currentSpeed);
@@ -77,7 +77,6 @@ public class Deer extends Animal
                 moveTowards(partner, currentSpeed);
             }
         }
-
     }
     public void animate(){
     }

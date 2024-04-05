@@ -58,14 +58,14 @@ public class Rabbit extends Animal
         super.act();
         actsSinceLastBreeding++;
         
-         if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
+        if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
             breed();
         }else{
             ableToBreed = false;
         }
         
-        if(alive && !beingEaten && !breeding){
+        if(alive && !beingEaten && !breeding && !drinking){
             if((targetGrass == null) || targetGrass.getWorld() == null || !(distanceFrom(targetGrass) < 5)){
                 eating = false;
             }else{
@@ -75,7 +75,7 @@ public class Rabbit extends Animal
             if(wantToEat){
                 full = false;
                 findGrassAndEat();
-            }else if(!drinking){
+            }else{
                 targetGrass = null;
                 full = true;
                 move(currentSpeed);
@@ -87,26 +87,31 @@ public class Rabbit extends Animal
 
     public void breed() {
         // Find another rabbit nearby
-        partner = (Rabbit) getClosestInRange(this.getClass(), 300, r -> !((Rabbit)r).isAbleToBreed() && ((Rabbit)r).isAlive()); // Adjust range as needed
-        if(partner != null && !isTouching(Rabbit.class)){
-            moveTowards(partner, currentSpeed);
+        partner = (Rabbit) getClosestInRange(this.getClass(), 300, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
+        if(partner != null){
+            if(distanceFrom(partner) < 40){
+                breeding = true;
+                breedingCounter++;
+                if(breedingCounter > BREEDING_DELAY){
+                    // Add the baby to the world
+                    getWorld().addObject(new Rabbit(), getX(), getY());
+                    ableToBreed = false;
+                    partner.setAbleToBreed(false);
+                    breeding = false;
+                    partner.setIsBreeding(false);
+                    breedingCounter = 0;
+                    partner = null;
+                    actsSinceLastBreeding = 0;
+
+                }
+            }else{
+                moveTowards(partner, currentSpeed);
+            }
+        }else{
+            move(currentSpeed);
+            moveRandomly();
         }
 
-        if (partner != null && partner.isAlive() && partner.isAbleToBreed() && isTouching(Rabbit.class)) {
-            breeding = true;
-            breedingCounter++;
-            if(breedingCounter > BREEDING_DELAY){
-                // Add the baby to the world
-                getWorld().addObject(new Rabbit(), getX(), getY());
-                ableToBreed = false;
-                partner.setAbleToBreed(false);
-                breeding = false;
-                partner.setIsBreeding(false);
-                breedingCounter = 0;
-                partner = null;
-                actsSinceLastBreeding = 0;
-            }
-        }
     }
 
     public void findGrassAndEat() {

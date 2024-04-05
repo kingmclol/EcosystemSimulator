@@ -101,6 +101,7 @@ public abstract class Animal extends SuperActor {
         }
         
         if(currentTile instanceof WaterTile && energy <= 0){
+            die();
             drown();
         }else if(energy <= 0 || hp <= 0 || hydration <= 0){
             die();
@@ -180,7 +181,7 @@ public abstract class Animal extends SuperActor {
             if(!drinking){
                 moveTowards(targetWater, currentSpeed);
             }
-            System.out.println(distanceFrom(targetWater));
+            
             if(isTouching(WaterTile.class)){
                 drinking = true;
                 drinkWater(4);
@@ -199,7 +200,6 @@ public abstract class Animal extends SuperActor {
     }
 
     public void drown() {
-        alive = false;
         transparency--;
         getImage().setTransparency(transparency);
         if(transparency == 0){

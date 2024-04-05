@@ -45,7 +45,9 @@ public class Deer extends Animal
             }
         }
     }
-    
+    public void animate() {
+        return;
+    }
     public void findBerriesAndEat() {
         if(targetBush == null || targetBush.getWorld() == null || targetBush.getBerryAmount() <= 150){
             targetBush = (BushTile)getClosestInRange(BushTile.class, 100, b -> ((BushTile)b).getBerryAmount() <= 150);

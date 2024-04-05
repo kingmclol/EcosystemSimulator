@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DrawWorld extends World
 {
     
-    private static Vector previousTilePos, currentTilePos;
+    private static Vector currentTilePos, previousTilePos;
     private static int mouseDrawType;
     private static boolean drawing;
     private static Node pathStart, pathEnd;
@@ -43,7 +43,7 @@ public class DrawWorld extends World
     public void act() {
         checkMouseState();
         
-        // NEEDS REWORK
+        currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
         if (drawing) {
             Tile tileHovered = null;
             ArrayList<Actor> hoveredActors = (ArrayList<Actor>)cursor.getHoveredActors();
@@ -66,30 +66,39 @@ public class DrawWorld extends World
                 }
             }
             if (tileHovered != null) {
-                
-                currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
-                // Only draw on a tile IF the user is drawing on a new tile. This way,
-                // will not draw on the same tile multiple times.
-                if (!currentTilePos.equals(previousTilePos)) {
-                    tileHovered.replaceMe(getDrawnTile());
-                }
+                tileHovered.replaceMe(getDrawnTile());
             }
-            previousTilePos = currentTilePos;
-            /*
-            Actor a = cursor.getHoveredActor();
-            if (a instanceof Tile) {
-                currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
-                // Only draw on a tile IF the user is drawing on a new tile. This way,
-                // will not draw on the same tile multiple times.
-                if (!currentTilePos.equals(previousTilePos)) {
-                    ((Tile) a).replaceMe(getDrawnTile());
-                }
-            }
-            previousTilePos = currentTilePos;
-            */
         }
         
+        // Manage the transparency highlighting current tile hovered.
+        if (!currentTilePos.equals(previousTilePos)) { // mouse moved into another cell
+            // Make previous tile at the previous position opaque (moved off that tile).
+            Tile previousTile = Board.getTile((int)previousTilePos.getX(), (int)previousTilePos.getY());
+            if (previousTile != null) previousTile.setTransparency(255);
+            
+            // Make new hovered tile slightly transparent (cooler effect)
+            Tile hoveredTile = Board.getTile(cursor.getPosition());
+            hoveredTile.setTransparency(150);
+        }
+        previousTilePos = currentTilePos;
+        
         manageKeyInput();
+    }
+    private Tile getCurrentTile(ArrayList<Actor> actors) {
+        for(Actor a : actors){
+            if (a instanceof TileSelector) {
+                if((((TileSelector)a).getState() || !((TileSelector)a).getClosed())){
+                    return null;
+                }
+            }
+            else if (a instanceof UI){
+                return null;
+            }
+            else if (a instanceof Tile) {
+                return (Tile)a;
+            }
+        }
+        return null;
     }
     private void manageKeyInput() {
         String key = Greenfoot.getKey();
@@ -128,6 +137,8 @@ public class DrawWorld extends World
         }
         else if ("l".equals(key)) { // submit
             if (Board.isReady()) {
+                Tile hoveredTile = Board.getTile(cursor.getPosition());
+                hoveredTile.setTransparency(255); // make it opaque now (tiles no need to be hovered over)
                 Greenfoot.setWorld(new SimulationWorld());
             }
             else System.out.println("There are still empty Tiles on the Board!");
@@ -149,11 +160,13 @@ public class DrawWorld extends World
     }
     private void checkMouseState() {
         if (Greenfoot.mousePressed(null)) { // Mouse has went not pressed to pressed.
-            drawing = true;
+            drawing = true; // Currently drawing, until mouse released.
+            Tile hoveredTile = Board.getTile(cursor.getPosition());
+            hoveredTile.setTransparency(255); // Just in case.
         }
         else if (Greenfoot.mouseClicked(null)) { // Mouse has went from pressed to not pressed.
-            drawing = false;
-            previousTilePos = new Vector(-1, -1); // Reset the previous tile position.
+            drawing = false; // Not drawing anymore.
+            previousTilePos = new Vector(-1, -1);
         }
     }
     private Tile getDrawnTile() {
@@ -171,6 +184,7 @@ public class DrawWorld extends World
             case 5:
                 return new MountainTile();
         }
+        System.out.println("err: tried to draw tile, but not cannot recognize mouseDrawType: " + mouseDrawType);
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
     }
     public static Cursor getCursor(){

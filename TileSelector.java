@@ -17,7 +17,8 @@ public class TileSelector extends UI
         img = new GreenfootImage(250, 768);
         img.setColor(Color.WHITE);
         
-        img.fillRect(0, 0, 0, 768);
+        img.fillRect(0, 0, 200, 768);
+        img.mirrorHorizontally();
         
         setImage(img);
         menuButton = new Button(24, 80);
@@ -25,7 +26,7 @@ public class TileSelector extends UI
         menuWidth = 0;
     }
     public void addedToWorld(World w){
-        cursor = getCursor(w);
+        cursor = getCursor();
         w.addObject(menuButton, w.getWidth() - 12, w.getHeight()/2);
     }
     public boolean getState(){
@@ -39,21 +40,21 @@ public class TileSelector extends UI
         
         if(transition){
             if (!closed && menuWidth < 200){
-                menuWidth+= 4;
+                menuWidth+= 5;
                 
-                menuButton.setLocation(menuButton.getX() - 4, getY());
-                img.clear();
+                menuButton.setLocation(menuButton.getX() - 5, getY());
                 
-                img.fillRect(0, 0, menuWidth, 768);
-                img.mirrorHorizontally();
+                
+                setLocation(getX() - 5, getY());
+                
             }
             
             else if(menuWidth > 0 && closed){
-                menuWidth-= 4;
-                menuButton.setLocation(menuButton.getX() + 4, getY());
-                img.clear();
-                img.fillRect(0, 0, menuWidth, 768);
-                img.mirrorHorizontally();
+                menuWidth-= 5;
+                menuButton.setLocation(menuButton.getX() + 5, getY());
+                setLocation(getX() + 5, getY());
+                
+                
             }
             else {
                 transition = false;

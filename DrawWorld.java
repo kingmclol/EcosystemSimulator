@@ -8,14 +8,14 @@ import java.util.ArrayList;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class DrawWorld extends World
+public class DrawWorld extends CursorWorld
 {
     
     private static Vector previousTilePos, currentTilePos;
     private static int mouseDrawType;
     private static boolean drawing;
     private static Node pathStart, pathEnd;
-    private static Cursor cursor = new Cursor();
+    
     private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
     private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
     private static final String preset3 = "16~12~64~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
@@ -26,14 +26,13 @@ public class DrawWorld extends World
      */
     public DrawWorld()
     {    
-        super(1024, 768, 1); 
+        super(); 
 
-        setPaintOrder(Cursor.class, UI.class, Node.class, Animal.class, Tile.class);
         Board.loadBoard(this, 64);
         mouseDrawType = 0;
         drawing = false;
         addObject(cursor, 0,0);
-        addObject(new TileSelector(), getWidth() - 125, getHeight()/2);
+        addObject(new TileSelector(), getWidth() + 75, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false);
@@ -64,7 +63,6 @@ public class DrawWorld extends World
                 }
             }
             if (tileHovered != null) {
-                System.out.println("test2");
                 currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
                 // Only draw on a tile IF the user is drawing on a new tile. This way,
                 // will not draw on the same tile multiple times.
@@ -171,8 +169,5 @@ public class DrawWorld extends World
         }
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
     }
-    public static Cursor getCursor(){
-        return cursor;
-        
-    }
+
 }

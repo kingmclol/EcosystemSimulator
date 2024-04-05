@@ -9,7 +9,7 @@ public class Deer extends Animal
 {
     private BushTile targetBush;
     private boolean beingEaten;
-    private Deer partner;
+
     public Deer() {
         super();
         beingEaten = false;
@@ -19,6 +19,7 @@ public class Deer extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
     }
+
     /**
      * Act - do whatever the Deer wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -27,13 +28,13 @@ public class Deer extends Animal
     {
         super.act();
         actsSinceLastBreeding++;
-        if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
+        if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
             breed();
         }else{
             ableToBreed = false;
         }
-        
+
         if(alive && !beingEaten && !breeding){
             if((targetBush == null) || targetBush.getWorld() == null || !(distanceFrom(targetBush) < 5)){
                 eating = false;
@@ -52,35 +53,34 @@ public class Deer extends Animal
             }
         }
     }
-    
+
     public void breed() {
         // Find another deer nearby
-        partner = (Deer) getClosestInRange(this.getClass(), 200, d -> !((Deer)d).isAbleToBreed()); // Adjust range as needed
+        partner = (Deer) getClosestInRange(this.getClass(), 300, d -> !((Deer)d).isAbleToBreed() || !((Deer)d).isAlive()); // Adjust range as needed
         if(partner != null){
-            moveTowards(partner, currentSpeed);
-        }
-        
-        if (partner != null && partner.isAlive() && partner.isAbleToBreed() && isTouching(Deer.class)) {
-            breeding = true;
-            breedingCounter++;
-            if(breedingCounter > BREEDING_DELAY){
-                // Add the baby to the world
-                getWorld().addObject(new Deer(), getX(), getY());
-                ableToBreed = false;
-                partner.setAbleToBreed(false);
-                breeding = false;
-                partner.setIsBreeding(false);
-                breedingCounter = 0;
-                partner = null;
-                actsSinceLastBreeding = 0;
+            if(distanceFrom(partner) < 40){
+                breeding = true;
+                breedingCounter++;
+                if(breedingCounter > BREEDING_DELAY){
+                    // Add the baby to the world
+                    getWorld().addObject(new Deer(), getX(), getY());
+                    ableToBreed = false;
+                    partner.setAbleToBreed(false);
+                    breeding = false;
+                    partner.setIsBreeding(false);
+                    breedingCounter = 0;
+                    partner = null;
+                    actsSinceLastBreeding = 0;
+
+                }
+            }else{
+                moveTowards(partner, currentSpeed);
             }
         }
+
     }
-    
     public void animate(){
-        
     }
-    
     public void findBerriesAndEat() {
         if(targetBush == null || targetBush.getWorld() == null || targetBush.getBerryAmount() <= 150){
             targetBush = (BushTile)getClosestInRange(BushTile.class, 100, b -> ((BushTile)b).getBerryAmount() <= 150);
@@ -103,11 +103,11 @@ public class Deer extends Animal
             moveRandomly();
         }
     }
-    
+
     public boolean isBeingEaten() {
         return beingEaten;
     }
-    
+
     public void setBeingEaten(boolean eaten) {
         beingEaten = eaten;
     }

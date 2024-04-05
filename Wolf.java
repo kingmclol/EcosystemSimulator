@@ -26,6 +26,14 @@ public class Wolf extends Animal
      */
     public void act() {
         super.act();
+        actsSinceLastBreeding++;
+        if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
+            ableToBreed = true;
+            breed();
+        }else{
+            ableToBreed = false;
+        }
+        
         if(alive){
             if(((targetRabbit == null) || !(distanceFrom(targetRabbit) < 5)) || (targetDeer == null) || !(distanceFrom(targetDeer) < 5)){
                 eating = false;
@@ -47,12 +55,26 @@ public class Wolf extends Animal
     }
     
     public void breed() {
-        // Find another animal of the same type nearby
-        Deer partner = (Deer) getClosestInRange(this.getClass(), 100); // Adjust range as needed
+        // Find another rabbit nearby
+        partner = (Wolf) getClosestInRange(this.getClass(), 300, w -> !((Wolf)w).isAbleToBreed() && ((Wolf)w).isAlive()); // Adjust range as needed
+        if(partner != null && !((Wolf)getOneIntersectingObject(Wolf.class)).equals(partner)){
+            moveTowards(partner, currentSpeed);
+        }
 
-        if (partner != null && partner.isAlive()) {
-            // Add the baby to the world
-            getWorld().addObject(this, getX(), getY());
+        if (partner != null && partner.isAlive() && partner.isAbleToBreed() && ((Wolf)getOneIntersectingObject(Wolf.class)).equals(partner)) {
+            breeding = true;
+            breedingCounter++;
+            if(breedingCounter > BREEDING_DELAY){
+                // Add the baby to the world
+                getWorld().addObject(new Wolf(), getX(), getY());
+                ableToBreed = false;
+                partner.setAbleToBreed(false);
+                breeding = false;
+                partner.setIsBreeding(false);
+                breedingCounter = 0;
+                partner = null;
+                actsSinceLastBreeding = 0;
+            }
         }
     }
 

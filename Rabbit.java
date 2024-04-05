@@ -35,7 +35,7 @@ public class Rabbit extends Animal
             eatingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
             eatingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
-            */
+             */
             //Walking Animation:
             walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
             walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
@@ -56,8 +56,16 @@ public class Rabbit extends Animal
      */
     public void act() {
         super.act();
-
-        if(alive && !beingEaten){
+        actsSinceLastBreeding++;
+        
+         if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
+            ableToBreed = true;
+            breed();
+        }else{
+            ableToBreed = false;
+        }
+        
+        if(alive && !beingEaten && !breeding){
             if((targetGrass == null) || targetGrass.getWorld() == null || !(distanceFrom(targetGrass) < 5)){
                 eating = false;
             }else{
@@ -78,15 +86,29 @@ public class Rabbit extends Animal
     }
 
     public void breed() {
-        // Find another animal of the same type nearby
-        Deer partner = (Deer) getClosestInRange(this.getClass(), 100); // Adjust range as needed
+        // Find another rabbit nearby
+        partner = (Rabbit) getClosestInRange(this.getClass(), 300, r -> !((Rabbit)r).isAbleToBreed() && ((Rabbit)r).isAlive()); // Adjust range as needed
+        if(partner != null && !isTouching(Rabbit.class)){
+            moveTowards(partner, currentSpeed);
+        }
 
-        if (partner != null && partner.isAlive()) {
-            // Add the baby to the world
-            getWorld().addObject(this, getX(), getY());
+        if (partner != null && partner.isAlive() && partner.isAbleToBreed() && isTouching(Rabbit.class)) {
+            breeding = true;
+            breedingCounter++;
+            if(breedingCounter > BREEDING_DELAY){
+                // Add the baby to the world
+                getWorld().addObject(new Rabbit(), getX(), getY());
+                ableToBreed = false;
+                partner.setAbleToBreed(false);
+                breeding = false;
+                partner.setIsBreeding(false);
+                breedingCounter = 0;
+                partner = null;
+                actsSinceLastBreeding = 0;
+            }
         }
     }
-    
+
     public void findGrassAndEat() {
         if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
             targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> !((GrassTile)g).grassAvailable());
@@ -121,25 +143,25 @@ public class Rabbit extends Animal
             /*
             if(facing.equals("right"))
             {
-                setImage(eatingAnimationRight[indexAnimation]);
-                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
+            setImage(eatingAnimationRight[indexAnimation]);
+            indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
             }
             else if(facing.equals("left"))
             {
-                setImage(eatingAnimationLeft[indexAnimation]);
-                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
+            setImage(eatingAnimationLeft[indexAnimation]);
+            indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
             }
             else if(facing.equals("up"))
             {
-                setImage(eatingAnimationUp[indexAnimation]);
-                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
+            setImage(eatingAnimationUp[indexAnimation]);
+            indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
             }
             else
             {
-                setImage(eatingAnimationDown[indexAnimation]);
-                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
+            setImage(eatingAnimationDown[indexAnimation]);
+            indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
             }
-            */
+             */
         }
         else
         {
@@ -169,7 +191,6 @@ public class Rabbit extends Animal
     public int getHp() {
         return hp;
     }
-
 
     public boolean isBeingEaten() {
         return beingEaten;

@@ -9,8 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Vulture extends Animal
 {
-    Rabbit targetRabbit;
-    Wolf targetWolf;
+    private Animal targetAnimal;
     
     public Vulture() {
         super();
@@ -28,7 +27,7 @@ public class Vulture extends Animal
     {
         super.act();
         if(alive){
-            if(((targetRabbit == null) || targetRabbit.getWorld() == null || !(distanceFrom(targetRabbit) < 5))||((targetWolf == null) || targetRabbit.getWorld() == null || !(distanceFrom(targetWolf) < 5))){
+            if(((targetAnimal == null) || targetAnimal.getWorld() == null || !(distanceFrom(targetAnimal) < 5))){
                 eating = false;
             }else{
                 eating = true;
@@ -37,9 +36,8 @@ public class Vulture extends Animal
             if(wantToEat){
                 full = false;
                 findDeadAnimalsAndEat();
-            }else{
-                targetRabbit = null;
-                targetWolf = null;
+            }else if(!drinking){
+                targetAnimal = null;
                 full = true;
                 move(currentSpeed);
                 moveRandomly();
@@ -48,41 +46,30 @@ public class Vulture extends Animal
     }
     
     public void findDeadAnimalsAndEat() {
-        if(targetRabbit == null || targetRabbit.isAlive() || targetRabbit.getWorld() == null){
-            targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 100, r -> ((Rabbit)r).isAlive() && ((Rabbit)r).getWorld() == null);
-            if(targetRabbit == null) {
-                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 180, r -> ((Rabbit)r).isAlive() && ((Rabbit)r).getWorld() == null);
+        if(targetAnimal == null || targetAnimal.isAlive() || targetAnimal.getWorld() == null){
+            targetAnimal = (Animal)getClosestInRange(Animal.class, 100, a -> ((Animal)a).isAlive());
+            if(targetAnimal == null) {
+                targetAnimal = (Animal)getClosestInRange(Animal.class, 180, a -> ((Animal)a).isAlive());
             }
-            if(targetRabbit == null) {
-                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 250, r-> ((Rabbit)r).isAlive() && ((Rabbit)r).getWorld() == null);
-            }
-        }
-        
-        if(targetWolf == null || targetWolf.isAlive() || targetWolf.getWorld() == null){
-            targetWolf = (Wolf)getClosestInRange(Wolf.class, 100, w -> ((Wolf)w).isAlive() && ((Wolf)w).getWorld() == null);
-            if(targetWolf == null) {
-                targetWolf = (Wolf)getClosestInRange(Wolf.class, 180, w -> ((Wolf)w).isAlive() && ((Wolf)w).getWorld() == null);
-            }
-            if(targetWolf == null) {
-                targetWolf = (Wolf)getClosestInRange(Wolf.class, 250, w-> ((Wolf)w).isAlive() && ((Wolf)w).getWorld() == null);
+            if(targetAnimal == null) {
+                targetAnimal = (Animal)getClosestInRange(Animal.class, 250, a-> ((Animal)a).isAlive());
             }
         }
         
-        if(targetRabbit != null) {
-            moveTowards(targetRabbit, 1.3);
-            if(distanceFrom(targetRabbit) < 5){
-                targetRabbit.decreaseTransparency(1);
-                eat(4);
-            }
-        }else if(targetWolf != null){
-            moveTowards(targetWolf, 1.3);
-            if(distanceFrom(targetWolf) < 5){
-                targetWolf.decreaseTransparency(1);
+        if(targetAnimal != null) {
+            moveTowards(targetAnimal, currentSpeed);
+            if(distanceFrom(targetAnimal) < 5){
+                targetAnimal.decreaseTransparency(1);
                 eat(4);
             }
         }else{
             move(currentSpeed);
             moveRandomly();
         }
+    }
+    
+    public void animate()
+    {
+        
     }
 }

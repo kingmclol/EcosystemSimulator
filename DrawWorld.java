@@ -78,7 +78,7 @@ public class DrawWorld extends World
             
             // Make new hovered tile slightly transparent (cooler effect)
             Tile hoveredTile = Board.getTile(cursor.getPosition());
-            hoveredTile.setTransparency(200);
+            hoveredTile.setTransparency(150);
         }
         previousTilePos = currentTilePos;
         
@@ -137,6 +137,8 @@ public class DrawWorld extends World
         }
         else if ("l".equals(key)) { // submit
             if (Board.isReady()) {
+                Tile hoveredTile = Board.getTile(cursor.getPosition());
+                hoveredTile.setTransparency(255); // make it opaque now (tiles no need to be hovered over)
                 Greenfoot.setWorld(new SimulationWorld());
             }
             else System.out.println("There are still empty Tiles on the Board!");

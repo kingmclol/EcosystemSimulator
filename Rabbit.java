@@ -59,7 +59,8 @@ public class Rabbit extends Animal
         if(alive && !beingEaten){
             if((targetGrass == null) || targetGrass.getWorld() == null || !(distanceFrom(targetGrass) < 5)){
                 eating = false;
-            }else{
+            }
+            else{
                 eating = true;
             }
             animate();

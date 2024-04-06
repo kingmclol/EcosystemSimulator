@@ -55,16 +55,13 @@ public class DrawWorld extends CursorWorld
                         tileHovered = null;
                         break;
                     }
-
                 }
                 else if (a instanceof UI){
                     tileHovered = null;
                     break;
                 }
                 else if (a instanceof Tile) {
-                    
                     tileHovered = (Tile)a;
-                    
                 }
             }
             if (tileHovered != null) {

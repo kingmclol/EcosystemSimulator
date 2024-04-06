@@ -14,6 +14,8 @@ public class Rabbit extends Animal
     //Animation
 
     private int indexAnimation = 0;
+    private int currentAct = 0;
+    
     private static GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
     private static GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
     private static GreenfootImage[] eatingAnimationLeft = new GreenfootImage[4];
@@ -27,17 +29,14 @@ public class Rabbit extends Animal
     //https://opengameart.org/content/reorganised-lpc-rabbit
     public Rabbit() {
         super();
+        facing = "right";
+        
         for(int i = 0; i<4; i++)
         {
             //eating Animation:
-            /*
-            eatingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
-            eatingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
-            eatingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
-            eatingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
-            */
+            
             //Walking Animation:
-            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Rabbit_WalkingUp" + (i+1) + ".png");
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Up" + (i+1) + ".png");
             walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
             walkingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
             walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
@@ -49,14 +48,14 @@ public class Rabbit extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
     }
-
+    
     /**
      * Act - do whatever the Rabbit wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act() {
         super.act();
-
+        currentAct++;
         if(alive && !beingEaten){
             if((targetGrass == null) || targetGrass.getWorld() == null || !(distanceFrom(targetGrass) < 5)){
                 eating = false;
@@ -103,7 +102,19 @@ public class Rabbit extends Animal
     public void takeDamage(int dmg) {
         hp = hp - dmg;
     }
-
+    public static void init()
+    {
+        for(int i = 0; i<4; i++)
+        {
+            //eating Animation:
+            
+            //Walking Animation:
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
+            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
+        }
+    }
     public void animate()
     {
         if(eating)
@@ -136,21 +147,21 @@ public class Rabbit extends Animal
             if(facing.equals("right"))
             {
                 setImage(walkingAnimationRight[indexAnimation]);
-                indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
             }
             else if(facing.equals("left"))
             {
                 setImage(walkingAnimationLeft[indexAnimation]);
-                indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
             }
             else if(facing.equals("up"))
             {
                 setImage(walkingAnimationUp[indexAnimation]);
-                indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
             }
             else // Down
             {
                 setImage(walkingAnimationDown[indexAnimation]);
+            }
+            if(currentAct%20 == 0) // change animation every 45 acts
+            {
                 indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
             }
         }

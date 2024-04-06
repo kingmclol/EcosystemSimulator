@@ -32,7 +32,7 @@ public class ButtonIncrement extends UI
         
     }
     public void addedToWorld(World w){
-        cursor = getCursor(w);
+        cursor = getCursor();
         w.addObject(decrementButton, (getX() - width/2) + (width - textBoxWidth)/4, getY());
         w.addObject(incrementButton, (getX() + width/2) - (width - textBoxWidth)/4, getY());
         w.addObject(textBox, getX(), getY());

@@ -88,7 +88,9 @@ public class BushTile extends Tile
     public static int getGrowTime() {
         return GROW_TIME_MIN + Greenfoot.getRandomNumber(GROW_TIME_MAX - GROW_TIME_MIN);
     }
-    
+    public boolean berriesAvailable() {
+        return berriesAvailable;
+    }
     public int getBerryAmount() {
         return berryAmount;
     }

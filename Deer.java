@@ -54,6 +54,7 @@ public class Deer extends Animal
         }
     }
 
+
     public void breed() {
         // Find another deer nearby
         partner = (Deer) getClosestInRange(this.getClass(), 300, d -> !((Deer)d).isAbleToBreed() || !((Deer)d).isAlive()); // Adjust range as needed
@@ -78,16 +79,19 @@ public class Deer extends Animal
             }
         }
     }
-    public void animate(){
+    
+    public void animate() {
+        return;
+
     }
     public void findBerriesAndEat() {
-        if(targetBush == null || targetBush.getWorld() == null || targetBush.getBerryAmount() <= 150){
-            targetBush = (BushTile)getClosestInRange(BushTile.class, 100, b -> ((BushTile)b).getBerryAmount() <= 150);
+        if(targetBush == null || targetBush.getWorld() == null || !targetBush.berriesAvailable()){
+            targetBush = (BushTile)getClosestInRange(BushTile.class, 100, b -> !((BushTile)b).berriesAvailable());
             if(targetBush == null) {
-                targetBush = (BushTile)getClosestInRange(BushTile.class, 180, b -> ((BushTile)b).getBerryAmount() <= 150);
+                targetBush = (BushTile)getClosestInRange(BushTile.class, 180, b -> !((BushTile)b).berriesAvailable());
             }
             if(targetBush == null) {
-                targetBush = (BushTile)getClosestInRange(BushTile.class, 250, b -> ((BushTile)b).getBerryAmount() <= 150);
+                targetBush = (BushTile)getClosestInRange(BushTile.class, 250, b -> !((BushTile)b).berriesAvailable());
             }
         }
 

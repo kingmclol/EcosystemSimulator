@@ -36,7 +36,7 @@ public class Vulture extends Animal
             if(wantToEat){
                 full = false;
                 findDeadAnimalsAndEat();
-            }else{
+            }else if(!wantToDrink){
                 targetAnimal = null;
                 full = true;
                 move(currentSpeed);

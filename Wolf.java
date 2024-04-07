@@ -44,7 +44,7 @@ public class Wolf extends Animal
             if(wantToEat){
                 full = false;
                 findPreyAndEat();
-            }else{
+            }else if(!wantToDrink){
                 targetDeer = null;
                 targetRabbit = null;
                 full = true;

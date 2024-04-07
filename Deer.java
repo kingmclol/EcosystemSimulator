@@ -82,7 +82,6 @@ public class Deer extends Animal
     
     public void animate() {
         return;
-
     }
     public void findBerriesAndEat() {
         if(targetBush == null || targetBush.getWorld() == null || !targetBush.berriesAvailable()){

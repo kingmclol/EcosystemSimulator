@@ -60,7 +60,6 @@ public abstract class Animal extends SuperActor {
     protected abstract void animate();
     
     public void act() {
-
         Tile currentTile = Board.getTile(getPosition());
 
         if(currentTile instanceof WaterTile){
@@ -108,6 +107,11 @@ public abstract class Animal extends SuperActor {
         }else if(energy <= 0 || hp <= 0 || hydration <= 0){
             die();
         }
+        
+        /*if(!wantToDrink && !wantToEat && alive && !breeding){
+            move(currentSpeed);
+            moveRandomly();
+        }*/
     }
 
     public boolean isAlive() {
@@ -153,7 +157,7 @@ public abstract class Animal extends SuperActor {
     public void setIsBreeding(boolean breed){
         breeding = breed;
     }
-
+    int i = 0;
     public void moveRandomly() {
         if (Greenfoot.getRandomNumber (60) == 50) {
             int angle = Greenfoot.getRandomNumber(360);
@@ -175,8 +179,6 @@ public abstract class Animal extends SuperActor {
             {
                 facing = "up";
             }
-
-            
         }
     }
 

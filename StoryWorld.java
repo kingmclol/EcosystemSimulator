@@ -36,12 +36,12 @@ public class StoryWorld extends World
             "I have anime to watch. Games to play. Friends to... nevermind...",
             "*Ahem.* The main point is, I'm going to take a break.",
             "Just for a little while, don't worry.",
-            "How long? Lets say... a week or so.",
+            "How long? Let's say... a week or so.",
             "My job isn't the most difficult. Just do what I always do!",
             "Create a World, then simply watch it. Nothing else.",
             "It's easy. Trust me! It's just drawing stuff, and pressing some buttons.",
             "Well, I've talked enough, and I deem you ready.",
-            "Make sure you do well. The shoes of a god are hard to fill.",
+            "Make sure you do well. The shoes of a God are hard to fill.",
             "Not that I wear shoes anyway.",
             "When I leave, you will see a big button appear on the screen.",
             "You know what to do with buttons, right?",
@@ -52,7 +52,7 @@ public class StoryWorld extends World
         dialogueBox = new TextBox(dialogue[line], 24, Color.WHITE, null, 1, 100);
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
-        promptBox = new BreathingTextBox("Click to continue.", 18, Color.WHITE, null, 240);
+        promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
     }
     public void act() {
         if (stillMoreDialogue() && Greenfoot.mousePressed(null)) {

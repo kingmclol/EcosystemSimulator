@@ -108,10 +108,10 @@ public abstract class Animal extends SuperActor {
             die();
         }
         
-        /*if(!wantToDrink && !wantToEat && alive && !breeding){
+        if(!wantToDrink && !wantToEat && alive && !breeding){
             move(currentSpeed);
             moveRandomly();
-        }*/
+        }
     }
 
     public boolean isAlive() {

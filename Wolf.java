@@ -34,13 +34,13 @@ public class Wolf extends Animal
             ableToBreed = false;
         }
         
+        if(((targetRabbit == null) || (getWorld() != null && !(distanceFrom(targetRabbit) < 5))) || (targetDeer == null) || (getWorld() != null && !(distanceFrom(targetDeer) < 5))){
+            eating = false;
+        }else{
+            eating = true;
+        }
+        
         if(alive && !breeding && !drinking){
-            if(((targetRabbit == null) || !(distanceFrom(targetRabbit) < 5)) || (targetDeer == null) || !(distanceFrom(targetDeer) < 5)){
-                eating = false;
-            }else{
-                eating = true;
-            }
-
             if(wantToEat){
                 full = false;
                 findPreyAndEat();
@@ -53,7 +53,7 @@ public class Wolf extends Animal
             }
         }
     }
-    
+
     public void breed() {
         // Find another wolf nearby
         partner = (Wolf) getClosestInRange(this.getClass(), 300, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
@@ -93,7 +93,7 @@ public class Wolf extends Animal
                 targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 250, r -> !((Rabbit)r).isAlive());
             }
         }
-        
+
         if(targetDeer == null || !targetDeer.isAlive()){
             targetDeer = (Deer)getClosestInRange(Deer.class, 100, d -> !((Deer)d).isAlive());
             if(targetDeer == null) {
@@ -131,8 +131,9 @@ public class Wolf extends Animal
             moveRandomly();
         }
     }
+
     public void animate()
     {
-        
+
     }
 }

@@ -10,7 +10,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Vulture extends Animal
 {
     private Animal targetAnimal;
-    
+
     public Vulture() {
         super();
         defaultSpeed = 1.3;
@@ -19,6 +19,7 @@ public class Vulture extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
     }
+
     /**
      * Act - do whatever the Vulture wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -26,13 +27,14 @@ public class Vulture extends Animal
     public void act()
     {
         super.act();
+        
+        if(((targetAnimal == null) || targetAnimal.getWorld() == null || (getWorld() != null && !(distanceFrom(targetAnimal) < 5)))){
+            eating = false;
+        }else{
+            eating = true;
+        }
+        
         if(alive && !drinking){
-            if(((targetAnimal == null) || targetAnimal.getWorld() == null || !(distanceFrom(targetAnimal) < 5))){
-                eating = false;
-            }else{
-                eating = true;
-            }
-            
             if(wantToEat){
                 full = false;
                 findDeadAnimalsAndEat();
@@ -44,9 +46,9 @@ public class Vulture extends Animal
             }
         }
     }
-    
+
     public void breed() {}
-    
+
     public void findDeadAnimalsAndEat() {
         if(targetAnimal == null || targetAnimal.isAlive() || targetAnimal.getWorld() == null){
             targetAnimal = (Animal)getClosestInRange(Animal.class, 100, a -> ((Animal)a).isAlive());
@@ -57,7 +59,7 @@ public class Vulture extends Animal
                 targetAnimal = (Animal)getClosestInRange(Animal.class, 250, a-> ((Animal)a).isAlive());
             }
         }
-        
+
         if(targetAnimal != null) {
             moveTowards(targetAnimal, currentSpeed);
             if(distanceFrom(targetAnimal) < 5){
@@ -69,9 +71,9 @@ public class Vulture extends Animal
             moveRandomly();
         }
     }
-    
+
     public void animate()
     {
-        
+
     }
 }

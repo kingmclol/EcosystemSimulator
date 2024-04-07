@@ -35,13 +35,13 @@ public class Deer extends Animal
             ableToBreed = false;
         }
 
-        if(alive && !beingEaten && !breeding && !drinking){
-            if((targetBush == null) || targetBush.getWorld() == null || !(distanceFrom(targetBush) < 5)){
-                eating = false;
-            }else{
-                eating = true;
-            }
+        if((targetBush == null) || targetBush.getWorld() == null || (getWorld() != null && !(distanceFrom(targetBush) < 5))){
+            eating = false;
+        }else{
+            eating = true;
+        }
 
+        if(alive && !beingEaten && !breeding && !drinking){
             if(wantToEat){
                 full = false;
                 findBerriesAndEat();
@@ -53,7 +53,6 @@ public class Deer extends Animal
             }
         }
     }
-
 
     public void breed() {
         // Find another deer nearby
@@ -79,10 +78,11 @@ public class Deer extends Animal
             }
         }
     }
-    
+
     public void animate() {
         return;
     }
+
     public void findBerriesAndEat() {
         if(targetBush == null || targetBush.getWorld() == null || !targetBush.berriesAvailable()){
             targetBush = (BushTile)getClosestInRange(BushTile.class, 100, b -> !((BushTile)b).berriesAvailable());

@@ -17,7 +17,7 @@ import java.util.function.Predicate;
  * owner.
  * 
  * @author Freeman Wang
- * @version 2024-03-06
+ * @version 2024-04-07
  */
 
 public abstract class SuperActor extends SuperSmoothMover
@@ -44,7 +44,7 @@ public abstract class SuperActor extends SuperSmoothMover
      * Returns the current position as a Vector.
      */
     public Vector getPosition() {
-        return new Vector(getX(), getY());
+        return new Vector(getPreciseX(), getPreciseY());
     }
     /** 
      * Move towards a SuperActor.
@@ -70,7 +70,7 @@ public abstract class SuperActor extends SuperSmoothMover
      * @param displacement The displacement the SuperActor should have.
      */
     protected void displace(Vector displacement) {
-        setLocation(getX()+displacement.getX(), getY()+displacement.getY());
+        setLocation(getPreciseX()+displacement.getX(), getPreciseY()+displacement.getY());
     }
     /**
      * Returns the displacement Vector pointing from the current position to the SuperActor's

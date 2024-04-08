@@ -38,7 +38,7 @@ public abstract class Animal extends SuperActor {
     protected int breedingCounter;
     public static final int BREEDING_THRESHOLD = 2000;
     public static final int BREEDING_DELAY = 150;
-
+    protected Tile currentTile;
     protected WaterTile targetWater;
     public Animal() {
         transparency = 255;
@@ -62,10 +62,8 @@ public abstract class Animal extends SuperActor {
     protected abstract void animate();
     
     public void act() {
-        Tile currentTile = Board.getTile(getPosition());
-
+        currentTile = Board.getTile(getPosition());
         if(currentTile instanceof WaterTile){
-            energy--;
             swimming = true;
             currentSpeed = waterSpeed;
         }else{
@@ -78,7 +76,7 @@ public abstract class Animal extends SuperActor {
             drinking = false;
         }
 
-        if(energy < 600){
+        if(energy < 1000){
             wantToEat = true;
         }else if(energy >= 2000){
             wantToEat = false;
@@ -86,7 +84,7 @@ public abstract class Animal extends SuperActor {
 
         if(hydration < 1200){
             wantToDrink = true;
-        }else if(hydration >= 3000){
+        }else if(hydration >= 2800){
             wantToDrink = false;
         }
 
@@ -94,8 +92,8 @@ public abstract class Animal extends SuperActor {
             findAndDrinkWater();
         }else if(alive){
             targetWater = null;
-            move(currentSpeed);
-            moveRandomly();
+            //move(currentSpeed);
+            //moveRandomly();
         }
 
         if(!drinking && !eating && alive && !breeding){

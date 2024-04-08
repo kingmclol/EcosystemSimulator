@@ -8,11 +8,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Rabbit extends Animal
 {
+    //Instance Variables:
     private GrassTile targetGrass;
     private boolean beingEaten;
 
     //Animation
-
     private int indexAnimation = 0;
     private int currentAct = 0;
     
@@ -34,10 +34,15 @@ public class Rabbit extends Animal
         for(int i = 0; i<4; i++)
         {
             //Walking Animation:
-            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Up" + (i+1) + ".png");
-            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
-            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
-            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
+            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
+            
+            eatingAnimationUp[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
         beingEaten = false;
         defaultSpeed = 1.0;
@@ -154,9 +159,24 @@ public class Rabbit extends Animal
     }
     public void animate()
     {
-        if(eating)
+        if(eating || drinking)
         {
-            
+            if(facing.equals("right"))
+            {
+                setImage(eatingAnimationRight[indexAnimation]);
+            }
+            else if(facing.equals("left"))
+            {
+                setImage(eatingAnimationLeft[indexAnimation]);
+            }
+            else if(facing.equals("up"))
+            {
+                setImage(eatingAnimationUp[indexAnimation]);
+            }
+            else // Down
+            {
+                setImage(eatingAnimationDown[indexAnimation]);
+            }
         }
         else
         {

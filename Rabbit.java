@@ -59,7 +59,9 @@ public class Rabbit extends Animal
         currentAct++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            breed();
+            if(!wantToEat && !wantToDrink){
+                breed();
+            }
         }else{
             ableToBreed = false;
         }
@@ -105,6 +107,9 @@ public class Rabbit extends Animal
             }else{
                 moveTowards(partner, currentSpeed);
             }
+        }else{
+            moveRandomly();
+            move(currentSpeed);
         }
     }
     

@@ -30,7 +30,9 @@ public class Deer extends Animal
         actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            breed();
+            if(!wantToEat && !wantToDrink){
+                breed();
+            }
         }else{
             ableToBreed = false;
         }
@@ -77,6 +79,9 @@ public class Deer extends Animal
             }else{
                 moveTowards(partner, currentSpeed);
             }
+        }else{
+            moveRandomly();
+            move(currentSpeed);
         }
     }
 

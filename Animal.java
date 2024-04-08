@@ -36,7 +36,7 @@ public abstract class Animal extends SuperActor {
     protected boolean breeding;
     protected int actsSinceLastBreeding;
     protected int breedingCounter;
-    public static final int BREEDING_THRESHOLD = 1500;
+    public static final int BREEDING_THRESHOLD = 2000;
     public static final int BREEDING_DELAY = 150;
 
     protected WaterTile targetWater;
@@ -78,15 +78,15 @@ public abstract class Animal extends SuperActor {
             drinking = false;
         }
 
-        if(energy < 1000){
+        if(energy < 600){
             wantToEat = true;
-        }else if(energy >= 1800){
+        }else if(energy >= 2000){
             wantToEat = false;
         }
 
-        if(hydration < 1000){
+        if(hydration < 1200){
             wantToDrink = true;
-        }else if(hydration >= 2800){
+        }else if(hydration >= 3000){
             wantToDrink = false;
         }
 

@@ -29,7 +29,9 @@ public class Wolf extends Animal
         actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            breed();
+            if(!wantToEat && !wantToDrink){
+                breed();
+            }
         }else{
             ableToBreed = false;
         }
@@ -75,10 +77,9 @@ public class Wolf extends Animal
                 moveTowards(partner, currentSpeed);
             }
         }else{
-            move(currentSpeed);
             moveRandomly();
+            move(currentSpeed);
         }
-
     }
 
     public void findPreyAndEat() {

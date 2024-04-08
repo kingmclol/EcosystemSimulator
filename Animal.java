@@ -29,12 +29,14 @@ public abstract class Animal extends SuperActor {
 
     protected int transparency;
     
+    protected int viewRadius;
+    
     protected Animal partner;
     protected boolean ableToBreed;
     protected boolean breeding;
     protected int actsSinceLastBreeding;
     protected int breedingCounter;
-    public static final int BREEDING_THRESHOLD = 500;
+    public static final int BREEDING_THRESHOLD = 1500;
     public static final int BREEDING_DELAY = 150;
 
     protected WaterTile targetWater;

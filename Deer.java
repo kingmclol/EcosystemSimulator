@@ -48,9 +48,10 @@ public class Deer extends Animal
             }else{
                 targetBush = null;
                 full = true;
-                move(currentSpeed);
-                moveRandomly();
             }
+        }
+        if(targetBush != null){
+            System.out.println(distanceFrom(targetBush));
         }
     }
 

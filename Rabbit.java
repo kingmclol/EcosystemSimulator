@@ -40,11 +40,12 @@ public class Rabbit extends Animal
             walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
         }
         beingEaten = false;
-        defaultSpeed = 1.0;
+        defaultSpeed = 0.6;
         currentSpeed = defaultSpeed;
         sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
+        viewRadius = 400;
     }
 
     /**
@@ -80,7 +81,6 @@ public class Rabbit extends Animal
                 full = true;
             }
         }
-
     }
 
     public void breed() {
@@ -107,21 +107,19 @@ public class Rabbit extends Animal
             }
         }
     }
-    int i = 0;
+    
     public void findGrassAndEat() {
         if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
-            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> !((GrassTile)g).grassAvailable());
+            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 180, g -> !((GrassTile)g).grassAvailable());
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/2, g -> !((GrassTile)g).grassAvailable());
             }
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 250, g -> !((GrassTile)g).grassAvailable());
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
             }
         }
         
         if(targetGrass != null) {
-            i++;
-            System.out.println(i);
             moveTowards(targetGrass, currentSpeed);
             if(distanceFrom(targetGrass) < 12){
                 targetGrass.nibble(7);

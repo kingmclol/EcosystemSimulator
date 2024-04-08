@@ -15,7 +15,7 @@ public class Rabbit extends Animal
     //Animation
     private int indexAnimation = 0;
     private int currentAct = 0;
-    
+
     private static GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
     private static GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
     private static GreenfootImage[] eatingAnimationLeft = new GreenfootImage[4];
@@ -30,7 +30,7 @@ public class Rabbit extends Animal
     public Rabbit() {
         super();
         facing = "right";
-        
+
         for(int i = 0; i<4; i++)
         {
             //Walking Animation:
@@ -45,13 +45,14 @@ public class Rabbit extends Animal
             eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
         beingEaten = false;
-        defaultSpeed = 1.0;
+        defaultSpeed = 0.6;
         currentSpeed = defaultSpeed;
         sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
+        viewRadius = 400;
     }
-    
+
     /**
      * Act - do whatever the Rabbit wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -63,18 +64,21 @@ public class Rabbit extends Animal
         currentAct++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            breed();
+            if(!wantToEat && !wantToDrink){
+                breed();
+            }
         }else{
             ableToBreed = false;
         }
-        
+
+        if((targetGrass == null) || targetGrass.getWorld() == null || (getWorld() != null && !(distanceFrom(targetGrass) < 5))){
+            eating = false;
+        }
+        else{
+            eating = true;
+        }
+
         if(alive && !beingEaten && !breeding && !drinking){
-            if((targetGrass == null) || targetGrass.getWorld() == null || !(distanceFrom(targetGrass) < 5)){
-                eating = false;
-            }
-            else{
-                eating = true;
-            }
             animate();
             if(wantToEat){
                 full = false;
@@ -82,11 +86,8 @@ public class Rabbit extends Animal
             }else{
                 targetGrass = null;
                 full = true;
-                move(currentSpeed);
-                moveRandomly();
             }
         }
-
     }
 
     public void breed() {
@@ -112,23 +113,22 @@ public class Rabbit extends Animal
                 moveTowards(partner, currentSpeed);
             }
         }else{
-            move(currentSpeed);
             moveRandomly();
+            move(currentSpeed);
         }
-
     }
-
+    
     public void findGrassAndEat() {
         if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
-            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> !((GrassTile)g).grassAvailable());
+            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 180, g -> !((GrassTile)g).grassAvailable());
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/2, g -> !((GrassTile)g).grassAvailable());
             }
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 250, g -> !((GrassTile)g).grassAvailable());
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
             }
         }
-
+        
         if(targetGrass != null) {
             moveTowards(targetGrass, currentSpeed);
             if(distanceFrom(targetGrass) < 12){
@@ -144,12 +144,13 @@ public class Rabbit extends Animal
     public void takeDamage(int dmg) {
         hp = hp - dmg;
     }
+
     public static void init()
     {
         for(int i = 0; i<4; i++)
         {
             //eating Animation:
-            
+
             //Walking Animation:
             walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Up" + (i+1) + ".png");
             walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
@@ -157,6 +158,7 @@ public class Rabbit extends Animal
             walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
         }
     }
+
     public void animate()
     {
         if(eating || drinking)

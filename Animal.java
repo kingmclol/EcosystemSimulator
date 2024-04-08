@@ -34,7 +34,7 @@ public abstract class Animal extends SuperActor {
     protected boolean breeding;
     protected int actsSinceLastBreeding;
     protected int breedingCounter;
-    public static final int BREEDING_THRESHOLD = 500;
+    public static final int BREEDING_THRESHOLD = 2000;
     public static final int BREEDING_DELAY = 150;
     protected GreenfootImage[] breedingAnimation;
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
@@ -74,15 +74,15 @@ public abstract class Animal extends SuperActor {
             drinking = false;
         }
 
-        if(energy < 1000){
+        if(energy < 600){
             wantToEat = true;
-        }else if(energy >= 1800){
+        }else if(energy >= 2000){
             wantToEat = false;
         }
 
-        if(hydration < 1000){
+        if(hydration < 1200){
             wantToDrink = true;
-        }else if(hydration >= 2800){
+        }else if(hydration >= 3000){
             wantToDrink = false;
         }
 
@@ -104,6 +104,11 @@ public abstract class Animal extends SuperActor {
             drown();
         }else if(energy <= 0 || hp <= 0 || hydration <= 0){
             die();
+        }
+        
+        if(!wantToDrink && !wantToEat && alive && !breeding){
+            move(currentSpeed);
+            moveRandomly();
         }
     }
 
@@ -150,12 +155,11 @@ public abstract class Animal extends SuperActor {
     public void setIsBreeding(boolean breed){
         breeding = breed;
     }
-
+    int i = 0;
     public void moveRandomly() {
         if (Greenfoot.getRandomNumber (60) == 50) {
             int angle = Greenfoot.getRandomNumber(360);
             turn (angle);
-
         }
     }
 

@@ -15,8 +15,8 @@ public class Cursor extends SuperActor
      */
     private GreenfootImage img;
     public Cursor() {
-        //getImage().clear();
         img = new GreenfootImage(getImage());
+        hideCursor(); // invisible by default
     }
     public void act()
     {
@@ -35,5 +35,12 @@ public class Cursor extends SuperActor
     public ArrayList<Actor> getHoveredActors() {
         return (ArrayList<Actor>) getObjectsAtOffset(0, 0, Actor.class);
     }
-
+    public void hideCursor() {
+        img.setTransparency(0);
+        setImage(img);
+    }
+    public void showCursor() {
+        img.setTransparency(255);
+        setImage(img);
+    }
 }

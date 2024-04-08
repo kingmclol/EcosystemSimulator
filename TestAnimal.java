@@ -13,7 +13,7 @@ public class TestAnimal extends Animal
     private boolean beingEaten;
     private int walkHeight = 1;
     //Animation
-    ArrayList<Vector> currentPath;
+    
     private int indexAnimation = 0;
     private int currentAct = 0;
     
@@ -87,6 +87,7 @@ public class TestAnimal extends Animal
 
     public void breed() {
         // Find another rabbit nearby
+        /*
         partner = (Rabbit) getClosestInRange(this.getClass(), 300, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
         if(partner != null){
             if(distanceFrom(partner) < 40){
@@ -111,6 +112,7 @@ public class TestAnimal extends Animal
             //move(currentSpeed);
             //moveRandomly();
         }
+        */
 
     }
 
@@ -144,18 +146,29 @@ public class TestAnimal extends Animal
             targetGrass.nibble(7);
             eat(4);
         }
+
         else if(currentPath != null){
- 
-            
-            Vector nextTile = currentPath.get(1);
-            moveTowards(nextTile, currentSpeed);
-
-            if(distanceFrom(nextTile) < 12){
-                currentPath.remove(0);
-
+            if(currentPath.size() == 1){
+                Vector nextTile = currentPath.get(0);
+                moveTowards(nextTile, currentSpeed);
             }
+            else{
+                Vector nextTile = currentPath.get(1);
+                moveTowards(nextTile, currentSpeed);
+    
+                if(distanceFrom(nextTile) < 12){
+                    currentPath.remove(0);
+    
+                }
+            }
+ 
 
-            
+         
+
+       
+
+
+        
         }
 
 

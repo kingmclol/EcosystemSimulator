@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.ArrayList;
 
 /**
  * Animal superclass where subclasses will inherit traits
@@ -11,7 +12,7 @@ public abstract class Animal extends SuperActor {
     protected int energy;
     protected int hp;
     protected int hydration;
-
+    protected ArrayList<Vector> currentPath;
     protected double defaultSpeed;
     protected double currentSpeed;
     protected double sprintSpeed;
@@ -89,14 +90,9 @@ public abstract class Animal extends SuperActor {
             wantToDrink = false;
         }
 
-        if(wantToDrink && !eating && alive && !breeding){
+        if(wantToDrink && !eating && alive && !breeding && energy > hydration){
             findAndDrinkWater();
-        }else if(alive && !wantToEat){
-            targetWater = null;
-            move(currentSpeed);
-            moveRandomly();
         }
-
         if(!drinking && !eating && alive && !breeding){
             energy--;
             hydration--;
@@ -107,6 +103,9 @@ public abstract class Animal extends SuperActor {
             drown();
         }else if(energy <= 0 || hp <= 0 || hydration <= 0){
             die();
+        }
+        if(currentPath == null && !eating && !drinking){
+            moveRandomly();
         }
     }
 
@@ -211,8 +210,7 @@ public abstract class Animal extends SuperActor {
             }
         }else{
             drinking = false;
-            move(currentSpeed);
-            moveRandomly();
+ 
         }
     }
 

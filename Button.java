@@ -15,12 +15,12 @@ public class Button extends UI
     private GreenfootImage hoverImg;
     private GreenfootImage pressedImg;
     private boolean clicked;
-     
-    public Button(int width, int height){
+    private Runnable function;
+    public Button(Runnable function, int width, int height){
         this.width = width;
         this.height = height;
         clicked = false;
-
+        this.function = function;
        
         img = new GreenfootImage(width, height);
         img.fill();
@@ -33,8 +33,9 @@ public class Button extends UI
         setImage(img);
     }
 
-    public Button(int width, int height, GreenfootImage hoverImg, GreenfootImage pressedImg){
+    public Button(Runnable function, int width, int height, GreenfootImage hoverImg, GreenfootImage pressedImg){
         this.width = width;
+        this.function = function;
         this.height = height;
         
         setImage(img);
@@ -42,7 +43,6 @@ public class Button extends UI
 
     public void act()
     {
-        
         mouseEffect();
     }
     
@@ -50,6 +50,7 @@ public class Button extends UI
         if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(this)){
             setImage(pressedImg);
             clicked = true;
+            function.run();
         }
         else if(!clicked && cursor.getHoveredActors().contains(this)){
             setImage(hoverImg);

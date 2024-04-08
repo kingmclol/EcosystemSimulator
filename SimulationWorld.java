@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class SimulationWorld extends World
 {
-
+    
     /**
      * Constructor for objects of class SimulationWorld.
      * 

@@ -158,28 +158,7 @@ public class Rabbit extends Animal
     {
         if(eating)
         {
-            /*
-            if(facing.equals("right"))
-            {
-            setImage(eatingAnimationRight[indexAnimation]);
-            indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
-            }
-            else if(facing.equals("left"))
-            {
-            setImage(eatingAnimationLeft[indexAnimation]);
-            indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
-            }
-            else if(facing.equals("up"))
-            {
-            setImage(eatingAnimationUp[indexAnimation]);
-            indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
-            }
-            else
-            {
-            setImage(eatingAnimationDown[indexAnimation]);
-            indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
-            }
-             */
+            
         }
         else
         {
@@ -199,10 +178,10 @@ public class Rabbit extends Animal
             {
                 setImage(walkingAnimationDown[indexAnimation]);
             }
-            if(currentAct%20 == 0) // change animation every 45 acts
-            {
-                indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
-            }
+        }
+        if(currentAct%20 == 0) // change animation every 45 acts
+        {
+            indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
         }
     }
 

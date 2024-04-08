@@ -26,7 +26,7 @@ public class Vulture extends Animal
     public void act()
     {
         super.act();
-        if(alive){
+        if(alive && !drinking){
             if(((targetAnimal == null) || targetAnimal.getWorld() == null || !(distanceFrom(targetAnimal) < 5))){
                 eating = false;
             }else{
@@ -36,7 +36,7 @@ public class Vulture extends Animal
             if(wantToEat){
                 full = false;
                 findDeadAnimalsAndEat();
-            }else if(!drinking){
+            }else{
                 targetAnimal = null;
                 full = true;
                 move(currentSpeed);
@@ -44,6 +44,8 @@ public class Vulture extends Animal
             }
         }
     }
+    
+    public void breed() {}
     
     public void findDeadAnimalsAndEat() {
         if(targetAnimal == null || targetAnimal.isAlive() || targetAnimal.getWorld() == null){

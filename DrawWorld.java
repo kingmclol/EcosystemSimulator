@@ -36,7 +36,7 @@ public class DrawWorld extends CursorWorld
 
         mouseDrawType = 0;
         drawing = false;
-        addObject(cursor, 0,0);
+        
         addObject(new TileSelector(), getWidth() + 75, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
@@ -44,7 +44,7 @@ public class DrawWorld extends CursorWorld
     }
     public void act() {
         checkMouseState();
-        
+        keepInBounds(cursor);
         currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
         if (drawing) {
             Tile tileHovered = null;
@@ -55,16 +55,13 @@ public class DrawWorld extends CursorWorld
                         tileHovered = null;
                         break;
                     }
-
                 }
                 else if (a instanceof UI){
                     tileHovered = null;
                     break;
                 }
                 else if (a instanceof Tile) {
-                    
                     tileHovered = (Tile)a;
-                    
                 }
             }
             if (tileHovered != null) {
@@ -78,9 +75,18 @@ public class DrawWorld extends CursorWorld
             Tile previousTile = Board.getTile((int)previousTilePos.getX(), (int)previousTilePos.getY());
             if (previousTile != null) previousTile.setTransparency(255);
             
-            // Make new hovered tile slightly transparent (cooler effect)
-            Tile hoveredTile = Board.getTile(cursor.getPosition());
-            hoveredTile.setTransparency(150);
+            // Make new hovered tile slightly transparent (cooler effect)\
+            if(cursor != null){
+                Tile hoveredTile = Board.getTile(cursor.getPosition());
+                if(hoveredTile != null){
+                    hoveredTile.setTransparency(150);
+                }
+                
+            }
+            
+
+
+            
         }
         previousTilePos = currentTilePos;
         
@@ -169,6 +175,20 @@ public class DrawWorld extends CursorWorld
         else if (Greenfoot.mouseClicked(null)) { // Mouse has went from pressed to not pressed.
             drawing = false; // Not drawing anymore.
             previousTilePos = new Vector(-1, -1);
+        }
+    }
+    private void keepInBounds(Actor a){
+        if(a.getX() >= getWidth()){
+            a.setLocation(getWidth(), a.getY());
+        }
+        if(a.getX() <= 0){
+            a.setLocation(0, a.getY());
+        }
+        if(a.getY() >= getHeight()){
+            a.setLocation(a.getX(), getHeight());
+        }
+        if(a.getY() <= 0){
+            a.setLocation(a.getX(), 0);
         }
     }
     private Tile getDrawnTile() {

@@ -33,8 +33,6 @@ public class Rabbit extends Animal
         
         for(int i = 0; i<4; i++)
         {
-            //eating Animation:
-            
             //Walking Animation:
             walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Up" + (i+1) + ".png");
             walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
@@ -55,8 +53,17 @@ public class Rabbit extends Animal
      */
     public void act() {
         super.act();
+
+        actsSinceLastBreeding++;
         currentAct++;
-        if(alive && !beingEaten){
+        if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
+            ableToBreed = true;
+            breed();
+        }else{
+            ableToBreed = false;
+        }
+        
+        if(alive && !beingEaten && !breeding && !drinking){
             if((targetGrass == null) || targetGrass.getWorld() == null || !(distanceFrom(targetGrass) < 5)){
                 eating = false;
             }
@@ -67,12 +74,41 @@ public class Rabbit extends Animal
             if(wantToEat){
                 full = false;
                 findGrassAndEat();
-            }else if(!drinking){
+            }else{
                 targetGrass = null;
                 full = true;
                 move(currentSpeed);
                 moveRandomly();
             }
+        }
+
+    }
+
+    public void breed() {
+        // Find another rabbit nearby
+        partner = (Rabbit) getClosestInRange(this.getClass(), 300, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
+        if(partner != null){
+            if(distanceFrom(partner) < 40){
+                breeding = true;
+                breedingCounter++;
+                if(breedingCounter > BREEDING_DELAY){
+                    // Add the baby to the world
+                    getWorld().addObject(new Rabbit(), getX(), getY());
+                    ableToBreed = false;
+                    partner.setAbleToBreed(false);
+                    breeding = false;
+                    partner.setIsBreeding(false);
+                    breedingCounter = 0;
+                    partner = null;
+                    actsSinceLastBreeding = 0;
+
+                }
+            }else{
+                moveTowards(partner, currentSpeed);
+            }
+        }else{
+            move(currentSpeed);
+            moveRandomly();
         }
 
     }
@@ -120,28 +156,7 @@ public class Rabbit extends Animal
     {
         if(eating)
         {
-            /*
-            if(facing.equals("right"))
-            {
-                setImage(eatingAnimationRight[indexAnimation]);
-                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
-            }
-            else if(facing.equals("left"))
-            {
-                setImage(eatingAnimationLeft[indexAnimation]);
-                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
-            }
-            else if(facing.equals("up"))
-            {
-                setImage(eatingAnimationUp[indexAnimation]);
-                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
-            }
-            else
-            {
-                setImage(eatingAnimationDown[indexAnimation]);
-                indexAnimation = (indexAnimation+1)%(eatingAnimationRight.length);
-            }
-            */
+            
         }
         else
         {
@@ -161,17 +176,16 @@ public class Rabbit extends Animal
             {
                 setImage(walkingAnimationDown[indexAnimation]);
             }
-            if(currentAct%20 == 0) // change animation every 45 acts
-            {
-                indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
-            }
+        }
+        if(currentAct%20 == 0) // change animation every 45 acts
+        {
+            indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
         }
     }
 
     public int getHp() {
         return hp;
     }
-
 
     public boolean isBeingEaten() {
         return beingEaten;

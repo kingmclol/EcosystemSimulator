@@ -29,8 +29,13 @@ public abstract class Animal extends SuperActor {
 
     protected int transparency;
     
-    protected int actsSinceLastBreeding = 0;
-    public static final int BREEDING_THRESHOLDD = 3000;
+    protected Animal partner;
+    protected boolean ableToBreed;
+    protected boolean breeding;
+    protected int actsSinceLastBreeding;
+    protected int breedingCounter;
+    public static final int BREEDING_THRESHOLD = 500;
+    public static final int BREEDING_DELAY = 150;
 
     protected WaterTile targetWater;
     public Animal() {
@@ -44,13 +49,17 @@ public abstract class Animal extends SuperActor {
         hydration = 3000;
         energy = 2000;
         hp = 1000;
+        actsSinceLastBreeding = 0;
+        ableToBreed = false;
+        breeding = false;
+        breedingCounter = 0;
         enableStaticRotation();
     }
 
+    
     protected abstract void animate();
-
+    
     public void act() {
-        actsSinceLastBreeding++;
 
         Tile currentTile = Board.getTile(getPosition());
 
@@ -80,7 +89,7 @@ public abstract class Animal extends SuperActor {
             wantToDrink = false;
         }
 
-        if(wantToDrink && !eating && alive){
+        if(wantToDrink && !eating && alive && !breeding){
             findAndDrinkWater();
         }else if(alive){
             targetWater = null;
@@ -88,12 +97,13 @@ public abstract class Animal extends SuperActor {
             moveRandomly();
         }
 
-        if(!drinking && !eating && alive){
+        if(!drinking && !eating && alive && !breeding){
             energy--;
             hydration--;
         }
         
         if(currentTile instanceof WaterTile && energy <= 0){
+            die();
             drown();
         }else if(energy <= 0 || hp <= 0 || hydration <= 0){
             die();
@@ -111,6 +121,8 @@ public abstract class Animal extends SuperActor {
     public void eat(int energyGain) {
         energy += energyGain;
     }
+    
+    protected abstract void breed();
 
     public void die() {
         alive = false;
@@ -124,6 +136,22 @@ public abstract class Animal extends SuperActor {
 
     public int getHp() {
         return hp;
+    }
+    
+    public boolean isBreeding() {
+        return breeding;
+    }
+    
+    public boolean isAbleToBreed() {
+        return ableToBreed;
+    }
+    
+    public void setAbleToBreed(boolean able) {
+        ableToBreed = able;
+    }
+    
+    public void setIsBreeding(boolean breed){
+        breeding = breed;
     }
 
     public void moveRandomly() {
@@ -174,7 +202,7 @@ public abstract class Animal extends SuperActor {
             if(!drinking){
                 moveTowards(targetWater, currentSpeed);
             }
-            System.out.println(distanceFrom(targetWater));
+            
             if(isTouching(WaterTile.class)){
                 drinking = true;
                 drinkWater(4);
@@ -192,7 +220,6 @@ public abstract class Animal extends SuperActor {
         hydration = hydration + waterAmount;
     }
     public void drown() {
-        alive = false;
         transparency--;
         getImage().setTransparency(transparency);
         if(transparency == 0){

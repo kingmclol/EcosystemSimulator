@@ -16,7 +16,7 @@ public class SimulationWorld extends World
     public SimulationWorld()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(1024, 768, 1); 
+        super(1008, 768, 1); 
         setPaintOrder(UI.class, Animal.class, Node.class, Tile.class);
         Board.setWorld(this);
         Tile.setTimeFlow(true);

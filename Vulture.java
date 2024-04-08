@@ -67,4 +67,9 @@ public class Vulture extends Animal
             moveRandomly();
         }
     }
+    
+    public void animate()
+    {
+        
+    }
 }

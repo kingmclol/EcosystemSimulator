@@ -20,7 +20,7 @@ public abstract class Tile extends SuperActor
      * The tilePosition is the current Position of this specific tile on the Board.
      */
     protected Vector tilePosition;
-    private static final boolean drawBorders = false;
+    private static final boolean drawBorders = true;
     /**
      * timeFlowing determines whether Tiles should act on their own.
      */
@@ -103,6 +103,15 @@ public abstract class Tile extends SuperActor
         Board.setTileAt(tilePosition, t);
         getWorld().addObject(t, getX(), getY());
         getWorld().removeObject(this);
+    }
+    /**
+     * Sets the image of this tile as the given transparency;
+     */
+    public void setTransparency(int x) {
+        if (x < 0 || x > 255) {
+            System.out.println("tried to change tile transparency but given invalid value!");
+        }
+        getImage().setTransparency(x);
     }
 }
  

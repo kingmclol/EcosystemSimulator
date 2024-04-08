@@ -16,6 +16,7 @@ public abstract class Animal extends SuperActor {
     protected double currentSpeed;
     protected double sprintSpeed;
     protected double waterSpeed;
+    protected String facing = "left";
 
     protected boolean alive;
     protected boolean eating;
@@ -27,6 +28,9 @@ public abstract class Animal extends SuperActor {
     protected boolean runningAway;
 
     protected int transparency;
+    
+    protected int actsSinceLastBreeding = 0;
+    public static final int BREEDING_THRESHOLDD = 3000;
 
     protected WaterTile targetWater;
     public Animal() {
@@ -43,7 +47,11 @@ public abstract class Animal extends SuperActor {
         enableStaticRotation();
     }
 
+    protected abstract void animate();
+
     public void act() {
+        actsSinceLastBreeding++;
+
         Tile currentTile = Board.getTile(getPosition());
 
         if(currentTile instanceof WaterTile){
@@ -56,10 +64,10 @@ public abstract class Animal extends SuperActor {
                 currentSpeed = defaultSpeed;
             }
         }
-
         if(targetWater == null){
             drinking = false;
         }
+
         if(energy < 1000){
             wantToEat = true;
         }else if(energy >= 1800){
@@ -120,7 +128,27 @@ public abstract class Animal extends SuperActor {
 
     public void moveRandomly() {
         if (Greenfoot.getRandomNumber (60) == 50) {
-            turn (Greenfoot.getRandomNumber(360));
+            int angle = Greenfoot.getRandomNumber(360);
+            turn (angle);
+            int rotation = this.getRotation()%360;
+            if((rotation >= 0 && rotation < 45) || (rotation > 315 && rotation < 360))
+            {
+                facing = "right";
+            }
+            else if(rotation >= 45 && rotation <= 135)//between 45-135 && between 135 and 225
+            {
+                facing = "down";
+            }
+            else if(rotation > 135 && rotation < 225)//135 and 180, 180 to 225
+            {
+                facing = "left";
+            }
+            else if(rotation > 225 && rotation < 315)
+            {
+                facing = "up";
+            }
+
+            
         }
     }
 
@@ -131,7 +159,6 @@ public abstract class Animal extends SuperActor {
             getWorld().removeObject(this);
         }
     }
-
     public void findAndDrinkWater() {
         if(targetWater == null){
             targetWater = (WaterTile)getClosestInRange(WaterTile.class, 100);
@@ -164,7 +191,6 @@ public abstract class Animal extends SuperActor {
     public void drinkWater(int waterAmount) {
         hydration = hydration + waterAmount;
     }
-
     public void drown() {
         alive = false;
         transparency--;

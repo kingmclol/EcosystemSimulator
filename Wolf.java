@@ -29,18 +29,20 @@ public class Wolf extends Animal
         actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            breed();
+            if(!wantToEat && !wantToDrink){
+                breed();
+            }
         }else{
             ableToBreed = false;
         }
         
+        if(((targetRabbit == null) || (getWorld() != null && !(distanceFrom(targetRabbit) < 5))) || (targetDeer == null) || (getWorld() != null && !(distanceFrom(targetDeer) < 5))){
+            eating = false;
+        }else{
+            eating = true;
+        }
+        
         if(alive && !breeding && !drinking){
-            if(((targetRabbit == null) || !(distanceFrom(targetRabbit) < 5)) || (targetDeer == null) || !(distanceFrom(targetDeer) < 5)){
-                eating = false;
-            }else{
-                eating = true;
-            }
-
             if(wantToEat){
                 full = false;
                 findPreyAndEat();
@@ -48,12 +50,10 @@ public class Wolf extends Animal
                 targetDeer = null;
                 targetRabbit = null;
                 full = true;
-                move(currentSpeed);
-                moveRandomly();
             }
         }
     }
-    
+
     public void breed() {
         // Find another wolf nearby
         partner = (Wolf) getClosestInRange(this.getClass(), 300, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
@@ -77,10 +77,9 @@ public class Wolf extends Animal
                 moveTowards(partner, currentSpeed);
             }
         }else{
-            move(currentSpeed);
             moveRandomly();
+            move(currentSpeed);
         }
-
     }
 
     public void findPreyAndEat() {
@@ -93,7 +92,7 @@ public class Wolf extends Animal
                 targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 250, r -> !((Rabbit)r).isAlive());
             }
         }
-        
+
         if(targetDeer == null || !targetDeer.isAlive()){
             targetDeer = (Deer)getClosestInRange(Deer.class, 100, d -> !((Deer)d).isAlive());
             if(targetDeer == null) {
@@ -131,8 +130,9 @@ public class Wolf extends Animal
             moveRandomly();
         }
     }
+
     public void animate()
     {
-        
+
     }
 }

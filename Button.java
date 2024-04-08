@@ -23,6 +23,7 @@ public class Button extends UI
         this.function = function;
        
         img = new GreenfootImage(width, height);
+        img.setColor(Color.BLUE);
         img.fill();
         hoverImg = new GreenfootImage(width, height);
         hoverImg.setColor(Color.RED);
@@ -32,7 +33,6 @@ public class Button extends UI
         pressedImg.fill();
         setImage(img);
     }
-
     public Button(Runnable function, int width, int height, GreenfootImage hoverImg, GreenfootImage pressedImg){
         this.width = width;
         this.function = function;

@@ -6,11 +6,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class StoryWorld extends World
+public class StoryWorld extends CursorWorld
 {
     private static String[] dialogue;
     private static TextBox dialogueBox;
     private static BreathingTextBox promptBox;
+    private static Button nextWorldButton;
     private static int line;
     private static int visibleActCount;
     /**
@@ -20,7 +21,7 @@ public class StoryWorld extends World
     public StoryWorld()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
-        super(1024, 768, 1); 
+        super(); 
         visibleActCount = 0;
         GreenfootImage backgroundImage = new GreenfootImage(1024, 768);
         backgroundImage.setColor(Color.BLACK);
@@ -53,6 +54,7 @@ public class StoryWorld extends World
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
         promptBox = new BreathingTextBox("Click to continue.", 18, Color.WHITE, null, 240);
+        nextWorldButton = new Button(() -> Greenfoot.setWorld(new SettingsWorld()), 200, 75);
     }
     public void act() {
         if (stillMoreDialogue() && Greenfoot.mousePressed(null)) {
@@ -65,6 +67,10 @@ public class StoryWorld extends World
         }
         if (visibleActCount >= 180 && stillMoreDialogue() && promptBox.getWorld() == null) {
             addObject(promptBox, getWidth()/2, getWidth()/2 + 100);
+        }
+        
+        if (!stillMoreDialogue() && nextWorldButton.getWorld() == null) {
+            addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 50);
         }
     }
     private void playDialogue(int line) {

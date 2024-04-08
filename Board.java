@@ -176,6 +176,9 @@ public class Board
     public static Node getNodeWithRealPosition(Vector realPosition) {
         return nodeGrid.getNode(nodeGrid.getNodePosition(realPosition));
     }
+    public static Vector getRealPositionWithNode(Node node) {
+        return new Vector(nodeGrid.getTrueX(node.getX()), nodeGrid.getTrueY(node.getY()));
+    }
     /**
      * Given a position relative to the World, retorn the Tile that the position is residing in.
      * @param realPosition The position in terms of pixels.

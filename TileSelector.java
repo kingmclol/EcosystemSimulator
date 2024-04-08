@@ -14,11 +14,11 @@ public class TileSelector extends UI
 
     private int menuWidth;
     public TileSelector(){
-        img = new GreenfootImage(250, 768);
-        img.setColor(Color.WHITE);
+        img = new GreenfootImage("tileSelector.png");
         
-        img.fillRect(0, 0, 200, 768);
-        img.mirrorHorizontally();
+        
+       
+        
         
         setImage(img);
         menuButton = new Button(24, 80);
@@ -40,19 +40,19 @@ public class TileSelector extends UI
         
         if(transition){
             if (!closed && menuWidth < 200){
-                menuWidth+= 5;
+                menuWidth+= 10;
                 
-                menuButton.setLocation(menuButton.getX() - 5, getY());
+                menuButton.setLocation(menuButton.getX() - 10, getY());
                 
                 
-                setLocation(getX() - 5, getY());
+                setLocation(getX() - 10, getY());
                 
             }
             
             else if(menuWidth > 0 && closed){
-                menuWidth-= 5;
-                menuButton.setLocation(menuButton.getX() + 5, getY());
-                setLocation(getX() + 5, getY());
+                menuWidth-= 10;
+                menuButton.setLocation(menuButton.getX() + 10, getY());
+                setLocation(getX() + 10, getY());
                 
                 
             }

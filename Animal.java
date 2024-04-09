@@ -157,7 +157,7 @@ public abstract class Animal extends SuperActor {
     public void setIsBreeding(boolean breed){
         breeding = breed;
     }
-    int i = 0;
+    
     public void moveRandomly() {
         if (Greenfoot.getRandomNumber (60) == 50) {
             int angle = Greenfoot.getRandomNumber(360);

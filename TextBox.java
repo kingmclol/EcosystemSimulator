@@ -12,12 +12,6 @@ public class TextBox extends UI
      * Act - do whatever the TextBox wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
-    protected enum FadeState {
-        IN,
-        OUT,
-        VISIBLE,
-        TRANSPARENT
-    }
     private int initialTransparency;
     protected GreenfootImage img;
     protected FadeState state;

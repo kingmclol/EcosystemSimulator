@@ -191,6 +191,8 @@ public abstract class Animal extends SuperActor {
     public void breedingAnimation()
     {
         //Unfinished
+        int x = this.getX();
+        int y = this.getY();
     }
     public void decreaseTransparency(int value) {
         transparency = transparency - value;

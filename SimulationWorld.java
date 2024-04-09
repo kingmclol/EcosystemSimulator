@@ -7,7 +7,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class SimulationWorld extends World
 {
-    
+    private int actCount; 
+    private boolean isNight; 
     /**
      * Constructor for objects of class SimulationWorld.
      * 
@@ -20,5 +21,27 @@ public class SimulationWorld extends World
         Board.setWorld(this);
         Tile.setTimeFlow(true);
         Rabbit.init();
+        
+        actCount = 0; 
+        isNight = false;
+    }
+    
+    public void act()
+    {
+        actCount++; 
+        //spawn();
+    }
+    
+    public void spawn() 
+    {
+        if (actCount % 2400 == 0) {
+            addObject(new Night(), 0, 0);
+            isNight = true; 
+        }
+    }
+    
+    public void setNight(boolean newNight)
+    {
+        isNight = newNight; 
     }
 }

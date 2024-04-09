@@ -12,6 +12,7 @@ public abstract class Animal extends SuperActor {
     protected int energy;
     protected int hp;
     protected int hydration;
+    protected int walkHeight;
     protected ArrayList<Vector> currentPath;
     protected double defaultSpeed;
     protected double currentSpeed;
@@ -90,7 +91,7 @@ public abstract class Animal extends SuperActor {
             wantToDrink = false;
         }
 
-        if(wantToDrink && !eating && alive && !breeding && energy > hydration){
+        if(wantToDrink && !eating && alive && !breeding && hydration <= energy){
             findAndDrinkWater();
         }
         if(!drinking && !eating && alive && !breeding){
@@ -106,6 +107,7 @@ public abstract class Animal extends SuperActor {
         }
         if(currentPath == null && !eating && !drinking){
             moveRandomly();
+            move(currentSpeed);
         }
     }
 
@@ -152,7 +154,42 @@ public abstract class Animal extends SuperActor {
     public void setIsBreeding(boolean breed){
         breeding = breed;
     }
+    protected void pathfindToTile(ArrayList<Vector> path, Tile targetTile,int stopDistance){
+        if(path == null){
+            Vector startPos = new Vector(getX(), getY());
+            Vector endPos = new Vector(targetTile.getX(), targetTile.getY());
+            ArrayList<Node> pathNodes = Board.findPath(startPos, endPos, walkHeight);
+            Board.displayPath(pathNodes, Color.BLACK);
+            currentPath = new ArrayList<Vector>();
+            for (Node node : pathNodes){
+                currentPath.add(Board.getRealPositionWithNode(node));
+            }
+            
+        }
+        else{
+            if(currentPath.size() == 1){
+                Vector finalTile = currentPath.get(0);
+                moveTowards(finalTile, currentSpeed);
+  
+            }
+            else{
+                Vector nextTile = currentPath.get(1);
+                if((Board.getTile(nextTile)).getHeightLevel() > walkHeight){
+                    path = null;
+                }
+                else{
+                    moveTowards(nextTile, currentSpeed);
+    
+                    if(distanceFrom(nextTile) < 12){
+                        currentPath.remove(0);
+        
+                    }
+                }
 
+            }
+        }
+        
+    }
     public void moveRandomly() {
         if (Greenfoot.getRandomNumber (60) == 50) {
             int angle = Greenfoot.getRandomNumber(360);
@@ -174,6 +211,7 @@ public abstract class Animal extends SuperActor {
             {
                 facing = "up";
             }
+            
 
             
         }

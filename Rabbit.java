@@ -11,7 +11,7 @@ public class Rabbit extends Animal
     //Instance Variables:
     private GrassTile targetGrass;
     private boolean beingEaten;
-
+    private int viewRadius;
     //Animation
     private int indexAnimation = 0;
     private int currentAct = 0;

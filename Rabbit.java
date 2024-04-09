@@ -90,7 +90,7 @@ public class Rabbit extends Animal
 
     public void breed() {
         // Find another rabbit nearby
-        partner = (Rabbit) getClosestInRange(this.getClass(), 300, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
+        partner = (Rabbit) getClosestInRange(this.getClass(), viewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
         if(partner != null){
             if(distanceFrom(partner) < 40){
                 breeding = true;

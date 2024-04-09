@@ -57,7 +57,7 @@ public class Deer extends Animal
 
     public void breed() {
         // Find another deer nearby
-        partner = (Deer) getClosestInRange(this.getClass(), 300, d -> !((Deer)d).isAbleToBreed() || !((Deer)d).isAlive()); // Adjust range as needed
+        partner = (Deer) getClosestInRange(this.getClass(), viewRadius, d -> !((Deer)d).isAbleToBreed() || !((Deer)d).isAlive()); // Adjust range as needed
         if(partner != null){
             if(distanceFrom(partner) < 40){
                 breeding = true;

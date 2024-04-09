@@ -28,14 +28,16 @@ public class SimulationWorld extends World
     public void act()
     {
         actCount++; 
-        //spawn();
+        spawn();
     }
     
     public void spawn() 
     {
-        if (actCount % 2400 == 0) {
+        if (actCount >= 2400) {
+            System.out.println("ADFA ADSFD F");
             addObject(new Night(), 0, 0);
             isNight = true; 
+            actCount = 0;
         }
     }
     

@@ -43,7 +43,7 @@ public abstract class Animal extends SuperActor {
     public static final int BREEDING_THRESHOLD = 2000;
     public static final int BREEDING_DELAY = 150;
     protected Tile currentTile;
-    protected GreenfootImage[] breedingAnimation = new GreenfootImage[3];
+    
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
   
     protected WaterTile targetWater;
@@ -55,18 +55,15 @@ public abstract class Animal extends SuperActor {
         eating = false;
         drinking = false;
         full = true;
-        hydration = 3000;
-        energy = 2000;
+        hydration = 500;
+        energy = 500;
         hp = 1000;
         actsSinceLastBreeding = 0;
         ableToBreed = false;
         breeding = false;
         breedingCounter = 0;
         enableStaticRotation();
-        for(int i = 0; i<3; i++)
-        {
-            breedingAnimation[i] = new GreenfootImage("images/Breeding/breed" + (i+1)+".png");
-        }
+        
     }
 
     protected abstract void animate();

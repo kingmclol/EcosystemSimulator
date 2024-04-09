@@ -11,6 +11,7 @@ public abstract class Animal extends SuperActor {
     protected int energy;
     protected int hp;
     protected int hydration;
+    protected int viewRadius;
 
     protected double defaultSpeed;
     protected double currentSpeed;

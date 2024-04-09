@@ -28,6 +28,8 @@ public abstract class Animal extends SuperActor {
     protected boolean runningAway;
 
     protected int transparency;
+    
+    protected int viewRadius;
 
     protected Animal partner;
     protected boolean ableToBreed;
@@ -57,10 +59,6 @@ public abstract class Animal extends SuperActor {
         breeding = false;
         breedingCounter = 0;
         enableStaticRotation();
-        for(int i = 0; i<3; i++)
-        {
-            breedingAnimation[i] = new GreenfootImage("");
-        }
     }
 
     protected abstract void animate();
@@ -95,8 +93,6 @@ public abstract class Animal extends SuperActor {
             findAndDrinkWater();
         }else if(alive){
             targetWater = null;
-            //move(currentSpeed);
-            //moveRandomly();
         }
 
         if(!drinking && !eating && alive && !breeding){
@@ -104,7 +100,7 @@ public abstract class Animal extends SuperActor {
             hydration--;
         }
         getFacing();
-        if(currentTile instanceof WaterTile && energy <= 0){
+        if(currentTile instanceof WaterTile && (energy <= 0 || hydration <= 0)){
             die();
             drown();
         }else if(energy <= 0 || hp <= 0 || hydration <= 0){

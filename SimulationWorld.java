@@ -20,7 +20,6 @@ public class SimulationWorld extends World
         setPaintOrder(UI.class, Animal.class, Node.class, Tile.class);
         Board.setWorld(this);
         Tile.setTimeFlow(true);
-        Rabbit.init();
         
         actCount = 0; 
         isNight = false;

@@ -18,6 +18,7 @@ public class Deer extends Animal
         sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
+        viewRadius = 400;
     }
 
     /**
@@ -51,9 +52,6 @@ public class Deer extends Animal
                 targetBush = null;
                 full = true;
             }
-        }
-        if(targetBush != null){
-            System.out.println(distanceFrom(targetBush));
         }
     }
 
@@ -91,19 +89,19 @@ public class Deer extends Animal
 
     public void findBerriesAndEat() {
         if(targetBush == null || targetBush.getWorld() == null || !targetBush.berriesAvailable()){
-            targetBush = (BushTile)getClosestInRange(BushTile.class, 100, b -> !((BushTile)b).berriesAvailable());
+            targetBush = (BushTile)getClosestInRange(BushTile.class, viewRadius/4, b -> !((BushTile)b).berriesAvailable());
             if(targetBush == null) {
-                targetBush = (BushTile)getClosestInRange(BushTile.class, 180, b -> !((BushTile)b).berriesAvailable());
+                targetBush = (BushTile)getClosestInRange(BushTile.class, viewRadius/2, b -> !((BushTile)b).berriesAvailable());
             }
             if(targetBush == null) {
-                targetBush = (BushTile)getClosestInRange(BushTile.class, 250, b -> !((BushTile)b).berriesAvailable());
+                targetBush = (BushTile)getClosestInRange(BushTile.class, viewRadius, b -> !((BushTile)b).berriesAvailable());
             }
         }
 
         if(targetBush != null) {
             moveTowards(targetBush, currentSpeed);
             if(distanceFrom(targetBush) < 5){
-                targetBush.nibble(7);
+                targetBush.nibble(4);
                 eat(7);
             }
         }else{

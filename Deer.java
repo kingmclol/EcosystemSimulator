@@ -18,6 +18,7 @@ public class Deer extends Animal
         sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
+        viewRadius = 400;
     }
 
     /**
@@ -30,34 +31,33 @@ public class Deer extends Animal
         actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            breed();
+            if(!wantToEat && !wantToDrink){
+                breed();
+            }
         }else{
             ableToBreed = false;
         }
 
-        if(alive && !beingEaten && !breeding && !drinking){
-            if((targetBush == null) || targetBush.getWorld() == null || !(distanceFrom(targetBush) < 5)){
-                eating = false;
-            }else{
-                eating = true;
-            }
+        if((targetBush == null) || targetBush.getWorld() == null || (getWorld() != null && !(distanceFrom(targetBush) < 5))){
+            eating = false;
+        }else{
+            eating = true;
+        }
 
+        if(alive && !beingEaten && !breeding && !drinking){
             if(wantToEat){
                 full = false;
                 findBerriesAndEat();
             }else{
                 targetBush = null;
                 full = true;
-                move(currentSpeed);
-                moveRandomly();
             }
         }
     }
 
-
     public void breed() {
         // Find another deer nearby
-        partner = (Deer) getClosestInRange(this.getClass(), 300, d -> !((Deer)d).isAbleToBreed() || !((Deer)d).isAlive()); // Adjust range as needed
+        partner = (Deer) getClosestInRange(this.getClass(), viewRadius, d -> !((Deer)d).isAbleToBreed() || !((Deer)d).isAlive()); // Adjust range as needed
         if(partner != null){
             if(distanceFrom(partner) < 40){
                 breeding = true;
@@ -77,28 +77,31 @@ public class Deer extends Animal
             }else{
                 moveTowards(partner, currentSpeed);
             }
+        }else{
+            moveRandomly();
+            move(currentSpeed);
         }
     }
-    
+
     public void animate() {
         return;
-
     }
+
     public void findBerriesAndEat() {
         if(targetBush == null || targetBush.getWorld() == null || !targetBush.berriesAvailable()){
-            targetBush = (BushTile)getClosestInRange(BushTile.class, 100, b -> !((BushTile)b).berriesAvailable());
+            targetBush = (BushTile)getClosestInRange(BushTile.class, viewRadius/4, b -> !((BushTile)b).berriesAvailable());
             if(targetBush == null) {
-                targetBush = (BushTile)getClosestInRange(BushTile.class, 180, b -> !((BushTile)b).berriesAvailable());
+                targetBush = (BushTile)getClosestInRange(BushTile.class, viewRadius/2, b -> !((BushTile)b).berriesAvailable());
             }
             if(targetBush == null) {
-                targetBush = (BushTile)getClosestInRange(BushTile.class, 250, b -> !((BushTile)b).berriesAvailable());
+                targetBush = (BushTile)getClosestInRange(BushTile.class, viewRadius, b -> !((BushTile)b).berriesAvailable());
             }
         }
 
         if(targetBush != null) {
             moveTowards(targetBush, currentSpeed);
             if(distanceFrom(targetBush) < 5){
-                targetBush.nibble(7);
+                targetBush.nibble(4);
                 eat(7);
             }
         }else{

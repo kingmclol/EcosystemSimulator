@@ -18,6 +18,7 @@ public class Wolf extends Animal
         sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
+        viewRadius = 500;
     }
 
     /**
@@ -29,18 +30,20 @@ public class Wolf extends Animal
         actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            breed();
+            if(!wantToEat && !wantToDrink){
+                breed();
+            }
         }else{
             ableToBreed = false;
         }
         
+        if(((targetRabbit == null) || (getWorld() != null && !(distanceFrom(targetRabbit) < 5))) || (targetDeer == null) || (getWorld() != null && !(distanceFrom(targetDeer) < 5))){
+            eating = false;
+        }else{
+            eating = true;
+        }
+        
         if(alive && !breeding && !drinking){
-            if(((targetRabbit == null) || !(distanceFrom(targetRabbit) < 5)) || (targetDeer == null) || !(distanceFrom(targetDeer) < 5)){
-                eating = false;
-            }else{
-                eating = true;
-            }
-
             if(wantToEat){
                 full = false;
                 findPreyAndEat();
@@ -48,15 +51,13 @@ public class Wolf extends Animal
                 targetDeer = null;
                 targetRabbit = null;
                 full = true;
-                move(currentSpeed);
-                moveRandomly();
             }
         }
     }
-    
+
     public void breed() {
         // Find another wolf nearby
-        partner = (Wolf) getClosestInRange(this.getClass(), 300, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
+        partner = (Wolf) getClosestInRange(this.getClass(), viewRadius, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
         if(partner != null){
             if(distanceFrom(partner) < 40){
                 breeding = true;
@@ -77,30 +78,29 @@ public class Wolf extends Animal
                 moveTowards(partner, currentSpeed);
             }
         }else{
-            move(currentSpeed);
             moveRandomly();
+            move(currentSpeed);
         }
-
     }
 
     public void findPreyAndEat() {
         if(targetRabbit == null || !targetRabbit.isAlive()){
-            targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 100, r -> !((Rabbit)r).isAlive());
+            targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, viewRadius/4, r -> !((Rabbit)r).isAlive());
             if(targetRabbit == null) {
-                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 180, r -> !((Rabbit)r).isAlive());
+                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, viewRadius/2, r -> !((Rabbit)r).isAlive());
             }
             if(targetRabbit == null) {
-                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 250, r -> !((Rabbit)r).isAlive());
+                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, viewRadius, r -> !((Rabbit)r).isAlive());
             }
         }
-        
+
         if(targetDeer == null || !targetDeer.isAlive()){
-            targetDeer = (Deer)getClosestInRange(Deer.class, 100, d -> !((Deer)d).isAlive());
+            targetDeer = (Deer)getClosestInRange(Deer.class, viewRadius/4, d -> !((Deer)d).isAlive());
             if(targetDeer == null) {
-                targetDeer = (Deer)getClosestInRange(Deer.class, 180, d -> !((Deer)d).isAlive());
+                targetDeer = (Deer)getClosestInRange(Deer.class, viewRadius/2, d -> !((Deer)d).isAlive());
             }
             if(targetDeer == null) {
-                targetDeer = (Deer)getClosestInRange(Deer.class, 250, d -> !((Deer)d).isAlive());
+                targetDeer = (Deer)getClosestInRange(Deer.class, viewRadius, d -> !((Deer)d).isAlive());
             }
         }
 
@@ -113,7 +113,7 @@ public class Wolf extends Animal
                     targetRabbit.disableStaticRotation();
                     targetRabbit.setRotation(90);
                 }
-                eat(5);
+                eat(12);
             }
         }else if(targetDeer != null){
             moveTowards(targetDeer, currentSpeed);
@@ -124,15 +124,16 @@ public class Wolf extends Animal
                     targetDeer.disableStaticRotation();
                     targetDeer.setRotation(90);
                 }
-                eat(5);
+                eat(12);
             }
         }else{
             move(currentSpeed);
             moveRandomly();
         }
     }
+
     public void animate()
     {
-        
+
     }
 }

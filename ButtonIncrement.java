@@ -24,8 +24,8 @@ public class ButtonIncrement extends UI
         this.width = width;
         this.height = height;
         this.textBoxWidth = textBoxWidth;
-        decrementButton = new Button((width - textBoxWidth)/2, height);
-        incrementButton = new Button((width - textBoxWidth)/2, height);
+        decrementButton = new Button(this::decrementValue, (width - textBoxWidth)/2, height);
+        incrementButton = new Button(this::incrementValue,(width - textBoxWidth)/2, height);
         value = 0;
         this.maxVal = maxVal;
         textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(27), true, textBoxWidth, 0, Color.BLACK);
@@ -40,17 +40,23 @@ public class ButtonIncrement extends UI
     public int getValue(){
         return value;
     }
-
+    public void incrementValue() {
+        textBox.update(String.valueOf(++value));
+    }
+    public void decrementValue() {
+        value = Math.max(0, value -1);
+        textBox.update(String.valueOf(value));
+    }
     public void act()
     {
-        if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(decrementButton) && value > 0){
-            value--;
-            textBox.update(String.valueOf(value));
+        // if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(decrementButton) && value > 0){
+            // value--;
+            // textBox.update(String.valueOf(value));
             
-        }
-        else if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(incrementButton) && value < 50){
-            value++;
-            textBox.update(String.valueOf(value));
-        }
+        // }
+        // else if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(incrementButton) && value < 50){
+            // value++;
+            // textBox.update(String.valueOf(value));
+        // }
     }
 }

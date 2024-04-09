@@ -21,13 +21,17 @@ public class TileSelector extends UI
         
         
         setImage(img);
-        menuButton = new Button(24, 80);
+        menuButton = new Button(() -> onClick(), 24, 80);
         closed = true;
         menuWidth = 0;
     }
     public void addedToWorld(World w){
         cursor = getCursor();
         w.addObject(menuButton, w.getWidth() - 12, w.getHeight()/2);
+    }
+    private void onClick() {
+        transition = true;
+        closed = !closed;
     }
     public boolean getState(){
         return transition;
@@ -62,8 +66,7 @@ public class TileSelector extends UI
             
         }
         if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(menuButton)){
-            transition = true;
-            closed = !closed;
+            
             
         }
     }

@@ -112,7 +112,7 @@ public class Wolf extends Animal
                     targetRabbit.disableStaticRotation();
                     targetRabbit.setRotation(90);
                 }
-                eat(5);
+                eat(12);
             }
         }else if(targetDeer != null){
             moveTowards(targetDeer, currentSpeed);
@@ -123,7 +123,7 @@ public class Wolf extends Animal
                     targetDeer.disableStaticRotation();
                     targetDeer.setRotation(90);
                 }
-                eat(5);
+                eat(12);
             }
         }else{
             move(currentSpeed);

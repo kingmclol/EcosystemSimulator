@@ -8,17 +8,17 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Rain extends Effect
 {
-    private int actsLeft;
 
     public Rain() {
-        image = Utility.drawRain(1024, 768, 50);
-        setImage(image);
-
-        actsLeft = 300;
+        super(1200, 200);
     }
     
-    public void addedToWorld (World w){
-        setLocation (w.getWidth()/ 2, w.getHeight()/2);
+    public void addedToWorld(World w) {
+        super.addedToWorld(w);
+        GreenfootImage image = Utility.drawRain(1024, 768, 50);
+        image.setTransparency(0);
+        setImage(image);
+        setLocation(w.getWidth()/2, w.getHeight()/2);
     }
     /**
      * Act - do whatever the Rain wants to do. This method is called whenever
@@ -26,11 +26,12 @@ public class Rain extends Effect
      */
     public void act()
     {
-        actsLeft--;
-        fade (actsLeft, 120);
-
-        if (actsLeft == 0){
-            getWorld().removeObject(this);
-        }
+    }
+    public void startEffect() {
+        // Tile.setRaining(true);
+        return;
+    }
+    public void stopEffect() {
+        return;
     }
 }

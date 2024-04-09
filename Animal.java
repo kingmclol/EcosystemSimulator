@@ -115,17 +115,17 @@ public abstract class Animal extends SuperActor {
         }else if(energy <= 0 || hp <= 0 || hydration <= 0){
             die();
         }
-
+        /*
         if(currentPath == null && !eating && !drinking){
             moveRandomly();
             move(currentSpeed);
         }
-        /*
+        */
         if(!wantToDrink && !wantToEat && alive && !breeding){
             move(currentSpeed);
             moveRandomly();
         }
-        */
+        
     }
 
     public boolean isAlive() {

@@ -28,9 +28,7 @@ public abstract class Animal extends SuperActor {
     protected boolean runningAway;
 
     protected int transparency;
-    
-    protected int viewRadius;
-    
+
     protected Animal partner;
     protected boolean ableToBreed;
     protected boolean breeding;
@@ -39,6 +37,9 @@ public abstract class Animal extends SuperActor {
     public static final int BREEDING_THRESHOLD = 2000;
     public static final int BREEDING_DELAY = 150;
     protected Tile currentTile;
+    protected GreenfootImage[] breedingAnimation = new GreenfootImage[3];
+//https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
+  
     protected WaterTile targetWater;
     public Animal() {
         transparency = 255;
@@ -56,11 +57,13 @@ public abstract class Animal extends SuperActor {
         breeding = false;
         breedingCounter = 0;
         enableStaticRotation();
+        for(int i = 0; i<3; i++)
+        {
+            breedingAnimation[i] = new GreenfootImage("");
+        }
     }
 
-    
     protected abstract void animate();
-    
     public void act() {
         currentTile = Board.getTile(getPosition());
         if(currentTile instanceof WaterTile){
@@ -100,7 +103,7 @@ public abstract class Animal extends SuperActor {
             energy--;
             hydration--;
         }
-        
+        getFacing();
         if(currentTile instanceof WaterTile && energy <= 0){
             die();
             drown();
@@ -125,7 +128,7 @@ public abstract class Animal extends SuperActor {
     public void eat(int energyGain) {
         energy += energyGain;
     }
-    
+
     protected abstract void breed();
 
     public void die() {
@@ -141,19 +144,19 @@ public abstract class Animal extends SuperActor {
     public int getHp() {
         return hp;
     }
-    
+
     public boolean isBreeding() {
         return breeding;
     }
-    
+
     public boolean isAbleToBreed() {
         return ableToBreed;
     }
-    
+
     public void setAbleToBreed(boolean able) {
         ableToBreed = able;
     }
-    
+
     public void setIsBreeding(boolean breed){
         breeding = breed;
     }
@@ -162,26 +165,36 @@ public abstract class Animal extends SuperActor {
         if (Greenfoot.getRandomNumber (60) == 50) {
             int angle = Greenfoot.getRandomNumber(360);
             turn (angle);
-            int rotation = this.getRotation()%360;
-            if((rotation >= 0 && rotation < 45) || (rotation > 315 && rotation < 360))
-            {
-                facing = "right";
-            }
-            else if(rotation >= 45 && rotation <= 135)//between 45-135 && between 135 and 225
-            {
-                facing = "down";
-            }
-            else if(rotation > 135 && rotation < 225)//135 and 180, 180 to 225
-            {
-                facing = "left";
-            }
-            else if(rotation > 225 && rotation < 315)
-            {
-                facing = "up";
-            }
         }
     }
 
+    public String getFacing()
+    {
+        int rotation = this.getRotation()%360;
+        if((rotation >= 0 && rotation < 45) || (rotation > 315 && rotation < 360))
+        {
+            facing = "right";
+        }
+        else if(rotation >= 45 && rotation <= 135)//between 45-135 && between 135 and 225
+        {
+            facing = "down";
+        }
+        else if(rotation > 135 && rotation < 225)//135 and 180, 180 to 225
+        {
+            facing = "left";
+        }
+        else if(rotation > 225 && rotation < 315)
+        {
+            facing = "up";
+        }
+        return facing;
+    }
+    public void breedingAnimation()
+    {
+        //Unfinished
+        int x = this.getX();
+        int y = this.getY();
+    }
     public void decreaseTransparency(int value) {
         transparency = transparency - value;
         getImage().setTransparency(transparency);
@@ -189,6 +202,7 @@ public abstract class Animal extends SuperActor {
             getWorld().removeObject(this);
         }
     }
+
     public void findAndDrinkWater() {
         if(targetWater == null){
             targetWater = (WaterTile)getClosestInRange(WaterTile.class, 100);
@@ -204,7 +218,7 @@ public abstract class Animal extends SuperActor {
             if(!drinking){
                 moveTowards(targetWater, currentSpeed);
             }
-            
+
             if(isTouching(WaterTile.class)){
                 drinking = true;
                 drinkWater(4);
@@ -221,6 +235,7 @@ public abstract class Animal extends SuperActor {
     public void drinkWater(int waterAmount) {
         hydration = hydration + waterAmount;
     }
+
     public void drown() {
         transparency--;
         getImage().setTransparency(transparency);

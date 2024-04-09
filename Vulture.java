@@ -18,6 +18,7 @@ public class Vulture extends Animal
         sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
+        viewRadius = 400;
     }
 
     /**
@@ -50,12 +51,12 @@ public class Vulture extends Animal
 
     public void findDeadAnimalsAndEat() {
         if(targetAnimal == null || targetAnimal.isAlive() || targetAnimal.getWorld() == null){
-            targetAnimal = (Animal)getClosestInRange(Animal.class, 100, a -> ((Animal)a).isAlive());
+            targetAnimal = (Animal)getClosestInRange(Animal.class, viewRadius/4, a -> ((Animal)a).isAlive());
             if(targetAnimal == null) {
-                targetAnimal = (Animal)getClosestInRange(Animal.class, 180, a -> ((Animal)a).isAlive());
+                targetAnimal = (Animal)getClosestInRange(Animal.class, viewRadius/2, a -> ((Animal)a).isAlive());
             }
             if(targetAnimal == null) {
-                targetAnimal = (Animal)getClosestInRange(Animal.class, 250, a-> ((Animal)a).isAlive());
+                targetAnimal = (Animal)getClosestInRange(Animal.class, viewRadius, a-> ((Animal)a).isAlive());
             }
         }
 

@@ -18,6 +18,7 @@ public class Wolf extends Animal
         sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
+        viewRadius = 500;
     }
 
     /**
@@ -56,7 +57,7 @@ public class Wolf extends Animal
 
     public void breed() {
         // Find another wolf nearby
-        partner = (Wolf) getClosestInRange(this.getClass(), 300, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
+        partner = (Wolf) getClosestInRange(this.getClass(), viewRadius, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
         if(partner != null){
             if(distanceFrom(partner) < 40){
                 breeding = true;
@@ -84,22 +85,22 @@ public class Wolf extends Animal
 
     public void findPreyAndEat() {
         if(targetRabbit == null || !targetRabbit.isAlive()){
-            targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 100, r -> !((Rabbit)r).isAlive());
+            targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, viewRadius/4, r -> !((Rabbit)r).isAlive());
             if(targetRabbit == null) {
-                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 180, r -> !((Rabbit)r).isAlive());
+                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, viewRadius/2, r -> !((Rabbit)r).isAlive());
             }
             if(targetRabbit == null) {
-                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, 250, r -> !((Rabbit)r).isAlive());
+                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, viewRadius, r -> !((Rabbit)r).isAlive());
             }
         }
 
         if(targetDeer == null || !targetDeer.isAlive()){
-            targetDeer = (Deer)getClosestInRange(Deer.class, 100, d -> !((Deer)d).isAlive());
+            targetDeer = (Deer)getClosestInRange(Deer.class, viewRadius/4, d -> !((Deer)d).isAlive());
             if(targetDeer == null) {
-                targetDeer = (Deer)getClosestInRange(Deer.class, 180, d -> !((Deer)d).isAlive());
+                targetDeer = (Deer)getClosestInRange(Deer.class, viewRadius/2, d -> !((Deer)d).isAlive());
             }
             if(targetDeer == null) {
-                targetDeer = (Deer)getClosestInRange(Deer.class, 250, d -> !((Deer)d).isAlive());
+                targetDeer = (Deer)getClosestInRange(Deer.class, viewRadius, d -> !((Deer)d).isAlive());
             }
         }
 

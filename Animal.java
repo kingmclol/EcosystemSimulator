@@ -108,7 +108,7 @@ public abstract class Animal extends SuperActor {
             hydration--;
         }
         getFacing();
-        if(currentTile instanceof WaterTile && energy <= 0){
+        if(currentTile instanceof WaterTile && (energy <= 0 || hydration <= 0)){
             die();
             drown();
         }else if(energy <= 0 || hp <= 0 || hydration <= 0){

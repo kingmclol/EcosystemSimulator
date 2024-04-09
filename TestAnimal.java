@@ -36,10 +36,15 @@ public class TestAnimal extends Animal
         for(int i = 0; i<4; i++)
         {
             //Walking Animation:
-            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Up" + (i+1) + ".png");
-            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
-            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
-            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
+            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
+            
+            eatingAnimationUp[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
         */
         beingEaten = false;
@@ -191,19 +196,7 @@ public class TestAnimal extends Animal
     public void takeDamage(int dmg) {
         hp = hp - dmg;
     }
-    public static void init()
-    {
-        for(int i = 0; i<4; i++)
-        {
-            //eating Animation:
-            
-            //Walking Animation:
-            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Up" + (i+1) + ".png");
-            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
-            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
-            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
-        }
-    }
+
     public void animate()
     {
         

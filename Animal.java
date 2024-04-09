@@ -1,4 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.ArrayList;
 
 /**
  * Animal superclass where subclasses will inherit traits
@@ -11,6 +12,10 @@ public abstract class Animal extends SuperActor {
     protected int energy;
     protected int hp;
     protected int hydration;
+
+    protected int walkHeight;
+    protected ArrayList<Vector> currentPath;
+
     protected int viewRadius;
 
     protected double defaultSpeed;
@@ -92,14 +97,13 @@ public abstract class Animal extends SuperActor {
             wantToDrink = false;
         }
 
-        if(wantToDrink && !eating && alive && !breeding){
+        if(wantToDrink && !eating && alive && !breeding && hydration <= energy){
             findAndDrinkWater();
+
         }else if(alive){
             targetWater = null;
-            //move(currentSpeed);
-            //moveRandomly();
-        }
 
+        }
         if(!drinking && !eating && alive && !breeding){
             energy--;
             hydration--;
@@ -111,11 +115,17 @@ public abstract class Animal extends SuperActor {
         }else if(energy <= 0 || hp <= 0 || hydration <= 0){
             die();
         }
-        
+
+        if(currentPath == null && !eating && !drinking){
+            moveRandomly();
+            move(currentSpeed);
+        }
+        /*
         if(!wantToDrink && !wantToEat && alive && !breeding){
             move(currentSpeed);
             moveRandomly();
         }
+        */
     }
 
     public boolean isAlive() {
@@ -161,7 +171,42 @@ public abstract class Animal extends SuperActor {
     public void setIsBreeding(boolean breed){
         breeding = breed;
     }
+
+    protected void pathfindToTile(ArrayList<Vector> path, Tile targetTile,int stopDistance){
+        if(path == null){
+            Vector startPos = new Vector(getX(), getY());
+            Vector endPos = new Vector(targetTile.getX(), targetTile.getY());
+            ArrayList<Node> pathNodes = Board.findPath(startPos, endPos, walkHeight);
+            Board.displayPath(pathNodes, Color.BLACK);
+            currentPath = new ArrayList<Vector>();
+            for (Node node : pathNodes){
+                currentPath.add(Board.getRealPositionWithNode(node));
+            }
+            
+        }
+        else{
+            if(currentPath.size() == 1){
+                Vector finalTile = currentPath.get(0);
+                moveTowards(finalTile, currentSpeed);
+  
+            }
+            else{
+                Vector nextTile = currentPath.get(1);
+                if((Board.getTile(nextTile)).getHeightLevel() > walkHeight){
+                    path = null;
+                }
+                else{
+                    moveTowards(nextTile, currentSpeed);
     
+                    if(distanceFrom(nextTile) < 12){
+                        currentPath.remove(0);
+        
+                    }
+                }
+            }
+        }
+    }
+
     public void moveRandomly() {
         if (Greenfoot.getRandomNumber (60) == 50) {
             int angle = Greenfoot.getRandomNumber(360);
@@ -228,8 +273,7 @@ public abstract class Animal extends SuperActor {
             }
         }else{
             drinking = false;
-            move(currentSpeed);
-            moveRandomly();
+ 
         }
     }
 

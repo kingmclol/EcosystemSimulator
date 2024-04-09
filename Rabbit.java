@@ -145,20 +145,6 @@ public class Rabbit extends Animal
         hp = hp - dmg;
     }
 
-    public static void init()
-    {
-        for(int i = 0; i<4; i++)
-        {
-            //eating Animation:
-
-            //Walking Animation:
-            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit Animation/Walking/Up/Up" + (i+1) + ".png");
-            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit Animation/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
-            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit Animation/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
-            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit Animation/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
-        }
-    }
-
     public void animate()
     {
         if(eating || drinking)

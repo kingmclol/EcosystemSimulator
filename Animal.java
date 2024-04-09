@@ -57,7 +57,7 @@ public abstract class Animal extends SuperActor {
         enableStaticRotation();
         for(int i = 0; i<3; i++)
         {
-            breedingAnimation[i] = new GreenfootImage("");
+            breedingAnimation[i] = new GreenfootImage("images/Breeding/breed" + (i+1)+".png");
         }
     }
 

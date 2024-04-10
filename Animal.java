@@ -11,12 +11,13 @@ import java.util.ArrayList;
 public abstract class Animal extends SuperActor {
     protected int energy;
     protected int hp;
-    protected int hydration;
 
     protected int walkHeight;
     protected ArrayList<Vector> currentPath;
 
     protected int viewRadius;
+
+ 
 
     protected double defaultSpeed;
     protected double currentSpeed;
@@ -27,10 +28,7 @@ public abstract class Animal extends SuperActor {
     protected int currentAct = 0;
     protected boolean alive;
     protected boolean eating;
-    protected boolean drinking;
-    protected boolean full;
     protected boolean wantToEat;
-    protected boolean wantToDrink;
     protected boolean swimming;
     protected boolean runningAway;
 
@@ -46,17 +44,13 @@ public abstract class Animal extends SuperActor {
     protected Tile currentTile;
     
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
-  
-    protected WaterTile targetWater;
+
     public Animal() {
         transparency = 255;
         runningAway = false;
         swimming = false;
         alive = true;
         eating = false;
-        drinking = false;
-        full = true;
-        hydration = 3000;
         energy = 2000;
         hp = 1000;
         actsSinceLastBreeding = 0;
@@ -64,7 +58,6 @@ public abstract class Animal extends SuperActor {
         breeding = false;
         breedingCounter = 0;
         enableStaticRotation();
-        
     }
 
     protected abstract void animate();
@@ -80,9 +73,6 @@ public abstract class Animal extends SuperActor {
                 currentSpeed = defaultSpeed;
             }
         }
-        if(targetWater == null){
-            drinking = false;
-        }
 
         if(energy < 1000){
             wantToEat = true;
@@ -90,32 +80,20 @@ public abstract class Animal extends SuperActor {
             wantToEat = false;
         }
 
-        if(hydration < 1200){
-            wantToDrink = true;
-        }else if(hydration >= 2800){
-            wantToDrink = false;
-        }
-
-        if(wantToDrink && !eating && alive && !breeding && hydration <= energy){
-            findAndDrinkWater();
-
-        }else if(alive){
-            targetWater = null;
-
-        }
-        if(!drinking && !eating && alive && !breeding){
+        if(!eating && alive && !breeding){
             energy--;
-            hydration--;
         }
         getFacing();
-        if(currentTile instanceof WaterTile && (energy <= 0 || hydration <= 0)){
+        if(currentTile instanceof WaterTile && energy <= 0){
             die();
             drown();
-        }else if(energy <= 0 || hp <= 0 || hydration <= 0){
+        }else if(energy <= 0 || hp <= 0){
             die();
         }
 
-        if(currentPath == null && !eating && !drinking && alive){
+
+        if(currentPath == null && !eating && alive){
+
             moveRandomly();
             move(currentSpeed);
         }
@@ -248,37 +226,7 @@ public abstract class Animal extends SuperActor {
         }
     }
 
-    public void findAndDrinkWater() {
-        if(targetWater == null){
-            targetWater = (WaterTile)getClosestInRange(WaterTile.class, 100);
-            if(targetWater == null) {
-                targetWater = (WaterTile)getClosestInRange(WaterTile.class, 180);
-            }
-            if(targetWater == null) {
-                targetWater = (WaterTile)getClosestInRange(WaterTile.class, 250);
-            }
-        }
 
-        if(targetWater != null) {
-            if(!drinking){
-                moveTowards(targetWater, currentSpeed);
-            }
-
-            if(isTouching(WaterTile.class)){
-                drinking = true;
-                drinkWater(4);
-            }else{
-                drinking = false;
-            }
-        }else{
-            drinking = false;
- 
-        }
-    }
-
-    public void drinkWater(int waterAmount) {
-        hydration = hydration + waterAmount;
-    }
 
     public void drown() {
         transparency--;

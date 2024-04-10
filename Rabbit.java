@@ -11,6 +11,7 @@ public class Rabbit extends Animal
     //Instance Variables:
     private GrassTile targetGrass;
     private boolean beingEaten;
+
     //Animation
     private int indexAnimation = 0;
     private int currentAct = 0;
@@ -61,7 +62,7 @@ public class Rabbit extends Animal
         currentAct++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            if(!wantToEat && !wantToDrink){
+            if(!wantToEat){
                 breed();
             }
         }else{
@@ -75,14 +76,13 @@ public class Rabbit extends Animal
             eating = true;
         }
 
-        if(alive && !beingEaten && !breeding && !drinking){
+        if(alive && !beingEaten && !breeding){
             animate();
-            if(wantToEat && (energy < hydration || !wantToDrink)){
-                full = false;
+            if(wantToEat){
+
                 findGrassAndEat();
             }else{
                 targetGrass = null;
-                full = true;
             }
         }
     }
@@ -162,7 +162,7 @@ public class Rabbit extends Animal
 
     public void animate()
     {
-        if(eating || drinking)
+        if(eating)
         {
             if(facing.equals("right"))
             {

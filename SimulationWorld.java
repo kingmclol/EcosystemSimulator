@@ -21,7 +21,7 @@ public class SimulationWorld extends World
         Board.setWorld(this);
         Tile.setTimeFlow(true);
 
-        actCount = 0; 
+        actCount = 1200; 
         isNight = false;
     }
     

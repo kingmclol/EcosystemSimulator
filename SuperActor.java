@@ -22,6 +22,8 @@ import java.util.function.Predicate;
 
 public abstract class SuperActor extends SuperSmoothMover
 {
+    protected Tile targetTile;
+
     /*
     Not to be added during the vehicle simulator, but here so I won't forget. May or may not be neglected later on.
     ArrayList <Vector> path;

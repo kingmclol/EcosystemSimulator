@@ -30,7 +30,7 @@ public class Wolf extends Animal
         actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            if(!wantToEat && !wantToDrink){
+            if(!wantToEat){
                 breed();
             }
         }else{
@@ -43,14 +43,12 @@ public class Wolf extends Animal
             eating = true;
         }
         
-        if(alive && !breeding && !drinking){
+        if(alive && !breeding){
             if(wantToEat){
-                full = false;
                 findPreyAndEat();
             }else{
                 targetDeer = null;
                 targetRabbit = null;
-                full = true;
             }
         }
     }

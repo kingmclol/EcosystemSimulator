@@ -31,7 +31,7 @@ public class Deer extends Animal
         actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            if(!wantToEat && !wantToDrink){
+            if(!wantToEat){
                 breed();
             }
         }else{
@@ -44,13 +44,11 @@ public class Deer extends Animal
             eating = true;
         }
 
-        if(alive && !beingEaten && !breeding && !drinking){
+        if(alive && !beingEaten && !breeding){
             if(wantToEat){
-                full = false;
                 findBerriesAndEat();
             }else{
                 targetBush = null;
-                full = true;
             }
         }
     }

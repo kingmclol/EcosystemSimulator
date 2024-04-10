@@ -53,7 +53,7 @@ public class StoryWorld extends CursorWorld
         dialogueBox = new TextBox(dialogue[line], 24, Color.WHITE, null, 1, 100);
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
-        promptBox = new BreathingTextBox("Click to continue.", 18, Color.WHITE, null, 240);
+        promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
         nextWorldButton = new Button(() -> Greenfoot.setWorld(new SettingsWorld()), 200, 75);
     }
     public void act() {

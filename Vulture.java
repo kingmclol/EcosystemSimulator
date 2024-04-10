@@ -35,14 +35,11 @@ public class Vulture extends Animal
             eating = true;
         }
         
-        if(alive && !drinking){
+        if(alive){
             if(wantToEat){
-                full = false;
                 findDeadAnimalsAndEat();
             }else{
                 targetAnimal = null;
-                full = true;
-                
             }
         }
     }

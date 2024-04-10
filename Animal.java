@@ -23,7 +23,8 @@ public abstract class Animal extends SuperActor {
     protected double sprintSpeed;
     protected double waterSpeed;
     protected String facing = "left";
-
+    
+    protected int currentAct = 0;
     protected boolean alive;
     protected boolean eating;
     protected boolean drinking;
@@ -55,8 +56,8 @@ public abstract class Animal extends SuperActor {
         eating = false;
         drinking = false;
         full = true;
-        hydration = 500;
-        energy = 500;
+        hydration = 3000;
+        energy = 2000;
         hp = 1000;
         actsSinceLastBreeding = 0;
         ableToBreed = false;
@@ -68,6 +69,7 @@ public abstract class Animal extends SuperActor {
 
     protected abstract void animate();
     public void act() {
+        currentAct++;
         currentTile = Board.getTile(getPosition());
         if(currentTile instanceof WaterTile){
             swimming = true;
@@ -118,7 +120,6 @@ public abstract class Animal extends SuperActor {
             move(currentSpeed);
         }
         */
-       
         if(!wantToDrink && !wantToEat && alive && !breeding){
             move(currentSpeed);
             moveRandomly();
@@ -206,7 +207,7 @@ public abstract class Animal extends SuperActor {
     }
 
     public void moveRandomly() {
-        if (Greenfoot.getRandomNumber (60) == 50) {
+        if (Greenfoot.getRandomNumber (60) == 50 && (currentAct%60 == 0)) {
             int angle = Greenfoot.getRandomNumber(360);
             turn (angle);
         }
@@ -215,15 +216,16 @@ public abstract class Animal extends SuperActor {
     public String getFacing()
     {
         int rotation = this.getRotation()%360;
-        if((rotation >= 0 && rotation < 45) || (rotation > 315 && rotation < 360))
+        System.out.println(rotation);
+        if((rotation >= 0 && rotation <= 45) || (rotation > 315 && rotation < 360))
         {
             facing = "right";
         }
-        else if(rotation >= 45 && rotation <= 135)//between 45-135 && between 135 and 225
+        else if(rotation > 45 && rotation <= 135)//between 45-135 && between 135 and 225
         {
             facing = "down";
         }
-        else if(rotation > 135 && rotation < 225)//135 and 180, 180 to 225
+        else if(rotation > 135 && rotation <= 225)//135 and 180, 180 to 225
         {
             facing = "left";
         }
@@ -232,12 +234,6 @@ public abstract class Animal extends SuperActor {
             facing = "up";
         }
         return facing;
-    }
-    public void breedingAnimation()
-    {
-        //Unfinished
-        int x = this.getX();
-        int y = this.getY();
     }
     public void decreaseTransparency(int value) {
         transparency = transparency - value;

@@ -22,9 +22,11 @@ public class Night extends Effect
         setLocation(w.getWidth()/2, w.getHeight()/2);
     }
     public void startEffect() {
+        SimulationWorld.setNight(true);
         return;
     }
     public void stopEffect() {
+        SimulationWorld.setNight(false); 
         return;
     }
     /**

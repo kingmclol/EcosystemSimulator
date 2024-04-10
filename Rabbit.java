@@ -62,7 +62,7 @@ public class Rabbit extends Animal
         currentAct++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            if(!wantToEat && !wantToDrink){
+            if(!wantToEat){
                 breed();
             }
         }else{
@@ -76,14 +76,13 @@ public class Rabbit extends Animal
             eating = true;
         }
 
-        if(alive && !beingEaten && !breeding && !drinking){
+        if(alive && !beingEaten && !breeding){
             animate();
-            if(wantToEat && (energy < hydration || !wantToDrink)){
-                full = false;
+            if(wantToEat){
+
                 findGrassAndEat();
             }else{
                 targetGrass = null;
-                full = true;
             }
         }
     }
@@ -163,7 +162,7 @@ public class Rabbit extends Animal
 
     public void animate()
     {
-        if(eating || drinking)
+        if(eating)
         {
             if(facing.equals("right"))
             {

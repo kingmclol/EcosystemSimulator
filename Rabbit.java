@@ -91,6 +91,7 @@ public class Rabbit extends Animal
         // Find another rabbit nearby
         partner = (Rabbit) getClosestInRange(this.getClass(), viewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
         if(partner != null){
+            findingPartner = true;
             if(distanceFrom(partner) < 40){
                 breeding = true;
                 breedingCounter++;
@@ -123,9 +124,11 @@ public class Rabbit extends Animal
                     }
                 }
             }else{
+                System.out.println("find partner");
                 moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{
+            findingPartner = false;
             //moveRandomly();
             //move(currentSpeed);
         }
@@ -142,13 +145,14 @@ public class Rabbit extends Animal
             }
         }
         if(targetGrass != null){
-            if(distanceFrom(targetGrass) < 12){
-                currentPath = null;
+            targetTile = targetGrass;
+            if(distanceFrom(targetGrass) < 10){
                 targetGrass.nibble(7);
                 eat(4);
             }
             else{
-                moveTowards(targetGrass, currentSpeed, walkHeight);
+                System.out.println("find grass");
+                moveTowards(targetTile, currentSpeed, walkHeight);
             }
         }
     }

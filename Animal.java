@@ -43,6 +43,7 @@ public abstract class Animal extends SuperActor {
     public static final int BREEDING_DELAY = 150;
     protected Tile currentTile;
     protected Tile targetTile;
+    protected boolean findingPartner;
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
 
     public Animal() {
@@ -57,6 +58,7 @@ public abstract class Animal extends SuperActor {
         ableToBreed = false;
         breeding = false;
         breedingCounter = 0;
+        findingPartner = true;
         enableStaticRotation();
     }
 
@@ -84,16 +86,14 @@ public abstract class Animal extends SuperActor {
             energy--;
         }
         getFacing();
-        if(currentTile instanceof WaterTile && (energy <= 0 || hydration <= 0)){
+        if(currentTile instanceof WaterTile && energy <= 0){
             die();
             drown();
         }else if(energy <= 0 || hp <= 0){
             die();
         }
 
-
-        if(currentPath == null && !eating && alive){
-
+        if(!eating && alive && !findingPartner){
             moveRandomly();
         }
         /*
@@ -194,19 +194,24 @@ public abstract class Animal extends SuperActor {
             ArrayList<Tile> tiles = (ArrayList<Tile>) getObjectsInRange(200, Tile.class);
             Collections.shuffle(tiles);
             for (Tile t : tiles) {
+                if (t == currentTile) {
+                    continue;
+                }
                 if (t.getHeightLevel() <= walkHeight){
                     targetTile = t;
                 }
             }
         }
         
-        if (targetTile != null) moveTowards(targetTile, currentSpeed, walkHeight);
+        if (targetTile != null) {
+            System.out.println("move randomly");
+            moveTowards(targetTile, currentSpeed, walkHeight);
+        }
     }
 
     public String getFacing()
     {
         int rotation = this.getRotation()%360;
-        System.out.println(rotation);
         if((rotation >= 0 && rotation <= 45) || (rotation > 315 && rotation < 360))
         {
             facing = "right";

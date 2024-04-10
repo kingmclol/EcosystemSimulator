@@ -10,7 +10,7 @@ public class Rabbit extends Animal
 {
     //Instance Variables:
     private GrassTile targetGrass;
-    private boolean beingEaten;
+    
 
     //Animation
     private int indexAnimation = 0;
@@ -209,14 +209,6 @@ public class Rabbit extends Animal
 
     public int getHp() {
         return hp;
-    }
-
-    public boolean isBeingEaten() {
-        return beingEaten;
-    }
-
-    public void setBeingEaten(boolean eaten) {
-        beingEaten = eaten;
     }
 
 }

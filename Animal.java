@@ -44,6 +44,7 @@ public abstract class Animal extends SuperActor {
     protected Tile currentTile;
     protected Tile targetTile;
     protected boolean findingPartner;
+    protected boolean beingEaten;
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
 
     public Animal() {
@@ -58,7 +59,7 @@ public abstract class Animal extends SuperActor {
         ableToBreed = false;
         breeding = false;
         breedingCounter = 0;
-        findingPartner = true;
+        findingPartner = false;
         enableStaticRotation();
     }
 
@@ -191,7 +192,7 @@ public abstract class Animal extends SuperActor {
     public void moveRandomly() {
         if (Greenfoot.getRandomNumber(4) == 0 && currentAct%60 == 0) {
             targetTile = null;
-            ArrayList<Tile> tiles = (ArrayList<Tile>) getObjectsInRange(200, Tile.class);
+            ArrayList<Tile> tiles = (ArrayList<Tile>) getObjectsInRange(viewRadius, Tile.class);
             Collections.shuffle(tiles);
             for (Tile t : tiles) {
                 if (t == currentTile) {
@@ -238,7 +239,13 @@ public abstract class Animal extends SuperActor {
         }
     }
 
+    public boolean isBeingEaten() {
+        return beingEaten;
+    }
 
+    public void setBeingEaten(boolean eaten) {
+        beingEaten = eaten;
+    }
 
     public void drown() {
         transparency--;

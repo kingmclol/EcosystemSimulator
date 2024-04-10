@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.function.Predicate;
 /**
  * Wolf subclass
  * Wolves will prey on rabbits
@@ -8,8 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Wolf extends Animal
 {
-    private Rabbit targetRabbit;
-    private Deer targetDeer;
+    private Animal target;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     public Wolf() {
         super();
@@ -19,6 +18,7 @@ public class Wolf extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 500;
+        walkHeight = 1;
     }
 
     /**
@@ -37,7 +37,7 @@ public class Wolf extends Animal
             ableToBreed = false;
         }
         
-        if(((targetRabbit == null) || (getWorld() != null && !(distanceFrom(targetRabbit) < 5))) || (targetDeer == null) || (getWorld() != null && !(distanceFrom(targetDeer) < 5))){
+        if(target == null || target.getWorld() == null || distanceFrom(target) > 5){
             eating = false;
         }else{
             eating = true;
@@ -47,8 +47,7 @@ public class Wolf extends Animal
             if(wantToEat){
                 findPreyAndEat();
             }else{
-                targetDeer = null;
-                targetRabbit = null;
+                target = null;
             }
         }
     }
@@ -57,6 +56,7 @@ public class Wolf extends Animal
         // Find another wolf nearby
         partner = (Wolf) getClosestInRange(this.getClass(), viewRadius, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
         if(partner != null){
+            findingPartner = true;
             if(distanceFrom(partner) < 40){
                 breeding = true;
                 breedingCounter++;
@@ -76,57 +76,35 @@ public class Wolf extends Animal
                 moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{
-            moveRandomly();
-            move(currentSpeed);
+            findingPartner = false;
         }
     }
 
     public void findPreyAndEat() {
-        if(targetRabbit == null || !targetRabbit.isAlive()){
-            targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, viewRadius/4, r -> !((Rabbit)r).isAlive());
-            if(targetRabbit == null) {
-                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, viewRadius/2, r -> !((Rabbit)r).isAlive());
+        Predicate<Animal> filter = a -> (!a.isAlive() || a instanceof Wolf || a instanceof Vulture);
+        if (target == null || target.getWorld() == null || !target.isAlive()) {
+            target = (Animal) getClosestInRange(Animal.class, viewRadius/4, filter);
+            if (target == null){
+                target = (Animal) getClosestInRange(Animal.class, viewRadius/2, filter);
             }
-            if(targetRabbit == null) {
-                targetRabbit = (Rabbit)getClosestInRange(Rabbit.class, viewRadius, r -> !((Rabbit)r).isAlive());
-            }
-        }
-
-        if(targetDeer == null || !targetDeer.isAlive()){
-            targetDeer = (Deer)getClosestInRange(Deer.class, viewRadius/4, d -> !((Deer)d).isAlive());
-            if(targetDeer == null) {
-                targetDeer = (Deer)getClosestInRange(Deer.class, viewRadius/2, d -> !((Deer)d).isAlive());
-            }
-            if(targetDeer == null) {
-                targetDeer = (Deer)getClosestInRange(Deer.class, viewRadius, d -> !((Deer)d).isAlive());
+            if (target == null) {
+                target = (Animal) getClosestInRange(Animal.class, viewRadius, filter);
             }
         }
-
-        if(targetRabbit != null) {
-            moveTowards(targetRabbit, currentSpeed, walkHeight);
-            if(distanceFrom(targetRabbit) < 5){
-                targetRabbit.takeDamage(10);
-                targetRabbit.setBeingEaten(true);
-                if(targetRabbit.getHp() < 400){
-                    targetRabbit.disableStaticRotation();
-                    targetRabbit.setRotation(90);
+        
+        if (target != null) {
+            if (distanceFrom(target) < 5) {
+                target.takeDamage(10);
+                target.setBeingEaten(true);
+                if (target.getHp() < 400) {
+                    target.disableStaticRotation();
+                    target.setRotation(90);
                 }
                 eat(12);
             }
-        }else if(targetDeer != null){
-            moveTowards(targetDeer, currentSpeed, walkHeight);
-            if(distanceFrom(targetDeer) < 5){
-                targetDeer.takeDamage(10);
-                targetDeer.setBeingEaten(true);
-                if(targetDeer.getHp() < 400){
-                    targetDeer.disableStaticRotation();
-                    targetDeer.setRotation(90);
-                }
-                eat(12);
+            else {
+                moveTowards(target, currentSpeed, walkHeight);
             }
-        }else{
-            move(currentSpeed);
-            moveRandomly();
         }
     }
 

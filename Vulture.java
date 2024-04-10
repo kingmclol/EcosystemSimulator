@@ -19,6 +19,7 @@ public class Vulture extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
+        walkHeight = 3;
     }
 
     /**
@@ -58,14 +59,13 @@ public class Vulture extends Animal
         }
 
         if(targetAnimal != null) {
-            moveTowards(targetAnimal, currentSpeed, walkHeight);
             if(distanceFrom(targetAnimal) < 5){
                 targetAnimal.decreaseTransparency(1);
                 eat(4);
             }
-        }else{
-            move(currentSpeed);
-            moveRandomly();
+            else {
+                moveTowards(targetAnimal, currentSpeed, walkHeight);
+            }
         }
     }
 

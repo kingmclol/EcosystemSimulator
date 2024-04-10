@@ -171,16 +171,20 @@ public abstract class Animal extends SuperActor {
         breeding = breed;
     }
 
-    protected void pathfindToTile(ArrayList<Vector> path, Tile targetTile,int stopDistance){
-        if(path == null){
+    protected void pathfindToTile(Tile targetTile,int stopDistance){
+        if(currentPath == null){
             Vector startPos = new Vector(getX(), getY());
             Vector endPos = new Vector(targetTile.getX(), targetTile.getY());
             ArrayList<Node> pathNodes = Board.findPath(startPos, endPos, walkHeight);
-            Board.displayPath(pathNodes, Color.BLACK);
-            currentPath = new ArrayList<Vector>();
-            for (Node node : pathNodes){
-                currentPath.add(Board.getRealPositionWithNode(node));
+            if(pathNodes != null){
+                
+                Board.displayPath(pathNodes, Color.BLACK);
+                currentPath = new ArrayList<Vector>();
+                for (Node node : pathNodes){
+                    currentPath.add(Board.getRealPositionWithNode(node));
+                }
             }
+
             
         }
         else{
@@ -192,7 +196,7 @@ public abstract class Animal extends SuperActor {
             else{
                 Vector nextTile = currentPath.get(1);
                 if((Board.getTile(nextTile)).getHeightLevel() > walkHeight){
-                    path = null;
+                    currentPath = null;
                 }
                 else{
                     moveTowards(nextTile, currentSpeed);

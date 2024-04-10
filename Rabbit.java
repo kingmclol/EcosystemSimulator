@@ -78,12 +78,7 @@ public class Rabbit extends Animal
 
         if(alive && !beingEaten && !breeding){
             animate();
-<<<<<<< HEAD
             if(wantToEat){
-=======
-            if(wantToEat && (energy < hydration || !wantToDrink)){
-                full = false;
->>>>>>> a524bdf6d6f60480b9ba88104e7190faab0edd8e
                 findGrassAndEat();
             }else{
                 targetGrass = null;

@@ -32,7 +32,6 @@ public abstract class Animal extends SuperActor {
 
     protected int transparency;
     
-    protected int viewRadius;
 
     protected Animal partner;
     protected boolean ableToBreed;
@@ -80,24 +79,8 @@ public abstract class Animal extends SuperActor {
             wantToEat = false;
         }
 
-<<<<<<< HEAD
         if(!eating && alive && !breeding){
-=======
-        if(hydration < 1200){
-            wantToDrink = true;
-        }else if(hydration >= 2800){
-            wantToDrink = false;
-        }
 
-        if(wantToDrink && !eating && alive && !breeding && hydration <= energy){
-            findAndDrinkWater();
-
-        }else if(alive){
-            targetWater = null;
-        }
-      
-        if(!drinking && !eating && alive && !breeding){
->>>>>>> a524bdf6d6f60480b9ba88104e7190faab0edd8e
             energy--;
         }
         getFacing();
@@ -107,18 +90,14 @@ public abstract class Animal extends SuperActor {
         }else if(energy <= 0 || hp <= 0){
             die();
         }
-<<<<<<< HEAD
-        
-        if(!wantToEat && alive && !breeding){
-=======
 
-        if(currentPath == null && !eating && !drinking && alive){
+
+        if(currentPath == null && !eating && alive){
             moveRandomly();
             move(currentSpeed);
         }
         /*
         if(!wantToDrink && !wantToEat && alive && !breeding){
->>>>>>> a524bdf6d6f60480b9ba88104e7190faab0edd8e
             move(currentSpeed);
             moveRandomly();
         }
@@ -246,41 +225,7 @@ public abstract class Animal extends SuperActor {
         }
     }
 
-<<<<<<< HEAD
-=======
-    public void findAndDrinkWater() {
-        if(targetWater == null){
-            targetWater = (WaterTile)getClosestInRange(WaterTile.class, 100);
-            if(targetWater == null) {
-                targetWater = (WaterTile)getClosestInRange(WaterTile.class, 180);
-            }
-            if(targetWater == null) {
-                targetWater = (WaterTile)getClosestInRange(WaterTile.class, 250);
-            }
-        }
 
-        if(targetWater != null) {
-            if(!drinking){
-                moveTowards(targetWater, currentSpeed);
-            }
-
-            if(isTouching(WaterTile.class)){
-                drinking = true;
-                drinkWater(4);
-            }else{
-                drinking = false;
-            }
-        }else{
-            drinking = false;
- 
-        }
-    }
-
-    public void drinkWater(int waterAmount) {
-        hydration = hydration + waterAmount;
-    }
-
->>>>>>> a524bdf6d6f60480b9ba88104e7190faab0edd8e
     public void drown() {
         transparency--;
         getImage().setTransparency(transparency);

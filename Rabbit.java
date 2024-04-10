@@ -123,7 +123,7 @@ public class Rabbit extends Animal
                     }
                 }
             }else{
-                moveTowards(partner, currentSpeed);
+                moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{
             //moveRandomly();
@@ -140,18 +140,14 @@ public class Rabbit extends Animal
             if(targetGrass == null) {
                 targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 250, g -> !((GrassTile)g).grassAvailable());
             }
-            if(targetGrass == null){
-                currentPath = null;
-            }
         }
         if(targetGrass != null){
             if(distanceFrom(targetGrass) < 12){
-                currentPath = null;
                 targetGrass.nibble(7);
                 eat(4);
             }
             else{
-                pathfindToTile(targetGrass, 12);
+                moveTowards(targetGrass, currentSpeed, walkHeight);
             }
         }
     }

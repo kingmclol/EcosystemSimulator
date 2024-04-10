@@ -75,7 +75,7 @@ public class Deer extends Animal
 
                 }
             }else{
-                moveTowards(partner, currentSpeed);
+                moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{
             moveRandomly();
@@ -99,7 +99,7 @@ public class Deer extends Animal
         }
 
         if(targetBush != null) {
-            moveTowards(targetBush, currentSpeed);
+            moveTowards(targetBush, currentSpeed, walkHeight);
             if(distanceFrom(targetBush) < 5){
                 targetBush.nibble(4);
                 eat(7);

@@ -75,7 +75,7 @@ public class Wolf extends Animal
 
                 }
             }else{
-                moveTowards(partner, currentSpeed);
+                moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{
             moveRandomly();
@@ -105,7 +105,7 @@ public class Wolf extends Animal
         }
 
         if(targetRabbit != null) {
-            moveTowards(targetRabbit, currentSpeed);
+            moveTowards(targetRabbit, currentSpeed, walkHeight);
             if(distanceFrom(targetRabbit) < 5){
                 targetRabbit.takeDamage(10);
                 targetRabbit.setBeingEaten(true);
@@ -116,7 +116,7 @@ public class Wolf extends Animal
                 eat(12);
             }
         }else if(targetDeer != null){
-            moveTowards(targetDeer, currentSpeed);
+            moveTowards(targetDeer, currentSpeed, walkHeight);
             if(distanceFrom(targetDeer) < 5){
                 targetDeer.takeDamage(10);
                 targetDeer.setBeingEaten(true);

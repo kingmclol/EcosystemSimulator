@@ -61,7 +61,7 @@ public class Vulture extends Animal
         }
 
         if(targetAnimal != null) {
-            moveTowards(targetAnimal, currentSpeed);
+            moveTowards(targetAnimal, currentSpeed, walkHeight);
             if(distanceFrom(targetAnimal) < 5){
                 targetAnimal.decreaseTransparency(1);
                 eat(4);

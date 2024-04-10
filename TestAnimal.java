@@ -48,7 +48,7 @@ public class TestAnimal extends Animal
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
-        */
+        
         beingEaten = false;
         defaultSpeed = 1.0;
         currentSpeed = defaultSpeed;

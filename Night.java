@@ -8,15 +8,24 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Night extends Effect
 {
-    private int actsLeft; 
     public Night() 
     {
-        image = new GreenfootImage(1024, 768);
+        super(1200, 180); 
+    }
+    public void addedToWorld(World w) {
+        super.addedToWorld(w);
+        GreenfootImage image = new GreenfootImage(w.getWidth(), w.getHeight());
         image.setColor(Color.BLACK);
-        image.fill(); 
-        image.setTransparency(150); 
-        
-        actsLeft = 1200; 
+        image.fill();
+        image.setTransparency(0);
+        setImage(image);
+        setLocation(w.getWidth()/2, w.getHeight()/2);
+    }
+    public void startEffect() {
+        return;
+    }
+    public void stopEffect() {
+        return;
     }
     /**
      * Act - do whatever the Night wants to do. This method is called whenever
@@ -24,13 +33,6 @@ public class Night extends Effect
      */
     public void act()
     {
-        actsLeft--; 
-        
-        if (actsLeft == 0) {
-            SimulationWorld sw = (SimulationWorld)getWorld();
-            getWorld().removeObject(this); 
-            
-            sw.setNight(false);
-        }
+        super.act();
     }
 }

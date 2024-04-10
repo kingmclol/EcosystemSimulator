@@ -41,6 +41,7 @@ public class NodeGrid
     public int getTrueY(int nodeY) {
         return tileSize/2 + tileSize * nodeY;
     }
+
     /**
      * Initialize the grid with some basic nodes
      */

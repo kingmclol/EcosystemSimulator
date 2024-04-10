@@ -17,8 +17,12 @@ public abstract class CursorWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1008, 768, 1, false); 
-        setPaintOrder(Cursor.class, UI.class, Node.class, Animal.class, Tile.class);
+        setPaintOrder(Cursor.class,UI.class, BreedingEffect.class, Node.class, Animal.class, Tile.class);
         addObject(cursor, 0,0);
+    }
+    public void act()
+    {
+        addObject(new Rabbit(), 200, 200);
     }
     protected static Cursor getCursor(){
         return cursor;

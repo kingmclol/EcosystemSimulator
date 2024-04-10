@@ -11,7 +11,7 @@ public class TestAnimal extends Animal
 {
     private GrassTile targetGrass;
     private boolean beingEaten;
-    private int walkHeight = 1;
+    
     //Animation
     
     private int indexAnimation = 0;
@@ -32,6 +32,7 @@ public class TestAnimal extends Animal
         super();
         facing = "right";
         energy = 1100;
+        walkHeight = 2;
         for(int i = 0; i<4; i++)
         {
             //Walking Animation:
@@ -77,7 +78,7 @@ public class TestAnimal extends Animal
                 eating = true;
             }
             animate();
-            if(wantToEat && energy < hydration){
+            if(wantToEat && (energy < hydration || !wantToDrink)){
                 full = false;
                 findGrassAndEat();
             }else{
@@ -155,7 +156,7 @@ public class TestAnimal extends Animal
                 eat(4);
             }
             else{
-                pathfindToTile(currentPath, targetGrass, 12);
+                pathfindToTile(targetGrass, 12);
             }
             
             

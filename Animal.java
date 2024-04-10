@@ -35,6 +35,8 @@ public abstract class Animal extends SuperActor {
     protected boolean runningAway;
 
     protected int transparency;
+    
+    protected int viewRadius;
 
     protected Animal partner;
     protected boolean ableToBreed;
@@ -64,7 +66,6 @@ public abstract class Animal extends SuperActor {
         breeding = false;
         breedingCounter = 0;
         enableStaticRotation();
-        
     }
 
     protected abstract void animate();
@@ -101,8 +102,8 @@ public abstract class Animal extends SuperActor {
 
         }else if(alive){
             targetWater = null;
-
         }
+      
         if(!drinking && !eating && alive && !breeding){
             energy--;
             hydration--;

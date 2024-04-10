@@ -28,7 +28,7 @@ public class Rabbit extends Animal
     public Rabbit() {
         super();
         facing = "right";
-
+        walkHeight = 1;
         for(int i = 0; i<4; i++)
         {
             //Walking Animation:
@@ -68,7 +68,7 @@ public class Rabbit extends Animal
             ableToBreed = false;
         }
 
-        if((targetGrass == null) || targetGrass.getWorld() == null || (getWorld() != null && !(distanceFrom(targetGrass) < 5))){
+        if((targetGrass == null) || targetGrass.getWorld() == null || (getWorld() != null && !(distanceFrom(targetGrass) < 12))){
             eating = false;
         }
         else{
@@ -77,7 +77,7 @@ public class Rabbit extends Animal
 
         if(alive && !beingEaten && !breeding && !drinking){
             animate();
-            if(wantToEat){
+            if(wantToEat && (energy < hydration || !wantToDrink)){
                 full = false;
                 findGrassAndEat();
             }else{
@@ -126,31 +126,33 @@ public class Rabbit extends Animal
                 moveTowards(partner, currentSpeed);
             }
         }else{
-            moveRandomly();
-            move(currentSpeed);
+            //moveRandomly();
+            //move(currentSpeed);
         }
     }
 
     public void findGrassAndEat() {
         if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
-            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
+            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> !((GrassTile)g).grassAvailable());
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/2, g -> !((GrassTile)g).grassAvailable());
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 180, g -> !((GrassTile)g).grassAvailable());
             }
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 250, g -> !((GrassTile)g).grassAvailable());
+            }
+            if(targetGrass == null){
+                currentPath = null;
             }
         }
-
-        if(targetGrass != null) {
-            moveTowards(targetGrass, currentSpeed);
+        if(targetGrass != null){
             if(distanceFrom(targetGrass) < 12){
+                currentPath = null;
                 targetGrass.nibble(7);
                 eat(4);
             }
-        }else{
-            move(currentSpeed);
-            moveRandomly();
+            else{
+                pathfindToTile(targetGrass, 12);
+            }
         }
     }
 

@@ -33,11 +33,14 @@ public class Button extends UI
         pressedImg.fill();
         setImage(img);
     }
-    public Button(Runnable function, int width, int height, GreenfootImage hoverImg, GreenfootImage pressedImg){
+    public Button(Runnable function, int width, int height, GreenfootImage defaultImg, GreenfootImage hoverImg, GreenfootImage pressedImg){
         this.width = width;
+        clicked = false;
         this.function = function;
         this.height = height;
-        
+        img = defaultImg;
+        this.hoverImg = hoverImg;
+        this.pressedImg = pressedImg;
         setImage(img);
     }
 

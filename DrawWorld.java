@@ -37,7 +37,7 @@ public class DrawWorld extends CursorWorld
         mouseDrawType = 0;
         drawing = false;
         
-        addObject(new TileSelector(), getWidth() + 75, getHeight()/2);
+        addObject(new TileSelector(), getWidth() + 42, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false);
@@ -49,6 +49,7 @@ public class DrawWorld extends CursorWorld
         if (drawing) {
             Tile tileHovered = null;
             ArrayList<Actor> hoveredActors = (ArrayList<Actor>)cursor.getHoveredActors();
+            System.out.println(hoveredActors);
             for(Actor a : hoveredActors){
                 if (a instanceof TileSelector) {
                     if((((TileSelector)a).getState() || !((TileSelector)a).getClosed())){
@@ -208,6 +209,12 @@ public class DrawWorld extends CursorWorld
         }
         System.out.println("err: tried to draw tile, but not cannot recognize mouseDrawType: " + mouseDrawType);
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
+    }
+    public static void setMouseDrawType(int type){
+        if(type > -1 && type < 7){
+            mouseDrawType = type;
+        }
+        
     }
 
 }

@@ -32,7 +32,9 @@ public class TestAnimal extends Animal
         super();
         facing = "right";
         energy = 1100;
+
         walkHeight = 2;
+
         for(int i = 0; i<4; i++)
         {
             //Walking Animation:
@@ -46,6 +48,7 @@ public class TestAnimal extends Animal
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
+        */
         beingEaten = false;
         defaultSpeed = 1.0;
         currentSpeed = defaultSpeed;
@@ -198,6 +201,7 @@ public class TestAnimal extends Animal
 
     public void animate()
     {
+        
         if(eating)
         {
             /*
@@ -223,6 +227,7 @@ public class TestAnimal extends Animal
             }
              */
         }
+        /*
         else
         {
             if(facing.equals("right"))
@@ -246,6 +251,7 @@ public class TestAnimal extends Animal
                 indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
             }
         }
+        */
     }
 
     public int getHp() {

@@ -23,7 +23,8 @@ public abstract class Animal extends SuperActor {
     protected double sprintSpeed;
     protected double waterSpeed;
     protected String facing = "left";
-
+    
+    protected int currentAct = 0;
     protected boolean alive;
     protected boolean eating;
     protected boolean drinking;
@@ -43,7 +44,7 @@ public abstract class Animal extends SuperActor {
     public static final int BREEDING_THRESHOLD = 2000;
     public static final int BREEDING_DELAY = 150;
     protected Tile currentTile;
-    protected GreenfootImage[] breedingAnimation = new GreenfootImage[3];
+    
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
   
     protected WaterTile targetWater;
@@ -63,14 +64,12 @@ public abstract class Animal extends SuperActor {
         breeding = false;
         breedingCounter = 0;
         enableStaticRotation();
-        for(int i = 0; i<3; i++)
-        {
-            breedingAnimation[i] = new GreenfootImage("images/Breeding/breed" + (i+1)+".png");
-        }
+        
     }
 
     protected abstract void animate();
     public void act() {
+        currentAct++;
         currentTile = Board.getTile(getPosition());
         if(currentTile instanceof WaterTile){
             swimming = true;
@@ -126,6 +125,7 @@ public abstract class Animal extends SuperActor {
             moveRandomly();
         }
         */
+        
     }
 
     public boolean isAlive() {
@@ -212,7 +212,7 @@ public abstract class Animal extends SuperActor {
     }
 
     public void moveRandomly() {
-        if (Greenfoot.getRandomNumber (60) == 50) {
+        if (Greenfoot.getRandomNumber (60) == 50 && (currentAct%60 == 0)) {
             int angle = Greenfoot.getRandomNumber(360);
             turn (angle);
         }
@@ -221,15 +221,16 @@ public abstract class Animal extends SuperActor {
     public String getFacing()
     {
         int rotation = this.getRotation()%360;
-        if((rotation >= 0 && rotation < 45) || (rotation > 315 && rotation < 360))
+        System.out.println(rotation);
+        if((rotation >= 0 && rotation <= 45) || (rotation > 315 && rotation < 360))
         {
             facing = "right";
         }
-        else if(rotation >= 45 && rotation <= 135)//between 45-135 && between 135 and 225
+        else if(rotation > 45 && rotation <= 135)//between 45-135 && between 135 and 225
         {
             facing = "down";
         }
-        else if(rotation > 135 && rotation < 225)//135 and 180, 180 to 225
+        else if(rotation > 135 && rotation <= 225)//135 and 180, 180 to 225
         {
             facing = "left";
         }
@@ -238,12 +239,6 @@ public abstract class Animal extends SuperActor {
             facing = "up";
         }
         return facing;
-    }
-    public void breedingAnimation()
-    {
-        //Unfinished
-        int x = this.getX();
-        int y = this.getY();
     }
     public void decreaseTransparency(int value) {
         transparency = transparency - value;

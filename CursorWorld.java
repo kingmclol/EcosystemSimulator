@@ -20,6 +20,10 @@ public abstract class CursorWorld extends World
         setPaintOrder(Cursor.class,UI.class, BreedingEffect.class, Node.class, Animal.class, Tile.class);
         addObject(cursor, 0,0);
     }
+    public void act()
+    {
+        addObject(new Rabbit(), 200, 200);
+    }
     protected static Cursor getCursor(){
         return cursor;
         

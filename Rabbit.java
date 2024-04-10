@@ -15,16 +15,15 @@ public class Rabbit extends Animal
     private int indexAnimation = 0;
     private int currentAct = 0;
     private boolean spawnOne = true;
-    private static GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
-    private static GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
-    private static GreenfootImage[] eatingAnimationLeft = new GreenfootImage[4];
-    private static GreenfootImage[] eatingAnimationRight = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationLeft = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationRight = new GreenfootImage[4];
 
-    private static GreenfootImage[] walkingAnimationUp = new GreenfootImage[4];
-    private static GreenfootImage[] walkingAnimationDown = new GreenfootImage[4];
-    private static GreenfootImage[] walkingAnimationLeft = new GreenfootImage[4];
-    private static GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
-
+    private GreenfootImage[] walkingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationDown = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
     //https://opengameart.org/content/reorganised-lpc-rabbit
     public Rabbit() {
         super();
@@ -37,7 +36,7 @@ public class Rabbit extends Animal
             walkingAnimationDown[i] = new GreenfootImage("images/Rabbit/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
             walkingAnimationRight[i] = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
             walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
-            
+
             eatingAnimationUp[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationDown[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
@@ -95,7 +94,7 @@ public class Rabbit extends Animal
             if(distanceFrom(partner) < 40){
                 breeding = true;
                 breedingCounter++;
-                
+
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
                     getWorld().addObject(new Rabbit(), getX(), getY());
@@ -131,7 +130,7 @@ public class Rabbit extends Animal
             move(currentSpeed);
         }
     }
-    
+
     public void findGrassAndEat() {
         if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
             targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
@@ -142,7 +141,7 @@ public class Rabbit extends Animal
                 targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
             }
         }
-        
+
         if(targetGrass != null) {
             moveTowards(targetGrass, currentSpeed);
             if(distanceFrom(targetGrass) < 12){

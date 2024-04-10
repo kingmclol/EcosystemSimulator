@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class BreedingEffect extends Effect
+public class BreedingEffect extends SuperActor
 {
     private int breedCount = 0;
     private int timer;
@@ -22,6 +22,7 @@ public class BreedingEffect extends Effect
         for(int i = 0; i<5; i++)
         {
             breedingAnimation[i] = new GreenfootImage("images/Breeding/breed" + (i+1)+".png");
+            breedingAnimation[i].scale(getImage().getWidth()*3/4, getImage().getHeight()*3/4);
         }
         setImage(breedingAnimation[0]);
     }
@@ -36,7 +37,6 @@ public class BreedingEffect extends Effect
               setImage(breedingAnimation[index]);
               index = (index+1)%(breedingAnimation.length);
             }
-            
         }
         else
         {

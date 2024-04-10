@@ -17,6 +17,8 @@ public abstract class Animal extends SuperActor {
 
     protected int viewRadius;
 
+ 
+
     protected double defaultSpeed;
     protected double currentSpeed;
     protected double sprintSpeed;
@@ -80,7 +82,6 @@ public abstract class Animal extends SuperActor {
         }
 
         if(!eating && alive && !breeding){
-
             energy--;
         }
         getFacing();
@@ -93,6 +94,7 @@ public abstract class Animal extends SuperActor {
 
 
         if(currentPath == null && !eating && alive){
+
             moveRandomly();
             move(currentSpeed);
         }
@@ -224,6 +226,7 @@ public abstract class Animal extends SuperActor {
             getWorld().removeObject(this);
         }
     }
+
 
 
     public void drown() {

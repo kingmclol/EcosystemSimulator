@@ -33,7 +33,6 @@ public abstract class Animal extends SuperActor {
     protected boolean runningAway;
 
     protected int transparency;
-    
 
     protected Animal partner;
     protected boolean ableToBreed;

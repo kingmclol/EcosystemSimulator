@@ -118,9 +118,8 @@ public abstract class Animal extends SuperActor {
         if(!eating && !drinking && alive){
             moveRandomly();
         }
-        */
         if(!wantToDrink && !wantToEat && alive && !breeding){
-            move(currentSpeed);˚
+            move(currentSpeed);
             moveRandomly();
         }
         

@@ -17,10 +17,10 @@ public class SimulationWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1008, 768, 1); 
-        setPaintOrder(UI.class, Animal.class, Node.class, Tile.class);
+        setPaintOrder(UI.class,BreedingEffect.class, Animal.class, Node.class, Tile.class);
         Board.setWorld(this);
         Tile.setTimeFlow(true);
-        
+
         actCount = 0; 
         isNight = false;
     }
@@ -28,14 +28,16 @@ public class SimulationWorld extends World
     public void act()
     {
         actCount++; 
-        //spawn();
+        spawn();
     }
     
     public void spawn() 
     {
-        if (actCount % 2400 == 0) {
+        if (actCount >= 2400) {
+            System.out.println("ADFA ADSFD F");
             addObject(new Night(), 0, 0);
             isNight = true; 
+            actCount = 0;
         }
     }
     

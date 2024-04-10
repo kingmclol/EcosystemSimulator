@@ -176,6 +176,9 @@ public class Board
     public static Node getNodeWithRealPosition(Vector realPosition) {
         return nodeGrid.getNode(nodeGrid.getNodePosition(realPosition));
     }
+    public static Vector getRealPositionWithNode(Node node) {
+        return new Vector(nodeGrid.getTrueX(node.getX()), nodeGrid.getTrueY(node.getY()));
+    }
     /**
      * Given a position relative to the World, retorn the Tile that the position is residing in.
      * @param realPosition The position in terms of pixels.
@@ -338,16 +341,24 @@ public class Board
             System.out.println("warn: attempted to display a path, but path was null");
             return;
         }
+        GreenfootImage c1 = new GreenfootImage(tileSize, tileSize);
+        c1.setColor(Color.ORANGE);
+        c1.setTransparency(200);
+        c1.fill();
+        GreenfootImage c2 = new GreenfootImage(tileSize, tileSize);
+        c2.setColor(Color.BLACK);
+        c2.setTransparency(200);
+        c2.fill();
         ArrayList<Node> existingNodes = (ArrayList<Node>)w.getObjects(Node.class);
         for (Node node : existingNodes) {
             w.removeObject(node);
         }
         Node start = path.get(0);
-        start.setImage(Color.ORANGE, tileSize);
+        start.setImage(c1);
         w.addObject(start, nodeGrid.getTrueX(start.getX()), nodeGrid.getTrueY(start.getY()));
         for (int i = 1; i < path.size(); i++) {
             Node n = path.get(i);
-            n.setImage(c, tileSize);
+            n.setImage(c2);
             w.addObject(n, nodeGrid.getTrueX(n.getX()), nodeGrid.getTrueY(n.getY()));
         }
     }

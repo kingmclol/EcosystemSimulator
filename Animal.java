@@ -97,11 +97,6 @@ public abstract class Animal extends SuperActor {
         if(!eating && alive && !findingPartner){
             moveRandomly();
         }
-        
-        // if(!wantToEat && alive && !breeding){
-            // move(currentSpeed);
-            // moveRandomly();
-        // }
     }
     
     public boolean isAlive() {

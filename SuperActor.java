@@ -23,7 +23,7 @@ import java.util.function.Predicate;
 public abstract class SuperActor extends SuperSmoothMover
 {
     protected Node targetNodePrev;
-
+    private double rotation;
     /*
     Not to be added during the vehicle simulator, but here so I won't forget. May or may not be neglected later on.
     ArrayList <Vector> path;
@@ -111,6 +111,9 @@ public abstract class SuperActor extends SuperSmoothMover
      */
     protected void displace(Vector displacement) {
         setLocation(getPreciseX()+displacement.getX(), getPreciseY()+displacement.getY());
+        double rad = Math.atan2(displacement.getX(), displacement.getY());
+        double degreesCCW = Math.toDegrees(rad);
+        rotation = (360 - degreesCCW + 90)%360; // make CW;
     }
     /**
      * Returns the displacement Vector pointing from the current position to the SuperActor's
@@ -223,4 +226,16 @@ public abstract class SuperActor extends SuperSmoothMover
         targets.removeIf(filter);
         return getClosest(targets);
     }
+    @Override
+    /**
+     * Returns the rotation of this actor.
+     * Because when you use movement from the displace() you do not do any rotation manipulation
+     * so it is kept track within the superactor itself now
+     * @return the rotation of the superactkr
+     */
+    public int getRotation(){
+        System.out.println(rotation);
+        return (int)Math.round(rotation);
+    }
+    
 }

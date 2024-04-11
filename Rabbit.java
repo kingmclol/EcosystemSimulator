@@ -138,6 +138,7 @@ public class Rabbit extends Animal
     }
 
     public void findOrEatFood() {
+        //System.out.println("attempt for food");
         if(!(target instanceof GrassTile)) { // if target is null, or not a grasstile (forcing target to be grasstile only)
             //find a target
             SuperActor search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
@@ -149,6 +150,7 @@ public class Rabbit extends Animal
             }
             
             if (search != null) { // found a grass tiel.
+                //System.out.println("Grass found");
                 target = search;
             }
         }
@@ -156,20 +158,22 @@ public class Rabbit extends Animal
         
         if (target instanceof GrassTile) { // target is a grass tile, and exists (successfully found eligble food)
             GrassTile targetGrass = (GrassTile) target; // Create temp variable to access GrassTile instance methods
-            
             // Check if a retargeting is required.
             if (!targetGrass.grassAvailable() || targetGrass.getWorld() == null) {
                 target = null;
                 return;
             }
             else if(distanceFrom(target) < 10){ // if close enough.
+                //System.out.println("eating grass");
                 targetGrass.nibble(7);
                 eat(4);
             }
             else{ // far, move closer.
+                //System.out.println("move closer to grass");
                 moveTowards(targetGrass, currentSpeed, walkHeight);
             }
         } else { // No grass tile found...
+            //System.out.println("move random in eat method");
             moveRandomly(); // Should move randomly for this act instead...
         }        
     }

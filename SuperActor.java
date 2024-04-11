@@ -68,9 +68,16 @@ public abstract class SuperActor extends SuperSmoothMover
         if (target == null) {
             return; // Can't do anything about this.
         }
-        Node targetNode = Board.getNodeWithRealPosition(target.getPosition());
         
-        if (targetNode != targetNodePrev) { // target position is different from what was originally. Either new target, or the target moved somewhere else.
+        // Get nodes from the nodeGrid for comparison
+        Node targetNode = Board.getNodeWithRealPosition(target.getPosition());
+        Node currentNode = Board.getNodeWithRealPosition(getPosition());
+        
+        if (targetNode == currentNode) { // Same node as target!!!
+            moveTowards(target, distance); // Within same node (no need to pathfind), so just move towards the target directly.
+            return; // nothing else to do.
+        }
+        else if (targetNode != targetNodePrev) { // target position is different from what was originally. Either new target, or the target moved somewhere else.
             if(SHOW_PATHFINDING_DEBUG) System.out.println("target:" + target + " | " + " new target node! new: " + targetNode + " vs. prev: " + targetNodePrev);
             targetNodePrev = targetNode; // store the target's node for comparison later on.
             path = null; // need new path to the target.
@@ -83,9 +90,9 @@ public abstract class SuperActor extends SuperSmoothMover
                     getWorld().removeObject(n);
                 }
             }
-            Node currentNode = Board.getNodeWithRealPosition(getPosition());
             
-            Tile currentTile = Board.getTile(Board.getRealPositionWithNode(currentNode)); // to validate my current position.
+            
+            Tile currentTile = Board.getTile(getPosition()); // to validate my current position.
             if (currentTile.getHeightLevel() > maxTileHeight) { // Somehow, am at a tile i shouldn't be in... possibly, at a corner between two walkable tiles.
                 for (int i = 0; i < 3; i++) { // Attempt three times to find a proper position to be in.
                     Vector extraDisplacement = new Vector(Greenfoot.getRandomNumber(3), Greenfoot.getRandomNumber(3));
@@ -97,7 +104,6 @@ public abstract class SuperActor extends SuperSmoothMover
                 }
             }
             
-            if (targetNode == currentNode) return; // already at the destination. No need to pathfind.
             
             // Pathfind to target.
             ArrayList<Node> nodes = Board.findPath(currentNode, targetNode, maxTileHeight);
@@ -121,7 +127,7 @@ public abstract class SuperActor extends SuperSmoothMover
                     moveTowards(nextPos, distance); // Move towards the next positino.
                 }
                 
-                if (distanceFrom(nextPos) < 3) { // If close to the target position
+                if (distanceFrom(nextPos) < 1) { // If close to the target position
                     if (SHOW_PATHFINDING_DEBUG) System.out.println(this + " removed " + nextPos);
                     path.remove(0); // remove from list of positions to move to.
                 }

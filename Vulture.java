@@ -9,8 +9,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Vulture extends Animal
 {
-    private Animal targetAnimal;
-
     public Vulture() {
         super();
         defaultSpeed = 1.3;
@@ -31,7 +29,7 @@ public class Vulture extends Animal
         super.act();
         if (!alive) return; // dead.
         
-        if(((targetAnimal == null) || targetAnimal.getWorld() == null || (getWorld() != null && !(distanceFrom(targetAnimal) < 5)))){
+        if(((target == null) || target.getWorld() == null || (getWorld() != null && !(distanceFrom(target) < 5)))){
             eating = false;
         }else{
             eating = true;
@@ -62,12 +60,12 @@ public class Vulture extends Animal
                 target = null; // need new target
                 return; // nothing else to do.
             }
-            else if(distanceFrom(targetAnimal) < 5){ // Close so eat
-                targetAnimal.decreaseTransparency(1); // ?
+            else if(distanceFrom(targetPrey) < 5){ // Close so eat
+                targetPrey.decreaseTransparency(1); // ?
                 eat(4);
             }
             else { // far so move closer.
-                moveTowards(targetAnimal, currentSpeed, walkHeight);
+                moveTowards(targetPrey, currentSpeed, walkHeight);
             }
         } else {
             moveRandomly(); // no food so i guess move random

@@ -23,4 +23,8 @@ public class EmptyTile extends Tile
     {
         // Add your action code here.
     }
+    public void animate()
+    {
+        
+    }
 }

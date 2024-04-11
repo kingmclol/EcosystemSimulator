@@ -8,6 +8,7 @@ import java.util.ArrayList; // (World, Actor, GreenfootImage, Greenfoot and Mous
  */
 public class SimulationWorld extends World
 {
+
     private static boolean isNight = false; 
     
     private int actCount; 
@@ -55,13 +56,13 @@ public class SimulationWorld extends World
         actCount++; 
         spawn();
     }
-    
     public void spawn() 
     {
         if (actCount >= 2400) {
             addObject(new Night(), 0, 0);
             actCount = 0;
         }
+
         statUpdates(); 
         scoreBar.update(new int[]{dayCount, time}); 
     }

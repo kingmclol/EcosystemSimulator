@@ -21,14 +21,25 @@ public class TreeTile extends Tile
     private static int LIFESPAN_MIN = 3600;
     private static int LIFESPAN_MAX = 10800;
     private int lifespan;
+    
+    //Animation:
+    private int index = 0;
+    private int actsPassed = 0;
+    private GreenfootImage[] animation = new GreenfootImage[3];
     public TreeTile() {
         super(new GreenfootImage("tile_trees.png"));
         heightLevel = 2;
         lifespan = getLifespan();
+        for(int i = 0; i<3; i++)
+        {
+            animation[i] = new GreenfootImage("images/tile_trees/tile_trees" + (i+1) + ".png");
+        }
     }
     public void act()
     {
         if (!timeFlowing) return;
+        actsPassed++;
+        animate();
         if (shouldDropSeed()) {
             dropSeed();
         }
@@ -61,5 +72,14 @@ public class TreeTile extends Tile
     
     public String toString() {
         return "TreeTile";
+    }
+    
+    public void animate()
+    {
+        if(actsPassed%30 == 0)
+        {
+            setTile(new GreenfootImage(animation[index]));
+            index = (index+1)%(animation.length);
+        }
     }
 }

@@ -10,7 +10,7 @@ public class Night extends Effect
 {
     public Night() 
     {
-        super(1200, 180); 
+        super(1200, 120); 
     }
     public void addedToWorld(World w) {
         super.addedToWorld(w);

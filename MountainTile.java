@@ -18,4 +18,8 @@ public class MountainTile extends Tile
     {
         // Add your action code here.
     }
+    public void animate()
+    {
+        
+    }
 }

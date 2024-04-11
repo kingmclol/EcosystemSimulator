@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 
 public abstract class Animal extends SuperActor {
+    protected static boolean isSnowing = false;
+    
     protected int energy;
     protected int hp;
 
@@ -101,7 +103,7 @@ public abstract class Animal extends SuperActor {
             moveRandomly();
         }
     }
-
+    
     public boolean isAlive() {
         return alive;
     }
@@ -229,5 +231,9 @@ public abstract class Animal extends SuperActor {
         if(transparency == 0){
             getWorld().removeObject(this);
         }
+    }
+    
+    public static void setSnowing(boolean snowing) {
+        isSnowing = snowing; 
     }
 }

@@ -8,13 +8,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Rabbit extends Animal
 {
-    //Instance Variables:
-    private GrassTile targetGrass;
-    
+    //Instance Variables:    
 
     //Animation
     private int indexAnimation = 0;
-    private int currentAct = 0;
     private boolean spawnOne = true;
     private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
@@ -58,53 +55,61 @@ public class Rabbit extends Animal
      */
     public void act() {
         super.act();
-        actsSinceLastBreeding++;
-        currentAct++;
+        if (!alive) return; // it is dead. dead. as in, not alive.
+        
+        // Determine if the rabbit wants to breed.
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            if(!wantToEat){
-                breed();
-            }
         }else{
             ableToBreed = false;
         }
-
-        if((targetGrass == null) || targetGrass.getWorld() == null || (getWorld() != null && !(distanceFrom(targetGrass) < 12))){
+        
+        // Determine if the rabbit is eating?
+        if((target == null) || target.getWorld() == null || (getWorld() != null && !(distanceFrom(target) < 12))){
             eating = false;
         }
         else{
             eating = true;
         }
-
-        if(alive && !beingEaten && !breeding){
+        
+        // seems like animate is managed here?
+        if(!beingEaten && !breeding){
             animate();
-            if(wantToEat){
-
-                findGrassAndEat();
-            }else{
-                targetGrass = null;
-            }
         }
     }
 
     public void breed() {
         // Find another rabbit nearby
-        partner = (Rabbit) getClosestInRange(this.getClass(), viewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
-        if(partner != null){
-            findingPartner = true;
-            if(distanceFrom(partner) < 40){
+        if (!(target instanceof Rabbit)) { // if target is null, or the target is currently not a rabbit.
+            // find a rabbit as the target.
+            SuperActor search = (Rabbit) getClosestInRange(this.getClass(), viewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
+            if (search != null){ // found one.
+                target = search;
+            }
+        }
+        
+        if (target instanceof Rabbit) { // if target is not null, and is a rabbit,
+            Rabbit targetRabbit = (Rabbit) target; // safely cast into a rabbit to access its instance methods
+            
+            // check if retarget is needed.
+            if (!targetRabbit.isAbleToBreed() || targetRabbit.getWorld() == null || !targetRabbit.isAlive()) { 
+                target = null; // NEED NEW TARGET.
+                return; // nothing else to do.
+            }
+            
+            // Getting here means the target is applicable.
+            if(distanceFrom(target) < 40){
                 breeding = true;
                 breedingCounter++;
-
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
                     getWorld().addObject(new Rabbit(), getX(), getY());
                     ableToBreed = false;
-                    partner.setAbleToBreed(false);
+                    targetRabbit.setAbleToBreed(false);
                     breeding = false;
-                    partner.setIsBreeding(false);
+                    targetRabbit.setIsBreeding(false);
                     breedingCounter = 0;
-                    partner = null;
+                    target = null;
                     actsSinceLastBreeding = 0;
                     if(facing.equals("right"))
                     {
@@ -125,39 +130,48 @@ public class Rabbit extends Animal
                 }
             }else{
                 //System.out.println("find partner");
-                moveTowards(partner, currentSpeed, walkHeight);
+                moveTowards(target, currentSpeed, walkHeight);
             }
-        }else{
-            findingPartner = false;
+        } else { // no elible rabbit!!!!!!!!!!
+            moveRandomly(); // Rip. no partner nearby. better luck next time.
         }
     }
 
-    public void findGrassAndEat() {
-        if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
-            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
-            if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/2, g -> !((GrassTile)g).grassAvailable());
+    public void findOrEatFood() {
+        if(!(target instanceof GrassTile)) { // if target is null, or not a grasstile (forcing target to be grasstile only)
+            //find a target
+            SuperActor search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
+            if(search == null) {
+                search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/2, g -> !((GrassTile)g).grassAvailable());
             }
-            if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
+            if(search == null) {
+                search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
+            }
+            
+            if (search != null) { // found a grass tiel.
+                target = search;
             }
         }
-        if(targetGrass != null){
-            targetTile = targetGrass;
-            if(distanceFrom(targetGrass) < 10){
+        
+        
+        if (target instanceof GrassTile) { // target is a grass tile, and exists (successfully found eligble food)
+            GrassTile targetGrass = (GrassTile) target; // Create temp variable to access GrassTile instance methods
+            
+            // Check if a retargeting is required.
+            if (!targetGrass.grassAvailable() || targetGrass.getWorld() == null) {
+                target = null;
+                return;
+            }
+            else if(distanceFrom(target) < 10){ // if close enough.
                 targetGrass.nibble(7);
                 eat(4);
             }
-            else{
-                System.out.print("find grass");
-                System.out.println(targetTile);
-                moveTowards(targetTile, currentSpeed, walkHeight);
+            else{ // far, move closer.
+                moveTowards(targetGrass, currentSpeed, walkHeight);
             }
-        }
-    }
-
-    public void takeDamage(int dmg) {
-        hp = hp - dmg;
+        } else { // No grass tile found...
+            moveRandomly(); // Should move randomly for this act instead...
+        }        
     }
 
     public void animate()
@@ -205,9 +219,4 @@ public class Rabbit extends Animal
             indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
         }
     }
-
-    public int getHp() {
-        return hp;
-    }
-
 }

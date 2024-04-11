@@ -50,7 +50,10 @@ public class GrassTile extends Tile
      * @return The amount of grass consumed.
      */
     public int nibble(int value) {
-        if (grassAmount < value) { // Not enough grass to eat... Return what was remaining.
+        if (!grassAvailable) {
+            return 0;
+        }
+        else if (grassAmount < value) { // Not enough grass to eat... Return what was remaining.
             grassAmount = 0;
             grassAvailable = false;
             setTile(new GreenfootImage("tile_grass_empty.png"));

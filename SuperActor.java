@@ -43,7 +43,7 @@ public abstract class SuperActor extends SuperSmoothMover
         // getWorld().addObject(e, 0 ,0 );
     // 
     private ArrayList<Vector> path = new ArrayList<Vector>();
-    private static final boolean SHOW_PATHFINDING_DEBUG = true;
+    private static final boolean SHOW_PATHFINDING_DEBUG = false;
     /**
      * Returns the current position as a Vector.
      */
@@ -65,6 +65,9 @@ public abstract class SuperActor extends SuperSmoothMover
      * @param maxTileHeight the maximum tile height that the superactor can walk on.
      */
     protected void moveTowards(SuperActor target, double distance, int maxTileHeight) {
+        if (target == null) {
+            return; // Can't do anything about this.
+        }
         Node targetNode = Board.getNodeWithRealPosition(target.getPosition());
         
         if (targetNode != targetNodePrev) { // target position is different from what was originally. Either new target, or the target moved somewhere else.

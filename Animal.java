@@ -203,7 +203,6 @@ public abstract class Animal extends SuperActor {
         }
         
         if (targetTile != null) {
-            System.out.println("move randomly");
             moveTowards(targetTile, currentSpeed, walkHeight);
         }
     }

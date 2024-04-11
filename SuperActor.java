@@ -61,7 +61,6 @@ public abstract class SuperActor extends SuperSmoothMover
         Node targetNode = Board.getNodeWithRealPosition(target.getPosition());
         if (path == null || target != this.target || targetNode != targetNodePrev) { // no path, or target node changed (target moving), or target changed
             this.target = target;
-            System.out.println("new path");
             Node currentNode = Board.getNodeWithRealPosition(getPosition());
             targetNodePrev = targetNode;
             ArrayList<Node> nodes = Board.findPath(currentNode, targetNode, maxTileHeight);
@@ -92,7 +91,6 @@ public abstract class SuperActor extends SuperSmoothMover
             }
             else {
                 path = null;
-                System.out.println("done.");
                 return;
             }
         }

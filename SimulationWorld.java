@@ -25,14 +25,9 @@ public class SimulationWorld extends World
         
         spawnableTiles = (ArrayList<Tile>)((ArrayList<?>)getObjects(GrassTile.class));
         spawnableTiles.addAll((ArrayList<Tile>)((ArrayList<?>)getObjects(BushTile.class)));
-        for(int i = 0; i < SettingsWorld.getNumOfRabbitToSpawn(); i++){
-            Tile tile = spawnableTiles.get(Greenfoot.getRandomNumber(spawnableTiles.size()));
-            addObject(new Rabbit(), tile.getX(), tile.getY());
-        }
-        for(int i = 0; i < SettingsWorld.getNumOfDeerToSpawn(); i++){
-            Tile tile = spawnableTiles.get(Greenfoot.getRandomNumber(spawnableTiles.size()));
-            addObject(new Deer(), tile.getX(), tile.getY());
-        }
+        spawnAnimals("Deer", SettingsWorld.getNumOfDeerToSpawn());
+        spawnAnimals("Rabbit", SettingsWorld.getNumOfRabbitToSpawn());
+
         actCount = 1200; 
         isNight = false;
     }
@@ -52,7 +47,24 @@ public class SimulationWorld extends World
             actCount = 0;
         }
     }
-    
+    private void spawnAnimals(String animal, int num) 
+    {
+        for(int i = 0; i < num; i++){
+            Tile tile = spawnableTiles.get(Greenfoot.getRandomNumber(spawnableTiles.size()));
+            switch (animal){
+                case "Deer":
+                    addObject(new Deer(), tile.getX(), tile.getY());
+                    break;
+                case "Rabbit":
+                    addObject(new Rabbit(), tile.getX(), tile.getY());
+                    break;
+                case "Wolf":
+                    addObject(new Wolf(), tile.getX(), tile.getY());
+                    break;
+            }
+            
+        }
+    }
     public void setNight(boolean newNight)
     {
         isNight = newNight; 

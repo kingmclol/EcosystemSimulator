@@ -14,6 +14,9 @@ public class SettingsWorld extends CursorWorld
     {    
         super();
         addObject(cursor, 0, 0);
+        deerCount = 0;
+        wolfCount = 0;
+        rabbitCount = 0;
         SuperTextBox animalText1 = new SuperTextBox("Rabbit", new Font(24), 150);
         SuperTextBox animalText2 = new SuperTextBox("Deer", new Font(24), 150);
         animalCounter1 = new ButtonIncrement(400, 50, 300, 50);

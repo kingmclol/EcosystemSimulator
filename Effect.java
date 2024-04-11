@@ -46,7 +46,8 @@ public abstract class Effect extends Actor
                fadeState = FadeState.TRANSPARENT;
             }
         }
-        else if (fadeState == FadeState.TRANSPARENT) { // Gone completely, so
+        
+        if (fadeState == FadeState.TRANSPARENT) { // Gone completely, so
             stopEffect(); // Stop the effect.
             getWorld().removeObject(this);
         }

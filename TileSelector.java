@@ -46,7 +46,6 @@ public class TileSelector extends UI
         for(int i = 0; i < tileButtons.length; i++){
             w.addObject(tileButtons[i], getX() + 24,  offsetButton);
             offsetButton += 100;
-            System.out.println(tileButtons[i]);
             
         }
     }

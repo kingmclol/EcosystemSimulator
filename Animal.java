@@ -1,6 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
-
+import java.util.Collections;
 /**
  * Animal superclass where subclasses will inherit traits
  * and behaviours from
@@ -15,7 +15,7 @@ public abstract class Animal extends SuperActor {
     protected int hp;
 
     protected int walkHeight;
-    protected ArrayList<Vector> currentPath;
+    // protected ArrayList<Vector> currentPath;
 
     protected int viewRadius;
 
@@ -42,7 +42,9 @@ public abstract class Animal extends SuperActor {
     public static final int BREEDING_THRESHOLD = 2000;
     public static final int BREEDING_DELAY = 150;
     protected Tile currentTile;
-    
+    protected Tile targetTile;
+    protected boolean findingPartner;
+    protected boolean beingEaten;
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
 
     public Animal() {
@@ -57,6 +59,7 @@ public abstract class Animal extends SuperActor {
         ableToBreed = false;
         breeding = false;
         breedingCounter = 0;
+        findingPartner = false;
         enableStaticRotation();
     }
 
@@ -91,11 +94,8 @@ public abstract class Animal extends SuperActor {
             die();
         }
 
-
-        if(currentPath == null && !eating && alive){
-
+        if(!eating && alive && !findingPartner){
             moveRandomly();
-            move(currentSpeed);
         }
         
         if(!wantToEat && alive && !breeding){
@@ -148,49 +148,63 @@ public abstract class Animal extends SuperActor {
         breeding = breed;
     }
 
-    protected void pathfindToTile(Tile targetTile,int stopDistance){
-        if(currentPath == null){
-            Vector startPos = new Vector(getX(), getY());
-            Vector endPos = new Vector(targetTile.getX(), targetTile.getY());
-            ArrayList<Node> pathNodes = Board.findPath(startPos, endPos, walkHeight);
-            if(pathNodes != null){
+    // protected void pathfindToTile(Tile targetTile,int stopDistance){
+        // if(path == null){
+            // Vector startPos = new Vector(getX(), getY());
+            // Vector endPos = new Vector(targetTile.getX(), targetTile.getY());
+            // ArrayList<Node> pathNodes = Board.findPath(startPos, endPos, walkHeight);
+            // if(pathNodes != null){
                 
-                Board.displayPath(pathNodes, Color.BLACK);
-                currentPath = new ArrayList<Vector>();
-                for (Node node : pathNodes){
-                    currentPath.add(Board.getRealPositionWithNode(node));
-                }
-            }
+                // Board.displayPath(pathNodes, Color.BLACK);
+                // currentPath = new ArrayList<Vector>();
+                // for (Node node : pathNodes){
+                    // currentPath.add(Board.getRealPositionWithNode(node));
+                // }
+            // }
 
             
-        }
-        else{
-            if(currentPath.size() == 1){
-                Vector finalTile = currentPath.get(0);
-                moveTowards(finalTile, currentSpeed);
+        // }
+        // else{
+            // if(currentPath.size() == 1){
+                // Vector finalTile = currentPath.get(0);
+                // moveTowards(finalTile, currentSpeed);
   
-            }
-            else{
-                Vector nextTile = currentPath.get(1);
-                if((Board.getTile(nextTile)).getHeightLevel() > walkHeight){
-                    currentPath = null;
-                }
-                else{
-                    moveTowards(nextTile, currentSpeed);
+            // }
+            // else{
+                // Vector nextTile = currentPath.get(1);
+                // if((Board.getTile(nextTile)).getHeightLevel() > walkHeight){
+                    // currentPath = null;
+                // }
+                // else{
+                    // moveTowards(nextTile, currentSpeed);
     
-                    if(distanceFrom(nextTile) < 12){
-                        currentPath.remove(0);
+                    // if(distanceFrom(nextTile) < 12){
+                        // currentPath.remove(0);
         
-                    }
-                }
-            }
-        }
-    }
+                    // }
+                // }
+            // }
+        // }
+    // }
 
     public void moveRandomly() {
-        if (Greenfoot.getRandomNumber (60) == 50 && (currentAct%60 == 0)) {
-            int angle = Greenfoot.getRandomNumber(360);
-            turn (angle);
+        if (Greenfoot.getRandomNumber(4) == 0 && currentAct%60 == 0) {
+            targetTile = null;
+            ArrayList<Tile> tiles = (ArrayList<Tile>) getObjectsInRange(viewRadius, Tile.class);
+            Collections.shuffle(tiles);
+            for (Tile t : tiles) {
+                if (t == currentTile) {
+                    continue;
+                }
+                if (t.getHeightLevel() <= walkHeight){
+                    targetTile = t;
+                }
+            }
+        }
+        
+        if (targetTile != null) {
+            System.out.println("move randomly");
+            moveTowards(targetTile, currentSpeed, walkHeight);
         }
     }
 
@@ -223,7 +237,13 @@ public abstract class Animal extends SuperActor {
         }
     }
 
+    public boolean isBeingEaten() {
+        return beingEaten;
+    }
 
+    public void setBeingEaten(boolean eaten) {
+        beingEaten = eaten;
+    }
 
     public void drown() {
         transparency--;

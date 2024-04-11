@@ -10,7 +10,7 @@ public class Rabbit extends Animal
 {
     //Instance Variables:
     private GrassTile targetGrass;
-    private boolean beingEaten;
+    
 
     //Animation
     private int indexAnimation = 0;
@@ -91,6 +91,7 @@ public class Rabbit extends Animal
         // Find another rabbit nearby
         partner = (Rabbit) getClosestInRange(this.getClass(), viewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
         if(partner != null){
+            findingPartner = true;
             if(distanceFrom(partner) < 40){
                 breeding = true;
                 breedingCounter++;
@@ -123,9 +124,11 @@ public class Rabbit extends Animal
                     }
                 }
             }else{
-                moveTowards(partner, currentSpeed);
+                System.out.println("find partner");
+                moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{
+            findingPartner = false;
             //moveRandomly();
             //move(currentSpeed);
         }
@@ -140,18 +143,16 @@ public class Rabbit extends Animal
             if(targetGrass == null) {
                 targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
             }
-            if(targetGrass == null){
-                currentPath = null;
-            }
         }
         if(targetGrass != null){
-            if(distanceFrom(targetGrass) < 12){
-                currentPath = null;
+            targetTile = targetGrass;
+            if(distanceFrom(targetGrass) < 10){
                 targetGrass.nibble(7);
                 eat(4);
             }
             else{
-                pathfindToTile(targetGrass, 12);
+                System.out.println("find grass");
+                moveTowards(targetTile, currentSpeed, walkHeight);
             }
         }
     }
@@ -208,14 +209,6 @@ public class Rabbit extends Animal
 
     public int getHp() {
         return hp;
-    }
-
-    public boolean isBeingEaten() {
-        return beingEaten;
-    }
-
-    public void setBeingEaten(boolean eaten) {
-        beingEaten = eaten;
     }
 
 }

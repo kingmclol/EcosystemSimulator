@@ -1,7 +1,5 @@
-
 // import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 // import java.util.ArrayList;
-
 
 // /**
  // * Rabbit subclass
@@ -116,7 +114,7 @@
 
                 // }
             // }else{
-                // moveTowards(partner, currentSpeed);
+                // moveTowards(partner, currentSpeed, walkHeight);
             // }
         // }else{
             // //move(currentSpeed);

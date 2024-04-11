@@ -15,7 +15,7 @@ public abstract class Effect extends Actor
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     private int actsLived, eventDuration, fadeInTarget;
-    private boolean fadingIn;
+    private FadeState fadeState;
     protected SimulationWorld world;
     /**
      * Creates a effect that lasts for a specified amount of acts, and has a target transparency
@@ -27,25 +27,33 @@ public abstract class Effect extends Actor
         this.eventDuration = eventDuration;
         this.fadeInTarget = fadeInTarget;
         actsLived = 0;
-        fadingIn = true;
+        fadeState = FadeState.IN;
     }
     public void addedToWorld(World w){
         world = (SimulationWorld) w; // Store the world for convenience
         startEffect(); // Start the effect, whavever it does.
     }
     public void act() {
-        if (fadingIn && getImage().getTransparency() < fadeInTarget) { // If currently fading in, and not at target transparency,
+        if (fadeState == FadeState.IN) { // If currently fading in
             fadeIn(1);
+            if (getImage().getTransparency() >= fadeInTarget){ // at target transparency
+                fadeState = FadeState.VISIBLE; // set as done fading in;
+            }
         }
-        else fadingIn = false; // Done fading in
+        else if (fadeState == FadeState.OUT) { // time to fade out
+            fadeOut(1);
+            if (getImage().getTransparency() <= 0) { // gone completely.
+               fadeState = FadeState.TRANSPARENT;
+            }
+        }
+        else if (fadeState == FadeState.TRANSPARENT) { // Gone completely, so
+            stopEffect(); // Stop the effect.
+            getWorld().removeObject(this);
+        }
         
         // Event has run its course, so time to fade out gracefully.
         if (++actsLived >= eventDuration) {
-            fadeOut(1);
-            if (getImage().getTransparency() <= 0) { // Gone completely, so
-                stopEffect(); // Stop the effect.
-                getWorld().removeObject(this);
-            }
+            fadeState = FadeState.OUT;
         }
     }
     /**

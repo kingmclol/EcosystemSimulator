@@ -124,7 +124,7 @@ public class Rabbit extends Animal
                     }
                 }
             }else{
-                System.out.println("find partner");
+                //System.out.println("find partner");
                 moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{
@@ -149,7 +149,8 @@ public class Rabbit extends Animal
                 eat(4);
             }
             else{
-                System.out.println("find grass");
+                System.out.print("find grass");
+                System.out.println(targetTile);
                 moveTowards(targetTile, currentSpeed, walkHeight);
             }
         }

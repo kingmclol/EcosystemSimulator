@@ -3,8 +3,8 @@ import greenfoot.*;
  * A Node is a specific coordinate on a given grid, used for A* pathfinding. It holds a parent node, and some variables
  * relating to its distance from the start and end node.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Freeman Wang
+ * @version 2024-04-01
  */
 public class Node extends Actor
 {
@@ -112,5 +112,8 @@ public class Node extends Actor
             return 14*dY + 10*(dX - dY);
         }
         else return 14 * dX + 10*(dY - dX);
+    }
+    public String toString() {
+        return "[" + x + ", " + y + "]";
     }
 }

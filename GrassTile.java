@@ -145,7 +145,7 @@ public class GrassTile extends Tile
 
     }
 
-    public String toString() {
-        return "GrassTile";
-    }
+    // public String toString() {
+        // return "GrassTile";
+    // }
 }

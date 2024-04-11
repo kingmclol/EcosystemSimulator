@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 public class Wolf extends Animal
 {
     private Animal target;
+    private boolean hunting;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     public Wolf() {
         super();
@@ -93,6 +94,7 @@ public class Wolf extends Animal
         }
         
         if (target != null) {
+            hunting = true;
             if (distanceFrom(target) < 5) {
                 target.takeDamage(10);
                 target.setBeingEaten(true);
@@ -105,9 +107,15 @@ public class Wolf extends Animal
             else {
                 moveTowards(target, currentSpeed, walkHeight);
             }
+        } else{
+            hunting = false;
         }
     }
-
+    @Override
+    public void moveRandomly() {
+        if (hunting) return;
+        super.moveRandomly();
+    }
     public void animate()
     {
 

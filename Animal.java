@@ -183,22 +183,22 @@ public abstract class Animal extends SuperActor {
     // }
 
     public void moveRandomly() {
-        if (Greenfoot.getRandomNumber(4) == 0 && currentAct%60 == 0) {
-            targetTile = null;
-            ArrayList<Tile> tiles = (ArrayList<Tile>) getObjectsInRange(viewRadius, Tile.class);
-            Collections.shuffle(tiles);
+        if (Greenfoot.getRandomNumber(4) == 0 && currentAct%60 == 0) { // randomly...
+            targetTile = null; // reset target tile
+            ArrayList<Tile> tiles = (ArrayList<Tile>) getObjectsInRange(viewRadius/2, Tile.class); // get tiles within a certain radius
+            Collections.shuffle(tiles); // randomize
             for (Tile t : tiles) {
-                if (t == currentTile) {
+                if (t == currentTile || t instanceof WaterTile) { // don't want to move onto own tile (lol) or end up on a water tile.
                     continue;
                 }
-                if (t.getHeightLevel() <= walkHeight){
+                if (t.getHeightLevel() <= walkHeight){ // If the tile is applicable (walkable), seleect as target.
                     targetTile = t;
                 }
             }
         }
         
-        if (targetTile != null) {
-            moveTowards(targetTile, currentSpeed, walkHeight);
+        if (targetTile != null) { // if a target tile exists...
+            moveTowards(targetTile, currentSpeed, walkHeight); // pathfind towards it.g
         }
     }
 

@@ -1,4 +1,5 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*; 
+import java.util.ArrayList; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Write a description of class SimulationWorld here.
  * 
@@ -10,11 +11,16 @@ public class SimulationWorld extends World
     private static boolean isNight = false; 
     
     private int actCount; 
+
+    private boolean isNight; 
+    private ArrayList<Tile> spawnableTiles; 
+
     private int dayCount; 
     private int hours; 
     private int time; 
     
     private SuperDisplayLabel scoreBar; 
+
     /**
      * Constructor for objects of class SimulationWorld.
      * 
@@ -26,6 +32,11 @@ public class SimulationWorld extends World
         setPaintOrder(UI.class, SuperDisplayLabel.class, Effect.class, BreedingEffect.class, Animal.class, Node.class, Tile.class);
         Board.setWorld(this);
         Tile.setTimeFlow(true);
+        
+        spawnableTiles = (ArrayList<Tile>)((ArrayList<?>)getObjects(GrassTile.class));
+        spawnableTiles.addAll((ArrayList<Tile>)((ArrayList<?>)getObjects(BushTile.class)));
+        spawnAnimals("Deer", SettingsWorld.getNumOfDeerToSpawn());
+        spawnAnimals("Rabbit", SettingsWorld.getNumOfRabbitToSpawn());
 
         actCount = 1200; 
         
@@ -53,7 +64,24 @@ public class SimulationWorld extends World
         statUpdates(); 
         scoreBar.update(new int[]{dayCount, time}); 
     }
-    
+    private void spawnAnimals(String animal, int num) 
+    {
+        for(int i = 0; i < num; i++){
+            Tile tile = spawnableTiles.get(Greenfoot.getRandomNumber(spawnableTiles.size()));
+            switch (animal){
+                case "Deer":
+                    addObject(new Deer(), tile.getX(), tile.getY());
+                    break;
+                case "Rabbit":
+                    addObject(new Rabbit(), tile.getX(), tile.getY());
+                    break;
+                case "Wolf":
+                    addObject(new Wolf(), tile.getX(), tile.getY());
+                    break;
+            }
+            
+        }
+    }
     public static void setNight(boolean newNight)
     {
         isNight = newNight; 

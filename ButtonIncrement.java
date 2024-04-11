@@ -24,6 +24,7 @@ public class ButtonIncrement extends UI
         this.width = width;
         this.height = height;
         this.textBoxWidth = textBoxWidth;
+        //setImage(new GreenfootImage(width, height));
         decrementButton = new Button(this::decrementValue, (width - textBoxWidth)/2, height);
         incrementButton = new Button(this::incrementValue,(width - textBoxWidth)/2, height);
         value = 0;
@@ -41,6 +42,7 @@ public class ButtonIncrement extends UI
         return value;
     }
     public void incrementValue() {
+        value = Math.min(50, value + 1);
         textBox.update(String.valueOf(++value));
     }
     public void decrementValue() {

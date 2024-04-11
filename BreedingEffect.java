@@ -22,7 +22,7 @@ public class BreedingEffect extends SuperActor
         for(int i = 0; i<5; i++)
         {
             breedingAnimation[i] = new GreenfootImage("images/Breeding/breed" + (i+1)+".png");
-            breedingAnimation[i].scale(getImage().getWidth()*3/4, getImage().getHeight()*3/4);
+            breedingAnimation[i].scale(getImage().getWidth()*4/5, getImage().getHeight()*4/5);
         }
         setImage(breedingAnimation[0]);
     }

@@ -80,6 +80,7 @@ public abstract class Tile extends SuperActor
         setImage(img);
         drawBorder();
     }
+    protected abstract void animate();
     /**
      * Draws the border (edge) for the Tile.
      */

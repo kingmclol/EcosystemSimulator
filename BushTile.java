@@ -98,4 +98,9 @@ public class BushTile extends Tile
     public String toString() {
         return "BushTile";
     }
+    
+    public void animate()
+    {
+        
+    }
 }

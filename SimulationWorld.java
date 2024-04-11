@@ -7,7 +7,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class SimulationWorld extends World
 {
-    private int actCount; 
+    private int actCount, actsPassed = 0; 
     private boolean isNight; 
     /**
      * Constructor for objects of class SimulationWorld.
@@ -29,8 +29,8 @@ public class SimulationWorld extends World
     {
         actCount++; 
         spawn();
+        actsPassed++;
     }
-    
     public void spawn() 
     {
         if (actCount >= 2400) {
@@ -39,10 +39,15 @@ public class SimulationWorld extends World
             isNight = true; 
             actCount = 0;
         }
+        
     }
-    
+    public int getActs()
+    {
+        return actsPassed;
+    }
     public void setNight(boolean newNight)
     {
         isNight = newNight; 
     }
+    
 }

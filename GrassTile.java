@@ -18,21 +18,32 @@ public class GrassTile extends Tile
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     private static final int MAX_GRASS = 1000;
+    private int actPassed = 0;
     private int grassAmount = 800;
     private int growSpeed;
-    
+
     private boolean grassAvailable;
-    
+
     private static double PROBABILITY_SEED_SELF = 1/50000d;
     private int growAct, growTime;
     private Tile mySeed = null;
-    
+    private GreenfootImage[] animation = new GreenfootImage[2];
+    private GreenfootImage[] noGrass = new GreenfootImage[2];
+    private int index = 0;
+
     public GrassTile() {
         super(new GreenfootImage("tile_grass.png"));
         growSpeed = 1;
         heightLevel = 1;
         grassAvailable = true;
+        for(int i = 0; i<animation.length; i++)
+        {
+            animation[i] = new GreenfootImage("images/tile_grass/tile_grass" + (i+1) + ".png");
+            noGrass[i] = new GreenfootImage("images/tile_grass_empty/tile_grass_empty" + (i+1) + ".png");
+            animation[i].scale(48,48);
+        }
     }
+
     /**
      * Eat the grass in this GrassTile. Returns the amount of grass eaten.
      * @param value How much grass to eat.
@@ -48,10 +59,15 @@ public class GrassTile extends Tile
         grassAmount = Math.max(0, grassAmount-value); 
         return value; // Enough grass, return amount eaten.
     }
+
     public void act()
     {
+        
         if (!timeFlowing) return;
+        actPassed++;
+        animate();
         grow();
+        
         if(shouldSelfSeed()) {
             if (Greenfoot.getRandomNumber(2) == 0) {
                 setSeed(new BushTile(), BushTile.getGrowTime());
@@ -59,9 +75,11 @@ public class GrassTile extends Tile
             else setSeed(new TreeTile(), TreeTile.getGrowTime());
         }
     }
+
     private boolean shouldSelfSeed() {
         return mySeed == null && Greenfoot.getRandomNumber((int)Math.round(1/PROBABILITY_SEED_SELF)) == 0;
     }
+
     /**
      * Set the "seed" of this GrassTile to a given tile. Please do stuff that makes sense.
      * @param t The "seed" tile that the GrassTile should turn into after a short delay.
@@ -73,18 +91,21 @@ public class GrassTile extends Tile
         growAct = 0;
         this.growTime = growTime;
     }
+
     /**
      * Returns the amount of grass current grass tile has
      */
     public int getGrassAmount() {
         return grassAmount;
     }
+
     /**
      * Returns whether the grass has availalbe grass.
      */
     public boolean grassAvailable() {
         return grassAvailable;
     }
+
     /**
      * Grows grass and the seed, if it exists.
      */
@@ -94,14 +115,32 @@ public class GrassTile extends Tile
             grassAvailable = true;
             setTile(new GreenfootImage("tile_grass.png"));
         }
-        
+
         if (mySeed != null) {
             if (++growAct >= growTime) {
                 replaceMe(mySeed);
             }
         }
     }
-    
+
+    public void animate()
+    {
+        if(actPassed%30 == 0)
+        {
+            if(grassAvailable)
+            {
+                setTile(new GreenfootImage(animation[index]));
+            }
+            else
+            {
+                setTile(new GreenfootImage(noGrass[index]));
+            }
+            
+            index = (index+1)%(animation.length); 
+        }
+
+    }
+
     public String toString() {
         return "GrassTile";
     }

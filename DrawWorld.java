@@ -47,24 +47,10 @@ public class DrawWorld extends CursorWorld
         keepInBounds(cursor);
         currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
         if (drawing) {
-            Tile tileHovered = null;
+            
             ArrayList<Actor> hoveredActors = (ArrayList<Actor>)cursor.getHoveredActors();
-            System.out.println(hoveredActors);
-            for(Actor a : hoveredActors){
-                if (a instanceof TileSelector) {
-                    if((((TileSelector)a).getState() || !((TileSelector)a).getClosed())){
-                        tileHovered = null;
-                        break;
-                    }
-                }
-                else if (a instanceof UI){
-                    tileHovered = null;
-                    break;
-                }
-                else if (a instanceof Tile) {
-                    tileHovered = (Tile)a;
-                }
-            }
+            
+            Tile tileHovered  = getCurrentTile(hoveredActors);
             if (tileHovered != null) {
                 tileHovered.replaceMe(getDrawnTile());
             }
@@ -94,13 +80,14 @@ public class DrawWorld extends CursorWorld
         manageKeyInput();
     }
     private Tile getCurrentTile(ArrayList<Actor> actors) {
-        for(Actor a : actors){
-            if (a instanceof TileSelector) {
-                if((((TileSelector)a).getState() || !((TileSelector)a).getClosed())){
-                    return null;
-                }
+        if (cursor.getX() > getWidth()- 160) { // Check if its within tile selector dimensions
+            if((TileSelector.getState() || !TileSelector.getClosed())){
+                return null;
             }
-            else if (a instanceof UI){
+        }
+        for(Actor a : actors){
+
+            if (a instanceof UI){
                 return null;
             }
             else if (a instanceof Tile) {

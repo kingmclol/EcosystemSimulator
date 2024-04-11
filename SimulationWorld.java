@@ -20,6 +20,7 @@ public class SimulationWorld extends World
         setPaintOrder(UI.class,BreedingEffect.class, Animal.class, Node.class, Tile.class);
         Board.setWorld(this);
         Tile.setTimeFlow(true);
+        
 
         actCount = 1200; 
         isNight = false;

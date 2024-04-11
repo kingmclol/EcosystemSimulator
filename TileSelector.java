@@ -12,15 +12,14 @@ public class TileSelector extends UI
     private GreenfootImage buttonHoveredImg;
     private GreenfootImage buttonPressedImg;
     private Button menuButton;
-    private boolean closed;
-    private boolean transition;
+    private static boolean closed;
+    private static boolean transition;
     private int menuWidth;
     private Button [] tileButtons = new Button[5];
     public TileSelector(){
         img = new GreenfootImage("tileSelector.png");
        
         buttonImg = new GreenfootImage("tileSelectorButton.png");
-       
         buttonHoveredImg = new GreenfootImage("tileSelectorButtonHovered.png");
         buttonPressedImg = new GreenfootImage("tileSelectorButtonPressed.png");
         setImage(img);
@@ -77,10 +76,10 @@ public class TileSelector extends UI
         
     }
 
-    public boolean getState(){
+    public static boolean getState(){
         return transition;
     }
-    public boolean getClosed(){
+    public static boolean getClosed(){
         return closed;
     }
     public void act()

@@ -12,9 +12,8 @@ public class Wolf extends Animal
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     public Wolf() {
         super();
-        defaultSpeed = 1.2;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
-        sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 500;
@@ -94,9 +93,8 @@ public class Wolf extends Animal
         
         if (target != null) {
             if (distanceFrom(target) < 5) {
-                target.takeDamage(10);
-                target.setBeingEaten(true);
-                if (target.getHp() < 400) {
+                target.takeDamage(8);
+                if (target.getEnergy() <= 0) {
                     target.disableStaticRotation();
                     target.setRotation(90);
                 }

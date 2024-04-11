@@ -11,10 +11,8 @@ public class Deer extends Animal
 
     public Deer() {
         super();
-        beingEaten = false;
-        defaultSpeed = 1.0;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
-        sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
@@ -44,7 +42,7 @@ public class Deer extends Animal
             eating = true;
         }
 
-        if(alive && !beingEaten && !breeding){
+        if(alive && !breeding){
             if(wantToEat){
                 findBerriesAndEat();
             }else{

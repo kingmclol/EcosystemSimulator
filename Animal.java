@@ -12,7 +12,6 @@ public abstract class Animal extends SuperActor {
     protected static boolean isSnowing = false;
     
     protected int energy;
-    protected int hp;
 
     protected int walkHeight;
     // protected ArrayList<Vector> currentPath;
@@ -21,7 +20,6 @@ public abstract class Animal extends SuperActor {
 
     protected double defaultSpeed;
     protected double currentSpeed;
-    protected double sprintSpeed;
     protected double waterSpeed;
     protected String facing = "left";
     
@@ -44,7 +42,7 @@ public abstract class Animal extends SuperActor {
     protected Tile currentTile;
     protected Tile targetTile;
     protected boolean findingPartner;
-    protected boolean beingEaten;
+
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
 
     public Animal() {
@@ -54,7 +52,6 @@ public abstract class Animal extends SuperActor {
         alive = true;
         eating = false;
         energy = 2000;
-        hp = 1000;
         actsSinceLastBreeding = 0;
         ableToBreed = false;
         breeding = false;
@@ -64,6 +61,7 @@ public abstract class Animal extends SuperActor {
     }
 
     protected abstract void animate();
+    
     public void act() {
         currentAct++;
         currentTile = Board.getTile(getPosition());
@@ -90,7 +88,7 @@ public abstract class Animal extends SuperActor {
         if(currentTile instanceof WaterTile && energy <= 0){
             die();
             drown();
-        }else if(energy <= 0 || hp <= 0){
+        }else if(energy <= 0){
             die();
         }
 
@@ -119,12 +117,12 @@ public abstract class Animal extends SuperActor {
         setRotation(90);
     }
 
-    public void takeDamage(int dmg) {
-        hp = hp - dmg;
+    protected void takeDamage(int dmg) {
+        energy = energy - dmg;
     }
-
-    public int getHp() {
-        return hp;
+    
+    public int getEnergy() {
+        return energy;
     }
 
     public boolean isBreeding() {
@@ -229,14 +227,6 @@ public abstract class Animal extends SuperActor {
         if(transparency == 0){
             getWorld().removeObject(this);
         }
-    }
-
-    public boolean isBeingEaten() {
-        return beingEaten;
-    }
-
-    public void setBeingEaten(boolean eaten) {
-        beingEaten = eaten;
     }
 
     public void drown() {

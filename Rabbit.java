@@ -43,10 +43,8 @@ public class Rabbit extends Animal
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
-        beingEaten = false;
-        defaultSpeed = 0.6;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
-        sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
@@ -76,7 +74,7 @@ public class Rabbit extends Animal
             eating = true;
         }
 
-        if(alive && !beingEaten && !breeding){
+        if(alive && !breeding){
             animate();
             if(wantToEat){
 
@@ -155,10 +153,6 @@ public class Rabbit extends Animal
         }
     }
 
-    public void takeDamage(int dmg) {
-        hp = hp - dmg;
-    }
-
     public void animate()
     {
         if(eating)
@@ -204,9 +198,4 @@ public class Rabbit extends Animal
             indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
         }
     }
-
-    public int getHp() {
-        return hp;
-    }
-
 }

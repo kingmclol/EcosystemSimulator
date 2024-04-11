@@ -13,9 +13,8 @@ public class Vulture extends Animal
 
     public Vulture() {
         super();
-        defaultSpeed = 1.3;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
-        sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;

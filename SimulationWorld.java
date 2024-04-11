@@ -55,7 +55,6 @@ public class SimulationWorld extends World
     {
         actCount++; 
         spawn();
-        
     }
     public void spawn() 
     {

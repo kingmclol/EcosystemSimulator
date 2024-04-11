@@ -19,8 +19,6 @@ public abstract class Animal extends SuperActor {
 
     protected int viewRadius;
 
- 
-
     protected double defaultSpeed;
     protected double currentSpeed;
     protected double sprintSpeed;
@@ -99,13 +97,11 @@ public abstract class Animal extends SuperActor {
             moveRandomly();
             move(currentSpeed);
         }
-        /*
-        if(!wantToDrink && !wantToEat && alive && !breeding){
+        
+        if(!wantToEat && alive && !breeding){
             move(currentSpeed);
             moveRandomly();
         }
-        */
-        
     }
     
     public boolean isAlive() {
@@ -201,7 +197,6 @@ public abstract class Animal extends SuperActor {
     public String getFacing()
     {
         int rotation = this.getRotation()%360;
-        System.out.println(rotation);
         if((rotation >= 0 && rotation <= 45) || (rotation > 315 && rotation < 360))
         {
             facing = "right";

@@ -8,6 +8,8 @@ import greenfoot.*;
  */
 public abstract class Tile extends SuperActor
 {
+    protected static boolean isRaining = false;
+    
     private static int size;
     protected GreenfootImage[] animationImages;
     protected int animationIndex = 0;
@@ -29,6 +31,9 @@ public abstract class Tile extends SuperActor
         // drawBorders = visible;
         // Board.drawBorders(visible);
     // }
+    public static void setRaining(boolean raining) {
+        isRaining = raining; 
+    }
     public int getHeightLevel() {
         return heightLevel;
     }

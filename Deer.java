@@ -8,7 +8,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Deer extends Animal
 {
     private BushTile targetBush;
-    private boolean beingEaten;
 
     public Deer() {
         super();
@@ -19,6 +18,7 @@ public class Deer extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
+        walkHeight = 2;
     }
 
     /**
@@ -31,7 +31,7 @@ public class Deer extends Animal
         actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            if(!wantToEat && !wantToDrink){
+            if(!wantToEat){
                 breed();
             }
         }else{
@@ -44,13 +44,11 @@ public class Deer extends Animal
             eating = true;
         }
 
-        if(alive && !beingEaten && !breeding && !drinking){
+        if(alive && !beingEaten && !breeding){
             if(wantToEat){
-                full = false;
                 findBerriesAndEat();
             }else{
                 targetBush = null;
-                full = true;
             }
         }
     }
@@ -59,11 +57,13 @@ public class Deer extends Animal
         // Find another deer nearby
         partner = (Deer) getClosestInRange(this.getClass(), viewRadius, d -> !((Deer)d).isAbleToBreed() || !((Deer)d).isAlive()); // Adjust range as needed
         if(partner != null){
+            findingPartner = true;
             if(distanceFrom(partner) < 40){
                 breeding = true;
                 breedingCounter++;
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
+                    
                     getWorld().addObject(new Deer(), getX(), getY());
                     ableToBreed = false;
                     partner.setAbleToBreed(false);
@@ -75,11 +75,10 @@ public class Deer extends Animal
 
                 }
             }else{
-                moveTowards(partner, currentSpeed);
+                moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{
-            moveRandomly();
-            move(currentSpeed);
+            findingPartner = false;
         }
     }
 
@@ -99,22 +98,14 @@ public class Deer extends Animal
         }
 
         if(targetBush != null) {
-            moveTowards(targetBush, currentSpeed);
-            if(distanceFrom(targetBush) < 5){
+            targetTile = targetBush;
+            if(distanceFrom(targetBush) < 10){
                 targetBush.nibble(4);
                 eat(7);
             }
-        }else{
-            move(currentSpeed);
-            moveRandomly();
+            else {
+                moveTowards(targetBush, currentSpeed, walkHeight);
+            }
         }
-    }
-
-    public boolean isBeingEaten() {
-        return beingEaten;
-    }
-
-    public void setBeingEaten(boolean eaten) {
-        beingEaten = eaten;
     }
 }

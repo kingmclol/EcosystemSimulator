@@ -37,7 +37,7 @@ public class DrawWorld extends CursorWorld
         mouseDrawType = 0;
         drawing = false;
         
-        addObject(new TileSelector(), getWidth() + 75, getHeight()/2);
+        addObject(new TileSelector(), getWidth() + 42, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false);
@@ -47,23 +47,10 @@ public class DrawWorld extends CursorWorld
         keepInBounds(cursor);
         currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
         if (drawing) {
-            Tile tileHovered = null;
+            
             ArrayList<Actor> hoveredActors = (ArrayList<Actor>)cursor.getHoveredActors();
-            for(Actor a : hoveredActors){
-                if (a instanceof TileSelector) {
-                    if((((TileSelector)a).getState() || !((TileSelector)a).getClosed())){
-                        tileHovered = null;
-                        break;
-                    }
-                }
-                else if (a instanceof UI){
-                    tileHovered = null;
-                    break;
-                }
-                else if (a instanceof Tile) {
-                    tileHovered = (Tile)a;
-                }
-            }
+            
+            Tile tileHovered  = getCurrentTile(hoveredActors);
             if (tileHovered != null) {
                 tileHovered.replaceMe(getDrawnTile());
             }
@@ -93,13 +80,14 @@ public class DrawWorld extends CursorWorld
         manageKeyInput();
     }
     private Tile getCurrentTile(ArrayList<Actor> actors) {
-        for(Actor a : actors){
-            if (a instanceof TileSelector) {
-                if((((TileSelector)a).getState() || !((TileSelector)a).getClosed())){
-                    return null;
-                }
+        if (cursor.getX() > getWidth()- 160) { // Check if its within tile selector dimensions
+            if((TileSelector.getState() || !TileSelector.getClosed())){
+                return null;
             }
-            else if (a instanceof UI){
+        }
+        for(Actor a : actors){
+
+            if (a instanceof UI){
                 return null;
             }
             else if (a instanceof Tile) {
@@ -208,6 +196,12 @@ public class DrawWorld extends CursorWorld
         }
         System.out.println("err: tried to draw tile, but not cannot recognize mouseDrawType: " + mouseDrawType);
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
+    }
+    public static void setMouseDrawType(int type){
+        if(type > -1 && type < 7){
+            mouseDrawType = type;
+        }
+        
     }
 
 }

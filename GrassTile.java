@@ -117,8 +117,12 @@ public class GrassTile extends Tile
         }
 
         if (mySeed != null) {
-            if (++growAct >= growTime) {
-                replaceMe(mySeed);
+            if (++growAct >= growTime) { // Seed is ready.
+                // To prevent trapping any animals in a tile (e.g. tree tile spawns over a rabbit)
+                // Currently, it only checks for any ANIMALS. dead animals count too, so still wouldn't spawn the seed.
+                if (!isTouching(Animal.class)) {
+                    replaceMe(mySeed);
+                }
             }
         }
     }

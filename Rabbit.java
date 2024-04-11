@@ -10,7 +10,8 @@ public class Rabbit extends Animal
 {
     //Instance Variables:
     private GrassTile targetGrass;
-    private boolean beingEaten;
+    
+
     //Animation
     private int indexAnimation = 0;
     private int currentAct = 0;
@@ -61,7 +62,7 @@ public class Rabbit extends Animal
         currentAct++;
         if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
             ableToBreed = true;
-            if(!wantToEat && !wantToDrink){
+            if(!wantToEat){
                 breed();
             }
         }else{
@@ -75,14 +76,13 @@ public class Rabbit extends Animal
             eating = true;
         }
 
-        if(alive && !beingEaten && !breeding && !drinking){
+        if(alive && !beingEaten && !breeding){
             animate();
-            if(wantToEat && (energy < hydration || !wantToDrink)){
-                full = false;
+            if(wantToEat){
+
                 findGrassAndEat();
             }else{
                 targetGrass = null;
-                full = true;
             }
         }
     }
@@ -91,6 +91,7 @@ public class Rabbit extends Animal
         // Find another rabbit nearby
         partner = (Rabbit) getClosestInRange(this.getClass(), viewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
         if(partner != null){
+            findingPartner = true;
             if(distanceFrom(partner) < 40){
                 breeding = true;
                 breedingCounter++;
@@ -123,9 +124,11 @@ public class Rabbit extends Animal
                     }
                 }
             }else{
-                moveTowards(partner, currentSpeed);
+                System.out.println("find partner");
+                moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{
+            findingPartner = false;
             //moveRandomly();
             //move(currentSpeed);
         }
@@ -133,25 +136,23 @@ public class Rabbit extends Animal
 
     public void findGrassAndEat() {
         if(targetGrass == null || targetGrass.getWorld() == null || !targetGrass.grassAvailable()){
-            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 100, g -> !((GrassTile)g).grassAvailable());
+            targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 180, g -> !((GrassTile)g).grassAvailable());
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/2, g -> !((GrassTile)g).grassAvailable());
             }
             if(targetGrass == null) {
-                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, 250, g -> !((GrassTile)g).grassAvailable());
-            }
-            if(targetGrass == null){
-                currentPath = null;
+                targetGrass = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
             }
         }
         if(targetGrass != null){
-            if(distanceFrom(targetGrass) < 12){
-                currentPath = null;
+            targetTile = targetGrass;
+            if(distanceFrom(targetGrass) < 10){
                 targetGrass.nibble(7);
                 eat(4);
             }
             else{
-                pathfindToTile(targetGrass, 12);
+                System.out.println("find grass");
+                moveTowards(targetTile, currentSpeed, walkHeight);
             }
         }
     }
@@ -162,7 +163,7 @@ public class Rabbit extends Animal
 
     public void animate()
     {
-        if(eating || drinking)
+        if(eating)
         {
             if(facing.equals("right"))
             {
@@ -208,14 +209,6 @@ public class Rabbit extends Animal
 
     public int getHp() {
         return hp;
-    }
-
-    public boolean isBeingEaten() {
-        return beingEaten;
-    }
-
-    public void setBeingEaten(boolean eaten) {
-        beingEaten = eaten;
     }
 
 }

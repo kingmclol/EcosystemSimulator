@@ -22,6 +22,8 @@ import java.util.function.Predicate;
 
 public abstract class SuperActor extends SuperSmoothMover
 {
+    protected Node targetNodePrev;
+
     /*
     Not to be added during the vehicle simulator, but here so I won't forget. May or may not be neglected later on.
     ArrayList <Vector> path;
@@ -39,7 +41,9 @@ public abstract class SuperActor extends SuperSmoothMover
      // */
     // protected void createEvent(Event e){
         // getWorld().addObject(e, 0 ,0 );
-    // }
+    // 
+    protected SuperActor target;
+    private ArrayList<Vector> path = new ArrayList<Vector>();
     /**
      * Returns the current position as a Vector.
      */
@@ -51,9 +55,47 @@ public abstract class SuperActor extends SuperSmoothMover
      * @param target The SuperActor to move towards.
      * @param The distance the SuperActor should travel. Also can be seen as the "speed."
      */
-    protected void moveTowards(SuperActor target, double distance) {
+    protected void moveTowards(SuperActor target, double distance, int maxTileHeight) {
         //displace(getPosition().distanceFrom(a.getPosition()).scaleTo(distance));
-        displace(getDisplacement(target, distance));
+        //displace(getDisplacement(target, distance));
+        Node targetNode = Board.getNodeWithRealPosition(target.getPosition());
+        if (path == null || target != this.target || targetNode != targetNodePrev) { // no path, or target node changed (target moving), or target changed
+            this.target = target;
+            System.out.println("new path");
+            Node currentNode = Board.getNodeWithRealPosition(getPosition());
+            targetNodePrev = targetNode;
+            ArrayList<Node> nodes = Board.findPath(currentNode, targetNode, maxTileHeight);
+            if (nodes != null) {
+                path = new ArrayList<Vector>();
+                for (Node n : nodes) {
+                    path.add(Board.getRealPositionWithNode(n));
+                }
+                // Board.displayPath(nodes, Color.YELLOW);
+            }
+        }
+        
+        if (path != null) {
+            if (path.size() > 0) {
+                Vector nextPos = path.get(0);
+                if (Board.getTile(nextPos).getHeightLevel() > maxTileHeight) { // obstruction.
+                    path = null;
+                    //moveTowards(target, distance, maxTileHeight); // remake a path. overflows from recusion lol
+                }
+                else {
+                    // System.out.println("movinG!");
+                    moveTowards(nextPos, distance);
+                }
+                
+                if (distanceFrom(nextPos) < 8) {
+                    path.remove(0);
+                }
+            }
+            else {
+                path = null;
+                System.out.println("done.");
+                return;
+            }
+        }
     }
     /**
      * Moves towards towards a position.

@@ -19,6 +19,7 @@ public class Vulture extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
+        walkHeight = 3;
     }
 
     /**
@@ -35,14 +36,11 @@ public class Vulture extends Animal
             eating = true;
         }
         
-        if(alive && !drinking){
+        if(alive){
             if(wantToEat){
-                full = false;
                 findDeadAnimalsAndEat();
             }else{
                 targetAnimal = null;
-                full = true;
-                
             }
         }
     }
@@ -61,14 +59,13 @@ public class Vulture extends Animal
         }
 
         if(targetAnimal != null) {
-            moveTowards(targetAnimal, currentSpeed);
             if(distanceFrom(targetAnimal) < 5){
                 targetAnimal.decreaseTransparency(1);
                 eat(4);
             }
-        }else{
-            move(currentSpeed);
-            moveRandomly();
+            else {
+                moveTowards(targetAnimal, currentSpeed, walkHeight);
+            }
         }
     }
 

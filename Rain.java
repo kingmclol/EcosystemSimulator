@@ -8,9 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Rain extends Effect
 {
-
     public Rain() {
-        super(1200, 200);
+        super(500, 200);
     }
     
     public void addedToWorld(World w) {
@@ -26,12 +25,14 @@ public class Rain extends Effect
      */
     public void act()
     {
+        super.act();
     }
     public void startEffect() {
-        // Tile.setRaining(true);
+        Tile.setRaining(true);
         return;
     }
     public void stopEffect() {
+        Tile.setRaining(false); 
         return;
     }
 }

@@ -11,11 +11,14 @@ public class Snowstorm extends Effect
 {
     private int actsLeft;
     public Snowstorm () {
-        super(300, 200);
+        super(500, 200);
     }
 
     public void addedToWorld (World w){
+        super.addedToWorld(w);
         GreenfootImage image = Utility.drawSnow(w.getWidth(), w.getHeight(), 50);
+        image.setTransparency(0);
+        setImage(image);
         setLocation (w.getWidth()/ 2, w.getHeight()/2);
     }
 
@@ -25,17 +28,17 @@ public class Snowstorm extends Effect
      */
     public void act()
     {
-        
+        super.act(); 
     }
     public void startEffect() {
         slowAnimals();
     }
     public void stopEffect() {
-        // undoSlowAnimals();
+        Animal.setSnowing(false);
     }
     public void slowAnimals()
     {
-        // Animal.setSnowing(true);
+        Animal.setSnowing(true);
         return;
     }
 }

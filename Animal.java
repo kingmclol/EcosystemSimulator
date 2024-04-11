@@ -97,11 +97,6 @@ public abstract class Animal extends SuperActor {
         if(!eating && alive && !findingPartner){
             moveRandomly();
         }
-        
-        if(!wantToEat && alive && !breeding){
-            move(currentSpeed);
-            moveRandomly();
-        }
     }
     
     public boolean isAlive() {
@@ -203,7 +198,7 @@ public abstract class Animal extends SuperActor {
         }
         
         if (targetTile != null) {
-            System.out.println("move randomly");
+            //System.out.println("move randomly");
             moveTowards(targetTile, currentSpeed, walkHeight);
         }
     }

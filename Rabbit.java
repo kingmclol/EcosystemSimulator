@@ -129,8 +129,6 @@ public class Rabbit extends Animal
             }
         }else{
             findingPartner = false;
-            //moveRandomly();
-            //move(currentSpeed);
         }
     }
 

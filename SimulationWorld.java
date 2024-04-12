@@ -8,11 +8,12 @@ import java.util.ArrayList; // (World, Actor, GreenfootImage, Greenfoot and Mous
  */
 public class SimulationWorld extends World
 {
+
     private static boolean isNight = false; 
     
     private int actCount; 
 
-    
+
     private ArrayList<Tile> spawnableTiles; 
 
     private int dayCount; 
@@ -29,7 +30,9 @@ public class SimulationWorld extends World
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1008, 768, 1); 
+
         setPaintOrder(UI.class, SuperDisplayLabel.class, Effect.class, BreedingEffect.class, Animal.class, Node.class, Tile.class);
+
         Board.setWorld(this);
         Tile.setTimeFlow(true);
         
@@ -54,13 +57,13 @@ public class SimulationWorld extends World
         actCount++; 
         spawn();
     }
-    
     public void spawn() 
     {
         if (actCount >= 2400) {
             addObject(new Night(), 0, 0);
             actCount = 0;
         }
+
         statUpdates(); 
         scoreBar.update(new int[]{dayCount, time}); 
     }

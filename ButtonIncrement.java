@@ -65,7 +65,9 @@ public class ButtonIncrement extends UI
         return value;
     }
     public void incrementValue() {
+
         value = Math.min(maxVal, value + 1);
+
         textBox.update(String.valueOf(value));
     }
     public void decrementValue() {

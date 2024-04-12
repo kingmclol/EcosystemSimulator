@@ -9,6 +9,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class WaterTile extends Tile
 {
+    private int actsPassed = 0;
+    private int index = 0;
+    private GreenfootImage[] animation = new GreenfootImage[3];
     /**
      * Act - do whatever the WaterTile wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -16,13 +19,29 @@ public class WaterTile extends Tile
     public WaterTile() {
         super(new GreenfootImage("tile_water.png"));
         heightLevel = 0;
+        for(int i = 0; i<3; i++)
+        {
+            animation[i] = new GreenfootImage("images/tile_water/tile_water" + (i+1) + ".png");
+        }
     }
     public void act()
     {
         // Add your action code here.
+        if(!timeFlowing) return;
+        actsPassed++;
+        animate();
+        
     }
     
     public String toString() {
         return "WaterTile";
+    }
+    public void animate()
+    {
+        if(actsPassed%30 == 0)
+        {
+            setTile(new GreenfootImage(animation[index]));
+            index = (index+1)%(animation.length);
+        }
     }
 }

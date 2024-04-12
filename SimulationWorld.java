@@ -13,6 +13,7 @@ public class SimulationWorld extends World
     
     private int actCount; 
 
+
     private ArrayList<Tile> spawnableTiles; 
 
     private int dayCount; 

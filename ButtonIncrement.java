@@ -16,20 +16,42 @@ public class ButtonIncrement extends UI
     private int value;
     private Button decrementButton;
     private Button incrementButton;
-
+    private GreenfootImage img;
     private World world;
     private SuperTextBox textBox;
-    private GreenfootImage img;
+    private SuperTextBox labelText;
     public ButtonIncrement(int width, int height, int textBoxWidth, int maxVal){
         this.width = width;
         this.height = height;
         this.textBoxWidth = textBoxWidth;
-        //setImage(new GreenfootImage(width, height));
+        img = new GreenfootImage(width, height);
+        img.setTransparency(120);
+        img.setColor(Color.BLACK);
+        setImage(img);
         decrementButton = new Button(this::decrementValue, (width - textBoxWidth)/2, height);
         incrementButton = new Button(this::incrementValue,(width - textBoxWidth)/2, height);
         value = 0;
         this.maxVal = maxVal;
-        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(27), true, textBoxWidth, 0, Color.BLACK);
+        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(24), true, textBoxWidth, 0, Color.BLACK);
+        
+    }
+    public ButtonIncrement(int width, int height, int textBoxWidth, int maxVal, String label, GreenfootImage leftButtonImg, GreenfootImage rightButtonImg){
+        
+        this.width = width;
+        this.height = height;
+        this.textBoxWidth = textBoxWidth;
+        labelText = new SuperTextBox(label, new Font(24), 150);
+  
+        img = new GreenfootImage(width, height + 100);
+        img.setTransparency(120);
+        img.setColor(Color.BLACK);
+        img.fill();
+        setImage(img);
+        decrementButton = new Button(this::decrementValue, (width - textBoxWidth)/2, height, leftButtonImg, leftButtonImg, leftButtonImg);
+        incrementButton = new Button(this::incrementValue,(width - textBoxWidth)/2, height, rightButtonImg, rightButtonImg, rightButtonImg);
+        value = 0;
+        this.maxVal = maxVal;
+        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(24), true, textBoxWidth, 0, Color.BLACK);
         
     }
     public void addedToWorld(World w){
@@ -37,12 +59,15 @@ public class ButtonIncrement extends UI
         w.addObject(decrementButton, (getX() - width/2) + (width - textBoxWidth)/4, getY());
         w.addObject(incrementButton, (getX() + width/2) - (width - textBoxWidth)/4, getY());
         w.addObject(textBox, getX(), getY());
+        w.addObject(labelText, getX(), getY() - 50);
     }
     public int getValue(){
         return value;
     }
     public void incrementValue() {
-        value = Math.min(50, value + 1);
+
+        value = Math.min(maxVal, value + 1);
+
         textBox.update(String.valueOf(value));
     }
     public void decrementValue() {

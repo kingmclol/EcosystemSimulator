@@ -1,10 +1,13 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
+
 import java.util.Collections;
+
 /**
- * Animal superclass where subclasses will inherit traits
- * and behaviours from
+ * Write a description of class Animal here.
  * 
+
+
  * <p>Animals are an SuperActor that moves around the ecosyteem, and has unique interactions with each other. Animals constantly
  * lose energy every act, and they must ensure that their energy must stay above zero to survive.</p>
  * 
@@ -32,6 +35,7 @@ public abstract class Animal extends SuperActor {
         FIND_MATE
     }
     protected AnimalObjective objective;
+
     protected static boolean isSnowing = false;
     
     protected int energy;
@@ -287,4 +291,5 @@ public abstract class Animal extends SuperActor {
     public static void setSnowing(boolean snowing) {
         isSnowing = snowing; 
     }
+    
 }

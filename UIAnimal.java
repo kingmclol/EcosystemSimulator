@@ -16,7 +16,7 @@ public class UIAnimal extends UI
     public UIAnimal(Animal animal){
         img = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight1.png");
         walkingAnimationRight = new GreenfootImage[4];
-        img.scale(img.getWidth()*2, img.getHeight()*2);
+        img.scale(img.getWidth()*3, img.getHeight()*3);
         setImage(img);
         moving = false;
         for(int i = 0; i<4; i++)

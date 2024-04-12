@@ -49,29 +49,39 @@ public class Vulture extends Animal
 
     public void breed() {
         // Find another vulture nearby
-        partner = (Vulture) getClosestInRange(this.getClass(), viewRadius, v -> !((Vulture)v).isAbleToBreed() || !((Vulture)v).isAlive()); // Adjust range as needed
-        if(partner != null){
-            findingPartner = true;
-            if(distanceFrom(partner) < 40){
+        if (!(target instanceof Vulture)) { // attempt to find a Vulture eligble
+            SuperActor search = (Vulture) getClosestInRange(this.getClass(), viewRadius, v -> !((Vulture)v).isAbleToBreed() || !((Vulture)v).isAlive()); // Adjust range as needed
+            
+            if (search != null) { // found a Vulture!
+                target = search;
+            }
+        }
+        
+        if (target instanceof Vulture) { // Vulture found
+            Vulture targetVulture = (Vulture) target; // cast to target
+            
+            // Check if retargeting needed.
+            if (targetVulture.getWorld() == null || !targetVulture.isAlive() || !targetVulture.isAbleToBreed()) {
+                target = null; // neccessiate retargeting
+                return; // nothign else t do
+            }
+            else if(distanceFrom(target) < 40){ // close to target Vulture! breed
                 breeding = true;
                 breedingCounter++;
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
                     getWorld().addObject(new Vulture(true), getX(), getY());
                     ableToBreed = false;
-                    partner.setAbleToBreed(false);
+                    targetVulture.setAbleToBreed(false);
                     breeding = false;
-                    partner.setIsBreeding(false);
+                    targetVulture.setIsBreeding(false);
                     breedingCounter = 0;
-                    partner = null;
+                    target = null;
                     actsSinceLastBreeding = 0;
-
                 }
-            }else{
-                moveTowards(partner, currentSpeed, walkHeight);
+            }else{ // move closer
+                moveTowards(targetVulture, currentSpeed, walkHeight);
             }
-        }else{
-            findingPartner = false;
         }
     }
 

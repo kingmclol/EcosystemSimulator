@@ -126,7 +126,7 @@ public abstract class Animal extends SuperActor {
         }
         
         // Manage death.
-        if (energy <= 0 || hp <= 0) { // No energy or no health.
+        if (energy <= 0) { // No energy or no health.
             die(); // this animal has died.
             return; // This animal has died. what else should it do? tap dance?
         }

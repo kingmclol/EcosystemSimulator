@@ -199,7 +199,7 @@ public class Rabbit extends Animal
                 setImage(walkingAnimationDown[indexAnimation]);
             }
         }
-        if(currentAct%20 == 0) // change animation every 45 acts
+        if(currentAct%20 == 0) // change animation every 20 acts
         {
             indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
         }

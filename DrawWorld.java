@@ -87,7 +87,7 @@ public class DrawWorld extends CursorWorld
         }
         for(Actor a : actors){
 
-            if (a instanceof UI){
+            if (a instanceof UI && !(a instanceof TileSelector)){
                 return null;
             }
             else if (a instanceof Tile) {

@@ -1,14 +1,13 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
-
 /**
- * Animal superclass where subclasses will inherit traits
- * and behaviours from
+ * Write a description of class Animal here.
  * 
- * @author (Osmond Lin) 
+ * @author (your name) 
+ * @version (a version number or a date)
  */
-
-public abstract class Animal extends SuperActor {
+public abstract class Animal extends SuperActor
+{
     protected static boolean isSnowing = false;
     
     protected int energy;
@@ -236,4 +235,5 @@ public abstract class Animal extends SuperActor {
     public static void setSnowing(boolean snowing) {
         isSnowing = snowing; 
     }
+    
 }

@@ -12,7 +12,7 @@ public class SimulationWorld extends World
     
     private int actCount; 
 
-    private boolean isNight; 
+    
     private ArrayList<Tile> spawnableTiles; 
 
     private int dayCount; 

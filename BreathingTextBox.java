@@ -68,7 +68,6 @@ public class BreathingTextBox extends TextBox
         
          */
         x++;
-        System.out.println(img.getTransparency());
         int nextTransparency = (int) Math.round(255/2d * (-1 * Math.cos(k * x) + 1));
         setTransparency(nextTransparency);
     }

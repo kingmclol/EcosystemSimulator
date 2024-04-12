@@ -42,7 +42,10 @@ public class BushTile extends Tile
      * @return The amount of berries consumed.
      */
     public int nibble(int value) {
-        if (berryAmount < value) { // Not enough berries to eat... Return what was remaining.
+        if (!berriesAvailable) {
+            return 0;
+        }
+        else if (berryAmount < value) { // Not enough berries to eat... Return what was remaining.
             berryAmount = 0;
             berriesAvailable = false;
             setTile(Color.RED);

@@ -8,7 +8,6 @@ import java.util.function.Predicate;
  */
 public class Wolf extends Animal
 {
-    private Animal target;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     
     public Wolf(boolean isBaby) {
@@ -39,88 +38,107 @@ public class Wolf extends Animal
      */
     public void act() {
         super.act();
-        actsSinceLastBreeding++;
+        if (!alive) return;  // am dead. nothing to do.
+
         if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
             ableToBreed = true;
-            if(!wantToEat){
-                breed();
-            }
         }else{
             ableToBreed = false;
         }
-        
+         // I guess eating is managed here. dunno how it works so im not touching it.
         if(target == null || target.getWorld() == null || distanceFrom(target) > 5){
             eating = false;
         }else{
             eating = true;
         }
         
-        if(alive && !breeding){
-            if(wantToEat){
-                findPreyAndEat();
-            }else{
-                target = null;
-            }
-        }
     }
 
     public void breed() {
         // Find another wolf nearby
-        partner = (Wolf) getClosestInRange(this.getClass(), viewRadius, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
-        if(partner != null){
-            findingPartner = true;
-            if(distanceFrom(partner) < 40){
+        if (!(target instanceof Wolf)) { // attempt to find a Wolf eligble
+            SuperActor search = (Wolf) getClosestInRange(this.getClass(), viewRadius, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
+            
+            if (search != null) { // found a wolf!
+                target = search;
+            }
+        }
+        
+        if (target instanceof Wolf) { // wolf found
+            Wolf targetWolf = (Wolf) target; // cast to target
+            
+            // Check if retargeting needed.
+            if (targetWolf.getWorld() == null || !targetWolf.isAlive() || !targetWolf.isAbleToBreed()) {
+                target = null; // neccessiate retargeting
+                return; // nothign else t do
+            }
+            else if(distanceFrom(target) < 40){ // close to target wolf! breed
                 breeding = true;
                 breedingCounter++;
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
                     getWorld().addObject(new Wolf(true), getX(), getY());
                     ableToBreed = false;
-                    partner.setAbleToBreed(false);
+                    targetWolf.setAbleToBreed(false);
                     breeding = false;
-                    partner.setIsBreeding(false);
+                    targetWolf.setIsBreeding(false);
                     breedingCounter = 0;
-                    partner = null;
+                    target = null;
                     actsSinceLastBreeding = 0;
-
                 }
-            }else{
-                moveTowards(partner, currentSpeed, walkHeight);
+            }else{ // move closer
+                moveTowards(targetWolf, currentSpeed, walkHeight);
             }
-        }else{
-            findingPartner = false;
         }
     }
 
-    public void findPreyAndEat() {
-        Predicate<Animal> filter = a -> (!a.isAlive() || a instanceof Wolf || a instanceof Vulture);
-        if (target == null || target.getWorld() == null || !target.isAlive()) {
-            target = (Animal) getClosestInRange(Animal.class, viewRadius/4, filter);
-            if (target == null){
-                target = (Animal) getClosestInRange(Animal.class, viewRadius/2, filter);
+    public void findOrEatFood() {
+        // Attempt to find some prey, so target would be of corret type
+        if (!(target instanceof Animal)) {
+            // Create an more advanced filter to find an eligble food (animal)
+            // Read as: Remove if animal is alive, or the animal is a wolf, or animal is a vulture.
+            Predicate<Animal> filter = a -> (!a.isAlive() || a instanceof Wolf || a instanceof Vulture);
+            SuperActor search = (Animal) getClosestInRange(Animal.class, viewRadius/4, filter);
+            if (search == null){
+                search = (Animal) getClosestInRange(Animal.class, viewRadius/2, filter);
             }
-            if (target == null) {
-                target = (Animal) getClosestInRange(Animal.class, viewRadius, filter);
+            if (search == null) {
+                search = (Animal) getClosestInRange(Animal.class, viewRadius, filter);
+            }
+            
+            if (search != null) {
+                target = search; // found one.
             }
         }
         
-        if (target != null) {
-            if (distanceFrom(target) < 5) {
-                target.takeDamage(8);
-                if (target.getEnergy() <= 0) {
-                    target.disableStaticRotation();
-                    target.setRotation(90);
+
+        if (target instanceof Animal) {
+            Animal targetPrey = (Animal) target; // cast into ANimal to access instance methods.
+            
+            // check if retarget required.
+            if (!targetPrey.isAlive() || targetPrey.getWorld() == null) {
+                target = null;
+                return;
+            }
+            else if (distanceFrom(targetPrey) < 5) { // close enough, eat it
+                targetPrey.takeDamage(10);
+                targetPrey.setBeingEaten(true);
+                if (targetPrey.getEnergy() <= 0) {
+                    targetPrey.disableStaticRotation();
+                    targetPrey.setRotation(90);
                 }
                 eat(12);
             }
-            else {
-                moveTowards(target, currentSpeed, walkHeight);
+            else { // too far, move closer.
+                moveTowards(targetPrey, currentSpeed, walkHeight);
             }
         }
+        else {
+            moveRandomly(); // move randomly this act.
+        }
     }
-
     public void animate()
     {
-
+        // no animation rn,
     }
 }

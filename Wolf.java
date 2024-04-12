@@ -10,14 +10,27 @@ public class Wolf extends Animal
 {
     private Animal target;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
-    public Wolf() {
-        super();
+    
+    public Wolf(boolean isBaby) {
+        super(isBaby);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 500;
         walkHeight = 1;
+        breedingThreshold = 2000;
+    }
+    
+    public Wolf() {
+        super(false);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        currentSpeed = defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
+        wantToEat = false;
+        viewRadius = 500;
+        walkHeight = 1;
+        breedingThreshold = 2000;
     }
 
     /**
@@ -27,7 +40,7 @@ public class Wolf extends Animal
     public void act() {
         super.act();
         actsSinceLastBreeding++;
-        if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
+        if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
             ableToBreed = true;
             if(!wantToEat){
                 breed();
@@ -61,7 +74,7 @@ public class Wolf extends Animal
                 breedingCounter++;
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
-                    getWorld().addObject(new Wolf(), getX(), getY());
+                    getWorld().addObject(new Wolf(true), getX(), getY());
                     ableToBreed = false;
                     partner.setAbleToBreed(false);
                     breeding = false;

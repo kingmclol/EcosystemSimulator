@@ -26,8 +26,8 @@ public class Rabbit extends Animal
     private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[4];
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
     //https://opengameart.org/content/reorganised-lpc-rabbit
-    public Rabbit() {
-        super();
+    public Rabbit(boolean isBaby) {
+        super(isBaby);
         facing = "right";
         walkHeight = 1;
         for(int i = 0; i<4; i++)
@@ -48,6 +48,32 @@ public class Rabbit extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
+        breedingThreshold = 2000;
+    }
+    
+    public Rabbit() {
+        super(false);
+        facing = "right";
+        walkHeight = 1;
+        for(int i = 0; i<4; i++)
+        {
+            //Walking Animation:
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
+            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
+
+            eatingAnimationUp[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+        }
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
+        currentSpeed = defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
+        wantToEat = false;
+        viewRadius = 400;
+        breedingThreshold = 2000;
     }
 
     /**
@@ -58,7 +84,7 @@ public class Rabbit extends Animal
         super.act();
         actsSinceLastBreeding++;
         currentAct++;
-        if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
+        if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
             ableToBreed = true;
             if(!wantToEat){
                 breed();
@@ -96,7 +122,7 @@ public class Rabbit extends Animal
 
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
-                    getWorld().addObject(new Rabbit(), getX(), getY());
+                    getWorld().addObject(new Rabbit(true), getX(), getY());
                     ableToBreed = false;
                     partner.setAbleToBreed(false);
                     breeding = false;
@@ -122,7 +148,6 @@ public class Rabbit extends Animal
                     }
                 }
             }else{
-                System.out.println("find partner");
                 moveTowards(partner, currentSpeed, walkHeight);
             }
         }else{

@@ -12,7 +12,7 @@ public abstract class Animal extends SuperActor {
     protected static boolean isSnowing = false;
     
     protected int energy;
-
+    protected boolean baby;
     protected int walkHeight;
     // protected ArrayList<Vector> currentPath;
 
@@ -28,7 +28,6 @@ public abstract class Animal extends SuperActor {
     protected boolean eating;
     protected boolean wantToEat;
     protected boolean swimming;
-    protected boolean runningAway;
 
     protected int transparency;
 
@@ -37,17 +36,24 @@ public abstract class Animal extends SuperActor {
     protected boolean breeding;
     protected int actsSinceLastBreeding;
     protected int breedingCounter;
-    public static final int BREEDING_THRESHOLD = 2000;
+    protected int breedingThreshold;
     public static final int BREEDING_DELAY = 150;
     protected Tile currentTile;
     protected Tile targetTile;
     protected boolean findingPartner;
+    protected int actsAsBaby;
 
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
 
-    public Animal() {
+    public Animal(boolean isBaby) {
+        if(isBaby){
+            baby = true;
+            actsAsBaby = 0;
+        }else{
+            baby = false;
+        }
+        
         transparency = 255;
-        runningAway = false;
         swimming = false;
         alive = true;
         eating = false;
@@ -70,9 +76,7 @@ public abstract class Animal extends SuperActor {
             currentSpeed = waterSpeed;
         }else{
             swimming = false;
-            if(!runningAway){
-                currentSpeed = defaultSpeed;
-            }
+            currentSpeed = defaultSpeed;
         }
 
         if(energy < 1000){
@@ -94,6 +98,13 @@ public abstract class Animal extends SuperActor {
 
         if(!eating && alive && !findingPartner){
             moveRandomly();
+        }
+        
+        if(baby){
+            actsAsBaby++;
+            if(actsAsBaby >= 1200){
+                baby = false;
+            }
         }
     }
     

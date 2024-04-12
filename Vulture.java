@@ -11,14 +11,24 @@ public class Vulture extends Animal
 {
     private Animal targetAnimal;
 
-    public Vulture() {
-        super();
+    public Vulture(boolean isBaby) {
+        super(isBaby);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
-        waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
         walkHeight = 3;
+        breedingThreshold = 3000;
+    }
+    
+    public Vulture() {
+        super(false);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        currentSpeed = defaultSpeed;
+        wantToEat = false;
+        viewRadius = 400;
+        walkHeight = 3;
+        breedingThreshold = 3000;
     }
 
     /**
@@ -44,7 +54,33 @@ public class Vulture extends Animal
         }
     }
 
-    public void breed() {}
+    public void breed() {
+        // Find another vulture nearby
+        partner = (Vulture) getClosestInRange(this.getClass(), viewRadius, v -> !((Vulture)v).isAbleToBreed() || !((Vulture)v).isAlive()); // Adjust range as needed
+        if(partner != null){
+            findingPartner = true;
+            if(distanceFrom(partner) < 40){
+                breeding = true;
+                breedingCounter++;
+                if(breedingCounter > BREEDING_DELAY){
+                    // Add the baby to the world
+                    getWorld().addObject(new Vulture(true), getX(), getY());
+                    ableToBreed = false;
+                    partner.setAbleToBreed(false);
+                    breeding = false;
+                    partner.setIsBreeding(false);
+                    breedingCounter = 0;
+                    partner = null;
+                    actsSinceLastBreeding = 0;
+
+                }
+            }else{
+                moveTowards(partner, currentSpeed, walkHeight);
+            }
+        }else{
+            findingPartner = false;
+        }
+    }
 
     public void findDeadAnimalsAndEat() {
         if(targetAnimal == null || targetAnimal.isAlive() || targetAnimal.getWorld() == null){

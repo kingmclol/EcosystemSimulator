@@ -6,17 +6,27 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (Osmond Lin) 
  */
 public class Deer extends Animal
-{
-    public Deer() {
-        super();
-        beingEaten = false;
-        defaultSpeed = 1.0;
+{   
+    public Deer(boolean isBaby) {
+        super(isBaby);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
-        sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
         walkHeight = 2;
+        breedingThreshold = 2000;
+    }
+    
+    public Deer() {
+        super(false);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
+        currentSpeed = defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
+        wantToEat = false;
+        viewRadius = 400;
+        walkHeight = 2;
+        breedingThreshold = 2000;
     }
 
     /**
@@ -28,7 +38,7 @@ public class Deer extends Animal
         super.act();
         if (!alive) return; // There has to be a better way than doing this, right? right?????
         actsSinceLastBreeding++;
-        if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
+        if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
             ableToBreed = true;
             if(!wantToEat){
                 breed();
@@ -68,7 +78,7 @@ public class Deer extends Animal
                     // Add the baby to the world
 
                     
-                    getWorld().addObject(new Deer(), getX(), getY());
+                    getWorld().addObject(new Deer(true), getX(), getY());
                     ableToBreed = false;
                     targetDeer.setAbleToBreed(false);
                     breeding = false;
@@ -129,3 +139,4 @@ public class Deer extends Animal
         }
     }
 }
+

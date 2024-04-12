@@ -9,15 +9,27 @@ import java.util.function.Predicate;
 public class Wolf extends Animal
 {
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
-    public Wolf() {
-        super();
-        defaultSpeed = 1.2;
+    
+    public Wolf(boolean isBaby) {
+        super(isBaby);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
-        sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 500;
         walkHeight = 1;
+        breedingThreshold = 2000;
+    }
+    
+    public Wolf() {
+        super(false);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        currentSpeed = defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
+        wantToEat = false;
+        viewRadius = 500;
+        walkHeight = 1;
+        breedingThreshold = 2000;
     }
 
     /**
@@ -27,9 +39,8 @@ public class Wolf extends Animal
     public void act() {
         super.act();
         if (!alive) return;  // am dead. nothing to do.
-        
-        // Determine if the wolf should be able to breed.
-        if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
+
+        if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
             ableToBreed = true;
         }else{
             ableToBreed = false;
@@ -66,7 +77,7 @@ public class Wolf extends Animal
                 breedingCounter++;
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
-                    getWorld().addObject(new Wolf(), getX(), getY());
+                    getWorld().addObject(new Wolf(true), getX(), getY());
                     ableToBreed = false;
                     targetWolf.setAbleToBreed(false);
                     breeding = false;
@@ -100,6 +111,7 @@ public class Wolf extends Animal
             }
         }
         
+
         if (target instanceof Animal) {
             Animal targetPrey = (Animal) target; // cast into ANimal to access instance methods.
             
@@ -111,7 +123,7 @@ public class Wolf extends Animal
             else if (distanceFrom(targetPrey) < 5) { // close enough, eat it
                 targetPrey.takeDamage(10);
                 targetPrey.setBeingEaten(true);
-                if (targetPrey.getHp() < 400) {
+                if (targetPrey.getEnergy() <= 0) {
                     targetPrey.disableStaticRotation();
                     targetPrey.setRotation(90);
                 }

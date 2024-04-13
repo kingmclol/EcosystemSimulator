@@ -7,7 +7,7 @@ public class SettingsWorld extends CursorWorld
     private static int wolfCount;
     private static int rabbitCount;
     private static int vultureCount;
-    private static int deerEnergy;
+    private static int goatEnergy;
     private static int wolfEnergy;
     private static int rabbitEnergy;
     private static int vultureEnergy;
@@ -30,19 +30,19 @@ public class SettingsWorld extends CursorWorld
         GreenfootImage buttonImg2 = new GreenfootImage("images/incrementRight.png");
 
         animalSelect = new AnimalSelector();
-        addObject(animalSelect, getWidth()/2, getHeight()/2 - 50);
+        addObject(animalSelect, getWidth()/2, getHeight()/2 - 30);
         
         leaveButton = new Button(() -> onClick(), 100, 50);
         addObject(leaveButton, getWidth()/2, getHeight() - 100);
     }
     private void onClick(){
 
-        rabbitCount = animalSelect.getNumOfDeer();
-        deerCount = animalSelect.getNumOfRabbits();
+        rabbitCount = animalSelect.getNumOfRabbits();
+        goatCount = animalSelect.getNumOfGoats();
         vultureCount = animalSelect.getNumOfVultures();
         wolfCount = animalSelect.getNumOfWolves();
         rabbitEnergy = animalSelect.getEnergyOfRabbits();
-        deerEnergy = animalSelect.getEnergyOfDeer();
+        goatEnergy = animalSelect.getEnergyOfGoat();
         vultureEnergy = animalSelect.getEnergyOfVultures();
         wolfEnergy = animalSelect.getEnergyOfWolves();
         Greenfoot.setWorld(new DrawWorld());
@@ -65,8 +65,8 @@ public class SettingsWorld extends CursorWorld
     public static int getStartEnergyOfWolf(){
         return wolfEnergy;
     }
-    public static int getStartEnergyOfDeer(){
-        return deerEnergy;
+    public static int getStartEnergyOfGoat(){
+        return goatEnergy;
     }
     public static int getStartEnergyOfVulture(){
         return vultureEnergy;

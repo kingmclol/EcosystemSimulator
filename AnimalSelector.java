@@ -1,7 +1,7 @@
 import greenfoot.*;
 public class AnimalSelector extends UI
 {
-    private UIAnimal[] animals = {new UIAnimal("rabbit"), new UIAnimal("rabbit"), new UIAnimal("rabbit"), new UIAnimal("rabbit")};
+    private UIAnimal[] animals = {new UIAnimal("rabbit"), new UIAnimal("goat"), new UIAnimal("wolf"), new UIAnimal("vulture")};
     private Button decrementButton;
     private Button incrementButton;
     private GreenfootImage img;
@@ -19,7 +19,7 @@ public class AnimalSelector extends UI
         buttonIncrementers = new ButtonIncrement[4];
         sliders = new Slider[4];
         for (int i = 0; i < buttonIncrementers.length; i++){
-            buttonIncrementers[i] = new ButtonIncrement(300, 50, 200, 50, "Num", leftButtonImg, rightButtonImg);
+            buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 50, "Num", leftButtonImg, rightButtonImg);
             sliders[i] = new Slider(250, 1000, "Energy");
         }
         
@@ -35,7 +35,7 @@ public class AnimalSelector extends UI
         
         w.addObject(animals[animalIndex], getX(), getY() - 10);
         w.addObject(buttonIncrementers[animalIndex], getX(), getY() - 125);
-        w.addObject(sliders[animalIndex], getX(), getY() + 125);
+        w.addObject(sliders[animalIndex], getX(), getY() + 150);
         w.addObject(decrementButton, getX() - 100, getY());
         w.addObject(incrementButton, getX() + 100, getY());
     }
@@ -45,7 +45,7 @@ public class AnimalSelector extends UI
         sliders[animalIndex].removeObject();
         buttonIncrementers[animalIndex].removeObject();
         animalIndex = (animalIndex+1) % 4;
-        w.addObject(sliders[animalIndex], getX(), getY() + 125);
+        w.addObject(sliders[animalIndex], getX(), getY() + 150);
         w.addObject(animals[animalIndex],getX(), getY() - 10);
         w.addObject(buttonIncrementers[animalIndex], getX(), getY() - 125);
     }
@@ -55,14 +55,14 @@ public class AnimalSelector extends UI
         sliders[animalIndex].removeObject();
         buttonIncrementers[animalIndex].removeObject();
         animalIndex = (animalIndex+ 3) % 4;
-        w.addObject(sliders[animalIndex], getX(), getY() + 125);
+        w.addObject(sliders[animalIndex], getX(), getY() + 150);
         w.addObject(animals[animalIndex], getX(), getY() - 10);
         w.addObject(buttonIncrementers[animalIndex],  getX(), getY() - 125);
     }
     public int getNumOfRabbits(){
        return buttonIncrementers[0].getValue();
     }
-    public int getNumOfDeer(){
+    public int getNumOfGoats(){
         return buttonIncrementers[1].getValue();
     }
     public int getNumOfWolves(){
@@ -74,7 +74,7 @@ public class AnimalSelector extends UI
     public int getEnergyOfRabbits(){
         return sliders[0].getValue();
     }
-    public int getEnergyOfDeer(){
+    public int getEnergyOfGoat(){
         return sliders[1].getValue();
     }
     public int getEnergyOfWolves(){

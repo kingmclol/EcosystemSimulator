@@ -28,6 +28,7 @@ public class Wolf extends Animal
         wantToEat = false;
         viewRadius = 500;
         walkHeight = 1;
+        breedingThreshold = 2500;
         for(int i = 0; i<4; i++)
         {
             walkingAnimationUp[i] = new GreenfootImage("images/Wolf/Walking/Up/Up" + (i+1) + ".png");
@@ -51,6 +52,7 @@ public class Wolf extends Animal
         wantToEat = false;
         viewRadius = 500;
         walkHeight = 1;
+        breedingThreshold = 2500;
         for(int i = 0; i<4; i++)
         {
             walkingAnimationUp[i] = new GreenfootImage("images/Wolf/Walking/Up/Up" + (i+1) + ".png");
@@ -152,12 +154,12 @@ public class Wolf extends Animal
             }
             else if (distanceFrom(targetPrey) < 5) { // close enough, eat it
                 eating = true;
-                targetPrey.takeDamage(15);
+                targetPrey.takeDamage(30);
                 if (targetPrey.getEnergy() <= 0) {
                     targetPrey.disableStaticRotation();
                     targetPrey.setRotation(90);
                 }
-                eat(12);
+                eat(40);
             }
             else { // too far, move closer.
                 eating = false;
@@ -222,7 +224,7 @@ public class Wolf extends Animal
                 setImage(walkingAnimationDown[indexAnimation]);
             }
         }
-        if(currentAct%20 == 0) // change animation every 20 acts
+        if(currentAct%12 == 0) // change animation every 20 acts
         {
             if(isVerticallyFacing)
             {

@@ -37,6 +37,7 @@ public abstract class Animal extends SuperActor {
 
     protected static boolean isSnowing = false;
 
+    protected int hp;
     protected int energy;
     protected boolean baby;
     protected int walkHeight;
@@ -78,6 +79,7 @@ public abstract class Animal extends SuperActor {
         }else{
             baby = false;
         }
+        hp = 1000;
         actsSinceDeath = 0;
         transparency = 255;
         swimming = false;
@@ -134,7 +136,7 @@ public abstract class Animal extends SuperActor {
         }
 
         // Manage death.
-        if (energy <= 0) { // No energy or no health.
+        if (energy <= 0 || hp <= 0) { // No energy or no health.
             die(); // this animal has died.
             return; // This animal has died. what else should it do? tap dance?
         }
@@ -231,7 +233,7 @@ public abstract class Animal extends SuperActor {
     }
 
     protected void takeDamage(int dmg) {
-        energy = energy - dmg;
+        hp = hp - dmg;
     }
 
     public int getEnergy() {

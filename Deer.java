@@ -40,17 +40,8 @@ public class Deer extends Animal
         actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
             ableToBreed = true;
-            if(!wantToEat){
-                breed();
-            }
         }else{
             ableToBreed = false;
-        }
-
-        if((target == null) || target.getWorld() == null || (getWorld() != null && !(distanceFrom(target) < 5))){
-            eating = false;
-        }else{
-            eating = true;
         }
     }
 

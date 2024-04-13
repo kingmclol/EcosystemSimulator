@@ -40,10 +40,10 @@ public class Vulture extends Animal
         super.act();
         if (!alive) return; // dead.
         
-        if(((target == null) || target.getWorld() == null || (getWorld() != null && !(distanceFrom(target) < 5)))){
-            eating = false;
+        if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
+            ableToBreed = true;
         }else{
-            eating = true;
+            ableToBreed = false;
         }
     }
 

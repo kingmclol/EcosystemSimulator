@@ -56,9 +56,10 @@ public class BushTile extends Tile
             return 0;
         }
         else if (berryAmount < value) { // Not enough berries to eat... Return what was remaining.
+            int currentAmount = berryAmount; // This is how much was eaten.
             berryAmount = 0;
             berriesAvailable = false;
-            return berryAmount;
+            return currentAmount;
         }
         berryAmount = Math.max(0, berryAmount-value); 
         return value; // Enough berries, return amount eaten.

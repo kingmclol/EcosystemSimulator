@@ -70,6 +70,14 @@ public class ButtonIncrement extends UI
 
         textBox.update(String.valueOf(value));
     }
+    public void removeObject() {
+        World w = getWorld();
+        w.removeObject(decrementButton);
+        w.removeObject(incrementButton);
+        w.removeObject(textBox);
+        w.removeObject(labelText);
+        w.removeObject(this);
+    }
     public void decrementValue() {
         value = Math.max(0, value -1);
         textBox.update(String.valueOf(value));

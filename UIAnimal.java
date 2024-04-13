@@ -13,18 +13,25 @@ public class UIAnimal extends UI
     private int currentAct;
     private GreenfootImage [] walkingAnimationRight;
     private int indexAnimation;
-    public UIAnimal(Animal animal){
-        img = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight1.png");
+    public UIAnimal(String animal){
         walkingAnimationRight = new GreenfootImage[4];
-        img.scale(img.getWidth()*3, img.getHeight()*3);
+        if(animal.equals("rabbit")){
+            img = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight1.png");
+            for(int i = 0; i<4; i++)
+            {
+        
+                walkingAnimationRight[i] = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
+                walkingAnimationRight[i].scale(walkingAnimationRight[i].getWidth()*2, walkingAnimationRight[i].getHeight()*2);
+            }
+        }
+        else if(animal.equals("deer")){
+            img = new GreenfootImage("images/camel.png");
+        }
+        
+        img.scale(img.getWidth()*2, img.getHeight()*2);
         setImage(img);
         moving = false;
-        for(int i = 0; i<4; i++)
-        {
-    
-            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
 
-        }
     }
     public void setMoving(boolean moving)
     {
@@ -34,17 +41,16 @@ public class UIAnimal extends UI
     {
         currentAct++;
         
-        animate();
+        //animate();
     }
     
     public void animate()
     {
-        if(moving){
-            setImage(walkingAnimationRight[indexAnimation]);
-            if(currentAct%20 == 0) // change animation every 45 acts
-            {
-                indexAnimation = (indexAnimation + 1)%(walkingAnimationRight.length);
-            }
+        setImage(walkingAnimationRight[indexAnimation]);
+        if(currentAct%15 == 0) // change animation every 45 acts
+        {
+            indexAnimation = (indexAnimation + 1)%(walkingAnimationRight.length);
         }
+       
     }
 }

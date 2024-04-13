@@ -40,7 +40,8 @@ public class SimulationWorld extends World
         spawnableTiles.addAll((ArrayList<Tile>)((ArrayList<?>)getObjects(BushTile.class)));
         spawnAnimals("Deer", SettingsWorld.getNumOfDeerToSpawn());
         spawnAnimals("Rabbit", SettingsWorld.getNumOfRabbitToSpawn());
-
+        spawnAnimals("Vulture", SettingsWorld.getNumOfDeerToSpawn());
+        spawnAnimals("Wolf", SettingsWorld.getNumOfWolfToSpawn());
         actCount = 1200; 
         
         dayCount = 0;
@@ -80,6 +81,9 @@ public class SimulationWorld extends World
                     break;
                 case "Wolf":
                     addObject(new Wolf(), tile.getX(), tile.getY());
+                    break;
+                case "Vulture":
+                    addObject(new Vulture(), tile.getX(), tile.getY());
                     break;
             }
             

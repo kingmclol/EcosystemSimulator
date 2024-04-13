@@ -10,7 +10,15 @@ public class AnimalSelector extends UI
     private int animalIndex;
     public AnimalSelector(){
         GreenfootImage leftButtonImg = new GreenfootImage("images/incrementLeft.png");
+        GreenfootImage leftButtonImg1 = new GreenfootImage("images/incrementLeftHovered.png");
+        GreenfootImage leftButtonImg2 = new GreenfootImage("images/incrementLeftPressed.png");
+    
         GreenfootImage rightButtonImg = new GreenfootImage("images/incrementRight.png");
+        GreenfootImage rightButtonImg1 = new GreenfootImage("images/incrementRightHovered.png");
+        GreenfootImage rightButtonImg2 = new GreenfootImage("images/incrementRightPressed.png");
+        GreenfootImage [] leftButtonImgs = {leftButtonImg, leftButtonImg1, leftButtonImg2};
+        GreenfootImage [] rightButtonImgs = {rightButtonImg, rightButtonImg1, rightButtonImg2};
+
         img = new GreenfootImage(50, 50);
         img.setColor(new Color(0, 0, 0, 0));
         img.fill();
@@ -19,17 +27,18 @@ public class AnimalSelector extends UI
         buttonIncrementers = new ButtonIncrement[4];
         sliders = new Slider[4];
         for (int i = 0; i < buttonIncrementers.length; i++){
-            buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 50, "Num", leftButtonImg, rightButtonImg);
+            buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 50, "Num", leftButtonImgs, rightButtonImgs);
             sliders[i] = new Slider(250, 1000, "Energy");
         }
-        
-        leftButtonImg = new GreenfootImage(leftButtonImg);
-        leftButtonImg.scale(75, 75);
-        rightButtonImg = new GreenfootImage(rightButtonImg);
-        rightButtonImg.scale(75, 75);
-        
-        decrementButton = new Button(this::decrementValue, 100, 100, leftButtonImg, leftButtonImg, leftButtonImg);
-        incrementButton = new Button(this::incrementValue,100, 100, rightButtonImg, rightButtonImg, rightButtonImg);
+        for(int i = 0; i < 3; i ++){
+            leftButtonImgs[i] = new GreenfootImage(leftButtonImgs[i]);
+            leftButtonImgs[i].scale(75, 75);
+            rightButtonImgs[i] = new GreenfootImage(rightButtonImgs[i]);
+            rightButtonImgs[i].scale(75, 75);
+        }
+
+        decrementButton = new Button(this::decrementValue, 100, 100, leftButtonImgs[0], leftButtonImgs[1], leftButtonImgs[2]);
+        incrementButton = new Button(this::incrementValue,100, 100, rightButtonImgs[0], rightButtonImgs[1], rightButtonImgs[2]);
     }
     public void addedToWorld(World w){
         

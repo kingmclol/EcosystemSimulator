@@ -26,13 +26,14 @@ public class SettingsWorld extends CursorWorld
         rabbitCount = 0;
 
 
-        GreenfootImage buttonImg1 = new GreenfootImage("images/incrementLeft.png");
-        GreenfootImage buttonImg2 = new GreenfootImage("images/incrementRight.png");
-
+        GreenfootImage leaveButtonImg1 = new GreenfootImage("images/goButton.png");
+        GreenfootImage leaveButtonImg2 = new GreenfootImage("images/goButtonHovered.png");
+        GreenfootImage leaveButtonImg3 = new GreenfootImage("images/goButtonPressed.png");
         animalSelect = new AnimalSelector();
         addObject(animalSelect, getWidth()/2, getHeight()/2 - 30);
         
-        leaveButton = new Button(() -> onClick(), 100, 50);
+        leaveButton = new Button(() -> onClick(), 100, 50, leaveButtonImg1, leaveButtonImg2, leaveButtonImg3);
+        
         addObject(leaveButton, getWidth()/2, getHeight() - 100);
     }
     private void onClick(){

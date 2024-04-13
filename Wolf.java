@@ -55,13 +55,6 @@ public class Wolf extends Animal
         }else{
             ableToBreed = false;
         }
-         // I guess eating is managed here. dunno how it works so im not touching it.
-        if(target == null || target.getWorld() == null || distanceFrom(target) > 5){
-            eating = false;
-        }else{
-            eating = true;
-        }
-        
     }
 
     public void breed() {
@@ -99,6 +92,8 @@ public class Wolf extends Animal
             }else{ // move closer
                 moveTowards(targetWolf, currentSpeed, walkHeight);
             }
+        } else {
+            moveRandomly(); // no target found, so wander instead.
         }
     }
 
@@ -106,7 +101,7 @@ public class Wolf extends Animal
         // Attempt to find some prey, so target would be of corret type
         if (!(target instanceof Animal)) {
             // Create an more advanced filter to find an eligble food (animal)
-            // Read as: Remove if animal is alive, or the animal is a wolf, or animal is a vulture.
+            // Read as: Remove if animal is dead, or the animal is a wolf, or animal is a vulture.
             Predicate<Animal> filter = a -> (!a.isAlive() || a instanceof Wolf || a instanceof Vulture);
             SuperActor search = (Animal) getClosestInRange(Animal.class, viewRadius/4, filter);
             if (search == null){
@@ -133,7 +128,7 @@ public class Wolf extends Animal
             }
             else if (distanceFrom(targetPrey) < 5) { // close enough, eat it
                 eating = true;
-                targetPrey.takeDamage(10);
+                targetPrey.takeDamage(15);
                 if (targetPrey.getEnergy() <= 0) {
                     targetPrey.disableStaticRotation();
                     targetPrey.setRotation(90);

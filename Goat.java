@@ -1,11 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Deer subclass that will eat berries
+ * Goat subclass that will eat berries
  * 
  * @author (Osmond Lin) 
  */
-public class Deer extends Animal
+public class Goat extends Animal
 {   
     //https://www.pinterest.com/pin/387028161720848437/
     private GreenfootImage[] animationUp = new GreenfootImage[3];
@@ -13,7 +13,9 @@ public class Deer extends Animal
     private GreenfootImage[] animationLeft = new GreenfootImage[3];
     private GreenfootImage[] animationRight = new GreenfootImage[3];
     private int indexAnimation = 0;
-    public Deer(boolean isBaby) {
+    private static int numOfGoats = 0;
+    
+    public Goat(boolean isBaby) {
         super(isBaby);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
@@ -30,9 +32,10 @@ public class Deer extends Animal
             animationLeft[i] = new GreenfootImage("images/Goat/Left/Left" + (i+1) + ".png");
         }
         setImage(animationRight[indexAnimation]);
+        numOfGoats++;
     }
 
-    public Deer() {
+    public Goat() {
         super(false);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
@@ -41,17 +44,25 @@ public class Deer extends Animal
         viewRadius = 400;
         walkHeight = 2;
         breedingThreshold = 2000;
+        for(int i = 0; i < 3; i++)
+        {
+            animationUp[i] = new GreenfootImage("images/Goat/Up/Up" + (i+1) + ".png");
+            animationDown[i] = new GreenfootImage("images/Goat/Down/Down" + (i+1) + ".png");
+            animationRight[i] = new GreenfootImage("images/Goat/Right/Right" + (i+1) + ".png");
+            animationLeft[i] = new GreenfootImage("images/Goat/Left/Left" + (i+1) + ".png");
+        }
+        setImage(animationRight[indexAnimation]);
+        numOfGoats++;
     }
 
     /**
-     * Act - do whatever the Deer wants to do. This method is called whenever
+     * Act - do whatever the goat wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
      */
     public void act()
     {
         super.act();
         if (!alive) return; // There has to be a better way than doing this, right? right?????
-        actsSinceLastBreeding++;
         if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
             ableToBreed = true;
         }else{
@@ -60,19 +71,19 @@ public class Deer extends Animal
     }
 
     public void breed() {
-        // Find another deer nearby
-        if (!(target instanceof Deer)) { // Find a Deer if the target is null, or not a deer.
-            SuperActor search = (Deer) getClosestInRange(this.getClass(), viewRadius, d -> !((Deer)d).isAbleToBreed() || !((Deer)d).isAlive()); // Adjust range as needed
+        // Find another goat nearby
+        if (!(target instanceof Goat)) { // Find a goat if the target is null, or not a goat.
+            SuperActor search = (Goat) getClosestInRange(this.getClass(), viewRadius, g -> !((Goat)g).isAbleToBreed() || !((Goat)g).isAlive()); // Adjust range as needed
             if (search != null){ // found one!
                 target = search; // set it as the target.
             }
         }
 
-        if (target instanceof Deer) { // check for null or if target is not a deer.
-            Deer targetDeer = (Deer) target; // cast target into Deer object
+        if (target instanceof Goat) { // check for null or if target is not a goat.
+            Goat targetGoat = (Goat) target; // cast target into goat object
 
             // check for need for retargeting.
-            if (targetDeer.getWorld() == null || !targetDeer.isAlive() || !targetDeer.isAbleToBreed()) {
+            if (targetGoat.getWorld() == null || !targetGoat.isAlive() || !targetGoat.isAbleToBreed()) {
                 target = null;
                 return;
             }
@@ -82,11 +93,11 @@ public class Deer extends Animal
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
 
-                    getWorld().addObject(new Deer(true), getX(), getY());
+                    getWorld().addObject(new Goat(true), getX(), getY());
                     ableToBreed = false;
-                    targetDeer.setAbleToBreed(false);
+                    targetGoat.setAbleToBreed(false);
                     breeding = false;
-                    targetDeer.setIsBreeding(false);
+                    targetGoat.setIsBreeding(false);
                     breedingCounter = 0;
 
                     target = null; // no target anymore.
@@ -97,7 +108,7 @@ public class Deer extends Animal
                 moveTowards(target, currentSpeed, walkHeight);
             }
         } else {
-            moveRandomly(); // no target deer. move randomly instead :(
+            moveRandomly(); // no target goat. move randomly instead :(
         }
     }
 
@@ -180,9 +191,13 @@ public class Deer extends Animal
                 moveTowards(targetBush, currentSpeed, walkHeight);
             }
         }
-        else { // nothinf gound.
+        else { // nothing gound.
             moveRandomly(); 
         }
+    }
+    
+    public static void decreaseNumOfGoats(){
+        numOfGoats = numOfGoats - 1;
     }
 }
 

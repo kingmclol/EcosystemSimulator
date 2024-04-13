@@ -17,6 +17,7 @@ public class Wolf extends Animal
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[5];
     private int indexAnimation = 0;
     private boolean isVerticallyFacing = false;
+    private static int numOfWolves = 0;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     
     public Wolf(boolean isBaby) {
@@ -39,7 +40,30 @@ public class Wolf extends Animal
             walkingAnimationLeft[i] = new GreenfootImage("images/Wolf/Walking/Left/Left" + (i+1) + ".png");
             walkingAnimationRight[i] = new GreenfootImage("images/Wolf/Walking/Right/Right" + (i+1) + ".png");
         }
-
+        numOfWolves++;
+    }
+    
+    public Wolf() {
+        super(false);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        currentSpeed = defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
+        wantToEat = false;
+        viewRadius = 500;
+        walkHeight = 1;
+        for(int i = 0; i<4; i++)
+        {
+            walkingAnimationUp[i] = new GreenfootImage("images/Wolf/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Wolf/Walking/Down/Down" + (i+1) + ".png");
+            eatingAnimationUp[i] = new GreenfootImage("images/Wolf/Eating/Up/Up" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Wolf/Eating/Down/Down" + (i+1) + ".png");
+        }
+        for(int i = 0; i<5; i++)
+        {
+            walkingAnimationLeft[i] = new GreenfootImage("images/Wolf/Walking/Left/Left" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Wolf/Walking/Right/Right" + (i+1) + ".png");
+        }
+        numOfWolves++;
     }
 
     /**
@@ -209,5 +233,9 @@ public class Wolf extends Animal
                 indexAnimation = (indexAnimation + 1)%(walkingAnimationRight.length);
             }
         }
+    }
+    
+    public static void decreaseNumOfWolves(){
+        numOfWolves = numOfWolves - 1;
     }
 }

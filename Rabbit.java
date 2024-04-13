@@ -23,6 +23,7 @@ public class Rabbit extends Animal
     private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[4];
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
     //https://opengameart.org/content/reorganised-lpc-rabbit
+    private static int numOfRabbits = 0;
     public Rabbit(boolean isBaby) {
         super(isBaby);
         facing = "right";
@@ -46,6 +47,7 @@ public class Rabbit extends Animal
         wantToEat = false;
         viewRadius = 400;
         breedingThreshold = 2000;
+        numOfRabbits++;
     }
     
     public Rabbit() {
@@ -71,6 +73,7 @@ public class Rabbit extends Animal
         wantToEat = false;
         viewRadius = 400;
         breedingThreshold = 2000;
+        numOfRabbits++;
     }
 
     /**
@@ -234,5 +237,9 @@ public class Rabbit extends Animal
         {
             indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
         }
+    }
+    
+    public static void decreaseNumOfRabbits(){
+        numOfRabbits = numOfRabbits - 1;
     }
 }

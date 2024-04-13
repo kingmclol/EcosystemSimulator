@@ -10,7 +10,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Vulture extends Animal
 {
     private Animal targetAnimal;
-
+    private static int numOfVultures = 0;
+    
     public Vulture(boolean isBaby) {
         super(isBaby);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
@@ -19,6 +20,7 @@ public class Vulture extends Animal
         viewRadius = 400;
         walkHeight = 3;
         breedingThreshold = 3000;
+        numOfVultures++;
     }
     
     public Vulture() {
@@ -29,6 +31,7 @@ public class Vulture extends Animal
         viewRadius = 400;
         walkHeight = 3;
         breedingThreshold = 3000;
+        numOfVultures++;
     }
 
     /**
@@ -125,5 +128,9 @@ public class Vulture extends Animal
     public void animate()
     {
 
+    }
+    
+    public static void decreaseNumOfVultures(){
+        numOfVultures = numOfVultures - 1;
     }
 }

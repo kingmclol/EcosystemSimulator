@@ -6,8 +6,8 @@ import java.util.ArrayList;
  * 
  * <p>TreeTiles also have a heightLevel of 2, making it less traversable. Larger animals might struggle walking through these!<p>
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Freeman Wang
+ * @version 2024-04-13
  */
 public class TreeTile extends Tile
 {
@@ -18,32 +18,39 @@ public class TreeTile extends Tile
     private static int GROW_TIME_MIN = 600;
     private static int GROW_TIME_MAX = 1600;
     private static double PROBABILITY_DROP_SEED = 1/20000d;
-    private static int LIFESPAN_MIN = 3600;
-    private static int LIFESPAN_MAX = 10800;
+    private static int LIFESPAN_MIN = 3600; // 60 seconds
+    private static int LIFESPAN_MAX = 10800; // 3 minutes
     private int lifespan;
-    
+    private boolean aboutToDie;
     //Animation:
     private int index = 0;
     private int actsPassed = 0;
-    private GreenfootImage[] animation = new GreenfootImage[3];
+    private GreenfootImage[] animationNormal = new GreenfootImage[3];
+    private GreenfootImage[] animationDying = new GreenfootImage[3];
     public TreeTile() {
         super(new GreenfootImage("tile_trees.png"));
         heightLevel = 2;
         lifespan = getLifespan();
+        aboutToDie = false;
         for(int i = 0; i<3; i++)
         {
-            animation[i] = new GreenfootImage("images/tile_trees/tile_trees" + (i+1) + ".png");
+            animationNormal[i] = new GreenfootImage("images/tile_trees/tile_trees" + (i+1) + ".png");
+            animationDying[i] = new GreenfootImage("images/tile_trees_dying/tile_trees_dying" + (i + 1) + ".png");
         }
     }
     public void act()
     {
         if (!timeFlowing) return;
         actsPassed++;
+        lifespan--;
         animate();
         if (shouldDropSeed()) {
             dropSeed();
         }
-        if (--lifespan <= 0) { // The tree is old and ded now
+        if (!aboutToDie && lifespan <= 600) { // 10 seconds before dying.
+            aboutToDie = true;
+        }
+        else if (lifespan <= 0) { // The tree is old and ded now
             replaceMe(new GrassTile());
         }
     }
@@ -78,8 +85,11 @@ public class TreeTile extends Tile
     {
         if(actsPassed%30 == 0)
         {
-            setTile(new GreenfootImage(animation[index]));
-            index = (index+1)%(animation.length);
+            if (!aboutToDie) setTile(new GreenfootImage(animationNormal[index])); // normal
+            else setTile(new GreenfootImage(animationDying[index])); // dying
+            // If about to die (playing dying ver. of animation) modulo by that length; else modulo by normal animation length
+            // actually, they're both three so that was unnecessary it seems
+            index = (index+1)%(aboutToDie ? animationDying.length : animationNormal.length);
         }
     }
 }

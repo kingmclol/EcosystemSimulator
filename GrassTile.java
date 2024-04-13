@@ -8,8 +8,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * 
  * <p>GrassTiles have a heightLevel of 0.</p>
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Freeman Wang
+ * @version 2024-04-13
  */
 public class GrassTile extends Tile
 {
@@ -54,10 +54,11 @@ public class GrassTile extends Tile
             return 0;
         }
         else if (grassAmount < value) { // Not enough grass to eat... Return what was remaining.
+            int currentAmount = grassAmount; // This is how much was eaten.
             grassAmount = 0;
             grassAvailable = false;
             setTile(new GreenfootImage("tile_grass_empty.png"));
-            return grassAmount;
+            return currentAmount;
         }
         grassAmount = Math.max(0, grassAmount-value); 
         return value; // Enough grass, return amount eaten.

@@ -19,6 +19,10 @@ public class BushTile extends Tile
     private static int GROW_TIME_MIN = 300;
     private static int GROW_TIME_MAX = 1000;
     private static double PROBABILITY_DROP_SEED = 1/2000d;
+    private int actsPassed;
+    private int index;
+    private GreenfootImage[] animation = new GreenfootImage[3];
+    private GreenfootImage[] noBerries = new GreenfootImage[3];
     /**
      * Act - do whatever the BushTile wants to do. This method is called whenever
      * the 'Act' or 'Run' button gets pressed in the environment.
@@ -26,12 +30,18 @@ public class BushTile extends Tile
     public BushTile() {
         super(new GreenfootImage("tile_berries.png"));
         heightLevel = 1;
+        actsPassed = 0;
+        index = 0;
         berriesAvailable = true;
+        animation = Utility.createAnimation("images/tile_berries/tile_berries", ".png", 3, 48, 48);
+        noBerries = Utility.createAnimation("images/tile_berries_empty/tile_berries_empty", ".png", 3, 48, 48);
     }
     public void act()
     {
         if (!timeFlowing) return;
         growBerries();
+        actsPassed++;
+        animate();
         if (shouldDropSeed()) {
             dropSeed();
         }
@@ -46,10 +56,10 @@ public class BushTile extends Tile
             return 0;
         }
         else if (berryAmount < value) { // Not enough berries to eat... Return what was remaining.
+            int currentAmount = berryAmount; // This is how much was eaten.
             berryAmount = 0;
             berriesAvailable = false;
-            setTile(Color.RED);
-            return value;
+            return currentAmount;
         }
         berryAmount = Math.max(0, berryAmount-value); 
         return value; // Enough berries, return amount eaten.
@@ -88,12 +98,21 @@ public class BushTile extends Tile
             }
         }
     }
+    /**
+     * Calculates a random time to for a BushTile to grow from a seed.
+     */
     public static int getGrowTime() {
         return GROW_TIME_MIN + Greenfoot.getRandomNumber(GROW_TIME_MAX - GROW_TIME_MIN);
     }
+    /**
+     * Return whether this BushTile has berries availale to eat. This does not return true if berries != 0.
+     */
     public boolean berriesAvailable() {
         return berriesAvailable;
     }
+    /**
+     * Returns the amount of berries that this BushTile holds.
+     */
     public int getBerryAmount() {
         return berryAmount;
     }
@@ -104,6 +123,18 @@ public class BushTile extends Tile
     
     public void animate()
     {
-        
+        if(actsPassed%30 == 0)
+        {
+            if(berriesAvailable)
+            {
+                setTile(new GreenfootImage(animation[index]));
+            }
+            else
+            {
+                setTile(new GreenfootImage(noBerries[index]));
+            }
+            
+            index = (index+1)%(animation.length); 
+        }
     }
 }

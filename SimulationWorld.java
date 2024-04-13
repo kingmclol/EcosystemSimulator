@@ -38,7 +38,7 @@ public class SimulationWorld extends World
         
         spawnableTiles = (ArrayList<Tile>)((ArrayList<?>)getObjects(GrassTile.class));
         spawnableTiles.addAll((ArrayList<Tile>)((ArrayList<?>)getObjects(BushTile.class)));
-        spawnAnimals("Deer", SettingsWorld.getNumOfDeerToSpawn());
+        spawnAnimals("Goat", SettingsWorld.getNumOfGoatToSpawn());
         spawnAnimals("Rabbit", SettingsWorld.getNumOfRabbitToSpawn());
 
         actCount = 1200; 
@@ -72,8 +72,8 @@ public class SimulationWorld extends World
         for(int i = 0; i < num; i++){
             Tile tile = spawnableTiles.get(Greenfoot.getRandomNumber(spawnableTiles.size()));
             switch (animal){
-                case "Deer":
-                    addObject(new Deer(), tile.getX(), tile.getY());
+                case "Goat":
+                    addObject(new Goat(), tile.getX(), tile.getY());
                     break;
                 case "Rabbit":
                     addObject(new Rabbit(), tile.getX(), tile.getY());

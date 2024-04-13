@@ -40,7 +40,7 @@ public class SimulationWorld extends World
         spawnableTiles.addAll((ArrayList<Tile>)((ArrayList<?>)getObjects(BushTile.class)));
         spawnAnimals("Goat", SettingsWorld.getNumOfGoatToSpawn());
         spawnAnimals("Rabbit", SettingsWorld.getNumOfRabbitToSpawn());
-        spawnAnimals("Vulture", SettingsWorld.getNumOfGoatToSpawn());
+        spawnAnimals("Vulture", SettingsWorld.getNumOfVultureToSpawn());
         spawnAnimals("Wolf", SettingsWorld.getNumOfWolfToSpawn());
         actCount = 1200; 
         

@@ -136,12 +136,12 @@ public abstract class Animal extends SuperActor {
         
         getFacing();
         
-        if(!beingEaten && !breeding)
+        if(!breeding)
         {
             animate();
         }
 
-        if (wantToEat && !breeding && !beingEaten) { // If want to eat, and am not in any spicy situations...
+        if (wantToEat && !breeding) { // If want to eat, and am not in any spicy situations...
             objective = AnimalObjective.FIND_FOOD; // Find something to eat.
         } 
         else if (ableToBreed && !wantToEat) { // If I can breed, and am not being eaten, and am not hungry,

@@ -79,7 +79,7 @@ public class SimulationWorld extends World
                     addObject(new Rabbit(), tile.getX(), tile.getY());
                     break;
                 case "Wolf":
-                    addObject(new Wolf(), tile.getX(), tile.getY());
+                    addObject(new Wolf(false), tile.getX(), tile.getY());
                     break;
             }
             

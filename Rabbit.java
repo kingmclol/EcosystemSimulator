@@ -91,7 +91,7 @@ public class Rabbit extends Animal
 
         if(alive && !breeding){
             animate();
-        }*/
+        }
     }
 
     public void breed() {

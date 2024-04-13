@@ -155,11 +155,19 @@ public class Wolf extends Animal
         {
             if(facing.equals("up"))
             {
+                if(indexAnimation > 3)
+                {
+                    indexAnimation = 0;
+                }
                 isVerticallyFacing = true;
                 setImage(eatingAnimationUp[indexAnimation]);
             }
             else if(facing.equals("down"))
             {
+                if(indexAnimation > 3)
+                {
+                    indexAnimation = 0;
+                }
                 isVerticallyFacing = true;
                 setImage(eatingAnimationDown[indexAnimation]);
             }

@@ -8,6 +8,15 @@ import java.util.function.Predicate;
  */
 public class Wolf extends Animal
 {
+    private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
+    
+    private GreenfootImage[] walkingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationDown = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[5];
+    private GreenfootImage[] walkingAnimationRight = new GreenfootImage[5];
+    private int indexAnimation = 0;
+    private boolean isVerticallyFacing = false;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     public Wolf() {
         super();
@@ -18,6 +27,18 @@ public class Wolf extends Animal
         wantToEat = false;
         viewRadius = 500;
         walkHeight = 1;
+        for(int i = 0; i<4; i++)
+        {
+            walkingAnimationUp[i] = new GreenfootImage("images/Wolf/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Wolf/Walking/Down/Down" + (i+1) + ".png");
+            eatingAnimationUp[i] = new GreenfootImage("images/Wolf/Eating/Up/Up" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Wolf/Eating/Down/Down" + (i+1) + ".png");
+        }
+        for(int i = 0; i<5; i++)
+        {
+            walkingAnimationLeft[i] = new GreenfootImage("images/Wolf/Walking/Left/Left" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Wolf/Walking/Right/Right" + (i+1) + ".png");
+        }
     }
 
     /**
@@ -127,6 +148,60 @@ public class Wolf extends Animal
     }
     public void animate()
     {
-        // no animation rn,
+        if(eating)
+        {
+            if(facing.equals("up"))
+            {
+                isVerticallyFacing = true;
+                setImage(eatingAnimationUp[indexAnimation]);
+            }
+            else if(facing.equals("down"))
+            {
+                isVerticallyFacing = true;
+                setImage(eatingAnimationDown[indexAnimation]);
+            }
+        }
+        else
+        {
+            if(facing.equals("right"))
+            {
+                isVerticallyFacing = false;
+                setImage(walkingAnimationRight[indexAnimation]);
+            }
+            else if(facing.equals("left"))
+            {
+                isVerticallyFacing = false;
+                setImage(walkingAnimationLeft[indexAnimation]);
+            }
+            else if(facing.equals("up"))
+            {
+                if(indexAnimation > 3)
+                {
+                    indexAnimation = 3;
+                }
+                isVerticallyFacing = true;
+                setImage(walkingAnimationUp[indexAnimation]);
+            }
+            else // Down
+            {
+                if(indexAnimation > 3)
+                {
+                    indexAnimation = 3;
+                }
+                isVerticallyFacing = true;
+                setImage(walkingAnimationDown[indexAnimation]);
+            }
+        }
+        if(currentAct%20 == 0) // change animation every 20 acts
+        {
+            if(isVerticallyFacing)
+            {
+                indexAnimation = (indexAnimation+1)%(walkingAnimationDown.length);
+            }
+            else
+            {
+                indexAnimation = (indexAnimation + 1)%(walkingAnimationRight.length);
+            }
+        }
     }
 }

@@ -73,9 +73,9 @@ public class Rabbit extends Animal
         }
         
         // seems like animate is managed here?
-        if(!beingEaten && !breeding){
+        /*if(!beingEaten && !breeding){
             animate();
-        }
+        }*/
     }
 
     public void breed() {

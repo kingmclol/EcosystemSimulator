@@ -128,7 +128,7 @@ public class Wolf extends Animal
             }
             else if (distanceFrom(targetPrey) < 5) { // close enough, eat it
                 eating = true;
-                targetPrey.takeDamage(10);
+                targetPrey.takeDamage(15);
                 if (targetPrey.getEnergy() <= 0) {
                     targetPrey.disableStaticRotation();
                     targetPrey.setRotation(90);

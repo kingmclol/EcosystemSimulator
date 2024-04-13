@@ -117,10 +117,12 @@ public class Wolf extends Animal
             
             // check if retarget required.
             if (!targetPrey.isAlive() || targetPrey.getWorld() == null) {
+                eating = false;
                 target = null;
                 return;
             }
             else if (distanceFrom(targetPrey) < 5) { // close enough, eat it
+                eating = true;
                 targetPrey.takeDamage(10);
                 if (targetPrey.getEnergy() <= 0) {
                     targetPrey.disableStaticRotation();
@@ -129,6 +131,7 @@ public class Wolf extends Animal
                 eat(12);
             }
             else { // too far, move closer.
+                eating = false;
                 moveTowards(targetPrey, currentSpeed, walkHeight);
             }
         }

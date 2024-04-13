@@ -104,14 +104,17 @@ public class Vulture extends Animal
             Animal targetPrey = (Animal) target; // cast as type Anial
             
             if (targetPrey.getWorld() == null) { // check for retargeting required
+                eating = false;
                 target = null; // need new target
                 return; // nothing else to do.
             }
             else if(distanceFrom(targetPrey) < 5){ // Close so eat
+                eating = true;
                 targetPrey.decreaseTransparency(1); // ?
                 eat(4);
             }
             else { // far so move closer.
+                eating = false;
                 moveTowards(targetPrey, currentSpeed, walkHeight);
             }
         } else {

@@ -17,7 +17,7 @@ public class Deer extends Animal
         walkHeight = 2;
         breedingThreshold = 2000;
     }
-    
+
     public Deer() {
         super(false);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
@@ -62,10 +62,10 @@ public class Deer extends Animal
                 target = search; // set it as the target.
             }
         }
-        
+
         if (target instanceof Deer) { // check for null or if target is not a deer.
             Deer targetDeer = (Deer) target; // cast target into Deer object
-            
+
             // check for need for retargeting.
             if (targetDeer.getWorld() == null || !targetDeer.isAlive() || !targetDeer.isAbleToBreed()) {
                 target = null;
@@ -77,14 +77,13 @@ public class Deer extends Animal
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
 
-                    
                     getWorld().addObject(new Deer(true), getX(), getY());
                     ableToBreed = false;
                     targetDeer.setAbleToBreed(false);
                     breeding = false;
                     targetDeer.setIsBreeding(false);
                     breedingCounter = 0;
-                    
+
                     target = null; // no target anymore.
                     actsSinceLastBreeding = 0;
 
@@ -110,28 +109,29 @@ public class Deer extends Animal
             if(search == null) {
                 search = (BushTile)getClosestInRange(BushTile.class, viewRadius, b -> !((BushTile)b).berriesAvailable());
             }
-            
+
             if (search != null) { // found one!
                 target = search; // set the target as the found one.
             }
         }
-        
+
         if (target instanceof BushTile) { // not null, is bush tile
             BushTile targetBush = (BushTile) target; // Cast into a BushTile.
-            
+
             // check if retargeting is required.
             if (targetBush.getWorld() == null || !targetBush.berriesAvailable()) {
+                eating = false;
                 target = null; // need new target.
                 return;
             }
-            else if(targetBush != null) {
-                if(distanceFrom(targetBush) < 10){ // close, so eat.
-                    targetBush.nibble(4);
-                    eat(7);
-                }
-                else { // far, so move closer.
-                    moveTowards(targetBush, currentSpeed, walkHeight);
-                }
+            else if(distanceFrom(targetBush) < 10){ // close, so eat.
+                eating = true;
+                targetBush.nibble(4);
+                eat(7);
+            }
+            else { // far, so move closer.
+                eating = false;
+                moveTowards(targetBush, currentSpeed, walkHeight);
             }
         }
         else { // nothinf gound.

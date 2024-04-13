@@ -87,14 +87,6 @@ public class Rabbit extends Animal
         }else{
             ableToBreed = false;
         }
-        
-        // Determine if the rabbit is eating?
-        if((target == null) || target.getWorld() == null || (getWorld() != null && !(distanceFrom(target) < 12))){
-            eating = false;
-        }
-        else{
-            eating = true;
-        }
 
         if(alive && !breeding){
             animate();
@@ -182,23 +174,24 @@ public class Rabbit extends Animal
             GrassTile targetGrass = (GrassTile) target; // Create temp variable to access GrassTile instance methods
             // Check if a retargeting is required.
             if (!targetGrass.grassAvailable() || targetGrass.getWorld() == null) {
+                eating = false;
                 target = null;
                 return;
             }
             else if(distanceFrom(target) < 10){ // if close enough.
-                //System.out.println("eating grass");
+                eating = true;
                 targetGrass.nibble(7);
                 eat(4);
             }
             else{ // far, move closer.
-                //System.out.println("move closer to grass");
+                eating = false;
                 moveTowards(targetGrass, currentSpeed, walkHeight);
             }
 
         } else { // No grass tile found...
             //System.out.println("move random in eat method");
             moveRandomly(); // Should move randomly for this act instead...
-        }        
+        }
     }
 
     public void animate()

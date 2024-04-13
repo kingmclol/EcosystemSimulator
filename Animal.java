@@ -67,7 +67,6 @@ public abstract class Animal extends SuperActor {
     protected Tile currentTile;
 
     protected int actsAsBaby;
-    protected boolean beingEaten;
     protected SuperActor target;
 
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
@@ -137,10 +136,10 @@ public abstract class Animal extends SuperActor {
         
         getFacing();
         
-        if (wantToEat && !breeding && !beingEaten) { // If want to eat, and am not in any spicy situations...
+        if (wantToEat && !breeding) { // If want to eat, and am not in any spicy situations...
             objective = AnimalObjective.FIND_FOOD; // Find something to eat.
         } 
-        else if (ableToBreed && !beingEaten && !wantToEat) { // If I can breed, and am not being eaten, and am not hungry,
+        else if (ableToBreed && !wantToEat) { // If I can breed, and am not being eaten, and am not hungry,
             objective = AnimalObjective.FIND_MATE; // Find a mate.
         }
         else { // Otherwise,
@@ -159,6 +158,10 @@ public abstract class Animal extends SuperActor {
             case FIND_MATE:
                 breed();
                 break;
+        }
+        
+        if(!wantToEat){
+            eating = false;
         }
         
         if(baby){

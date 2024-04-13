@@ -57,19 +57,19 @@ public class StoryWorld extends CursorWorld
         nextWorldButton = new Button(() -> Greenfoot.setWorld(new SettingsWorld()), 200, 75);
     }
     public void act() {
-        if (stillMoreDialogue() && Greenfoot.mousePressed(null)) {
+        if (stillMoreDialogue() && Greenfoot.mousePressed(null)) { // progresses dialogue, if still exists.
             visibleActCount = 0;
             playDialogue(++line);
             if (promptBox.getWorld() != null) removeObject(promptBox);
         }
-        if (dialogueBox.isVisible()) {
+        if (dialogueBox.isVisible()) { // count acts since the dialogue box is max transparency
             visibleActCount++;
         }
-        if (visibleActCount >= 180 && stillMoreDialogue() && promptBox.getWorld() == null) {
+        if (visibleActCount >= 180 && stillMoreDialogue() && promptBox.getWorld() == null) { // determine if need to add a prompt to click to continue
             addObject(promptBox, getWidth()/2, getWidth()/2 + 100);
         }
         
-        if (!stillMoreDialogue() && nextWorldButton.getWorld() == null) {
+        if (!stillMoreDialogue() && nextWorldButton.getWorld() == null) { // once dialogue is exhausted, add the next world button.
             addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 50);
         }
     }

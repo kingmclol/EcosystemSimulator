@@ -15,7 +15,8 @@ public class Night extends Effect
     public void addedToWorld(World w) {
         super.addedToWorld(w);
         GreenfootImage image = new GreenfootImage(w.getWidth(), w.getHeight());
-        image.setColor(Color.BLACK);
+        Color nighttimeBlue = new Color(8, 8, 35);
+        image.setColor(nighttimeBlue);
         image.fill();
         image.setTransparency(0);
         setImage(image);

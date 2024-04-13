@@ -8,16 +8,64 @@ import java.util.function.Predicate;
  */
 public class Wolf extends Animal
 {
+    private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
+    
+    private GreenfootImage[] walkingAnimationUp = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationDown = new GreenfootImage[4];
+    private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[5];
+    private GreenfootImage[] walkingAnimationRight = new GreenfootImage[5];
+    private int indexAnimation = 0;
+    private boolean isVerticallyFacing = false;
+    private static int numOfWolves = 0;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
-    public Wolf() {
-        super();
-        defaultSpeed = 1.2;
+    
+    public Wolf(boolean isBaby) {
+        super(isBaby);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
-        sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 500;
         walkHeight = 1;
+        breedingThreshold = 2500;
+        for(int i = 0; i<4; i++)
+        {
+            walkingAnimationUp[i] = new GreenfootImage("images/Wolf/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Wolf/Walking/Down/Down" + (i+1) + ".png");
+            eatingAnimationUp[i] = new GreenfootImage("images/Wolf/Eating/Up/Up" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Wolf/Eating/Down/Down" + (i+1) + ".png");
+        }
+        for(int i = 0; i<5; i++)
+        {
+            walkingAnimationLeft[i] = new GreenfootImage("images/Wolf/Walking/Left/Left" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Wolf/Walking/Right/Right" + (i+1) + ".png");
+        }
+        numOfWolves++;
+    }
+    
+    public Wolf() {
+        super(false);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        currentSpeed = defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
+        wantToEat = false;
+        viewRadius = 500;
+        walkHeight = 1;
+        breedingThreshold = 2500;
+        for(int i = 0; i<4; i++)
+        {
+            walkingAnimationUp[i] = new GreenfootImage("images/Wolf/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Wolf/Walking/Down/Down" + (i+1) + ".png");
+            eatingAnimationUp[i] = new GreenfootImage("images/Wolf/Eating/Up/Up" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Wolf/Eating/Down/Down" + (i+1) + ".png");
+        }
+        for(int i = 0; i<5; i++)
+        {
+            walkingAnimationLeft[i] = new GreenfootImage("images/Wolf/Walking/Left/Left" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Wolf/Walking/Right/Right" + (i+1) + ".png");
+        }
+        numOfWolves++;
     }
 
     /**
@@ -27,20 +75,12 @@ public class Wolf extends Animal
     public void act() {
         super.act();
         if (!alive) return;  // am dead. nothing to do.
-        
-        // Determine if the wolf should be able to breed.
-        if(actsSinceLastBreeding >= BREEDING_THRESHOLD){
+
+        if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
             ableToBreed = true;
         }else{
             ableToBreed = false;
         }
-         // I guess eating is managed here. dunno how it works so im not touching it.
-        if(target == null || target.getWorld() == null || distanceFrom(target) > 5){
-            eating = false;
-        }else{
-            eating = true;
-        }
-        
     }
 
     public void breed() {
@@ -66,7 +106,7 @@ public class Wolf extends Animal
                 breedingCounter++;
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
-                    getWorld().addObject(new Wolf(), getX(), getY());
+                    getWorld().addObject(new Wolf(true), getX(), getY());
                     ableToBreed = false;
                     targetWolf.setAbleToBreed(false);
                     breeding = false;
@@ -78,6 +118,8 @@ public class Wolf extends Animal
             }else{ // move closer
                 moveTowards(targetWolf, currentSpeed, walkHeight);
             }
+        } else {
+            moveRandomly(); // no target found, so wander instead.
         }
     }
 
@@ -85,7 +127,7 @@ public class Wolf extends Animal
         // Attempt to find some prey, so target would be of corret type
         if (!(target instanceof Animal)) {
             // Create an more advanced filter to find an eligble food (animal)
-            // Read as: Remove if animal is alive, or the animal is a wolf, or animal is a vulture.
+            // Read as: Remove if animal is dead, or the animal is a wolf, or animal is a vulture.
             Predicate<Animal> filter = a -> (!a.isAlive() || a instanceof Wolf || a instanceof Vulture);
             SuperActor search = (Animal) getClosestInRange(Animal.class, viewRadius/4, filter);
             if (search == null){
@@ -100,24 +142,27 @@ public class Wolf extends Animal
             }
         }
         
+
         if (target instanceof Animal) {
             Animal targetPrey = (Animal) target; // cast into ANimal to access instance methods.
             
             // check if retarget required.
             if (!targetPrey.isAlive() || targetPrey.getWorld() == null) {
+                eating = false;
                 target = null;
                 return;
             }
             else if (distanceFrom(targetPrey) < 5) { // close enough, eat it
-                targetPrey.takeDamage(10);
-                targetPrey.setBeingEaten(true);
-                if (targetPrey.getHp() < 400) {
+                eating = true;
+                targetPrey.takeDamage(30);
+                if (targetPrey.getEnergy() <= 0) {
                     targetPrey.disableStaticRotation();
                     targetPrey.setRotation(90);
                 }
-                eat(12);
+                eat(40);
             }
             else { // too far, move closer.
+                eating = false;
                 moveTowards(targetPrey, currentSpeed, walkHeight);
             }
         }
@@ -127,6 +172,72 @@ public class Wolf extends Animal
     }
     public void animate()
     {
-        // no animation rn,
+        if(eating)
+        {
+            if(facing.equals("up"))
+            {
+                if(indexAnimation > 3)
+                {
+                    indexAnimation = 0;
+                }
+                isVerticallyFacing = true;
+                setImage(eatingAnimationUp[indexAnimation]);
+            }
+            else if(facing.equals("down"))
+            {
+                if(indexAnimation > 3)
+                {
+                    indexAnimation = 0;
+                }
+                isVerticallyFacing = true;
+                setImage(eatingAnimationDown[indexAnimation]);
+            }
+        }
+        else
+        {
+            if(facing.equals("right"))
+            {
+                isVerticallyFacing = false;
+                setImage(walkingAnimationRight[indexAnimation]);
+            }
+            else if(facing.equals("left"))
+            {
+                isVerticallyFacing = false;
+                setImage(walkingAnimationLeft[indexAnimation]);
+            }
+            else if(facing.equals("up"))
+            {
+                if(indexAnimation > 3)
+                {
+                    indexAnimation = 3;
+                }
+                isVerticallyFacing = true;
+                setImage(walkingAnimationUp[indexAnimation]);
+            }
+            else // Down
+            {
+                if(indexAnimation > 3)
+                {
+                    indexAnimation = 3;
+                }
+                isVerticallyFacing = true;
+                setImage(walkingAnimationDown[indexAnimation]);
+            }
+        }
+        if(currentAct%12 == 0) // change animation every 20 acts
+        {
+            if(isVerticallyFacing)
+            {
+                indexAnimation = (indexAnimation+1)%(walkingAnimationDown.length);
+            }
+            else
+            {
+                indexAnimation = (indexAnimation + 1)%(walkingAnimationRight.length);
+            }
+        }
+    }
+    
+    public static void decreaseNumOfWolves(){
+        numOfWolves = numOfWolves - 1;
     }
 }

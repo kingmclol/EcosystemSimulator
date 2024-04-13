@@ -31,14 +31,14 @@ public class SimulationWorld extends World
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(1008, 768, 1); 
 
-        setPaintOrder(UI.class, SuperDisplayLabel.class, Effect.class, BreedingEffect.class, Animal.class, Node.class, Tile.class);
+        setPaintOrder(UI.class, SuperDisplayLabel.class,Sun.class, Moon.class, Effect.class, BreedingEffect.class, Animal.class, Node.class, Tile.class);
 
         Board.setWorld(this);
         Tile.setTimeFlow(true);
         
         spawnableTiles = (ArrayList<Tile>)((ArrayList<?>)getObjects(GrassTile.class));
         spawnableTiles.addAll((ArrayList<Tile>)((ArrayList<?>)getObjects(BushTile.class)));
-        spawnAnimals("Deer", SettingsWorld.getNumOfDeerToSpawn());
+        spawnAnimals("Goat", SettingsWorld.getNumOfGoatToSpawn());
         spawnAnimals("Rabbit", SettingsWorld.getNumOfRabbitToSpawn());
         spawnAnimals("Vulture", SettingsWorld.getNumOfDeerToSpawn());
         spawnAnimals("Wolf", SettingsWorld.getNumOfWolfToSpawn());
@@ -46,11 +46,13 @@ public class SimulationWorld extends World
         
         dayCount = 0;
         time = 8;
-        hours = 0; 
+        hours = 0;
         
         scoreBar = new SuperDisplayLabel (Color.BLACK, Color.WHITE, new Font ("Trebuchet", true, false, 24), 48, ".");
         scoreBar.setLabels(new String[] {"Day: ","Time: "});
         addObject(scoreBar, 504, 24);
+        addObject(new Sun(), 900, 200);
+        addObject(new Moon(), 100, 810);
     }
     
     public void act()
@@ -73,14 +75,14 @@ public class SimulationWorld extends World
         for(int i = 0; i < num; i++){
             Tile tile = spawnableTiles.get(Greenfoot.getRandomNumber(spawnableTiles.size()));
             switch (animal){
-                case "Deer":
-                    addObject(new Deer(), tile.getX(), tile.getY());
+                case "Goat":
+                    addObject(new Goat(), tile.getX(), tile.getY());
                     break;
                 case "Rabbit":
                     addObject(new Rabbit(), tile.getX(), tile.getY());
                     break;
                 case "Wolf":
-                    addObject(new Wolf(), tile.getX(), tile.getY());
+                    addObject(new Wolf(false), tile.getX(), tile.getY());
                     break;
                 case "Vulture":
                     addObject(new Vulture(), tile.getX(), tile.getY());
@@ -92,6 +94,10 @@ public class SimulationWorld extends World
     public static void setNight(boolean newNight)
     {
         isNight = newNight; 
+    }
+    public static boolean getNight()
+    {
+        return isNight;
     }
     
     public void statUpdates() {

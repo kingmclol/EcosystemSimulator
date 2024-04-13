@@ -73,4 +73,38 @@ public class Utility
         }
         return temp;
     }
-}
+    /**
+     * Given a base string, the file extension, and maximum int, return an GreenfootImage[] array that contains
+     * the resulting animation.
+     * @param baseString the file path. E.g. "images/animation/tile_grass"
+     * @param fileExtension the extension of the file. E.g. ".png"
+     * @param numFrames The number of frames in the animation
+     * 
+     * @return A GreenfootImage[] that contains the greenfoot Images in the animation
+     */
+    public static GreenfootImage[] createAnimation(String baseString, String fileExtension, int numFrames) {
+        GreenfootImage[] animation = new GreenfootImage[numFrames];
+        for (int i = 1; i <= numFrames; i++) {
+            animation[i-1] = new GreenfootImage(baseString + i + fileExtension);
+        }
+        return animation;
+    }
+    /**
+     * Given a base string, the file extension, and maximum int, scaleWidth and scale height, return an GreenfootImage[] array that contains
+     * the resulting animation.
+     * @param baseString the file path. E.g. "images/animation/tile_grass"
+     * @param fileExtension the extension of the file. E.g. ".png"
+     * @param numFrames The number of frames in the animation
+     * @param scaleWidth the width to scale each image to
+     * @param scaleHeight the height to scale each image to
+     * 
+     * @return A GreenfootImage[] that contains the greenfoot Images in the animation
+     */
+    public static GreenfootImage[] createAnimation(String baseString, String fileExtension, int numFrames, int scaleWidth, int scaleHeight) {
+        GreenfootImage[] animation = new GreenfootImage[numFrames];
+        for (int i = 1; i <= numFrames; i++) {
+            animation[i-1] = new GreenfootImage(baseString + i + fileExtension);
+            animation[i-1].scale(scaleWidth, scaleHeight);
+        }
+        return animation;
+    }}

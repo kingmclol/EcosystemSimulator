@@ -3,7 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class SettingsWorld extends CursorWorld
 {
-    private static int deerCount;
+    private static int goatCount;
     private static int wolfCount;
     private static int rabbitCount;
     private static int vultureCount;
@@ -21,9 +21,10 @@ public class SettingsWorld extends CursorWorld
         super();
         addObject(cursor, 0, 0);
         setBackground(new GreenfootImage("images/settingsbg.png"));
-        deerCount = 0;
+        goatCount = 0;
         wolfCount = 0;
         rabbitCount = 0;
+
 
         GreenfootImage buttonImg1 = new GreenfootImage("images/incrementLeft.png");
         GreenfootImage buttonImg2 = new GreenfootImage("images/incrementRight.png");
@@ -35,6 +36,7 @@ public class SettingsWorld extends CursorWorld
         addObject(leaveButton, getWidth()/2, getHeight() - 100);
     }
     private void onClick(){
+
         rabbitCount = animalSelect.getNumOfDeer();
         deerCount = animalSelect.getNumOfRabbits();
         vultureCount = animalSelect.getNumOfVultures();
@@ -45,8 +47,8 @@ public class SettingsWorld extends CursorWorld
         wolfEnergy = animalSelect.getEnergyOfWolves();
         Greenfoot.setWorld(new DrawWorld());
     }
-    public static int getNumOfDeerToSpawn(){
-        return deerCount;
+    public static int getNumOfGoatToSpawn(){
+        return goatCount;
     }
     public static int getNumOfRabbitToSpawn(){
         return rabbitCount;

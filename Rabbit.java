@@ -23,8 +23,9 @@ public class Rabbit extends Animal
     private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[4];
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
     //https://opengameart.org/content/reorganised-lpc-rabbit
-    public Rabbit() {
-        super();
+    private static int numOfRabbits = 0;
+    public Rabbit(boolean isBaby) {
+        super(isBaby);
         facing = "right";
         walkHeight = 1;
         for(int i = 0; i<4; i++)
@@ -40,13 +41,39 @@ public class Rabbit extends Animal
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
-        beingEaten = false;
-        defaultSpeed = 0.6;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
-        sprintSpeed = 1.2 * defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
+        breedingThreshold = 2000;
+        numOfRabbits++;
+    }
+    
+    public Rabbit() {
+        super(false);
+        facing = "right";
+        walkHeight = 1;
+        for(int i = 0; i<4; i++)
+        {
+            //Walking Animation:
+            walkingAnimationUp[i] = new GreenfootImage("images/Rabbit/Walking/Up/Up" + (i+1) + ".png");
+            walkingAnimationDown[i] = new GreenfootImage("images/Rabbit/Walking/Down/Rabbit_WalkingDown" + (i+1) + ".png");
+            walkingAnimationRight[i] = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight" + (i+1) + ".png");
+            walkingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Walking/Left/Rabbit_WalkingLeft" + (i+1) + ".png");
+
+            eatingAnimationUp[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationDown[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+            eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
+        }
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
+        currentSpeed = defaultSpeed;
+        waterSpeed = 0.7 * defaultSpeed;
+        wantToEat = false;
+        viewRadius = 400;
+        breedingThreshold = 2000;
+        numOfRabbits++;
     }
 
     /**
@@ -55,26 +82,13 @@ public class Rabbit extends Animal
      */
     public void act() {
         super.act();
+        
         if (!alive) return; // it is dead. dead. as in, not alive.
         
-        // Determine if the rabbit wants to breed.
-        if(actsSinceLastBreeding >= BREEDING_THRESHOLD && alive){
+        if(actsSinceLastBreeding >= breedingThreshold && alive && !baby){
             ableToBreed = true;
         }else{
             ableToBreed = false;
-        }
-        
-        // Determine if the rabbit is eating?
-        if((target == null) || target.getWorld() == null || (getWorld() != null && !(distanceFrom(target) < 12))){
-            eating = false;
-        }
-        else{
-            eating = true;
-        }
-        
-        // seems like animate is managed here?
-        if(!beingEaten && !breeding){
-            animate();
         }
     }
 
@@ -103,7 +117,7 @@ public class Rabbit extends Animal
                 breedingCounter++;
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
-                    getWorld().addObject(new Rabbit(), getX(), getY());
+                    getWorld().addObject(new Rabbit(true), getX(), getY());
                     ableToBreed = false;
                     targetRabbit.setAbleToBreed(false);
                     breeding = false;
@@ -129,7 +143,6 @@ public class Rabbit extends Animal
                     }
                 }
             }else{
-                //System.out.println("find partner");
                 moveTowards(target, currentSpeed, walkHeight);
             }
         } else { // no elible rabbit!!!!!!!!!!
@@ -160,22 +173,24 @@ public class Rabbit extends Animal
             GrassTile targetGrass = (GrassTile) target; // Create temp variable to access GrassTile instance methods
             // Check if a retargeting is required.
             if (!targetGrass.grassAvailable() || targetGrass.getWorld() == null) {
+                eating = false;
                 target = null;
                 return;
             }
             else if(distanceFrom(target) < 10){ // if close enough.
-                //System.out.println("eating grass");
+                eating = true;
                 targetGrass.nibble(7);
                 eat(4);
             }
             else{ // far, move closer.
-                //System.out.println("move closer to grass");
+                eating = false;
                 moveTowards(targetGrass, currentSpeed, walkHeight);
             }
+
         } else { // No grass tile found...
             //System.out.println("move random in eat method");
             moveRandomly(); // Should move randomly for this act instead...
-        }        
+        }
     }
 
     public void animate()
@@ -218,9 +233,13 @@ public class Rabbit extends Animal
                 setImage(walkingAnimationDown[indexAnimation]);
             }
         }
-        if(currentAct%20 == 0) // change animation every 20 acts
+        if(currentAct%10 == 0) // change animation every 20 acts
         {
             indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
         }
+    }
+    
+    public static void decreaseNumOfRabbits(){
+        numOfRabbits = numOfRabbits - 1;
     }
 }

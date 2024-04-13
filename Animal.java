@@ -1,10 +1,13 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
+
 import java.util.Collections;
+
 /**
- * Animal superclass where subclasses will inherit traits
- * and behaviours from
+ * Write a description of class Animal here.
  * 
+
+
  * <p>Animals are an SuperActor that moves around the ecosyteem, and has unique interactions with each other. Animals constantly
  * lose energy every act, and they must ensure that their energy must stay above zero to survive.</p>
  * 
@@ -32,11 +35,11 @@ public abstract class Animal extends SuperActor {
         FIND_MATE
     }
     protected AnimalObjective objective;
+
     protected static boolean isSnowing = false;
     
     protected int energy;
-    protected int hp;
-
+    protected boolean baby;
     protected int walkHeight;
     // protected ArrayList<Vector> currentPath;
 
@@ -44,7 +47,6 @@ public abstract class Animal extends SuperActor {
 
     protected double defaultSpeed;
     protected double currentSpeed;
-    protected double sprintSpeed;
     protected double waterSpeed;
     protected String facing = "left";
     
@@ -60,20 +62,28 @@ public abstract class Animal extends SuperActor {
     protected boolean breeding;
     protected int actsSinceLastBreeding;
     protected int breedingCounter;
-    public static final int BREEDING_THRESHOLD = 2000;
+    protected int breedingThreshold;
     public static final int BREEDING_DELAY = 150;
     protected Tile currentTile;
-    protected boolean beingEaten;
+
+    protected int actsAsBaby;
     protected SuperActor target;
+
 //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
 
-    public Animal() {
+    public Animal(boolean isBaby) {
+        if(isBaby){
+            baby = true;
+            actsAsBaby = 0;
+        }else{
+            baby = false;
+        }
+        
         transparency = 255;
         swimming = false;
         alive = true;
         eating = false;
         energy = 2000;
-        hp = 1000;
         actsSinceLastBreeding = 0;
         ableToBreed = false;
         breeding = false;
@@ -83,6 +93,7 @@ public abstract class Animal extends SuperActor {
     }
 
     protected abstract void animate();
+    
     public void act() {
         if (!alive) { // Am not alive, so no need to do anything here other than potentially drown.
             if (currentTile instanceof WaterTile) { // died on a water tile.
@@ -118,7 +129,7 @@ public abstract class Animal extends SuperActor {
         }
         
         // Manage death.
-        if (energy <= 0 || hp <= 0) { // No energy or no health.
+        if (energy <= 0) { // No energy or no health.
             die(); // this animal has died.
             return; // This animal has died. what else should it do? tap dance?
         }
@@ -133,7 +144,7 @@ public abstract class Animal extends SuperActor {
         if (wantToEat && !breeding && !beingEaten) { // If want to eat, and am not in any spicy situations...
             objective = AnimalObjective.FIND_FOOD; // Find something to eat.
         } 
-        else if (ableToBreed && !beingEaten && !wantToEat) { // If I can breed, and am not being eaten, and am not hungry,
+        else if (ableToBreed && !wantToEat) { // If I can breed, and am not being eaten, and am not hungry,
             objective = AnimalObjective.FIND_MATE; // Find a mate.
         }
         else { // Otherwise,
@@ -152,6 +163,17 @@ public abstract class Animal extends SuperActor {
             case FIND_MATE:
                 breed();
                 break;
+        }
+        
+        if(!wantToEat){
+            eating = false;
+        }
+        
+        if(baby){
+            actsAsBaby++;
+            if(actsAsBaby >= 1200){
+                baby = false;
+            }
         }
     }
     
@@ -190,12 +212,12 @@ public abstract class Animal extends SuperActor {
         setRotation(90);
     }
 
-    public void takeDamage(int dmg) {
-        hp = hp - dmg;
+    protected void takeDamage(int dmg) {
+        energy = energy - dmg;
     }
-
-    public int getHp() {
-        return hp;
+    
+    public int getEnergy() {
+        return energy;
     }
 
     public boolean isBreeding() {
@@ -252,7 +274,7 @@ public abstract class Animal extends SuperActor {
         {
             facing = "left";
         }
-        else if(rotation > 225 && rotation <= 315)
+        else if(rotation > 225 && rotation < 315)
         {
             facing = "up";
         }
@@ -266,14 +288,6 @@ public abstract class Animal extends SuperActor {
         }
     }
 
-    public boolean isBeingEaten() {
-        return beingEaten;
-    }
-
-    public void setBeingEaten(boolean eaten) {
-        beingEaten = eaten;
-    }
-
     public void drown() {
         transparency--;
         getImage().setTransparency(transparency);
@@ -285,4 +299,5 @@ public abstract class Animal extends SuperActor {
     public static void setSnowing(boolean snowing) {
         isSnowing = snowing; 
     }
+    
 }

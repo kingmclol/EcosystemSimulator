@@ -9,15 +9,26 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Vulture extends Animal
 {
-    public Vulture() {
-        super();
-        defaultSpeed = 1.3;
+    private Animal targetAnimal;
+
+    public Vulture(boolean isBaby) {
+        super(isBaby);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
-        sprintSpeed = 1.2 * defaultSpeed;
-        waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
         walkHeight = 3;
+        breedingThreshold = 3000;
+    }
+    
+    public Vulture() {
+        super(false);
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        currentSpeed = defaultSpeed;
+        wantToEat = false;
+        viewRadius = 400;
+        walkHeight = 3;
+        breedingThreshold = 3000;
     }
 
     /**
@@ -36,7 +47,43 @@ public class Vulture extends Animal
         }
     }
 
-    public void breed() {} // vultures cannot breed.
+    public void breed() {
+        // Find another vulture nearby
+        if (!(target instanceof Vulture)) { // attempt to find a Vulture eligble
+            SuperActor search = (Vulture) getClosestInRange(this.getClass(), viewRadius, v -> !((Vulture)v).isAbleToBreed() || !((Vulture)v).isAlive()); // Adjust range as needed
+            
+            if (search != null) { // found a Vulture!
+                target = search;
+            }
+        }
+        
+        if (target instanceof Vulture) { // Vulture found
+            Vulture targetVulture = (Vulture) target; // cast to target
+            
+            // Check if retargeting needed.
+            if (targetVulture.getWorld() == null || !targetVulture.isAlive() || !targetVulture.isAbleToBreed()) {
+                target = null; // neccessiate retargeting
+                return; // nothign else t do
+            }
+            else if(distanceFrom(target) < 40){ // close to target Vulture! breed
+                breeding = true;
+                breedingCounter++;
+                if(breedingCounter > BREEDING_DELAY){
+                    // Add the baby to the world
+                    getWorld().addObject(new Vulture(true), getX(), getY());
+                    ableToBreed = false;
+                    targetVulture.setAbleToBreed(false);
+                    breeding = false;
+                    targetVulture.setIsBreeding(false);
+                    breedingCounter = 0;
+                    target = null;
+                    actsSinceLastBreeding = 0;
+                }
+            }else{ // move closer
+                moveTowards(targetVulture, currentSpeed, walkHeight);
+            }
+        }
+    }
 
     public void findOrEatFood() {
         if (!(target instanceof Animal)) { // force the target to be of correct type
@@ -57,14 +104,17 @@ public class Vulture extends Animal
             Animal targetPrey = (Animal) target; // cast as type Anial
             
             if (targetPrey.getWorld() == null) { // check for retargeting required
+                eating = false;
                 target = null; // need new target
                 return; // nothing else to do.
             }
             else if(distanceFrom(targetPrey) < 5){ // Close so eat
+                eating = true;
                 targetPrey.decreaseTransparency(1); // ?
                 eat(4);
             }
             else { // far so move closer.
+                eating = false;
                 moveTowards(targetPrey, currentSpeed, walkHeight);
             }
         } else {

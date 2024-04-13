@@ -38,7 +38,7 @@ public class SettingsWorld extends CursorWorld
     private void onClick(){
 
         rabbitCount = animalSelect.getNumOfDeer();
-        deerCount = animalSelect.getNumOfRabbits();
+        goatCount = animalSelect.getNumOfRabbits();
         vultureCount = animalSelect.getNumOfVultures();
         wolfCount = animalSelect.getNumOfWolves();
         rabbitEnergy = animalSelect.getEnergyOfRabbits();

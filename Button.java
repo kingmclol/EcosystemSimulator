@@ -34,21 +34,15 @@ public class Button extends UI
         pressedImg.fill();
         setImage(img);
     }
-    public Button(Runnable function,Runnable dragFunction, int width, int height){
+    public Button(Runnable function,Runnable dragFunction, int width, int height, GreenfootImage defaultImg, GreenfootImage hoverImg, GreenfootImage pressedImg){
         this.width = width;
         this.height = height;
         clicked = false;
         this.function = function;
         this.dragFunction = dragFunction;
-        img = new GreenfootImage(width, height);
-        img.setColor(Color.BLUE);
-        img.fill();
-        hoverImg = new GreenfootImage(width, height);
-        hoverImg.setColor(Color.RED);
-        hoverImg.fill();
-        pressedImg = new GreenfootImage(width, height);
-        pressedImg.setColor(Color.GREEN);
-        pressedImg.fill();
+        img = defaultImg;
+        this.hoverImg = hoverImg;
+        this.pressedImg = pressedImg;
         setImage(img);
     }
     public Button(Runnable function, int width, int height, GreenfootImage defaultImg, GreenfootImage hoverImg, GreenfootImage pressedImg){

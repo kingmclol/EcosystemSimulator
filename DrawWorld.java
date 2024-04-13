@@ -80,6 +80,7 @@ public class DrawWorld extends CursorWorld
         manageKeyInput();
     }
     private Tile getCurrentTile(ArrayList<Actor> actors) {
+        Tile tile = null;
         if (cursor.getX() > getWidth()- 160) { // Check if its within tile selector dimensions
             if((TileSelector.getState() || !TileSelector.getClosed())){
                 return null;
@@ -91,10 +92,10 @@ public class DrawWorld extends CursorWorld
                 return null;
             }
             else if (a instanceof Tile) {
-                return (Tile)a;
+                tile = (Tile) a;
             }
         }
-        return null;
+        return tile;
     }
     private void manageKeyInput() {
         String key = Greenfoot.getKey();

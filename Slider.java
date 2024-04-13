@@ -20,24 +20,28 @@ public class Slider extends UI
     public Slider(int width, int maxVal){
         this.width = width;
         this.incrementValue = (double )maxVal / width;
-        img = new GreenfootImage(width, 20);
-        
+        img = new GreenfootImage(width, 15);
+        GreenfootImage button1 = new GreenfootImage("images/sliderButton.png");
+        GreenfootImage button2 = new GreenfootImage("images/sliderButtonHovered.png");
+        GreenfootImage button3 = new GreenfootImage("images/sliderButtonPressed.png");
         img.fill();
         setImage(img);
         labelText = null;
-        button = new Button(() -> onDrag(), () -> onDrag(), 25, 25);
-        textBox = new SuperTextBox(String.valueOf(maxVal/2), Color.WHITE, Color.BLACK, new Font(24), true, width, 0, Color.BLACK);
+        button = new Button(() -> onDrag(), () -> onDrag(), 25, 25, button1, button2, button3);
+        textBox = new SuperTextBox(String.valueOf(maxVal/2), Color.WHITE, Color.BLACK, new Font(24), true, width/2, 0, Color.BLACK);
     }
     public Slider(int width, int maxVal, String label){
         this.width = width;
         this.incrementValue = (double )maxVal / width;
-        
-        img = new GreenfootImage(width, 20);
+        GreenfootImage button1 = new GreenfootImage("images/sliderButton.png");
+        GreenfootImage button2 = new GreenfootImage("images/sliderButtonHovered.png");
+        GreenfootImage button3 = new GreenfootImage("images/sliderButtonPressed.png");
+        img = new GreenfootImage(width, 15);
         img.fill();
         setImage(img);
-        button = new Button(() -> onDrag(), () -> onDrag(), 25, 25);
+        button = new Button(() -> onDrag(), () -> onDrag(), 25, 25, button1, button2, button3);
         labelText = new SuperTextBox(label, new Font(24), 150);
-        textBox = new SuperTextBox(String.valueOf(maxVal/2), Color.WHITE, Color.BLACK, new Font(24), true, width, 0, Color.BLACK);
+        textBox = new SuperTextBox(String.valueOf(maxVal/2), Color.WHITE, Color.BLACK, new Font(24), true, width/2, 0, Color.BLACK);
     }
     public void addedToWorld(World w){
         cursor = getCursor();

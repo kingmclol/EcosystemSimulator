@@ -7,6 +7,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Deer extends Animal
 {   
+    //https://www.pinterest.com/pin/387028161720848437/
+    private GreenfootImage[] animationUp = new GreenfootImage[3];
+    private GreenfootImage[] animationDown = new GreenfootImage[3];
+    private GreenfootImage[] animationLeft = new GreenfootImage[3];
+    private GreenfootImage[] animationRight = new GreenfootImage[3];
+    private int indexAnimation = 0;
     public Deer(boolean isBaby) {
         super(isBaby);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
@@ -16,6 +22,14 @@ public class Deer extends Animal
         viewRadius = 400;
         walkHeight = 2;
         breedingThreshold = 2000;
+        for(int i = 0; i<3; i++)
+        {
+            animationUp[i] = new GreenfootImage("images/Goat/Up/Up" + (i+1) + ".png");
+            animationDown[i] = new GreenfootImage("images/Goat/Down/Down" + (i+1) + ".png");
+            animationRight[i] = new GreenfootImage("images/Goat/Right/Right" + (i+1) + ".png");
+            animationLeft[i] = new GreenfootImage("images/Goat/Left/Left" + (i+1) + ".png");
+        }
+        setImage(animationRight[indexAnimation]);
     }
 
     public Deer() {
@@ -97,7 +111,48 @@ public class Deer extends Animal
     }
 
     public void animate() {
-        return;
+        if(eating)
+        {
+            if(facing.equals("right"))
+            {
+                setImage(animationRight[2]);
+            }
+            else if(facing.equals("left"))
+            {
+                setImage(animationLeft[2]);
+            }
+            else if(facing.equals("up"))
+            {
+                setImage(animationUp[2]);
+            }
+            else // Down
+            {
+                setImage(animationDown[2]);
+            }
+        }
+        else
+        {
+            if(facing.equals("right"))
+            {
+                setImage(animationRight[indexAnimation]);
+            }
+            else if(facing.equals("left"))
+            {
+                setImage(animationLeft[indexAnimation]);
+            }
+            else if(facing.equals("up"))
+            {
+                setImage(animationUp[indexAnimation]);
+            }
+            else // Down
+            {
+                setImage(animationDown[indexAnimation]);
+            }
+        }
+        if(currentAct%20 == 0) // change animation every 20 acts
+        {
+            indexAnimation = (indexAnimation + 1)%(animationRight.length);
+        }
     }
 
     public void findOrEatFood() {

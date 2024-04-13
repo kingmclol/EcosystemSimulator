@@ -274,7 +274,7 @@ public abstract class Animal extends SuperActor {
         {
             facing = "left";
         }
-        else if(rotation > 225 && rotation < 315)
+        else if(rotation > 225 && rotation <= 315)
         {
             facing = "up";
         }

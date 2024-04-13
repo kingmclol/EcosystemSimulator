@@ -1,6 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
-
+import java.util.List;
 import java.util.Collections;
 
 /**
@@ -140,6 +140,8 @@ public abstract class Animal extends SuperActor {
         {
             animate();
         }
+        
+        inTree();
 
         if (wantToEat && !breeding) { // If want to eat, and am not in any spicy situations...
             objective = AnimalObjective.FIND_FOOD; // Find something to eat.
@@ -293,6 +295,31 @@ public abstract class Animal extends SuperActor {
         getImage().setTransparency(transparency);
         if(transparency == 0){
             getWorld().removeObject(this);
+        }
+    }
+    public void inTree()
+    {
+        List<Tile> currentTiles = getIntersectingObjects(Tile.class);
+        boolean isOnTreeTile = false;
+        for(Tile t : currentTiles)
+        {
+            if(t instanceof TreeTile)
+            {
+                isOnTreeTile = true;
+                break;
+            }
+        }
+        if(isOnTreeTile)
+        {
+            GreenfootImage temp = this.getImage();
+            temp.setTransparency(255/2);
+            setImage(temp);
+        }
+        else
+        {
+            GreenfootImage temp = this.getImage();
+            temp.setTransparency(255);
+            setImage(temp);
         }
     }
     

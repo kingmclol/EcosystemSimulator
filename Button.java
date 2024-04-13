@@ -16,12 +16,30 @@ public class Button extends UI
     private GreenfootImage pressedImg;
     private boolean clicked;
     private Runnable function;
+    private Runnable dragFunction;
     public Button(Runnable function, int width, int height){
         this.width = width;
         this.height = height;
         clicked = false;
         this.function = function;
        
+        img = new GreenfootImage(width, height);
+        img.setColor(Color.BLUE);
+        img.fill();
+        hoverImg = new GreenfootImage(width, height);
+        hoverImg.setColor(Color.RED);
+        hoverImg.fill();
+        pressedImg = new GreenfootImage(width, height);
+        pressedImg.setColor(Color.GREEN);
+        pressedImg.fill();
+        setImage(img);
+    }
+    public Button(Runnable function,Runnable dragFunction, int width, int height){
+        this.width = width;
+        this.height = height;
+        clicked = false;
+        this.function = function;
+        this.dragFunction = dragFunction;
         img = new GreenfootImage(width, height);
         img.setColor(Color.BLUE);
         img.fill();
@@ -50,6 +68,10 @@ public class Button extends UI
     }
     
     private void mouseEffect(){
+        if (dragFunction != null && clicked){
+            dragFunction.run();
+        }
+                
         if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(this)){
             setImage(pressedImg);
             clicked = true;
@@ -61,6 +83,7 @@ public class Button extends UI
         }
         else if(Greenfoot.mouseClicked(null)){
             if(cursor.getHoveredActors().contains(this)){
+
                 setImage(hoverImg);
             }
             

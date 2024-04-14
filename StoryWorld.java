@@ -8,6 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class StoryWorld extends CursorWorld
 {
+	private GreenfootSound storyWorldMusic;
     private static String[] dialogue;
     private static TextBox dialogueBox;
     private static BreathingTextBox promptBox;
@@ -26,6 +27,9 @@ public class StoryWorld extends CursorWorld
         GreenfootImage backgroundImage = new GreenfootImage(1024, 768);
         backgroundImage.setColor(Color.BLACK);
         backgroundImage.fill();
+        UI.init();
+        
+        storyWorldMusic = new GreenfootSound("Storyworld.mp3");
         
         setBackground(backgroundImage);
         
@@ -56,6 +60,12 @@ public class StoryWorld extends CursorWorld
         promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
         nextWorldButton = new Button(() -> Greenfoot.setWorld(new SettingsWorld()), 200, 75);
     }
+    public void started() {
+        storyWorldMusic.playLoop();
+    }
+    public void stopped() {
+        storyWorldMusic.pause();
+    }
     public void act() {
         if (stillMoreDialogue() && Greenfoot.mousePressed(null)) { // progresses dialogue, if still exists.
             visibleActCount = 0;
@@ -71,6 +81,7 @@ public class StoryWorld extends CursorWorld
         
         if (!stillMoreDialogue() && nextWorldButton.getWorld() == null) { // once dialogue is exhausted, add the next world button.
             addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 50);
+            storyWorldMusic.pause();
         }
     }
     private void playDialogue(int line) {

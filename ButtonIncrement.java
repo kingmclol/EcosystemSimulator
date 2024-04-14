@@ -98,6 +98,7 @@ public class ButtonIncrement extends UI
         value = Math.min(maxVal, value + 1);
 
         textBox.update(String.valueOf(value));
+        playButtonSound();
     }
     /**
      * Removes the object and all its related objects.
@@ -117,6 +118,7 @@ public class ButtonIncrement extends UI
     public void decrementValue() {
         value = Math.max(0, value -1);
         textBox.update(String.valueOf(value));
+		playButtonSound();
     }
     public void act()
     {

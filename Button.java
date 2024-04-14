@@ -72,6 +72,7 @@ public class Button extends UI
         if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(this)){
             setImage(pressedImg);
             clicked = true;
+			playButtonSound();
             function.run();
         }
         else if(!clicked && cursor.getHoveredActors().contains(this)){

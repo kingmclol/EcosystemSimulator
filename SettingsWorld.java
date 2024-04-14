@@ -3,6 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class SettingsWorld extends CursorWorld
 {
+    private GreenfootSound settingsWorldMusic;
     private static int goatCount;
     private static int wolfCount;
     private static int rabbitCount;
@@ -24,7 +25,11 @@ public class SettingsWorld extends CursorWorld
         goatCount = 0;
         wolfCount = 0;
         rabbitCount = 0;
-
+    
+        settingsWorldMusic = new GreenfootSound("Settingworld.mp3");
+        settingsWorldMusic.setVolume(50);
+        settingsWorldMusic.playLoop();
+        UI.init();
 
         GreenfootImage leaveButtonImg1 = new GreenfootImage("images/goButton.png");
         GreenfootImage leaveButtonImg2 = new GreenfootImage("images/goButtonHovered.png");
@@ -36,6 +41,12 @@ public class SettingsWorld extends CursorWorld
         
         addObject(leaveButton, getWidth()/2, getHeight() - 100);
     }
+    public void stopped() {
+        settingsWorldMusic.pause(); 
+    }
+    public void started() {
+        settingsWorldMusic.playLoop();
+    }
     private void onClick(){
         rabbitCount = animalSelect.getNumOfRabbits();
         goatCount = animalSelect.getNumOfGoats();
@@ -46,6 +57,8 @@ public class SettingsWorld extends CursorWorld
         vultureEnergy = animalSelect.getEnergyOfVultures();
         wolfEnergy = animalSelect.getEnergyOfWolves();
         Greenfoot.setWorld(new DrawWorld());
+        
+        settingsWorldMusic.stop();
     }
     public static int getNumOfGoatToSpawn(){
         return goatCount;

@@ -9,9 +9,9 @@ import java.util.ArrayList;
  */
 public class Snowstorm extends Effect
 {
-    private int actsLeft;
+    private GreenfootSound snowSound;
     public Snowstorm () {
-        super(500, 200);
+        super(300, 50);
     }
 
     public void addedToWorld (World w){
@@ -20,6 +20,10 @@ public class Snowstorm extends Effect
         image.setTransparency(0);
         setImage(image);
         setLocation (w.getWidth()/ 2, w.getHeight()/2);
+        
+        snowSound =  new GreenfootSound("snowstorm.mp3"); 
+        snowSound.setVolume(100);
+        snowSound.play(); 
     }
 
     /**

@@ -4,7 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * Vulture subclass
  * Vultures will eat dead animals
  * 
- * @author (Osmond Lin) 
+ * @author Osmond Lin 
  * @version (a version number or a date)
  */
 public class Vulture extends Animal
@@ -14,23 +14,25 @@ public class Vulture extends Animal
     
     public Vulture(boolean isBaby) {
         super(isBaby);
+        energy = 3500;
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
         walkHeight = 3;
-        breedingThreshold = 3000;
+        breedingThreshold = 3500;
         numOfVultures++;
     }
     
     public Vulture() {
         super(false);
+        energy = 3500;
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
         wantToEat = false;
         viewRadius = 400;
         walkHeight = 3;
-        breedingThreshold = 3000;
+        breedingThreshold = 3500;
         numOfVultures++;
     }
 

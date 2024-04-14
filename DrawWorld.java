@@ -204,5 +204,14 @@ public class DrawWorld extends CursorWorld
         }
         
     }
+    public  void loadPreset(int type){
+        if(type == 1){
+            Board.loadBoard(this, preset1);
+        }
+        else if (type == 2){
+            Board.loadBoard(this, preset2);
+        }
+        
+    }
 
 }

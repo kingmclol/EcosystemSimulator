@@ -15,7 +15,7 @@ public class TileSelector extends UI
     private static boolean closed;
     private static boolean transition;
     private int menuWidth;
-    private Button [] tileButtons = new Button[5];
+    private Button [] tileButtons = new Button[7];
     public TileSelector(){
         img = new GreenfootImage("tileSelector.png");
        
@@ -30,14 +30,19 @@ public class TileSelector extends UI
                                         new GreenfootImage("tile_grass.png"), 
                                         new GreenfootImage("tile_mountain.png"), 
                                         new GreenfootImage("tile_water.png"), 
-                                        new GreenfootImage("tile_trees.png")};
+                                        new GreenfootImage("tile_trees.png"),
+                                        new GreenfootImage("images/presetSelect1.png"),
+                                        new GreenfootImage("images/presetSelect2.png")
+                                    };
 
         
-        tileButtons[0] = new Button(() -> onClickTileButton1(), 50, 50, buttonImg[0], buttonImg[0], buttonImg[0]);
-        tileButtons[1] = new Button(() -> onClickTileButton2(), 50, 50, buttonImg[1], buttonImg[1], buttonImg[1]);
-        tileButtons[2] = new Button(() -> onClickTileButton3(), 50, 50, buttonImg[2], buttonImg[2], buttonImg[2]);
-        tileButtons[3] = new Button(() -> onClickTileButton4(), 50, 50, buttonImg[3], buttonImg[3], buttonImg[3]);
-        tileButtons[4] = new Button(() -> onClickTileButton5(), 50, 50, buttonImg[4], buttonImg[4], buttonImg[4]);
+        tileButtons[0] = new Button(() -> onClickTileButton1(), 64, 64, buttonImg[0], buttonImg[0], buttonImg[0]);
+        tileButtons[1] = new Button(() -> onClickTileButton2(), 64, 64, buttonImg[1], buttonImg[1], buttonImg[1]);
+        tileButtons[2] = new Button(() -> onClickTileButton3(), 64, 64, buttonImg[2], buttonImg[2], buttonImg[2]);
+        tileButtons[3] = new Button(() -> onClickTileButton4(), 64, 64, buttonImg[3], buttonImg[3], buttonImg[3]);
+        tileButtons[4] = new Button(() -> onClickTileButton5(), 64, 64, buttonImg[4], buttonImg[4], buttonImg[4]);
+        tileButtons[5] = new Button(() -> onClickTileButton6(), 64, 64, buttonImg[5], buttonImg[5], buttonImg[5]);
+        tileButtons[6] = new Button(() -> onClickTileButton7(), 64, 64, buttonImg[6], buttonImg[6], buttonImg[6]);
     }
     public void addedToWorld(World w){
         cursor = getCursor();
@@ -74,7 +79,16 @@ public class TileSelector extends UI
         DrawWorld.setMouseDrawType(2);
         
     }
-
+    private void onClickTileButton6() {
+        DrawWorld w = (DrawWorld) getWorld();
+        w.loadPreset(1);
+        
+    }
+    private void onClickTileButton7() {
+        DrawWorld w = (DrawWorld) getWorld();
+        w.loadPreset(2);
+        
+    }
     public static boolean getState(){
         return transition;
     }

@@ -21,7 +21,7 @@ public class SimulationWorld extends World
     private int time; 
     
     private SuperDisplayLabel scoreBar; 
-
+    private GreenfootSound simulationSound;
     /**
      * Constructor for objects of class SimulationWorld.
      * 
@@ -48,13 +48,22 @@ public class SimulationWorld extends World
         time = 8;
         hours = 0;
         
-        scoreBar = new SuperDisplayLabel (Color.BLACK, Color.WHITE, new Font ("Trebuchet", true, false, 24), 48, ".");
+        simulationSound = new GreenfootSound("naturesounds.mp3");
+        simulationSound.playLoop();
+        scoreBar = new SuperDisplayLabel (Color.BLACK, Color.WHITE, new Font ("Trebuchet", true, false, 24), 48, " ");
+	
         scoreBar.setLabels(new String[] {"Day: ","Time: "});
         addObject(scoreBar, 504, 24);
         addObject(new Sun(), 900, 200);
         addObject(new Moon(), 100, 810);
     }
     
+	public void started() {
+        simulationSound.playLoop();
+    }
+    public void stopped() {
+        simulationSound.pause();
+    }
     public void act()
     {
         actCount++; 
@@ -109,8 +118,8 @@ public class SimulationWorld extends World
             hours = 0;
             dayCount += 1;
         }
-        if (time > 12) {
-            time = 1;
+        if (time == 24) {
+            time = 0;
         }
     }
 

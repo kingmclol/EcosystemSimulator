@@ -1,8 +1,8 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * This is the UI for selecting tiles before the simulation.
- * @author (your name) 
+ * This is the UI for selecting tiles for drawing before the simulation starts.
+ * @author Neelan Thurairajah 
  * @version (a version number or a date)
  */
 public class TileSelector extends UI
@@ -49,35 +49,61 @@ public class TileSelector extends UI
             
         }
     }
+    /**
+     * When the selector tab is clicked, the menu changes states to transition in and out.
+     */
     private void onClick() {
         transition = true;
         closed = !closed;
     }
+    /**
+     * When the bush tile button is pressed, bush tiles start to draw.
+     */
+
     private void onClickTileButton1() {
         DrawWorld.setMouseDrawType(3);
         
 
     }
+    /**
+     * When the grass tile button is pressed, grass tiles start to draw.
+     */
     private void onClickTileButton2() {
         DrawWorld.setMouseDrawType(1);
         
     }
+    /**
+     * When the mountain tile button is pressed, mountain tiles start to draw.
+     */
     private void onClickTileButton3() {
         DrawWorld.setMouseDrawType(5);
         
     }
+    /**
+     * When the water tile button is pressed, water tiles start to draw.
+     */
     private void onClickTileButton4() {
         DrawWorld.setMouseDrawType(0);
         
     }
+    /**
+     * When the tree tile button is pressed, tree tiles start to draw.
+     */
     private void onClickTileButton5() {
         DrawWorld.setMouseDrawType(2);
         
     }
-
+    /**
+     * Whether the selector is transitioning (moving from closed to open or vice versa).
+     * @return Transition state
+     */
     public static boolean getState(){
         return transition;
     }
+    /**
+     * Whether the selector is closed(hidden) or opened(visible).
+     * @return If it is closed
+     */
     public static boolean getClosed(){
         return closed;
     }

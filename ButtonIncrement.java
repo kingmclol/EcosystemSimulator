@@ -1,9 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * This class generates an object composed of a text box that displays an 
- * integer value. There are 2 buttons that can increment that values on either side.
+ * ButtonIncrement generates an object composed of a text box that displays an 
+ * integer value and 2 buttons for changing that integer value. There are 2 buttons that can increment that values on either side of the text box.
  * 
+ * @author Neelan Thurairajah
+ * @version
  */
 public class ButtonIncrement extends UI
 {
@@ -80,9 +82,17 @@ public class ButtonIncrement extends UI
         w.addObject(textBox, getX(), getY());
         w.addObject(labelText, getX(), getY() - 60);
     }
+    /**
+     * Gets the integer value of the ButtonIncrement.
+     * @return Integer value stored .
+     */
     public int getValue(){
         return value;
     }
+    /**
+     * Increases the integer value by 1, as long as it is below the max value set.
+     * 
+     */
     public void incrementValue() {
 
         value = Math.min(maxVal, value + 1);
@@ -90,6 +100,9 @@ public class ButtonIncrement extends UI
         textBox.update(String.valueOf(value));
         playButtonSound();
     }
+    /**
+     * Removes the object and all its related objects.
+     */
     public void removeObject() {
         World w = getWorld();
         w.removeObject(decrementButton);
@@ -98,6 +111,10 @@ public class ButtonIncrement extends UI
         w.removeObject(labelText);
         w.removeObject(this);
     }
+    /**
+     * Reduces the integer value by 1, as long as it is above 0.
+     */
+    
     public void decrementValue() {
         value = Math.max(0, value -1);
         textBox.update(String.valueOf(value));
@@ -105,14 +122,6 @@ public class ButtonIncrement extends UI
     }
     public void act()
     {
-        // if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(decrementButton) && value > 0){
-            // value--;
-            // textBox.update(String.valueOf(value));
-            
-        // }
-        // else if(Greenfoot.mousePressed(null) && cursor.getHoveredActors().contains(incrementButton) && value < 50){
-            // value++;
-            // textBox.update(String.valueOf(value));
-        // }
+
     }
 }

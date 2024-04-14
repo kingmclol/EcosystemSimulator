@@ -1,9 +1,9 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Button here.
+ * Buttons are simple objects that run a body of code or method when clicked upon.
  * 
- * @author (your name) 
+ * @author Neelan Thurairajah
  * @version (a version number or a date)
  */
 public class Button extends UI
@@ -61,6 +61,9 @@ public class Button extends UI
         mouseEffect();
     }
     
+    /**
+     * Changes the behaivour of the button when it is clicked, hovered, or dragged.
+     */
     private void mouseEffect(){
         if (dragFunction != null && clicked){
             dragFunction.run();

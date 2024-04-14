@@ -1,9 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Slider here.
+ * Slider is an object that has a button that can be dragged along a bar to change a integer value.
  * 
- * @author (your name) 
+ * 
+ * @author Neelan Thurairajah
  * @version (a version number or a date)
  */
 public class Slider extends UI
@@ -59,6 +60,9 @@ public class Slider extends UI
         
         originX = getX() - width/2;
     }
+    /**
+     * Upon the button being dragged, the position of the button and integer value changes.
+     */
     private void onDrag(){
         sliderVal = cursor.getX();
         if(sliderVal > getX() + width/2){
@@ -72,9 +76,16 @@ public class Slider extends UI
         button.setLocation(sliderVal, getY());
         textBox.update(String.valueOf(getValue()));
     }
+    /**
+     * Gets the value stored in the slider.
+     * @return The integer value of the slider.
+     */
     public int getValue(){
         return (int)((incrementValue) * (sliderVal - originX));
     }
+    /**
+     * Removes the object and all of its related objects.
+     */
     public void removeObject(){
         World w = getWorld();
         w.removeObject(button);

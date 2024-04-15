@@ -21,7 +21,7 @@ public class Snowstorm extends Effect
         setImage(image);
         setLocation (w.getWidth()/ 2, w.getHeight()/2);
         
-        snowSound =  new GreenfootSound("snowstorm.mp3"); 
+        snowSound =  new GreenfootSound("snowstorm.wav"); 
         snowSound.setVolume(100);
         snowSound.play(); 
     }

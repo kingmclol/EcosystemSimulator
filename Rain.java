@@ -21,7 +21,7 @@ public class Rain extends Effect
         setImage(image);
         setLocation(w.getWidth()/2, w.getHeight()/2);
         
-        rainSound = new GreenfootSound("Rain.mp3"); 
+        rainSound = new GreenfootSound("Rain.wav"); 
         rainSound.play(); 
     }
     /**

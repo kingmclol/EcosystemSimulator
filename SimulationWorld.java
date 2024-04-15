@@ -51,14 +51,14 @@ public class SimulationWorld extends World
         simulationSound = new GreenfootSound("naturesounds.mp3");
         simulationSound.playLoop();
         scoreBar = new SuperDisplayLabel (Color.BLACK, Color.WHITE, new Font ("Trebuchet", true, false, 24), 48, " ");
-	
+    
         scoreBar.setLabels(new String[] {"Day: ","Time: "});
         addObject(scoreBar, 504, 24);
         addObject(new Sun(), 900, 200);
         addObject(new Moon(), 100, 810);
     }
     
-	public void started() {
+    public void started() {
         simulationSound.playLoop();
     }
     public void stopped() {
@@ -68,6 +68,14 @@ public class SimulationWorld extends World
     {
         actCount++; 
         spawn();
+        if (getObjects(Animal.class).size() == 0) {
+            simulationSound.stop();
+            Greenfoot.setWorld(new EndingWorld(false));
+        }
+        if (dayCount == 7) {
+            simulationSound.stop();
+            Greenfoot.setWorld(new EndingWorld(true));
+        }
     }
     public void spawn() 
     {

@@ -16,5 +16,11 @@ public class IntroWorld extends CursorWorld
     public IntroWorld()
     {
         super();
+        
+    }
+    public void act() {
+        if ("l".equals(Greenfoot.getKey())) {
+            Greenfoot.setWorld(new StoryWorld());
+        }
     }
 }

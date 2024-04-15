@@ -13,6 +13,7 @@ public class EndingWorld extends CursorWorld
      * Constructor for objects of class EndingWorld.
      * 
      */
+    private GreenfootSound storyWorldMusic;
     private static String[] dialogue;
     private static TextBox dialogueBox;
     private static BreathingTextBox promptBox;
@@ -30,6 +31,9 @@ public class EndingWorld extends CursorWorld
     {
         super(); 
         this.goodEnding = goodEnding;
+        storyWorldMusic = new GreenfootSound("Storyworld.mp3");
+        storyWorldMusic.playLoop();
+
         visibleActCount = 0;
         GreenfootImage backgroundImage = new GreenfootImage(1024, 768);
         backgroundImage.setColor(Color.BLACK);
@@ -102,7 +106,13 @@ public class EndingWorld extends CursorWorld
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
         promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
-        nextWorldButton = new Button(() -> Greenfoot.setWorld(new IntroWorld()), 200, 75);
+        nextWorldButton = new Button(() -> goToNextWorld(), 200, 75);
+    }
+    public void started() {
+        storyWorldMusic.playLoop();
+    }
+    public void stopped() {
+        storyWorldMusic.pause();
     }
     public void act() {
         if (stillMoreDialogue() && Greenfoot.mousePressed(null)) { // Progresses the dialogue, if still exists.
@@ -134,6 +144,10 @@ public class EndingWorld extends CursorWorld
             removeObject(dialogueBox); // no need for it anymore. replace with the breathing text box.
             addObject(new BreathingTextBox("YOU WIN", 76, Color.WHITE, null, 60), getWidth()/2, getHeight()/2-200);
         }
+    }
+    private void goToNextWorld() {
+        storyWorldMusic.stop();
+        Greenfoot.setWorld(new IntroWorld());
     }
     private void playDialogue(int line) {
         dialogueBox.display(dialogue[line]);

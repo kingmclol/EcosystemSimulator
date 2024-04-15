@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class StoryWorld extends CursorWorld
 {
-	private GreenfootSound storyWorldMusic;
+    private GreenfootSound storyWorldMusic;
     private static String[] dialogue;
     private static TextBox dialogueBox;
     private static BreathingTextBox promptBox;
@@ -58,7 +58,7 @@ public class StoryWorld extends CursorWorld
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
         promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
-        nextWorldButton = new Button(() -> Greenfoot.setWorld(new SettingsWorld()), 200, 75);
+        nextWorldButton = new Button(() -> goToNextWorld(), 200, 75);
     }
     public void started() {
         storyWorldMusic.playLoop();
@@ -83,6 +83,10 @@ public class StoryWorld extends CursorWorld
             addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 50);
             storyWorldMusic.pause();
         }
+    }
+    private void goToNextWorld() {
+        storyWorldMusic.stop();
+        Greenfoot.setWorld(new SettingsWorld());
     }
     private void playDialogue(int line) {
         dialogueBox.display(dialogue[line]);

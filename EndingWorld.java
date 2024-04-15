@@ -57,7 +57,7 @@ public class EndingWorld extends CursorWorld
                 ". . .",
                 "I guess it's time to say goodbye.",
                 "But before you press that button, and Reset everything, I'll just say something.",
-                "Tell the creators of this game that they suck at coding.",
+                "Tell whoever wrote the code for this World that they suck at coding.",
                 "At the same time, tell whoever wrote my lines that they should never cook again.",
                 "Haha! Seems like I'll get the last laugh this time.",
                 "Go. Press the button. Click it, actually. You're probably using a mouse.",

@@ -30,7 +30,7 @@ public class StoryWorld extends CursorWorld
         UI.init();
         
         storyWorldMusic = new GreenfootSound("Storyworld.mp3");
-        
+        storyWorldMusic.playLoop();
         setBackground(backgroundImage);
         
         dialogue = new String[]{

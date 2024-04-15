@@ -22,7 +22,7 @@ public class EndingWorld extends CursorWorld
     private static int lineForButtonToAppear;
     private static int lineForEventPictureToAppear;
     private static boolean goodEnding;
-    // private static Picture eventPicture; WIP
+    private static Picture eventPicture;
     /**
      * Creates an EndingWorld. The ending type is determined based on the boolean given/
      */
@@ -70,7 +70,7 @@ public class EndingWorld extends CursorWorld
                 "Well then, have fun with a BreathingTextBox then."                
             };
             
-            //eventPicture = new Picture("cat.png");
+            eventPicture = new Picture("cat.jpg", 0.25, 0.25);
         }
         else { // Bad ending sequence.
             lineForEventPictureToAppear = 6; // appears on line 6 (zero indexed);
@@ -94,7 +94,7 @@ public class EndingWorld extends CursorWorld
                 "I'm not going to talk with you anymore."
             };
             
-            //picture = new Picture("scaredSonic.png");
+            eventPicture = new Picture("traumatized_sonic.jpg", 0.5, 0.5);
         }
         line = 0;
         
@@ -122,11 +122,12 @@ public class EndingWorld extends CursorWorld
         
         // If should add the next world button at this current line, do so.
         if (line == lineForButtonToAppear && nextWorldButton.getWorld() == null) {
-            addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 50);
+            addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 300);
         }
-        // else if (line == lineForEventPictureToAppear && eventPicture.getWorld() == null) {
-            // addObject(eventPicture, getWidth()/2, getHeight()/2);
-        // }
+        else if (line == lineForEventPictureToAppear && eventPicture.getWorld() == null) {
+            dialogueBox.setLocation(getWidth()/2, getHeight()/2-200); // move up a bit.
+            addObject(eventPicture, getWidth()/2, getHeight()/2); // add the event picture to the world.
+        }
         
         // After 3 seconds after the last line in the good ending, add the breathing text box instead.
         if (goodEnding && !stillMoreDialogue() && visibleActCount >= 180 && dialogueBox.getWorld() != null) {

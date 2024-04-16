@@ -11,6 +11,7 @@ public class Slider extends UI
 {
     private GreenfootImage img;
     private Button button;
+    private int value;
     private int width;
     private int sliderVal = 0;
     private int originX;
@@ -43,7 +44,8 @@ public class Slider extends UI
         setImage(img);
         button = new Button(() -> onDrag(), () -> onDrag(), 25, 25, button1, button2, button3);
         labelText = new SuperTextBox(label, new Font(20), 150);
-        textBox = new SuperTextBox(String.valueOf(maxVal/2), Color.WHITE, Color.BLACK, new Font(24), true, width/2, 0, Color.BLACK);
+        value = (maxVal-minVal)/2 + minVal;
+        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(24), true, width/2, 0, Color.BLACK);
     }
     public void addedToWorld(World w){
         cursor = getCursor();
@@ -75,14 +77,17 @@ public class Slider extends UI
         
         
         button.setLocation(sliderVal, getY());
+        value = (int)((incrementValue) * (sliderVal - originX)) + minVal;
         textBox.update(String.valueOf(getValue()));
+        
     }
     /**
      * Gets the value stored in the slider.
      * @return The integer value of the slider.
      */
     public int getValue(){
-        return (int)((incrementValue) * (sliderVal - originX)) + minVal;
+        
+        return value;
     }
     /**
      * Removes the object and all of its related objects.

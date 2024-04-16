@@ -120,6 +120,7 @@ public class AnimalSelector extends UI
     public int getEnergyOfRabbits(){
         return sliders[0].getValue();
     }
+    
     /**
      * Gets the energy value of goats to spawn with at the beginning of the simulation. 
      * @return Starting energy value of a goat.

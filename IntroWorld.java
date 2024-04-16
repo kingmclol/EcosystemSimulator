@@ -17,11 +17,11 @@ public class IntroWorld extends CursorWorld
     public IntroWorld()
     {
         super();
-        promptBox = new BreathingTextBox("CLICK TO START", 52, Color.BLACK, null, 120);
+        promptBox = new BreathingTextBox("PRESS (L) TO START", 52, Color.BLACK, null, 120);
         addObject(promptBox, getWidth()/2, getHeight()/2+250);
     }
     public void act() {
-        if ("l".equals(Greenfoot.getKey()) || Greenfoot.mouseClicked(null)) {
+        if ("l".equals(Greenfoot.getKey())) {
             Greenfoot.setWorld(new StoryWorld());
         }
     }

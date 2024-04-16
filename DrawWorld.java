@@ -38,7 +38,7 @@ public class DrawWorld extends CursorWorld
         drawing = false;
         
         TextBox phaseText = new TextBox("D R A W I N G   P H A S E", 62, Color.WHITE, null, 2, 255);
-        TextBox subText = new TextBox("Create your World.", 32, Color.WHITE, null, 1, 255);
+        TextBox subText = new TextBox("Create your World (or use a preset).", 32, Color.WHITE, null, 1, 255);
         phaseText.fadeOut();
         subText.fadeOut();
         addObject(phaseText, getWidth()/2, 50);

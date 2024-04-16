@@ -46,8 +46,6 @@ public class Vulture extends Animal
            eatingAnimationLeft[i] = new GreenfootImage("images/Vulture/Eating/Left/Left" + (i+1) + ".png");
            eatingAnimationRight[i] = new GreenfootImage("images/Vulture/Eating/Right/Right" + (i+1) + ".png");
         }
-        facing = "right";
-        setImage(walkingAnimationRight[0]);
     }
     
     public Vulture() {
@@ -60,6 +58,18 @@ public class Vulture extends Animal
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
+        for(int i = 0; i<3; i++)
+        {
+           walkingAnimationUp[i] = new GreenfootImage("images/Vulture/Walking/Up/Up" + (i+1) + ".png");
+           walkingAnimationDown[i] = new GreenfootImage("images/Vulture/Walking/Down/Down" + (i+1) + ".png");
+           walkingAnimationLeft[i] = new GreenfootImage("images/Vulture/Walking/Left/Left" + (i+1) + ".png");
+           walkingAnimationRight[i] = new GreenfootImage("images/Vulture/Walking/Right/Right" + (i+1) + ".png");
+           
+           eatingAnimationUp[i] = new GreenfootImage("images/Vulture/Eating/Up/Up" + (i+1) + ".png");
+           eatingAnimationDown[i] = new GreenfootImage("images/Vulture/Eating/Down/Down" + (i+1) + ".png");
+           eatingAnimationLeft[i] = new GreenfootImage("images/Vulture/Eating/Left/Left" + (i+1) + ".png");
+           eatingAnimationRight[i] = new GreenfootImage("images/Vulture/Eating/Right/Right" + (i+1) + ".png");
+        }
     }
 
     /**

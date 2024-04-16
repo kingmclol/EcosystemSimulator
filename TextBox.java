@@ -17,6 +17,7 @@ public class TextBox extends UI
     protected FadeState state;
     protected int size, step;
     protected Color textColor, backgroundColor;
+    protected boolean removeWhenTransparent;
     public TextBox(String text, int size, Color textColor, Color backgroundColor, int step, int initialTransparency) {
         this(size, textColor, backgroundColor, step, initialTransparency);
         display(text);
@@ -27,6 +28,7 @@ public class TextBox extends UI
         this.backgroundColor = backgroundColor;
         this.initialTransparency = initialTransparency;
         this.step = Math.abs(step); // Please do not give a negative value for step. But now it doesn't amtter i guess
+        removeWhenTransparent = false;
     }
     /**
      * Sets this TextBox to display the string of text given.
@@ -48,7 +50,10 @@ public class TextBox extends UI
         else if (state == FadeState.OUT) { // Fading out.
             fade(step * -1); // So I fade... out. wow.
             if (img.getTransparency() <= 0) { // transparent.
-                state = FadeState.TRANSPARENT; // Update accordingly
+                state = FadeState.TRANSPARENT; // Update accordingly.
+                if (removeWhenTransparent) {
+                    getWorld().removeObject(this);
+                }
             }
         }
     }
@@ -82,5 +87,12 @@ public class TextBox extends UI
      */
     public boolean isInvisible() {
         return state == FadeState.TRANSPARENT;
+    }
+    /**
+     * Makes the textbox begin to fade out, removing itself once fully transparent.
+     */
+    public void fadeOut() {
+        state = FadeState.OUT;
+        removeWhenTransparent = true;
     }
 }

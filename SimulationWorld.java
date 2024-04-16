@@ -9,8 +9,8 @@ import java.util.ArrayList; // (World, Actor, GreenfootImage, Greenfoot and Mous
 public class SimulationWorld extends World
 {
 
-    private static boolean isNight = false; 
-    
+    private static boolean isNight; 
+    private static boolean isRaining;
     private int actCount; 
 
 
@@ -19,7 +19,7 @@ public class SimulationWorld extends World
     private int dayCount; 
     private int hours; 
     private int time; 
-    
+    private int endingDay;
     private SuperDisplayLabel scoreBar; 
     private GreenfootSound simulationSound;
     /**
@@ -47,11 +47,14 @@ public class SimulationWorld extends World
         dayCount = 0;
         time = 8;
         hours = 0;
-        
+        endingDay = SettingsWorld.getSimulationLength();
         simulationSound = new GreenfootSound("naturesounds.mp3");
         simulationSound.playLoop();
         scoreBar = new SuperDisplayLabel (Color.BLACK, Color.WHITE, new Font ("Trebuchet", true, false, 24), 48, " ");
-    
+        
+        isRaining=  false;
+        isNight = false;
+        
         scoreBar.setLabels(new String[] {"Day: ","Time: "});
         addObject(scoreBar, 504, 24);
         addObject(new Sun(), 900, 200);
@@ -68,12 +71,15 @@ public class SimulationWorld extends World
     {
         actCount++; 
         spawn();
-        if (getObjects(Animal.class).size() == 0) {
+        ArrayList<Animal> aliveAnimals = (ArrayList<Animal>)getObjects(Animal.class);
+        aliveAnimals.removeIf(a -> !a.isAlive());
+        if (aliveAnimals.size() == 0) {
             simulationSound.stop();
             Greenfoot.setWorld(new EndingWorld(false));
         }
-        if (dayCount == 7) {
+        if (dayCount == endingDay) {
             simulationSound.stop();
+            Rain.stopRainSound();
             Greenfoot.setWorld(new EndingWorld(true));
         }
     }
@@ -82,6 +88,10 @@ public class SimulationWorld extends World
         if (actCount >= 2400) {
             addObject(new Night(), 0, 0);
             actCount = 0;
+        }
+        if (!isRaining && Greenfoot.getRandomNumber(1200) == 0) {
+            addObject(new Rain(), 0, 0);
+            isRaining = true;
         }
 
         statUpdates(); 
@@ -116,7 +126,9 @@ public class SimulationWorld extends World
     {
         return isNight;
     }
-    
+    public static void setRaining(boolean isRaining) {
+        SimulationWorld.isRaining = isRaining;
+    }
     public void statUpdates() {
         if (actCount % 100 == 0) {
             time += 1;

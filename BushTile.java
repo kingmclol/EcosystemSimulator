@@ -16,9 +16,10 @@ public class BushTile extends Tile
     private int berryAmount = 500;
     private int berryGrowSpeed = 1;
     private boolean berriesAvailable;
-    private static int GROW_TIME_MIN = 300;
-    private static int GROW_TIME_MAX = 1000;
-    private static double PROBABILITY_DROP_SEED = 1/2000d;
+    private static final int GROW_TIME_MIN = 300;
+    private static final int GROW_TIME_MAX = 1000;
+    private static final double PROBABILITY_DROP_SEED = 1/2000d;
+    private static final double PROBABILTY_BUSH_DIED = 1/20d;
     private int actsPassed;
     private int index;
     private GreenfootImage[] animation = new GreenfootImage[3];
@@ -59,6 +60,9 @@ public class BushTile extends Tile
             int currentAmount = berryAmount; // This is how much was eaten.
             berryAmount = 0;
             berriesAvailable = false;
+            if (Greenfoot.getRandomNumber((int)(1/PROBABILTY_BUSH_DIED)) == 0) {
+                replaceMe(new GrassTile());
+            }
             return currentAmount;
         }
         berryAmount = Math.max(0, berryAmount-value); 
@@ -68,7 +72,8 @@ public class BushTile extends Tile
      * Grow berries.
      */
     private void growBerries() {
-        berryAmount = Math.min(MAX_BERRIES, berryAmount+berryGrowSpeed);
+        int berriesGrown = !isRaining ? berryGrowSpeed : berryGrowSpeed * 2;
+        berryAmount = Math.min(MAX_BERRIES, berryAmount+berriesGrown);
         
         if (!berriesAvailable && berryAmount >= 350) {
             berriesAvailable = true;
@@ -79,7 +84,8 @@ public class BushTile extends Tile
      * Determine if this BushTile should attempt to drop its seeds on neighbouring grass tiles.
      */
     private boolean shouldDropSeed() {
-        return Greenfoot.getRandomNumber((int) Math.round(1/PROBABILITY_DROP_SEED)) == 0;
+        double probability = (!isRaining) ? PROBABILITY_DROP_SEED: PROBABILITY_DROP_SEED * 2;
+        return Greenfoot.getRandomNumber((int) Math.round(1/probability)) == 0;
     }
     /**
      * Attempt to drop a BushTile seed onto a neighboruing GrassTile.

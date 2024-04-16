@@ -132,6 +132,10 @@ public class Vulture extends Animal
 
     }
     
+    public static int getNumOfVultures() {
+        return numOfVultures;
+    }
+    
     public static void decreaseNumOfVultures(){
         numOfVultures = numOfVultures - 1;
     }

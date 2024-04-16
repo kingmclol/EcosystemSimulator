@@ -196,8 +196,11 @@ public class Goat extends Animal
         }
     }
     
+    public static int getNumOfGoats() {
+        return numOfGoats;
+    }
+    
     public static void decreaseNumOfGoats(){
         numOfGoats = numOfGoats - 1;
     }
 }
-

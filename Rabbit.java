@@ -239,6 +239,10 @@ public class Rabbit extends Animal
         }
     }
     
+    public static int getNumOfRabbits() {
+        return numOfRabbits;
+    }
+    
     public static void decreaseNumOfRabbits(){
         numOfRabbits = numOfRabbits - 1;
     }

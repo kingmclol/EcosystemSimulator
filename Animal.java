@@ -102,11 +102,11 @@ public abstract class Animal extends SuperActor {
     public void act() {
         if (!alive) { // Animal is not alive, so no need to do anything other than disappear after a while
             if (currentTile instanceof WaterTile) { // died on a water tile.
-                fadeAway();
+                decreaseTransparency(1);
             }
             actsSinceDeath++;
             if(actsSinceDeath >= 1500){ // Animal decomposes after a while
-                fadeAway();
+                decreaseTransparency(1);
             }
             return; // Nothing else to do.
         }
@@ -361,7 +361,11 @@ public abstract class Animal extends SuperActor {
         return facing;
     }
     
-    
+    /**
+     * Method to decrease transparency of objects
+     * 
+     * @param specific value of decrease 
+     */
     public void decreaseTransparency(int value) {
         transparency = transparency - value;
         getImage().setTransparency(transparency);
@@ -369,15 +373,11 @@ public abstract class Animal extends SuperActor {
             getWorld().removeObject(this);
         }
     }
-
-    public void fadeAway() {
-        transparency--;
-        getImage().setTransparency(transparency);
-        if(transparency <= 0){
-            getWorld().removeObject(this);
-        }
-    }
-
+    
+    /**
+     * Method checks for animals on tree tiles, and decreases their
+     * transparency if they are on one
+     */
     public void inTree()
     {
         List<Tile> currentTiles = getIntersectingObjects(Tile.class);
@@ -403,7 +403,12 @@ public abstract class Animal extends SuperActor {
             setImage(temp);
         }
     }
-
+    
+    /**
+     * Setter method for snowing variable
+     * 
+     * @param snowing  boolean for if it is currently snowing
+     */
     public static void setSnowing(boolean snowing) {
         isSnowing = snowing; 
     }

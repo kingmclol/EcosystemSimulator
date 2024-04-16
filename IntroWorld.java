@@ -13,13 +13,15 @@ public class IntroWorld extends CursorWorld
      * Constructor for objects of class IntroWorld.
      * 
      */
+    BreathingTextBox promptBox;
     public IntroWorld()
     {
         super();
-        
+        promptBox = new BreathingTextBox("CLICK TO START", 52, Color.BLACK, null, 120);
+        addObject(promptBox, getWidth()/2, getHeight()/2+250);
     }
     public void act() {
-        if ("l".equals(Greenfoot.getKey())) {
+        if ("l".equals(Greenfoot.getKey()) || Greenfoot.mouseClicked(null)) {
             Greenfoot.setWorld(new StoryWorld());
         }
     }

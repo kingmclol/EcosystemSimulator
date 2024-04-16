@@ -46,7 +46,7 @@ public class EndingWorld extends CursorWorld
             dialogue = new String[]{
                 "Ah. Sorry about that.",
                 "Those who are above even *I* did not make transitions between Worlds.",
-                "But if you haven't noticed, your seven days are over.",
+                "But if you haven't noticed, your " + SettingsWorld.getSimulationLength() + " days are over.",
                 "I'm reluctant to come back, but I don't have a choice.",
                 "The Voices speak of \"needing two endings.\"",
                 "Now, let me see...",

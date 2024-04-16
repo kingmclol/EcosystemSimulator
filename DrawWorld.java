@@ -33,9 +33,16 @@ public class DrawWorld extends CursorWorld
 
         super(); 
         Board.loadBoard(this, 48);
-
+        
         mouseDrawType = 0;
         drawing = false;
+        
+        TextBox phaseText = new TextBox("D R A W I N G   P H A S E", 62, Color.WHITE, null, 2, 255);
+        TextBox subText = new TextBox("Create your World.", 32, Color.WHITE, null, 1, 255);
+        phaseText.fadeOut();
+        subText.fadeOut();
+        addObject(phaseText, getWidth()/2, 50);
+        addObject(subText, getWidth()/2, 100);
         
         addObject(new TileSelector(), getWidth() + 42, getHeight()/2);
         previousTilePos = new Vector(-1, -1);

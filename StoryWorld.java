@@ -41,7 +41,7 @@ public class StoryWorld extends CursorWorld
             "I have anime to watch. Games to play. Friends to... nevermind...",
             "*Ahem.* The main point is, I'm going to take a break.",
             "Just for a little while, don't worry.",
-            "How long? Let's say... a week or so.",
+            "How long? Let's say... as long as you want.",
             "My job isn't the most difficult. Just do what I always do!",
             "Create a World, then simply watch it. Nothing else.",
             "It's easy. Trust me! It's just drawing stuff, and pressing some buttons.",

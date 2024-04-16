@@ -81,7 +81,8 @@ public class GrassTile extends Tile
     }
 
     private boolean shouldSelfSeed() {
-        return mySeed == null && Greenfoot.getRandomNumber((int)Math.round(1/PROBABILITY_SEED_SELF)) == 0;
+        double probability = (!isRaining) ? PROBABILITY_SEED_SELF : PROBABILITY_SEED_SELF * 2;
+        return mySeed == null && Greenfoot.getRandomNumber((int)Math.round(1/probability)) == 0;
     }
 
     /**
@@ -114,7 +115,8 @@ public class GrassTile extends Tile
      * Grows grass and the seed, if it exists.
      */
     private void grow() {
-        grassAmount = Math.min(MAX_GRASS, grassAmount+growSpeed);
+        int grassGrown = (!isRaining) ? growSpeed : growSpeed * 2;
+        grassAmount = Math.min(MAX_GRASS, grassAmount+grassGrown);
         if (!grassAvailable && grassAmount >= 500) { // If regenning grass and now has enough again
             grassAvailable = true;
             setTile(new GreenfootImage("tile_grass.png"));

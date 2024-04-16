@@ -55,7 +55,7 @@ public class SimulationWorld extends World
         isRaining=  false;
         isNight = false;
         
-        scoreBar.setLabels(new String[] {"Day: ","Time: "});
+        scoreBar.setLabels(new String[] {"Day: ","Time: ", "Goat:", "Rabbit: ", "Vulture: ", "Wolf: "});
         addObject(scoreBar, 504, 24);
         addObject(new Sun(), 900, 200);
         addObject(new Moon(), 100, 810);
@@ -95,7 +95,7 @@ public class SimulationWorld extends World
         }
 
         statUpdates(); 
-        scoreBar.update(new int[]{dayCount, time}); 
+        scoreBar.update(new int[]{dayCount, time, Goat.getNumOfGoats(), Rabbit.getNumOfRabbits(), Vulture.getNumOfVultures(), Wolf.getNumOfWolves()}); 
     }
     private void spawnAnimals(String animal, int num) 
     {

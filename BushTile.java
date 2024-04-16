@@ -19,7 +19,7 @@ public class BushTile extends Tile
     private static final int GROW_TIME_MIN = 300;
     private static final int GROW_TIME_MAX = 1000;
     private static final double PROBABILITY_DROP_SEED = 1/2000d;
-    private static final double PROBABILTY_BUSH_DIED = 1/20d;
+    private static final double PROBABILTY_BUSH_DIED = 1/10d;
     private int actsPassed;
     private int index;
     private GreenfootImage[] animation = new GreenfootImage[3];

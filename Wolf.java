@@ -8,6 +8,7 @@ import java.util.function.Predicate;
  */
 public class Wolf extends Animal
 {
+    private double huntSpeed;
     private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
     
@@ -22,11 +23,12 @@ public class Wolf extends Animal
     
     public Wolf(boolean isBaby) {
         super(isBaby);
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
+        huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
-        viewRadius = 500;
+        viewRadius = SettingsWorld.getStartEnergyOfWolf();
         walkHeight = 1;
         breedingThreshold = 2500;
         for(int i = 0; i<4; i++)
@@ -46,11 +48,12 @@ public class Wolf extends Animal
     
     public Wolf() {
         super(false);
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
+        huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
-        viewRadius = 500;
+        viewRadius = SettingsWorld.getStartEnergyOfWolf();
         walkHeight = 1;
         breedingThreshold = 2500;
         for(int i = 0; i<4; i++)
@@ -80,6 +83,10 @@ public class Wolf extends Animal
             ableToBreed = true;
         }else{
             ableToBreed = false;
+        }
+        
+        if(!wantToEat){
+            currentSpeed = defaultSpeed;
         }
     }
 
@@ -144,8 +151,8 @@ public class Wolf extends Animal
         
 
         if (target instanceof Animal) {
-            Animal targetPrey = (Animal) target; // cast into ANimal to access instance methods.
-            
+            Animal targetPrey = (Animal) target; // cast into Animal to access instance methods.
+            currentSpeed = huntSpeed;
             // check if retarget required.
             if (!targetPrey.isAlive() || targetPrey.getWorld() == null) {
                 eating = false;
@@ -235,6 +242,10 @@ public class Wolf extends Animal
                 indexAnimation = (indexAnimation + 1)%(walkingAnimationRight.length);
             }
         }
+    }
+    
+    public static int getNumOfWolves() {
+        return numOfWolves;
     }
     
     public static void decreaseNumOfWolves(){

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Collections;
 
 /**
- * Write a description of class Animal here.
+ * Animal Superclass
  * 
 
  * <p>Animals are an SuperActor that moves around the ecosyteem, and has unique interactions with each other. Animals constantly
@@ -24,7 +24,8 @@ import java.util.Collections;
  *
  * 
  * 
- * @author (Osmond Lin) 
+ * @author Osmond Lin
+ * @version 2024-04-14
  */
 
 public abstract class Animal extends SuperActor {
@@ -41,9 +42,8 @@ public abstract class Animal extends SuperActor {
     protected int energy;
     protected boolean baby;
     protected int walkHeight;
-    // protected ArrayList<Vector> currentPath;
 
-    protected int viewRadius;
+    protected int viewRadius; //How far animals can detect other animals
 
     protected double defaultSpeed;
     protected double currentSpeed;
@@ -67,11 +67,15 @@ public abstract class Animal extends SuperActor {
     protected Tile currentTile;
 
     protected int actsAsBaby;
-    protected SuperActor target;
+    protected SuperActor target; //Either a tile, or animal being targetted
 
     protected int actsSinceDeath;
     //https://static.vecteezy.com/system/resources/thumbnails/011/411/862/small/pixel-game-life-bar-sign-filling-red-hearts-descending-pixel-art-8-bit-health-heart-bar-flat-style-vector.jpg
-
+    /**
+     * Constructor for Animal, that takes in a parameter
+     * 
+     * @param isBaby   boolean that determines if the animal is a baby
+     */
     public Animal(boolean isBaby) {
         if(isBaby){
             baby = true;
@@ -94,27 +98,29 @@ public abstract class Animal extends SuperActor {
         enableStaticRotation();
     }
 
-    protected abstract void animate();
 
     public void act() {
-        if (!alive) { // Am not alive, so no need to do anything here other than potentially drown.
+        if (!alive) { // Animal is not alive, so no need to do anything other than disappear after a while
             if (currentTile instanceof WaterTile) { // died on a water tile.
-                fadeAway();
+                decreaseTransparency(1);
             }
             actsSinceDeath++;
-            if(actsSinceDeath >= 1000){
-                fadeAway();
+            if(actsSinceDeath >= 1500){ // Animal decomposes after a while
+                decreaseTransparency(1);
             }
             return; // Nothing else to do.
         }
+        
+        getFacing(); //gets the direction animal is facing to manage animation
+        inTree(); // manages animal's transparency when they are on a tree tile
 
         // Increment counters.
         currentAct++;
-        if(!baby){
+        if(!baby){ // to prevent newly spawned animals to breed until they become an adult
             actsSinceLastBreeding++;
         }
 
-        currentTile = Board.getTile(getPosition());
+        currentTile = Board.getTile(getPosition()); //gets the current tile the animal is on
 
         if(currentTile instanceof WaterTile){ // If the animal is on a water tile right now
             swimming = true; // it is swmming.
@@ -138,29 +144,26 @@ public abstract class Animal extends SuperActor {
         // Manage death.
         if (energy <= 0 || hp <= 0) { // No energy or no health.
             die(); // this animal has died.
-            return; // This animal has died. what else should it do? tap dance?
+            return;
         }
-
-        getFacing();
 
         if(!breeding)
         {
             animate();
         }
 
-        
 
-        if (wantToEat && !breeding) { // If want to eat, and am not in any spicy situations...
+        if (wantToEat && !breeding) { // If want to eat, and not breeding
             objective = AnimalObjective.FIND_FOOD; // Find something to eat.
         } 
-        else if (ableToBreed && !wantToEat) { // If I can breed, and am not being eaten, and am not hungry,
+        else if (ableToBreed && !wantToEat) { // If animal can breed, and is not hungry,
             objective = AnimalObjective.FIND_MATE; // Find a mate.
         }
         else { // Otherwise,
             objective = AnimalObjective.NONE; // Move randomly. (no objective in particular),
         }
 
-        // Depending on the animal's objective, determine what tehy whould be doing.
+        // Depending on the animal's objective, determine what they whould be doing.
         switch(objective) {
             case NONE:
                 moveRandomly();
@@ -172,12 +175,12 @@ public abstract class Animal extends SuperActor {
                 breed();
                 break;
         }
-
-        if(!wantToEat){
+    
+        if(!wantToEat){ 
             eating = false;
         }
 
-        if(baby){
+        if(baby){ // manages how long an animal is a baby
             actsAsBaby++;
             if(actsAsBaby >= 1200){
                 baby = false;
@@ -185,15 +188,37 @@ public abstract class Animal extends SuperActor {
         }
         //inTree();
     }
-
+    
+    /**
+     * Abstract method for the animation of animals
+     * 
+     * Each animal has its own unique animations
+     */
+    protected abstract void animate();
+    
+    /**
+     * Getter method for whether the animal is alive
+     * 
+     * @return alive  boolean for if the animal is alive or not
+     */
     public boolean isAlive() {
         return alive;
     }
 
+    /**
+     * Getter method for whether the animal is eating
+     * 
+     * @return eating  boolean for if the animal is eating or not
+     */
     public boolean isEating() {
         return eating;
     }
-
+    
+    /**
+     * Method for animals to gain energy when they eat
+     * 
+     * @param energyGain  the specific value that they gain each act when they eat
+     */
     public void eat(int energyGain) {
         energy += energyGain;
     }
@@ -216,7 +241,7 @@ public abstract class Animal extends SuperActor {
     protected abstract void findOrEatFood();
 
     /**
-     * Dies
+     * Method for when animals die
      */
     public void die() {
         if(this instanceof Rabbit){
@@ -232,27 +257,57 @@ public abstract class Animal extends SuperActor {
         disableStaticRotation();
         setRotation(90);
     }
-
+    
+    /**
+     * Method for animals to lose hp, specifically when they are being eaten
+     * 
+     * @param dmg  the amount of hp they lose
+     */
     protected void takeDamage(int dmg) {
         hp = hp - dmg;
     }
 
+    /**
+     * Getter method to access energy value
+     * 
+     * @return energy   current energy value of animal
+     */
     public int getEnergy() {
         return energy;
     }
 
+    /**
+     * Getter method to access if the animal is currently breeding
+     * 
+     * @return breeding  boolean that determines if animal is breeding or not
+     */
     public boolean isBreeding() {
         return breeding;
     }
-
+    
+    /**
+     * Getter method to access if the animal is able to breed
+     * 
+     * @return ableToBreed   boolean that determines if the animal is capable of breeding
+     */
     public boolean isAbleToBreed() {
         return ableToBreed;
     }
 
+    /**
+     * Setter method to change whether the animal is able to breed
+     * 
+     * @param able  the new boolean of the animal's capability to breed
+     */
     public void setAbleToBreed(boolean able) {
         ableToBreed = able;
     }
 
+    /**
+     * Setter method to change whether the animal is breeding
+     * 
+     * @param isBreeding   the new boolean that determines if the animal is breeding or not
+     */
     public void setIsBreeding(boolean breed){
         breeding = breed;
     }
@@ -280,7 +335,12 @@ public abstract class Animal extends SuperActor {
             moveTowards(target, currentSpeed, walkHeight); // pathfind towards it.
         }
     }
-
+    
+    /**
+     * Method that gets the direction the animal is facing
+     * 
+     * @return facing  the specific direction animal is facing
+     */
     public String getFacing()
     {
         int rotation = this.getRotation()%360;
@@ -302,7 +362,12 @@ public abstract class Animal extends SuperActor {
         }
         return facing;
     }
-
+    
+    /**
+     * Method to decrease transparency of objects
+     * 
+     * @param specific value of decrease 
+     */
     public void decreaseTransparency(int value) {
         transparency = transparency - value;
         getImage().setTransparency(transparency);
@@ -311,21 +376,18 @@ public abstract class Animal extends SuperActor {
         }
     }
 
-    public void fadeAway() {
-        transparency--;
-        getImage().setTransparency(transparency);
-        if(transparency <= 0){
-            getWorld().removeObject(this);
-        }
-    }
-
-    /*public void inTree()
+    
+    /**
+     * Method checks for animals on tree tiles, and decreases their
+     * transparency if they are on one
+     */
+    public void inTree()
     {
         List<Tile> currentTiles = getIntersectingObjects(Tile.class);
         boolean isOnTreeTile = false;
         for(Tile t : currentTiles)
         {
-            if(t instanceof TreeTile)
+            if(t instanceof TreeTile && distanceFrom(t) < 18)
             {
                 isOnTreeTile = true;
                 break;
@@ -343,8 +405,13 @@ public abstract class Animal extends SuperActor {
             temp.setTransparency(255);
             setImage(temp);
         }
-    }*/
-
+    }
+    
+    /**
+     * Setter method for snowing variable
+     * 
+     * @param snowing  boolean for if it is currently snowing
+     */
     public static void setSnowing(boolean snowing) {
         isSnowing = snowing; 
     }

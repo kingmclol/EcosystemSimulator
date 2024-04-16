@@ -41,11 +41,11 @@ public class Rabbit extends Animal
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfRabbit();
         breedingThreshold = 2000;
         numOfRabbits++;
     }
@@ -67,11 +67,11 @@ public class Rabbit extends Animal
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfRabbit();
         breedingThreshold = 2000;
         numOfRabbits++;
     }
@@ -239,7 +239,13 @@ public class Rabbit extends Animal
         }
     }
     
+    public static int getNumOfRabbits() {
+        return numOfRabbits;
+    }
+    
     public static void decreaseNumOfRabbits(){
         numOfRabbits = numOfRabbits - 1;
     }
+    
+
 }

@@ -4,7 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * Vulture subclass
  * Vultures will eat dead animals
  * 
- * @author (Osmond Lin) 
+ * @author Osmond Lin 
  * @version (a version number or a date)
  */
 public class Vulture extends Animal
@@ -26,12 +26,13 @@ public class Vulture extends Animal
     //https://www.deviantart.com/lostchild14000/art/Animal-Sprite-Sheet-654707851
     public Vulture(boolean isBaby) {
         super(isBaby);
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        energy = 3500;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfVulture();
         walkHeight = 3;
-        breedingThreshold = 3000;
+        breedingThreshold = 3500;
         numOfVultures++;
         for(int i = 0; i<3; i++)
         {
@@ -51,12 +52,13 @@ public class Vulture extends Animal
     
     public Vulture() {
         super(false);
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        energy = 3500;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfVulture();
         walkHeight = 3;
-        breedingThreshold = 3000;
+        breedingThreshold = 3500;
         numOfVultures++;
     }
 
@@ -195,6 +197,10 @@ public class Vulture extends Animal
         {
             indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
         }
+    }
+    
+    public static int getNumOfVultures() {
+        return numOfVultures;
     }
     
     public static void decreaseNumOfVultures(){

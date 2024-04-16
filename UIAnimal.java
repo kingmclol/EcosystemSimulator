@@ -1,9 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class animal here.
+ * UI animals are used with the AnimalSelector to display animated images when selecting types of animals.
+ * A basic image object with animations for each animal in the simulation.
+ *
  * 
- * @author (your name) 
+ * @author Neelan Thurairajah 
  * @version (a version number or a date)
  */
 public class UIAnimal extends UI
@@ -54,17 +56,17 @@ public class UIAnimal extends UI
         moving = false;
 
     }
-    public void setMoving(boolean moving)
-    {
-        this.moving = moving;
-    }
+    
+
     public void act()
     {
         currentAct++;
         
         animate();
     }
-    
+    /**
+     * Animates the image.
+     */
     public void animate()
     {
         setImage(animation[indexAnimation]);

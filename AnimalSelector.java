@@ -1,4 +1,13 @@
 import greenfoot.*;
+/**
+ * <p>Animal Selector allows for a selector with buttons to switch between animals and 
+ * various settings in the SettingsWorld.</p> 
+ * <p>There are 2 buttons that are used to cycle between the 4 animals
+ *  in the simulation to adjust their respective settings.</p>
+ * <p>There is a ButtonIncrement object for each animal type used for changing and storing values 
+ * related to starting numbers for the simulation. There is also a Slider object for each animal type for
+ * changing the starting energy for the simulation.</p>
+ */
 public class AnimalSelector extends UI
 {
     private UIAnimal[] animals = {new UIAnimal("rabbit"), new UIAnimal("goat"), new UIAnimal("wolf"), new UIAnimal("vulture")};
@@ -8,6 +17,7 @@ public class AnimalSelector extends UI
     private ButtonIncrement[] buttonIncrementers;
     private Slider[] sliders;
     private int animalIndex;
+    
     public AnimalSelector(){
         GreenfootImage leftButtonImg = new GreenfootImage("images/incrementLeft.png");
         GreenfootImage leftButtonImg1 = new GreenfootImage("images/incrementLeftHovered.png");
@@ -28,7 +38,7 @@ public class AnimalSelector extends UI
         sliders = new Slider[4];
         for (int i = 0; i < buttonIncrementers.length; i++){
             buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 50, "Num", leftButtonImgs, rightButtonImgs);
-            sliders[i] = new Slider(250, 1000, "Energy");
+            sliders[i] = new Slider(250, 100, 500, "View Distance");
         }
         for(int i = 0; i < 3; i ++){
             leftButtonImgs[i] = new GreenfootImage(leftButtonImgs[i]);
@@ -40,6 +50,7 @@ public class AnimalSelector extends UI
         decrementButton = new Button(this::decrementValue, 100, 100, leftButtonImgs[0], leftButtonImgs[1], leftButtonImgs[2]);
         incrementButton = new Button(this::incrementValue,100, 100, rightButtonImgs[0], rightButtonImgs[1], rightButtonImgs[2]);
     }
+
     public void addedToWorld(World w){
         
         w.addObject(animals[animalIndex], getX(), getY() - 10);
@@ -48,6 +59,9 @@ public class AnimalSelector extends UI
         w.addObject(decrementButton, getX() - 100, getY());
         w.addObject(incrementButton, getX() + 100, getY());
     }
+    /**
+     * Cycles forward through the types of animals, switching the animal type to the next one. 
+     */
     private void incrementValue(){
         World w = getWorld();
         w.removeObject(animals[animalIndex]);
@@ -58,6 +72,9 @@ public class AnimalSelector extends UI
         w.addObject(animals[animalIndex],getX(), getY() - 10);
         w.addObject(buttonIncrementers[animalIndex], getX(), getY() - 125);
     }
+    /**
+     * Cycles backward through the types of animals, switching the animal type to the last one. 
+     */
     private void decrementValue(){ 
         World w = getWorld();
         w.removeObject(animals[animalIndex]);
@@ -68,27 +85,60 @@ public class AnimalSelector extends UI
         w.addObject(animals[animalIndex], getX(), getY() - 10);
         w.addObject(buttonIncrementers[animalIndex],  getX(), getY() - 125);
     }
+    /**
+     * Gets the number of rabbits to spawn at the beginning of the simulation. 
+     * @return Number of rabbits.
+     */
     public int getNumOfRabbits(){
        return buttonIncrementers[0].getValue();
     }
+    /**
+     * Gets the number of goats to spawn at the beginning of the simulation. 
+     * @return Number of goats.
+     */
     public int getNumOfGoats(){
         return buttonIncrementers[1].getValue();
     }
+    /**
+     * Gets the number of wolves to spawn at the beginning of the simulation. 
+     * @return Number of wolves.
+     */
     public int getNumOfWolves(){
         return buttonIncrementers[2].getValue();
     }
+    /**
+     * Gets the number of vultures to spawn at the beginning of the simulation. 
+     * @return Number of vultures.
+     */
     public int getNumOfVultures(){
         return buttonIncrementers[3].getValue();
     }
+    /**
+     * Gets the energy value of rabbits to spawn with at the beginning of the simulation. 
+     * @return Starting energy value of a vulture.
+     */
     public int getEnergyOfRabbits(){
         return sliders[0].getValue();
     }
+    
+    /**
+     * Gets the energy value of goats to spawn with at the beginning of the simulation. 
+     * @return Starting energy value of a goat.
+     */
     public int getEnergyOfGoat(){
         return sliders[1].getValue();
     }
+    /**
+     * Gets the energy value of wolves to spawn with at the beginning of the simulation. 
+     * @return Starting energy value of a wolf.
+     */
     public int getEnergyOfWolves(){
         return sliders[2].getValue();
     }
+    /**
+     * Gets the energy value of vultures to spawn with at the beginning of the simulation. 
+     * @return Starting energy value of a vulture.
+     */
     public int getEnergyOfVultures(){
         return sliders[3].getValue();
     }

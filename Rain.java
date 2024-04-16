@@ -8,8 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Rain extends Effect
 {
+    private static GreenfootSound rainSound = new GreenfootSound("Rain.wav");    
     public Rain() {
-        super(500, 200);
+        super(600, 100);
     }
     
     public void addedToWorld(World w) {
@@ -18,6 +19,7 @@ public class Rain extends Effect
         image.setTransparency(0);
         setImage(image);
         setLocation(w.getWidth()/2, w.getHeight()/2);
+        rainSound.playLoop(); 
     }
     /**
      * Act - do whatever the Rain wants to do. This method is called whenever
@@ -32,7 +34,12 @@ public class Rain extends Effect
         return;
     }
     public void stopEffect() {
+        rainSound.stop();
         Tile.setRaining(false); 
+        world.setRaining(false);
         return;
+    }
+    public static void stopRainSound() {
+        rainSound.stop();
     }
 }

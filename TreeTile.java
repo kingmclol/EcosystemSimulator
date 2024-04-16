@@ -59,7 +59,8 @@ public class TreeTile extends Tile
         return LIFESPAN_MIN + Greenfoot.getRandomNumber(LIFESPAN_MAX-LIFESPAN_MIN);
     }
     private boolean shouldDropSeed() {
-        return Greenfoot.getRandomNumber((int) Math.round(1/PROBABILITY_DROP_SEED)) == 0;
+        double probability = (!isRaining) ? PROBABILITY_DROP_SEED: PROBABILITY_DROP_SEED * 2;
+        return Greenfoot.getRandomNumber((int) Math.round(1/probability)) == 0;
     }
     private void dropSeed() {
         // Get adjacent tiles as an array

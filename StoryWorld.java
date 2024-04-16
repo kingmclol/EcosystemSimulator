@@ -8,6 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class StoryWorld extends CursorWorld
 {
+    private GreenfootSound storyWorldMusic;
     private static String[] dialogue;
     private static TextBox dialogueBox;
     private static BreathingTextBox promptBox;
@@ -26,7 +27,10 @@ public class StoryWorld extends CursorWorld
         GreenfootImage backgroundImage = new GreenfootImage(1024, 768);
         backgroundImage.setColor(Color.BLACK);
         backgroundImage.fill();
+        UI.init();
         
+        storyWorldMusic = new GreenfootSound("Storyworld.mp3");
+        storyWorldMusic.playLoop();
         setBackground(backgroundImage);
         
         dialogue = new String[]{
@@ -37,7 +41,7 @@ public class StoryWorld extends CursorWorld
             "I have anime to watch. Games to play. Friends to... nevermind...",
             "*Ahem.* The main point is, I'm going to take a break.",
             "Just for a little while, don't worry.",
-            "How long? Let's say... a week or so.",
+            "How long? Let's say... as long as you want.",
             "My job isn't the most difficult. Just do what I always do!",
             "Create a World, then simply watch it. Nothing else.",
             "It's easy. Trust me! It's just drawing stuff, and pressing some buttons.",
@@ -54,7 +58,13 @@ public class StoryWorld extends CursorWorld
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
         promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
-        nextWorldButton = new Button(() -> Greenfoot.setWorld(new SettingsWorld()), 200, 75);
+        nextWorldButton = new Button(() -> goToNextWorld(), 200, 75);
+    }
+    public void started() {
+        storyWorldMusic.playLoop();
+    }
+    public void stopped() {
+        storyWorldMusic.pause();
     }
     public void act() {
         if (stillMoreDialogue() && Greenfoot.mousePressed(null)) { // progresses dialogue, if still exists.
@@ -71,7 +81,12 @@ public class StoryWorld extends CursorWorld
         
         if (!stillMoreDialogue() && nextWorldButton.getWorld() == null) { // once dialogue is exhausted, add the next world button.
             addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 50);
+            storyWorldMusic.pause();
         }
+    }
+    private void goToNextWorld() {
+        storyWorldMusic.stop();
+        Greenfoot.setWorld(new SettingsWorld());
     }
     private void playDialogue(int line) {
         dialogueBox.display(dialogue[line]);

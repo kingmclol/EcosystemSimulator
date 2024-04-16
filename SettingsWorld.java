@@ -3,6 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public class SettingsWorld extends CursorWorld
 {
+    private GreenfootSound settingsWorldMusic;
     private static int goatCount;
     private static int wolfCount;
     private static int rabbitCount;
@@ -11,8 +12,9 @@ public class SettingsWorld extends CursorWorld
     private static int wolfEnergy;
     private static int rabbitEnergy;
     private static int vultureEnergy;
-    private ButtonIncrement animalCounter1;
-    private ButtonIncrement animalCounter2;
+    private static int simulationLength;
+    private ButtonIncrement dayCounter;
+    
     private Button leaveButton;
     private AnimalSelector animalSelect;
     private Slider slider;
@@ -24,8 +26,24 @@ public class SettingsWorld extends CursorWorld
         goatCount = 0;
         wolfCount = 0;
         rabbitCount = 0;
-
-
+    
+        settingsWorldMusic = new GreenfootSound("Settingworld.mp3");
+        settingsWorldMusic.setVolume(50);
+        settingsWorldMusic.playLoop();
+        UI.init();
+        GreenfootImage leftButtonImg = new GreenfootImage("images/incrementLeft.png");
+        GreenfootImage leftButtonImg1 = new GreenfootImage("images/incrementLeftHovered.png");
+        GreenfootImage leftButtonImg2 = new GreenfootImage("images/incrementLeftPressed.png");
+    
+        GreenfootImage rightButtonImg = new GreenfootImage("images/incrementRight.png");
+        GreenfootImage rightButtonImg1 = new GreenfootImage("images/incrementRightHovered.png");
+        GreenfootImage rightButtonImg2 = new GreenfootImage("images/incrementRightPressed.png");
+        
+        GreenfootImage [] leftButtonImgs = {leftButtonImg, leftButtonImg1, leftButtonImg2};
+        GreenfootImage [] rightButtonImgs = {rightButtonImg, rightButtonImg1, rightButtonImg2};
+        
+        dayCounter = new ButtonIncrement(225, 50, 125, 50, "# of Days", leftButtonImgs, rightButtonImgs);
+        addObject(dayCounter, 150, getHeight()/2);
         GreenfootImage leaveButtonImg1 = new GreenfootImage("images/goButton.png");
         GreenfootImage leaveButtonImg2 = new GreenfootImage("images/goButtonHovered.png");
         GreenfootImage leaveButtonImg3 = new GreenfootImage("images/goButtonPressed.png");
@@ -36,6 +54,12 @@ public class SettingsWorld extends CursorWorld
         
         addObject(leaveButton, getWidth()/2, getHeight() - 100);
     }
+    public void stopped() {
+        settingsWorldMusic.pause(); 
+    }
+    public void started() {
+        settingsWorldMusic.playLoop();
+    }
     private void onClick(){
         rabbitCount = animalSelect.getNumOfRabbits();
         goatCount = animalSelect.getNumOfGoats();
@@ -45,7 +69,10 @@ public class SettingsWorld extends CursorWorld
         goatEnergy = animalSelect.getEnergyOfGoat();
         vultureEnergy = animalSelect.getEnergyOfVultures();
         wolfEnergy = animalSelect.getEnergyOfWolves();
+        simulationLength = dayCounter.getValue();
         Greenfoot.setWorld(new DrawWorld());
+        
+        settingsWorldMusic.stop();
     }
     public static int getNumOfGoatToSpawn(){
         return goatCount;
@@ -71,5 +98,7 @@ public class SettingsWorld extends CursorWorld
     public static int getStartEnergyOfVulture(){
         return vultureEnergy;
     }
-    
+    public static int getSimulationLength(){
+        return simulationLength;
+    }
 }

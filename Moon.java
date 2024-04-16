@@ -17,7 +17,7 @@ public class Moon extends SuperActor
     public Moon()
     {
         moon = new GreenfootImage("images/Moon.png");
-        moon.scale(250*3/4, 250*3/4);
+        moon.scale(250*2/4, 250*2/4);
         moon.mirrorHorizontally();
         moon.setTransparency(0);
         setImage(moon);

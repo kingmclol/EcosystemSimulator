@@ -32,6 +32,7 @@ public class TreeTile extends Tile
         heightLevel = 2;
         lifespan = getLifespan();
         aboutToDie = false;
+        index = Greenfoot.getRandomNumber(3);
         for(int i = 0; i<3; i++)
         {
             animationNormal[i] = new GreenfootImage("images/tile_trees/tile_trees" + (i+1) + ".png");

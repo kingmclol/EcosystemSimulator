@@ -16,7 +16,7 @@ public class Sun extends SuperActor
     public Sun()
     {
         sun = new GreenfootImage("images/Sun.png");
-        sun.scale(250*3/4, 250*3/4);
+        sun.scale(250*2/4, 250*2/4);
         sun.setTransparency(180);
         setImage(sun);
     }

@@ -148,7 +148,7 @@ public abstract class Animal extends SuperActor {
             animate();
         }
 
-        inTree();
+        
 
         if (wantToEat && !breeding) { // If want to eat, and am not in any spicy situations...
             objective = AnimalObjective.FIND_FOOD; // Find something to eat.
@@ -183,6 +183,7 @@ public abstract class Animal extends SuperActor {
                 baby = false;
             }
         }
+        //inTree();
     }
 
     public boolean isAlive() {
@@ -318,7 +319,7 @@ public abstract class Animal extends SuperActor {
         }
     }
 
-    public void inTree()
+    /*public void inTree()
     {
         List<Tile> currentTiles = getIntersectingObjects(Tile.class);
         boolean isOnTreeTile = false;
@@ -342,7 +343,7 @@ public abstract class Animal extends SuperActor {
             temp.setTransparency(255);
             setImage(temp);
         }
-    }
+    }*/
 
     public static void setSnowing(boolean snowing) {
         isSnowing = snowing; 

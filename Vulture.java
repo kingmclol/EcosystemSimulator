@@ -18,7 +18,7 @@ public class Vulture extends Animal
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfVulture();
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
@@ -30,7 +30,7 @@ public class Vulture extends Animal
         defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
         currentSpeed = defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfVulture();
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;

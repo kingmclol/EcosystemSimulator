@@ -98,6 +98,7 @@ public abstract class Animal extends SuperActor {
         enableStaticRotation();
     }
 
+
     public void act() {
         if (!alive) { // Animal is not alive, so no need to do anything other than disappear after a while
             if (currentTile instanceof WaterTile) { // died on a water tile.

@@ -21,7 +21,7 @@ public class Goat extends Animal
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfGoat();
         walkHeight = 2;
         breedingThreshold = 2000;
         for(int i = 0; i<3; i++)

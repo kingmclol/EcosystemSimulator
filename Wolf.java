@@ -28,7 +28,7 @@ public class Wolf extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
-        viewRadius = 700;
+        viewRadius = SettingsWorld.getStartEnergyOfWolf();
         walkHeight = 1;
         breedingThreshold = 2500;
         for(int i = 0; i<4; i++)
@@ -53,7 +53,7 @@ public class Wolf extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
-        viewRadius = 700;
+        viewRadius = SettingsWorld.getStartEnergyOfWolf();
         walkHeight = 1;
         breedingThreshold = 2500;
         for(int i = 0; i<4; i++)

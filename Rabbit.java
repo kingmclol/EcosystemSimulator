@@ -45,7 +45,7 @@ public class Rabbit extends Animal
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfRabbit();
         breedingThreshold = 2000;
         numOfRabbits++;
     }
@@ -71,7 +71,7 @@ public class Rabbit extends Animal
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfRabbit();
         breedingThreshold = 2000;
         numOfRabbits++;
     }

@@ -15,7 +15,7 @@ public class Vulture extends Animal
     public Vulture(boolean isBaby) {
         super(isBaby);
         energy = 3500;
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfVulture();
@@ -27,7 +27,7 @@ public class Vulture extends Animal
     public Vulture() {
         super(false);
         energy = 3500;
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfVulture();

@@ -17,7 +17,7 @@ public class Goat extends Animal
     
     public Goat(boolean isBaby) {
         super(isBaby);
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
@@ -37,7 +37,7 @@ public class Goat extends Animal
 
     public Goat() {
         super(false);
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;

@@ -41,7 +41,7 @@ public class Rabbit extends Animal
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
@@ -67,7 +67,7 @@ public class Rabbit extends Animal
             eatingAnimationRight[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
             eatingAnimationLeft[i] = new GreenfootImage("images/Rabbit/Eating/Up/Eating" + (i+1) + ".png");
         }
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.5;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;

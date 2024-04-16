@@ -244,6 +244,10 @@ public class Wolf extends Animal
         }
     }
     
+    public static int getNumOfWolves() {
+        return numOfWolves;
+    }
+    
     public static void decreaseNumOfWolves(){
         numOfWolves = numOfWolves - 1;
     }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Collections;
 
 /**
- * Write a description of class Animal here.
+ * Animal Superclass
  * 
 
  * <p>Animals are an SuperActor that moves around the ecosyteem, and has unique interactions with each other. Animals constantly

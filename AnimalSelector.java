@@ -38,7 +38,7 @@ public class AnimalSelector extends UI
         sliders = new Slider[4];
         for (int i = 0; i < buttonIncrementers.length; i++){
             buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 50, "Num", leftButtonImgs, rightButtonImgs);
-            sliders[i] = new Slider(250, 1000, "Energy");
+            sliders[i] = new Slider(250, 100, 500, "View Distance");
         }
         for(int i = 0; i < 3; i ++){
             leftButtonImgs[i] = new GreenfootImage(leftButtonImgs[i]);

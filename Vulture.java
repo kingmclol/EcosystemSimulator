@@ -69,6 +69,16 @@ public class Vulture extends Animal
            eatingAnimationDown[i] = new GreenfootImage("images/Vulture/Eating/Down/Down" + (i+1) + ".png");
            eatingAnimationLeft[i] = new GreenfootImage("images/Vulture/Eating/Left/Left" + (i+1) + ".png");
            eatingAnimationRight[i] = new GreenfootImage("images/Vulture/Eating/Right/Right" + (i+1) + ".png");
+           
+           walkingAnimationUp[i].scale(walkingAnimationUp[i].getWidth()*3/2, walkingAnimationUp[i].getHeight()*3/2);
+           walkingAnimationDown[i].scale(walkingAnimationDown[i].getWidth()*3/2, walkingAnimationDown[i].getHeight()*3/2);
+           walkingAnimationRight[i].scale(walkingAnimationRight[i].getWidth()*3/2, walkingAnimationRight[i].getHeight()*3/2);
+           walkingAnimationLeft[i].scale(walkingAnimationLeft[i].getWidth()*3/2, walkingAnimationLeft[i].getHeight()*3/2);
+           
+           eatingAnimationUp[i].scale(eatingAnimationUp[i].getWidth()*3/2, eatingAnimationUp[i].getHeight()*3/2);
+           eatingAnimationDown[i].scale(eatingAnimationDown[i].getWidth()*3/2, eatingAnimationDown[i].getHeight()*3/2);
+           eatingAnimationRight[i].scale(eatingAnimationRight[i].getWidth()*3/2, eatingAnimationRight[i].getHeight()*3/2);
+           eatingAnimationDown[i].scale(eatingAnimationDown[i].getWidth()*3/2, eatingAnimationDown[i].getHeight()*3/2);
         }
     }
 

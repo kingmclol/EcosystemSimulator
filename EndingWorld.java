@@ -13,6 +13,7 @@ public class EndingWorld extends CursorWorld
      * Constructor for objects of class EndingWorld.
      * 
      */
+    private GreenfootSound storyWorldMusic;
     private static String[] dialogue;
     private static TextBox dialogueBox;
     private static BreathingTextBox promptBox;
@@ -22,7 +23,7 @@ public class EndingWorld extends CursorWorld
     private static int lineForButtonToAppear;
     private static int lineForEventPictureToAppear;
     private static boolean goodEnding;
-    // private static Picture eventPicture; WIP
+    private static Picture eventPicture;
     /**
      * Creates an EndingWorld. The ending type is determined based on the boolean given/
      */
@@ -30,6 +31,9 @@ public class EndingWorld extends CursorWorld
     {
         super(); 
         this.goodEnding = goodEnding;
+        storyWorldMusic = new GreenfootSound("Storyworld.mp3");
+        storyWorldMusic.playLoop();
+
         visibleActCount = 0;
         GreenfootImage backgroundImage = new GreenfootImage(1024, 768);
         backgroundImage.setColor(Color.BLACK);
@@ -42,7 +46,7 @@ public class EndingWorld extends CursorWorld
             dialogue = new String[]{
                 "Ah. Sorry about that.",
                 "Those who are above even *I* did not make transitions between Worlds.",
-                "But if you haven't noticed, your seven days are over.",
+                "But if you haven't noticed, your " + SettingsWorld.getSimulationLength() + " days are over.",
                 "I'm reluctant to come back, but I don't have a choice.",
                 "The Voices speak of \"needing two endings.\"",
                 "Now, let me see...",
@@ -53,7 +57,7 @@ public class EndingWorld extends CursorWorld
                 ". . .",
                 "I guess it's time to say goodbye.",
                 "But before you press that button, and Reset everything, I'll just say something.",
-                "Tell the creators of this game that they suck at coding.",
+                "Tell whoever wrote the code for this World that they suck at coding.",
                 "At the same time, tell whoever wrote my lines that they should never cook again.",
                 "Haha! Seems like I'll get the last laugh this time.",
                 "Go. Press the button. Click it, actually. You're probably using a mouse.",
@@ -70,7 +74,7 @@ public class EndingWorld extends CursorWorld
                 "Well then, have fun with a BreathingTextBox then."                
             };
             
-            //eventPicture = new Picture("cat.png");
+            eventPicture = new Picture("cat.jpg", 0.25, 0.25);
         }
         else { // Bad ending sequence.
             lineForEventPictureToAppear = 6; // appears on line 6 (zero indexed);
@@ -94,7 +98,7 @@ public class EndingWorld extends CursorWorld
                 "I'm not going to talk with you anymore."
             };
             
-            //picture = new Picture("scaredSonic.png");
+            eventPicture = new Picture("traumatized_sonic.jpg", 0.5, 0.5);
         }
         line = 0;
         
@@ -102,7 +106,13 @@ public class EndingWorld extends CursorWorld
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
         promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
-        nextWorldButton = new Button(() -> Greenfoot.setWorld(new IntroWorld()), 200, 75);
+        nextWorldButton = new Button(() -> goToNextWorld(), 200, 75);
+    }
+    public void started() {
+        storyWorldMusic.playLoop();
+    }
+    public void stopped() {
+        storyWorldMusic.pause();
     }
     public void act() {
         if (stillMoreDialogue() && Greenfoot.mousePressed(null)) { // Progresses the dialogue, if still exists.
@@ -122,17 +132,22 @@ public class EndingWorld extends CursorWorld
         
         // If should add the next world button at this current line, do so.
         if (line == lineForButtonToAppear && nextWorldButton.getWorld() == null) {
-            addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 50);
+            addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 300);
         }
-        // else if (line == lineForEventPictureToAppear && eventPicture.getWorld() == null) {
-            // addObject(eventPicture, getWidth()/2, getHeight()/2);
-        // }
+        else if (line == lineForEventPictureToAppear && eventPicture.getWorld() == null) {
+            dialogueBox.setLocation(getWidth()/2, getHeight()/2-200); // move up a bit.
+            addObject(eventPicture, getWidth()/2, getHeight()/2); // add the event picture to the world.
+        }
         
         // After 3 seconds after the last line in the good ending, add the breathing text box instead.
         if (goodEnding && !stillMoreDialogue() && visibleActCount >= 180 && dialogueBox.getWorld() != null) {
             removeObject(dialogueBox); // no need for it anymore. replace with the breathing text box.
             addObject(new BreathingTextBox("YOU WIN", 76, Color.WHITE, null, 60), getWidth()/2, getHeight()/2-200);
         }
+    }
+    private void goToNextWorld() {
+        storyWorldMusic.stop();
+        Greenfoot.setWorld(new IntroWorld());
     }
     private void playDialogue(int line) {
         dialogueBox.display(dialogue[line]);

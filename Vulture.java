@@ -12,28 +12,74 @@ public class Vulture extends Animal
     private Animal targetAnimal;
     private static int numOfVultures = 0;
     
+    //Animation:
+    private int indexAnimation = 0;
+    private GreenfootImage[] eatingAnimationUp = new GreenfootImage[3];
+    private GreenfootImage[] eatingAnimationDown = new GreenfootImage[3];
+    private GreenfootImage[] eatingAnimationLeft = new GreenfootImage[3];
+    private GreenfootImage[] eatingAnimationRight = new GreenfootImage[3];
+
+    private GreenfootImage[] walkingAnimationUp = new GreenfootImage[3];
+    private GreenfootImage[] walkingAnimationDown = new GreenfootImage[3];
+    private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[3];
+    private GreenfootImage[] walkingAnimationRight = new GreenfootImage[3];
+    //https://www.deviantart.com/lostchild14000/art/Animal-Sprite-Sheet-654707851
     public Vulture(boolean isBaby) {
         super(isBaby);
         energy = 3500;
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfVulture();
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
+        for(int i = 0; i<3; i++)
+        {
+           walkingAnimationUp[i] = new GreenfootImage("images/Vulture/Walking/Up/Up" + (i+1) + ".png");
+           walkingAnimationDown[i] = new GreenfootImage("images/Vulture/Walking/Down/Down" + (i+1) + ".png");
+           walkingAnimationLeft[i] = new GreenfootImage("images/Vulture/Walking/Left/Left" + (i+1) + ".png");
+           walkingAnimationRight[i] = new GreenfootImage("images/Vulture/Walking/Right/Right" + (i+1) + ".png");
+           
+           eatingAnimationUp[i] = new GreenfootImage("images/Vulture/Eating/Up/Up" + (i+1) + ".png");
+           eatingAnimationDown[i] = new GreenfootImage("images/Vulture/Eating/Down/Down" + (i+1) + ".png");
+           eatingAnimationLeft[i] = new GreenfootImage("images/Vulture/Eating/Left/Left" + (i+1) + ".png");
+           eatingAnimationRight[i] = new GreenfootImage("images/Vulture/Eating/Right/Right" + (i+1) + ".png");
+        }
     }
     
     public Vulture() {
         super(false);
         energy = 3500;
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfVulture();
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
+        for(int i = 0; i<3; i++)
+        {
+           walkingAnimationUp[i] = new GreenfootImage("images/Vulture/Walking/Up/Up" + (i+1) + ".png");
+           walkingAnimationDown[i] = new GreenfootImage("images/Vulture/Walking/Down/Down" + (i+1) + ".png");
+           walkingAnimationLeft[i] = new GreenfootImage("images/Vulture/Walking/Left/Left" + (i+1) + ".png");
+           walkingAnimationRight[i] = new GreenfootImage("images/Vulture/Walking/Right/Right" + (i+1) + ".png");
+           
+           eatingAnimationUp[i] = new GreenfootImage("images/Vulture/Eating/Up/Up" + (i+1) + ".png");
+           eatingAnimationDown[i] = new GreenfootImage("images/Vulture/Eating/Down/Down" + (i+1) + ".png");
+           eatingAnimationLeft[i] = new GreenfootImage("images/Vulture/Eating/Left/Left" + (i+1) + ".png");
+           eatingAnimationRight[i] = new GreenfootImage("images/Vulture/Eating/Right/Right" + (i+1) + ".png");
+           
+           walkingAnimationUp[i].scale(walkingAnimationUp[i].getWidth()*3/2, walkingAnimationUp[i].getHeight()*3/2);
+           walkingAnimationDown[i].scale(walkingAnimationDown[i].getWidth()*3/2, walkingAnimationDown[i].getHeight()*3/2);
+           walkingAnimationRight[i].scale(walkingAnimationRight[i].getWidth()*3/2, walkingAnimationRight[i].getHeight()*3/2);
+           walkingAnimationLeft[i].scale(walkingAnimationLeft[i].getWidth()*3/2, walkingAnimationLeft[i].getHeight()*3/2);
+           
+           eatingAnimationUp[i].scale(eatingAnimationUp[i].getWidth()*3/2, eatingAnimationUp[i].getHeight()*3/2);
+           eatingAnimationDown[i].scale(eatingAnimationDown[i].getWidth()*3/2, eatingAnimationDown[i].getHeight()*3/2);
+           eatingAnimationRight[i].scale(eatingAnimationRight[i].getWidth()*3/2, eatingAnimationRight[i].getHeight()*3/2);
+           eatingAnimationDown[i].scale(eatingAnimationDown[i].getWidth()*3/2, eatingAnimationDown[i].getHeight()*3/2);
+        }
     }
 
     /**
@@ -129,7 +175,52 @@ public class Vulture extends Animal
 
     public void animate()
     {
-
+        if(eating)
+        {
+            if(facing.equals("right"))
+            {
+                setImage(eatingAnimationRight[indexAnimation]);
+            }
+            else if(facing.equals("left"))
+            {
+                setImage(eatingAnimationLeft[indexAnimation]);
+            }
+            else if(facing.equals("up"))
+            {
+                setImage(eatingAnimationUp[indexAnimation]);
+            }
+            else // Down
+            {
+                setImage(eatingAnimationDown[indexAnimation]);
+            }
+        }
+        else
+        {
+            if(facing.equals("right"))
+            {
+                setImage(walkingAnimationRight[indexAnimation]);
+            }
+            else if(facing.equals("left"))
+            {
+                setImage(walkingAnimationLeft[indexAnimation]);
+            }
+            else if(facing.equals("up"))
+            {
+                setImage(walkingAnimationUp[indexAnimation]);
+            }
+            else // Down
+            {
+                setImage(walkingAnimationDown[indexAnimation]);
+            }
+        }
+        if(currentAct%10 == 0) // change animation every 20 acts
+        {
+            indexAnimation = (indexAnimation + 1)%(eatingAnimationRight.length);
+        }
+    }
+    
+    public static int getNumOfVultures() {
+        return numOfVultures;
     }
     
     public static void decreaseNumOfVultures(){

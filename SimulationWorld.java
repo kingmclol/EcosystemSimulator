@@ -9,8 +9,9 @@ import java.util.ArrayList; // (World, Actor, GreenfootImage, Greenfoot and Mous
 public class SimulationWorld extends World
 {
 
-    private static boolean isNight = false; 
-    
+    private static boolean isNight; 
+    private static boolean isRaining;
+    private static boolean isSnowing; 
     private int actCount; 
 
 
@@ -19,7 +20,7 @@ public class SimulationWorld extends World
     private int dayCount; 
     private int hours; 
     private int time; 
-    
+    private int endingDay;
     private SuperDisplayLabel scoreBar; 
     private GreenfootSound simulationSound;
     /**
@@ -47,18 +48,22 @@ public class SimulationWorld extends World
         dayCount = 0;
         time = 8;
         hours = 0;
-        
+        endingDay = SettingsWorld.getSimulationLength();
         simulationSound = new GreenfootSound("naturesounds.mp3");
         simulationSound.playLoop();
         scoreBar = new SuperDisplayLabel (Color.BLACK, Color.WHITE, new Font ("Trebuchet", true, false, 24), 48, " ");
-	
-        scoreBar.setLabels(new String[] {"Day: ","Time: "});
+        
+        isRaining=  false;
+        isNight = false;
+        isSnowing = false; 
+        
+        scoreBar.setLabels(new String[] {"Day: ","Time: ", "Goat:", "Rabbit: ", "Vulture: ", "Wolf: "});
         addObject(scoreBar, 504, 24);
         addObject(new Sun(), 900, 200);
         addObject(new Moon(), 100, 810);
     }
     
-	public void started() {
+    public void started() {
         simulationSound.playLoop();
     }
     public void stopped() {
@@ -68,6 +73,18 @@ public class SimulationWorld extends World
     {
         actCount++; 
         spawn();
+        ArrayList<Animal> aliveAnimals = (ArrayList<Animal>)getObjects(Animal.class);
+        aliveAnimals.removeIf(a -> !a.isAlive());
+        if (aliveAnimals.size() == 0) {
+            simulationSound.stop();
+            Greenfoot.setWorld(new EndingWorld(false));
+        }
+        if (dayCount == endingDay) {
+            simulationSound.stop();
+            Rain.stopRainSound();
+            Snowstorm.stopSnowSound(); 
+            Greenfoot.setWorld(new EndingWorld(true));
+        }
     }
     public void spawn() 
     {
@@ -75,9 +92,17 @@ public class SimulationWorld extends World
             addObject(new Night(), 0, 0);
             actCount = 0;
         }
+        if (!isRaining && Greenfoot.getRandomNumber(1200) == 0) {
+            addObject(new Rain(), 0, 0);
+            isRaining = true;
+        }
+        if (!isSnowing && Greenfoot.getRandomNumber(1200) == 0) {
+            addObject(new Snowstorm(), 0, 0);
+            isSnowing = true; 
+        }
 
         statUpdates(); 
-        scoreBar.update(new int[]{dayCount, time}); 
+        scoreBar.update(new int[]{dayCount, time, Goat.getNumOfGoats(), Rabbit.getNumOfRabbits(), Vulture.getNumOfVultures(), Wolf.getNumOfWolves()}); 
     }
     private void spawnAnimals(String animal, int num) 
     {
@@ -108,7 +133,12 @@ public class SimulationWorld extends World
     {
         return isNight;
     }
-    
+    public static void setSnowing(boolean isSnowing) {
+        SimulationWorld.isSnowing = isSnowing; 
+    }
+    public static void setRaining(boolean isRaining) {
+        SimulationWorld.isRaining = isRaining;
+    }
     public void statUpdates() {
         if (actCount % 100 == 0) {
             time += 1;

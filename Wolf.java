@@ -23,12 +23,12 @@ public class Wolf extends Animal
     
     public Wolf(boolean isBaby) {
         super(isBaby);
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
-        viewRadius = 700;
+        viewRadius = SettingsWorld.getStartEnergyOfWolf();
         walkHeight = 1;
         breedingThreshold = 2500;
         for(int i = 0; i<4; i++)
@@ -48,12 +48,12 @@ public class Wolf extends Animal
     
     public Wolf() {
         super(false);
-        defaultSpeed = ((double)Greenfoot.getRandomNumber(11)/100.0) + 0.7;
+        defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
-        viewRadius = 700;
+        viewRadius = SettingsWorld.getStartEnergyOfWolf();
         walkHeight = 1;
         breedingThreshold = 2500;
         for(int i = 0; i<4; i++)
@@ -242,6 +242,10 @@ public class Wolf extends Animal
                 indexAnimation = (indexAnimation + 1)%(walkingAnimationRight.length);
             }
         }
+    }
+    
+    public static int getNumOfWolves() {
+        return numOfWolves;
     }
     
     public static void decreaseNumOfWolves(){

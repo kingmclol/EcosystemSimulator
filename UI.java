@@ -45,7 +45,7 @@ public abstract class UI extends SuperActor
         buttonSoundsIndex = 0;
         buttonSounds = new GreenfootSound[48];
         for (int i = 0; i < buttonSounds.length; i++) {
-            buttonSounds[i] = new GreenfootSound("Button.mp3");
+            buttonSounds[i] = new GreenfootSound("Button.wav");
             buttonSounds[i].play();
             Greenfoot.delay(1);
             buttonSounds[i].stop(); 

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Collections;
 
 /**
- * Write a description of class Animal here.
+ * Animal Superclass
  * 
 
  * <p>Animals are an SuperActor that moves around the ecosyteem, and has unique interactions with each other. Animals constantly
@@ -98,14 +98,15 @@ public abstract class Animal extends SuperActor {
         enableStaticRotation();
     }
 
+
     public void act() {
         if (!alive) { // Animal is not alive, so no need to do anything other than disappear after a while
             if (currentTile instanceof WaterTile) { // died on a water tile.
-                fadeAway();
+                decreaseTransparency(1);
             }
             actsSinceDeath++;
             if(actsSinceDeath >= 1500){ // Animal decomposes after a while
-                fadeAway();
+                decreaseTransparency(1);
             }
             return; // Nothing else to do.
         }
@@ -151,6 +152,7 @@ public abstract class Animal extends SuperActor {
             animate();
         }
 
+
         if (wantToEat && !breeding) { // If want to eat, and not breeding
             objective = AnimalObjective.FIND_FOOD; // Find something to eat.
         } 
@@ -184,6 +186,7 @@ public abstract class Animal extends SuperActor {
                 baby = false;
             }
         }
+        //inTree();
     }
     
     /**
@@ -360,7 +363,11 @@ public abstract class Animal extends SuperActor {
         return facing;
     }
     
-    
+    /**
+     * Method to decrease transparency of objects
+     * 
+     * @param specific value of decrease 
+     */
     public void decreaseTransparency(int value) {
         transparency = transparency - value;
         getImage().setTransparency(transparency);
@@ -369,14 +376,11 @@ public abstract class Animal extends SuperActor {
         }
     }
 
-    public void fadeAway() {
-        transparency--;
-        getImage().setTransparency(transparency);
-        if(transparency <= 0){
-            getWorld().removeObject(this);
-        }
-    }
-
+    
+    /**
+     * Method checks for animals on tree tiles, and decreases their
+     * transparency if they are on one
+     */
     public void inTree()
     {
         List<Tile> currentTiles = getIntersectingObjects(Tile.class);
@@ -402,7 +406,12 @@ public abstract class Animal extends SuperActor {
             setImage(temp);
         }
     }
-
+    
+    /**
+     * Setter method for snowing variable
+     * 
+     * @param snowing  boolean for if it is currently snowing
+     */
     public static void setSnowing(boolean snowing) {
         isSnowing = snowing; 
     }

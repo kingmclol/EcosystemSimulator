@@ -94,8 +94,8 @@ public abstract class SuperActor extends SuperSmoothMover
             
             Tile currentTile = Board.getTile(getPosition()); // to validate my current position.
             if (currentTile.getHeightLevel() > maxTileHeight) { // Somehow, am at a tile i shouldn't be in... possibly, at a corner between two walkable tiles.
-                for (int i = 0; i < 3; i++) { // Attempt three times to find a proper position to be in.
-                    Vector extraDisplacement = new Vector(Greenfoot.getRandomNumber(3), Greenfoot.getRandomNumber(3));
+                for (int i = 0; i < 5; i++) { // Attempt three times to find a proper position to be in.
+                    Vector extraDisplacement = new Vector(Greenfoot.getRandomNumber(5), Greenfoot.getRandomNumber(5));
                     currentNode = Board.getNodeWithRealPosition(getPosition().add(extraDisplacement)); // nudge my position around slightly, to attempt to find a valid position.
                     currentTile = Board.getTile(Board.getRealPositionWithNode(currentNode));
                     if (currentTile.getHeightLevel() <= maxTileHeight) { // now starting from a valid tile! yay!

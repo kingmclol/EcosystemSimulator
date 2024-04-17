@@ -46,10 +46,11 @@ public class UIAnimal extends UI
             }
         }
         else if(animal.equals("vulture")){
-            animation = new GreenfootImage[5];
-            for(int i = 0; i<5; i++)
+            animation = new GreenfootImage[3];
+            for(int i = 0; i<3; i++)
             {
-                animation[i] = new GreenfootImage("images/Wolf/Walking/Right/Right" + (i+1) + ".png");
+                animation[i] = new GreenfootImage("images/Vulture/Walking/Right/Right" + (i+1) + ".png");
+                animation[i].scale(animation[i].getWidth()*2, animation[i].getHeight()*2);
             }
         }
         setImage(animation[0]);

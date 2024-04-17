@@ -11,7 +11,7 @@ public class Vulture extends Animal
 {
     private Animal targetAnimal;
     private static int numOfVultures = 0;
-    
+    private double huntSpeed;
     //Animation:
     private int indexAnimation = 0;
     private GreenfootImage[] eatingAnimationUp = new GreenfootImage[3];
@@ -29,6 +29,7 @@ public class Vulture extends Animal
         energy = 3500;
         defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
+        huntSpeed = 1.2 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfVulture();
         walkHeight = 3;
@@ -53,6 +54,7 @@ public class Vulture extends Animal
         energy = 3500;
         defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
+        huntSpeed = 1.2 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfVulture();
         walkHeight = 3;
@@ -95,6 +97,10 @@ public class Vulture extends Animal
             ableToBreed = true;
         }else{
             ableToBreed = false;
+        }
+        
+        if(!wantToEat){
+            currentSpeed = defaultSpeed;
         }
     }
 
@@ -153,6 +159,7 @@ public class Vulture extends Animal
         
         if (target instanceof Animal){ // if target exists
             Animal targetPrey = (Animal) target; // cast as type Anial
+            currentSpeed = huntSpeed;
             
             if (targetPrey.getWorld() == null) { // check for retargeting required
                 eating = false;

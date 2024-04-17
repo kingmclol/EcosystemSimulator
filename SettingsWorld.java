@@ -13,11 +13,11 @@ public class SettingsWorld extends CursorWorld
     private static int rabbitEnergy;
     private static int vultureEnergy;
     private static int simulationLength;
-    private ButtonIncrement dayCounter;
+    private Slider dayCounter;
     
     private Button leaveButton;
     private AnimalSelector animalSelect;
-    private Slider slider;
+    
     public SettingsWorld()
     {    
         super();
@@ -42,7 +42,7 @@ public class SettingsWorld extends CursorWorld
         GreenfootImage [] leftButtonImgs = {leftButtonImg, leftButtonImg1, leftButtonImg2};
         GreenfootImage [] rightButtonImgs = {rightButtonImg, rightButtonImg1, rightButtonImg2};
         
-        dayCounter = new ButtonIncrement(225, 50, 125, 50, "# of Days", leftButtonImgs, rightButtonImgs);
+        dayCounter = new Slider(200, 1, 50, "# of Days");
         addObject(dayCounter, 150, getHeight()/2);
         GreenfootImage leaveButtonImg1 = new GreenfootImage("images/goButton.png");
         GreenfootImage leaveButtonImg2 = new GreenfootImage("images/goButtonHovered.png");

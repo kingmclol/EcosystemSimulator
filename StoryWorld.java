@@ -81,7 +81,6 @@ public class StoryWorld extends CursorWorld
         
         if (!stillMoreDialogue() && nextWorldButton.getWorld() == null) { // once dialogue is exhausted, add the next world button.
             addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 50);
-            storyWorldMusic.pause();
         }
     }
     private void goToNextWorld() {

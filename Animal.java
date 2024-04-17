@@ -270,10 +270,10 @@ public abstract class Animal extends SuperActor {
     /**
      * Getter method to access energy value
      * 
-     * @return energy   current energy value of animal
+     * @return hp   current hp value of animal
      */
-    public int getEnergy() {
-        return energy;
+    public int getHp() {
+        return hp;
     }
 
     /**

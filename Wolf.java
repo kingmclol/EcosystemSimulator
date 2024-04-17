@@ -148,7 +148,6 @@ public class Wolf extends Animal
                 target = search; // found one.
             }
         }
-        
 
         if (target instanceof Animal) {
             Animal targetPrey = (Animal) target; // cast into Animal to access instance methods.
@@ -162,10 +161,6 @@ public class Wolf extends Animal
             else if (distanceFrom(targetPrey) < 5) { // close enough, eat it
                 eating = true;
                 targetPrey.takeDamage(30);
-                if (targetPrey.getEnergy() <= 0) {
-                    targetPrey.disableStaticRotation();
-                    targetPrey.setRotation(90);
-                }
                 eat(40);
             }
             else { // too far, move closer.

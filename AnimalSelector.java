@@ -38,15 +38,16 @@ public class AnimalSelector extends UI
         sliders = new Slider[4];
         for (int i = 0; i < buttonIncrementers.length; i++){
             buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 50, "Num", leftButtonImgs, rightButtonImgs);
-            sliders[i] = new Slider(250, 100, 500, "View Distance");
+            
         }
         for(int i = 0; i < 3; i ++){
+            sliders[i] = new Slider(250, 100, 500, "View Distance");
             leftButtonImgs[i] = new GreenfootImage(leftButtonImgs[i]);
             leftButtonImgs[i].scale(75, 75);
             rightButtonImgs[i] = new GreenfootImage(rightButtonImgs[i]);
             rightButtonImgs[i].scale(75, 75);
         }
-
+        sliders[3] = new Slider(250, 300, 1100, "View Distance");
         decrementButton = new Button(this::decrementValue, 100, 100, leftButtonImgs[0], leftButtonImgs[1], leftButtonImgs[2]);
         incrementButton = new Button(this::incrementValue,100, 100, rightButtonImgs[0], rightButtonImgs[1], rightButtonImgs[2]);
     }

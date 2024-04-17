@@ -122,7 +122,7 @@ public abstract class Animal extends SuperActor {
 
         currentTile = Board.getTile(getPosition()); //gets the current tile the animal is on
 
-        if(currentTile instanceof WaterTile){ // If the animal is on a water tile right now
+        if(currentTile instanceof WaterTile && !(this instanceof Vulture)){ // If the animal is on a water tile right now
             swimming = true; // it is swmming.
             currentSpeed = waterSpeed; // adjust speed accordingly.
         }else{ // otherwise, it is moving normally.

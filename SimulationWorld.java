@@ -11,6 +11,7 @@ public class SimulationWorld extends World
 
     private static boolean isNight; 
     private static boolean isRaining;
+    private static boolean isSnowing; 
     private int actCount; 
 
 
@@ -54,6 +55,7 @@ public class SimulationWorld extends World
         
         isRaining=  false;
         isNight = false;
+        isSnowing = false; 
         
         scoreBar.setLabels(new String[] {"Day: ","Time: ", "Goat:", "Rabbit: ", "Vulture: ", "Wolf: "});
         addObject(scoreBar, 504, 24);
@@ -80,6 +82,7 @@ public class SimulationWorld extends World
         if (dayCount == endingDay) {
             simulationSound.stop();
             Rain.stopRainSound();
+            Snowstorm.stopSnowSound(); 
             Greenfoot.setWorld(new EndingWorld(true));
         }
     }
@@ -92,6 +95,10 @@ public class SimulationWorld extends World
         if (!isRaining && Greenfoot.getRandomNumber(1200) == 0) {
             addObject(new Rain(), 0, 0);
             isRaining = true;
+        }
+        if (!isSnowing && Greenfoot.getRandomNumber(1200) == 0) {
+            addObject(new Snowstorm(), 0, 0);
+            isSnowing = true; 
         }
 
         statUpdates(); 
@@ -125,6 +132,9 @@ public class SimulationWorld extends World
     public static boolean getNight()
     {
         return isNight;
+    }
+    public static void setSnowing(boolean isSnowing) {
+        SimulationWorld.isSnowing = isSnowing; 
     }
     public static void setRaining(boolean isRaining) {
         SimulationWorld.isRaining = isRaining;

@@ -9,9 +9,9 @@ import java.util.ArrayList;
  */
 public class Snowstorm extends Effect
 {
-    private GreenfootSound snowSound;
+    private static GreenfootSound snowSound = new GreenfootSound("snowstorm.mp3");
     public Snowstorm () {
-        super(300, 50);
+        super(600, 100);
     }
 
     public void addedToWorld (World w){
@@ -21,9 +21,8 @@ public class Snowstorm extends Effect
         setImage(image);
         setLocation (w.getWidth()/ 2, w.getHeight()/2);
         
-        snowSound =  new GreenfootSound("snowstorm.wav"); 
         snowSound.setVolume(100);
-        snowSound.play(); 
+        snowSound.playLoop(); 
     }
 
     /**
@@ -38,11 +37,15 @@ public class Snowstorm extends Effect
         slowAnimals();
     }
     public void stopEffect() {
+        world.setSnowing(false); 
         Animal.setSnowing(false);
     }
     public void slowAnimals()
     {
         Animal.setSnowing(true);
         return;
+    }
+    public static void stopSnowSound() {
+        snowSound.stop(); 
     }
 }

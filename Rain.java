@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Rain extends Effect
 {
-    private static GreenfootSound rainSound = new GreenfootSound("Rain.wav");    
+    private static GreenfootSound rainSound = new GreenfootSound("Rain.mp3");    
     public Rain() {
         super(600, 100);
     }

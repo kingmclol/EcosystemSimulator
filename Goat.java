@@ -15,6 +15,8 @@ public class Goat extends Animal
     private int indexAnimation = 0;
     private static int numOfGoats = 0;
     
+    private GreenfootSound goatSound; 
+    
     public Goat(boolean isBaby) {
         super(isBaby);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.5;
@@ -24,6 +26,9 @@ public class Goat extends Animal
         viewRadius = SettingsWorld.getStartEnergyOfGoat();
         walkHeight = 2;
         breedingThreshold = 2000;
+        
+        goatSound = new GreenfootSound("goatsound.mp3");
+        goatSound.setVolume(50);
         for(int i = 0; i<3; i++)
         {
             animationUp[i] = new GreenfootImage("images/Goat/Up/Up" + (i+1) + ".png");
@@ -44,6 +49,9 @@ public class Goat extends Animal
         viewRadius = 400;
         walkHeight = 2;
         breedingThreshold = 2000;
+        
+        goatSound = new GreenfootSound("goatsound.mp3");
+        goatSound.setVolume(50);
         for(int i = 0; i < 3; i++)
         {
             animationUp[i] = new GreenfootImage("images/Goat/Up/Up" + (i+1) + ".png");
@@ -67,6 +75,9 @@ public class Goat extends Animal
             ableToBreed = true;
         }else{
             ableToBreed = false;
+        }
+        if (Greenfoot.getRandomNumber(12000) == 0) {
+            goatSound.play();
         }
     }
 

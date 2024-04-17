@@ -92,13 +92,16 @@ public class SimulationWorld extends World
             addObject(new Night(), 0, 0);
             actCount = 0;
         }
-        if (!isRaining && Greenfoot.getRandomNumber(1200) == 0) {
-            addObject(new Rain(), 0, 0);
-            isRaining = true;
-        }
-        if (!isSnowing && Greenfoot.getRandomNumber(1200) == 0) {
-            addObject(new Snowstorm(), 0, 0);
-            isSnowing = true; 
+        if (!isRaining && !isSnowing && Greenfoot.getRandomNumber(1200) == 0) {
+            boolean temp = Greenfoot.getRandomNumber(2) == 0 ? true : false;
+            if (temp) {
+                addObject(new Rain(), 0, 0);
+                isRaining = true;
+            }
+            else {
+                addObject(new Snowstorm(), 0, 0);
+                isSnowing = true; 
+            }
         }
 
         statUpdates(); 

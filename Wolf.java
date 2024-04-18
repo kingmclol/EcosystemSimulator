@@ -9,6 +9,8 @@ import java.util.function.Predicate;
 public class Wolf extends Animal
 {
     private double huntSpeed;
+    
+    //Arrays that store the animation images
     private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
     
@@ -16,11 +18,17 @@ public class Wolf extends Animal
     private GreenfootImage[] walkingAnimationDown = new GreenfootImage[4];
     private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[5];
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[5];
+    
     private int indexAnimation = 0;
     private boolean isVerticallyFacing = false;
     private static int numOfWolves = 0;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     
+    /**
+     * Constructor for wolf that takes a parameter
+     * 
+     * @param boolean that determines if wolf is a baby
+     */
     public Wolf(boolean isBaby) {
         super(isBaby);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
@@ -46,6 +54,9 @@ public class Wolf extends Animal
         numOfWolves++;
     }
     
+    /**
+     * Default constructor for wolf
+     */
     public Wolf() {
         super(false);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
@@ -71,10 +82,6 @@ public class Wolf extends Animal
         numOfWolves++;
     }
 
-    /**
-     * Act - do whatever the Wolf wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public void act() {
         super.act();
         if (!alive) return;  // am dead. nothing to do.
@@ -90,12 +97,16 @@ public class Wolf extends Animal
         }
     }
 
+    /**
+     * Method for wolves to search for a breeding partner when they are ready
+     * If partner exists, they will proceed to breed
+     */
     public void breed() {
         // Find another wolf nearby
         if (!(target instanceof Wolf)) { // attempt to find a Wolf eligble
             SuperActor search = (Wolf) getClosestInRange(this.getClass(), viewRadius, w -> !((Wolf)w).isAbleToBreed() || !((Wolf)w).isAlive()); // Adjust range as needed
             
-            if (search != null) { // found a wolf!
+            if (search != null) { // found a wolf
                 target = search;
             }
         }
@@ -103,17 +114,17 @@ public class Wolf extends Animal
         if (target instanceof Wolf) { // wolf found
             Wolf targetWolf = (Wolf) target; // cast to target
             
-            // Check if retargeting needed.
+            // Check if retargeting needed
             if (targetWolf.getWorld() == null || !targetWolf.isAlive() || !targetWolf.isAbleToBreed()) {
                 target = null; // neccessiate retargeting
-                return; // nothign else t do
+                return; // nothing else to do
             }
-            else if(distanceFrom(target) < 40){ // close to target wolf! breed
+            else if(distanceFrom(target) < 40){ // close to target wolf, so breed
                 breeding = true;
                 breedingCounter++;
-                if(breedingCounter > BREEDING_DELAY){
+                if(breedingCounter > BREEDING_DELAY){ // prevents animals from breeding instantly
                     // Add the baby to the world
-                    getWorld().addObject(new Wolf(true), getX(), getY());
+                    getWorld().addObject(new Wolf(true), getX(), getY()); // add a baby wolf, meaning it is unable to breed from the start
                     ableToBreed = false;
                     targetWolf.setAbleToBreed(false);
                     breeding = false;
@@ -130,6 +141,9 @@ public class Wolf extends Animal
         }
     }
 
+    /**
+     * Method for wolves to find and eat food
+     */
     public void findOrEatFood() {
         // Attempt to find some prey, so target would be of corret type
         if (!(target instanceof Animal)) {
@@ -172,6 +186,10 @@ public class Wolf extends Animal
             moveRandomly(); // move randomly this act.
         }
     }
+    
+    /**
+     * Method for wolf animations
+     */
     public void animate()
     {
         if(eating)
@@ -239,10 +257,18 @@ public class Wolf extends Animal
         }
     }
     
+    /**
+     * Getter method for number of wolves
+     * 
+     * @return  the number of wolves alive in the world right now
+     */
     public static int getNumOfWolves() {
         return numOfWolves;
     }
     
+    /**
+     * Method that decreases the wolf count
+     */
     public static void decreaseNumOfWolves(){
         numOfWolves = numOfWolves - 1;
     }

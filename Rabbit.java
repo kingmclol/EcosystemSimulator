@@ -13,6 +13,8 @@ public class Rabbit extends Animal
     //Animation
     private int indexAnimation = 0;
     private boolean spawnOne = true;
+    
+    //Arrays that store rabbit animation images
     private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationLeft = new GreenfootImage[4];
@@ -24,6 +26,12 @@ public class Rabbit extends Animal
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
     //https://opengameart.org/content/reorganised-lpc-rabbit
     private static int numOfRabbits = 0;
+    
+    /**
+     * Constructor for rabbit that takes in a parameter
+     * 
+     * @param  boolean that determines if rabbit is a baby
+     */
     public Rabbit(boolean isBaby) {
         super(isBaby);
         facing = "right";
@@ -50,6 +58,9 @@ public class Rabbit extends Animal
         numOfRabbits++;
     }
     
+    /**
+     * Default constructor for rabbit
+     */
     public Rabbit() {
         super(false);
         facing = "right";
@@ -76,10 +87,6 @@ public class Rabbit extends Animal
         numOfRabbits++;
     }
 
-    /**
-     * Act - do whatever the Rabbit wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public void act() {
         super.act();
         
@@ -92,6 +99,10 @@ public class Rabbit extends Animal
         }
     }
 
+    /**
+     * Method for rabbits to search for a breeding partner when they are ready
+     * If partner exists, they will proceed to breed
+     */
     public void breed() {
         // Find another rabbit nearby
         if (!(target instanceof Rabbit)) { // if target is null, or the target is currently not a rabbit.
@@ -145,13 +156,15 @@ public class Rabbit extends Animal
             }else{
                 moveTowards(target, currentSpeed, walkHeight);
             }
-        } else { // no elible rabbit!!!!!!!!!!
+        } else { // no elible partner so move randomly
             moveRandomly(); // Rip. no partner nearby. better luck next time.
         }
     }
 
+    /**
+     * Method for rabbits to find and eat food
+     */
     public void findOrEatFood() {
-        //System.out.println("attempt for food");
         if(!(target instanceof GrassTile)) { // if target is null, or not a grasstile (forcing target to be grasstile only)
             //find a target
             SuperActor search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());

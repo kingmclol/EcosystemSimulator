@@ -2,6 +2,7 @@
 class.Cursor.image=beeper.png
 class.Rabbit.image=sheep.png
 class.Tile.image=bluerock.jpg
+class.Vulture.image=butterfly.png
 class.Wolf.image=wombat.png
 dependency1.from=CursorWorld
 dependency1.to=Cursor
@@ -419,7 +420,7 @@ readme.name=@README
 readme.width=49
 readme.x=10
 readme.y=10
-simulation.speed=63
+simulation.speed=0
 target1.height=70
 target1.name=Night
 target1.showInterface=false

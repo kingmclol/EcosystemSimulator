@@ -106,8 +106,7 @@ public class EndingWorld extends CursorWorld
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
         promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
-        nextWorldButton = new Button(() -> goToNextWorld(), 200, 75);
-    }
+        nextWorldButton = new Button(() -> goToNextWorld(), 200, 75, new GreenfootImage("goButton.png"), new GreenfootImage("goButtonHovered.png"), new GreenfootImage("goButtonPressed.png"));    }
     public void started() {
         storyWorldMusic.playLoop();
     }

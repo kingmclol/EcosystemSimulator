@@ -22,6 +22,12 @@ public class ButtonIncrement extends UI
     private World world;
     private SuperTextBox textBox;
     private SuperTextBox labelText;
+    /**
+     * Simple constructor with no images
+     * @param width         Total width of the entire object(buttons + textbox)
+     * @param height        Height of the object
+     * @param textBoxWidth  Width of the text box
+     */
     public ButtonIncrement(int width, int height, int textBoxWidth, int maxVal){
         this.width = width;
         this.height = height;
@@ -118,7 +124,7 @@ public class ButtonIncrement extends UI
     public void decrementValue() {
         value = Math.max(0, value -1);
         textBox.update(String.valueOf(value));
-		playButtonSound();
+        playButtonSound();
     }
     public void act()
     {

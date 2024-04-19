@@ -24,6 +24,7 @@ public class Wolf extends Animal
     private static int numOfWolves = 0;
     //https://i.pinimg.com/originals/20/92/d0/2092d0d2b2b3f7d473adf10353959c1a.jpg
     
+    private GreenfootSound wolfSound; 
     /**
      * Constructor for wolf that takes a parameter
      * 
@@ -39,6 +40,8 @@ public class Wolf extends Animal
         viewRadius = SettingsWorld.getStartEnergyOfWolf();
         walkHeight = 1;
         breedingThreshold = 2500;
+        
+        wolfSound = new GreenfootSound("wolf.mp3");
         for(int i = 0; i<4; i++)
         {
             walkingAnimationUp[i] = new GreenfootImage("images/Wolf/Walking/Up/Up" + (i+1) + ".png");
@@ -67,6 +70,8 @@ public class Wolf extends Animal
         viewRadius = SettingsWorld.getStartEnergyOfWolf();
         walkHeight = 1;
         breedingThreshold = 2500;
+        
+        wolfSound = new GreenfootSound("wolf.mp3");
         for(int i = 0; i<4; i++)
         {
             walkingAnimationUp[i] = new GreenfootImage("images/Wolf/Walking/Up/Up" + (i+1) + ".png");
@@ -94,6 +99,9 @@ public class Wolf extends Animal
         
         if(!wantToEat){
             currentSpeed = defaultSpeed;
+        }
+        if (Greenfoot.getRandomNumber(12000) == 0) {
+            wolfSound.play();
         }
     }
 

@@ -25,11 +25,15 @@ public class Vulture extends Animal
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[3];
     //https://www.deviantart.com/lostchild14000/art/Animal-Sprite-Sheet-654707851
     
+<<<<<<< HEAD
     /**
      * Vulture constructor that takes in a parameter
      * 
      * @param isBaby  boolean that determines if vulture is a baby
      */
+=======
+    private GreenfootSound vultureSound; 
+>>>>>>> c194f10d8a6c03110801fdbdb34897a96b1511be
     public Vulture(boolean isBaby) {
         super(isBaby);
         energy = 3500;
@@ -41,6 +45,8 @@ public class Vulture extends Animal
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
+        
+        vultureSound = new GreenfootSound("vulture.mp3"); 
         for(int i = 0; i<3; i++)
         {
            walkingAnimationUp[i] = new GreenfootImage("images/Vulture/Walking/Up/Up" + (i+1) + ".png");
@@ -69,6 +75,8 @@ public class Vulture extends Animal
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
+        
+        vultureSound = new GreenfootSound("vulture.mp3"); 
         for(int i = 0; i<3; i++)
         {
            walkingAnimationUp[i] = new GreenfootImage("images/Vulture/Walking/Up/Up" + (i+1) + ".png");
@@ -106,6 +114,9 @@ public class Vulture extends Animal
         
         if(!wantToEat){
             currentSpeed = defaultSpeed;
+        }
+        if (Greenfoot.getRandomNumber(8000) == 0) {
+            vultureSound.play();
         }
     }
 

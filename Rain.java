@@ -19,7 +19,7 @@ public class Rain extends Effect
         image.setTransparency(0);
         setImage(image);
         setLocation(w.getWidth()/2, w.getHeight()/2);
-        rainSound.playLoop(); 
+        rainSound.play(); 
     }
     /**
      * Act - do whatever the Rain wants to do. This method is called whenever

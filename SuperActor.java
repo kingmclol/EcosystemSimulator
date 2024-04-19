@@ -159,8 +159,10 @@ public abstract class SuperActor extends SuperSmoothMover
      * of as "moving" the SuperActor.
      * @param displacement The displacement the SuperActor should have.
      */
-    protected void displace(Vector displacement) {
+    public void displace(Vector displacement) {
         setLocation(getPreciseX()+displacement.getX(), getPreciseY()+displacement.getY());
+        
+        // Keep track of rotation.
         double rad = Math.atan2(displacement.getX(), displacement.getY());
         double degreesCCW = Math.toDegrees(rad);
         rotation = (360 - degreesCCW + 90)%360; // make CW;
@@ -225,7 +227,7 @@ public abstract class SuperActor extends SuperSmoothMover
      * Set the SuperActor's location to the given position.
      * @param position The location the SuperActor should be at.
      */
-    protected void setLocation(Vector position) {
+    public void setLocation(Vector position) {
         setLocation(position.getX(), position.getY());
     }
     /**

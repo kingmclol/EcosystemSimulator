@@ -15,6 +15,7 @@ public class Picture extends UI
     private FadeState state;
     private GreenfootImage img;
     private int step;
+    private Vector displacement;
     public Picture(String filePath) {
         img = new GreenfootImage(filePath);
         setImage(img);
@@ -46,7 +47,9 @@ public class Picture extends UI
         setImage(img);
     }
     public void act() {
-        //System.out.println(this + " | " + getImage().getTransparency());
+        if (displacement != null) {
+            displace(displacement);
+        }
         if (state == FadeState.IN) { // Fading in.
             fade(step); // So I fade... in.
             if (img.getTransparency() >= 255) { // Max transparency.
@@ -96,5 +99,12 @@ public class Picture extends UI
     public void fadeOut(int step) {
         state = FadeState.OUT;
         this.step = step;
+    }
+    /**
+     * Makes the picture apply the displacement every act.
+     * @param displacement The displacement to apply per act.
+     */
+    public void setTranslation(Vector displacement) {
+        this.displacement = displacement;
     }
 }

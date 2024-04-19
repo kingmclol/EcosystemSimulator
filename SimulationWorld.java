@@ -64,6 +64,10 @@ public class SimulationWorld extends World
     }
     
     public void started() {
+        Goat.setNumOfGoats(0);
+        Rabbit.setNumOfRabbits(0);
+        Wolf.setNumOfWolves(0);
+        Vulture.setNumOfVultures(0);
         simulationSound.playLoop();
     }
     public void stopped() {

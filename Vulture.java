@@ -230,7 +230,12 @@ public class Vulture extends Animal
         return numOfVultures;
     }
     
-    public static void decreaseNumOfVultures(){
-        numOfVultures = numOfVultures - 1;
+    /**
+     * Method sets number of vultures
+     * 
+     * @param num  the new number of vultures
+     */
+    public static void setNumOfVultures(int num){
+        numOfVultures = num;
     }
 }

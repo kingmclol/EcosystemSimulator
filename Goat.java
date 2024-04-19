@@ -229,9 +229,11 @@ public class Goat extends Animal
     }
     
     /**
-     * Method that decreases goat count
+     * Method sets number of goats
+     * 
+     * @param num  the new number of goats
      */
-    public static void decreaseNumOfGoats(){
-        numOfGoats = numOfGoats - 1;
+    public static void setNumOfGoats(int num){
+        numOfGoats = num;
     }
 }

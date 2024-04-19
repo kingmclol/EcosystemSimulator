@@ -256,8 +256,13 @@ public class Rabbit extends Animal
         return numOfRabbits;
     }
     
-    public static void decreaseNumOfRabbits(){
-        numOfRabbits = numOfRabbits - 1;
+    /**
+     * Method sets number of rabbits
+     * 
+     * @param num  the new number of rabbits
+     */
+    public static void setNumOfRabbits(int num){
+        numOfRabbits = num;
     }
     
 

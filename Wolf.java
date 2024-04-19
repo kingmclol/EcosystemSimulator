@@ -267,9 +267,11 @@ public class Wolf extends Animal
     }
     
     /**
-     * Method that decreases the wolf count
+     * Method sets number of wolves
+     * 
+     * @param num  the new number of wolves
      */
-    public static void decreaseNumOfWolves(){
-        numOfWolves = numOfWolves - 1;
+    public static void setNumOfWolves(int num){
+        numOfWolves = num;
     }
 }

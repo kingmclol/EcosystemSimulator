@@ -245,13 +245,13 @@ public abstract class Animal extends SuperActor {
      */
     public void die() {
         if(this instanceof Rabbit){
-            Rabbit.decreaseNumOfRabbits();
+            Rabbit.setNumOfRabbits(Rabbit.getNumOfRabbits() - 1);
         }else if(this instanceof Goat){
-            Goat.decreaseNumOfGoats();
+            Goat.setNumOfGoats(Goat.getNumOfGoats() - 1);
         }else if(this instanceof Vulture){
-            Vulture.decreaseNumOfVultures();
+            Vulture.setNumOfVultures(Vulture.getNumOfVultures() - 1);
         }else if(this instanceof Wolf){
-            Wolf.decreaseNumOfWolves();
+            Wolf.setNumOfWolves(Wolf.getNumOfWolves() - 1);
         }
         alive = false;
         disableStaticRotation();

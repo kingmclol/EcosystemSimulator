@@ -24,16 +24,14 @@ public class Vulture extends Animal
     private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[3];
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[3];
     //https://www.deviantart.com/lostchild14000/art/Animal-Sprite-Sheet-654707851
+
+    private GreenfootSound vultureSound;
     
-<<<<<<< HEAD
     /**
      * Vulture constructor that takes in a parameter
      * 
      * @param isBaby  boolean that determines if vulture is a baby
      */
-=======
-    private GreenfootSound vultureSound; 
->>>>>>> c194f10d8a6c03110801fdbdb34897a96b1511be
     public Vulture(boolean isBaby) {
         super(isBaby);
         energy = 3500;

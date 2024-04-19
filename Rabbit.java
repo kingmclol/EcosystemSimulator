@@ -205,7 +205,9 @@ public class Rabbit extends Animal
             moveRandomly(); // Should move randomly for this act instead...
         }
     }
-
+    /**
+     * Method that animates rabbit
+     */
     public void animate()
     {
         if(eating)
@@ -252,6 +254,11 @@ public class Rabbit extends Animal
         }
     }
     
+    /**
+     * Method that gets the number of rabbits current alive
+     * 
+     * @return numOfRabbits  the number of rabbits in world alive
+     */
     public static int getNumOfRabbits() {
         return numOfRabbits;
     }

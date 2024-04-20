@@ -1,21 +1,22 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Pictures are an Actor that simply exists to set its image as something. Thus, a picture.
+ * Pictures are an Actor that simply exists to set its image as something. Hm. Maybe I should say that it sets a picture
+ * as its image. Wow!
  * 
  * @author Freeman Wang
  * @version 2024-04-14
  */
 public class Picture extends UI
 {
-    /**
-     * Create a Picture using the given file path, using the original image size.
-     * @param filePath the file path to the image to use.
-     */
     private FadeState state;
     private GreenfootImage img;
     private int step;
     private Vector displacement;
+    /**
+     * Create a Picture using the given file path, using the original image size.
+     * @param filePath the file path to the image to use.
+     */
     public Picture(String filePath) {
         img = new GreenfootImage(filePath);
         setImage(img);

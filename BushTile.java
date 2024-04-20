@@ -7,8 +7,8 @@ import java.util.ArrayList;
  * 
  * <p>BushTiles have a heightLevel of 1.</p>
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Freeman Wang
+ * @version 2024-04-20
  */
 public class BushTile extends Tile
 {
@@ -25,8 +25,7 @@ public class BushTile extends Tile
     private GreenfootImage[] animation = new GreenfootImage[3];
     private GreenfootImage[] noBerries = new GreenfootImage[3];
     /**
-     * Act - do whatever the BushTile wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * Creates a bushtile
      */
     public BushTile() {
         super(new GreenfootImage("tile_berries.png"));
@@ -69,7 +68,7 @@ public class BushTile extends Tile
         return value; // Enough berries, return amount eaten.
     }
     /**
-     * Grow berries.
+     * Grow berries. Simply increases the amount of berries in this tile
      */
     private void growBerries() {
         int berriesGrown = !isRaining ? berryGrowSpeed : berryGrowSpeed * 2;
@@ -82,6 +81,7 @@ public class BushTile extends Tile
     }
     /**
      * Determine if this BushTile should attempt to drop its seeds on neighbouring grass tiles.
+     * @return whether to drop a seed or not.
      */
     private boolean shouldDropSeed() {
         double probability = (!isRaining) ? PROBABILITY_DROP_SEED: PROBABILITY_DROP_SEED * 2;
@@ -91,11 +91,11 @@ public class BushTile extends Tile
      * Attempt to drop a BushTile seed onto a neighboruing GrassTile.
      */
     private void dropSeed() {
-        // Get adjacent tiles as an array
+        // Get adjacent tiles as an arrayList
         ArrayList<Tile> neighbours = Board.getNeighbouringTiles(tilePosition);
-        
+        // randomize
         Collections.shuffle(neighbours);
-        // Iterate through for eligble tiles on the array.
+        // Iterate through for eligble tiles on the List.
         for (Tile t : neighbours) {
             if (t instanceof GrassTile) {
                 GrassTile g = (GrassTile) t;
@@ -106,6 +106,7 @@ public class BushTile extends Tile
     }
     /**
      * Calculates a random time to for a BushTile to grow from a seed.
+     * @return the time for how long the bushtile seed should grow
      */
     public static int getGrowTime() {
         return GROW_TIME_MIN + Greenfoot.getRandomNumber(GROW_TIME_MAX - GROW_TIME_MIN);

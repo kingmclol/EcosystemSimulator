@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * <p>TreeTiles are tiles with... trees on them. They have the ability to drop seeds onto nearby GrassTiles.</p>
  * 
- * <p>TreeTiles also have a heightLevel of 2, making it less traversable. Larger animals might struggle walking through these!<p>
+ * <p>TreeTiles also have a heightLevel of 2, making it less traversable. Some might struggle walking through these!<p>
  * 
  * @author Freeman Wang
  * @version 2024-04-13
@@ -48,25 +48,36 @@ public class TreeTile extends Tile
         if (shouldDropSeed()) {
             dropSeed();
         }
-        if (!aboutToDie && lifespan <= 600) { // 10 seconds before dying.
-            aboutToDie = true;
+        if (!aboutToDie && lifespan <= 600) { // 10 seconds before dying...
+            aboutToDie = true; // I am about to die (oh no)
         }
         else if (lifespan <= 0) { // The tree is old and ded now
             replaceMe(new GrassTile());
         }
     }
+    /**
+     * Calculate the lifespan for this tree tile
+     * @return the lifespan, in acts
+     */
     private int getLifespan() {
         return LIFESPAN_MIN + Greenfoot.getRandomNumber(LIFESPAN_MAX-LIFESPAN_MIN);
     }
+    /**
+     * Determine whether the tree tile should drop a seed.
+     */
     private boolean shouldDropSeed() {
         double probability = (!isRaining) ? PROBABILITY_DROP_SEED: PROBABILITY_DROP_SEED * 2;
         return Greenfoot.getRandomNumber((int) Math.round(1/probability)) == 0;
     }
+    /**
+     * Sets a seed onto a neighbouring grass tile
+     */
     private void dropSeed() {
-        // Get adjacent tiles as an array
+        // Get adjacent tiles as an arrayList
         ArrayList<Tile> neighbours = Board.getNeighbouringTiles(tilePosition);
+        // randomize
         Collections.shuffle(neighbours);
-        // Iterate through for eligble tiles on the array.
+        // Iterate through for eligble tiles on the List.
         for (Tile t : neighbours) {
             if (t instanceof GrassTile) {
                 GrassTile g = (GrassTile) t;
@@ -75,6 +86,10 @@ public class TreeTile extends Tile
             }
         }
     }
+    /**
+     * Calculate the time to grow a seed, in acts
+     * @return how long a seed should take to grow
+     */
     public static int getGrowTime() {
         return GROW_TIME_MIN + Greenfoot.getRandomNumber(GROW_TIME_MAX - GROW_TIME_MIN);
     }

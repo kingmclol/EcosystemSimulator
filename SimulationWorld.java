@@ -1,10 +1,17 @@
 import greenfoot.*; 
 import java.util.ArrayList; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
- * Write a description of class SimulationWorld here.
+ * <p>The SimulationWorld will be where the main simulation takes place. 
+ * It keeps track of various stats, such as the time, day, # of animals, etc.</p>.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * <p>There are two "endings" what will set the world to an Ending world, with differnt conditions.</p>
+ * <ul>
+ *   <li>Good ending, where at least one animal survived until the alloted time lengh is done (from settings world)
+ *   <li>Bad ending, where all animals are dead before the time limit
+ * </ul>
+ * 
+ * @author Freeman Wang, Neelan, Ivan
+ * @version 2024-04-24
  */
 public class SimulationWorld extends World
 {
@@ -77,19 +84,24 @@ public class SimulationWorld extends World
     {
         actCount++; 
         spawn();
-        ArrayList<Animal> aliveAnimals = (ArrayList<Animal>)getObjects(Animal.class);
-        aliveAnimals.removeIf(a -> !a.isAlive());
-        if (aliveAnimals.size() == 0) {
-            simulationSound.stop();
-            Greenfoot.setWorld(new EndingWorld(false));
-        }
-        if (dayCount == endingDay) {
+        ArrayList<Animal> aliveAnimals = (ArrayList<Animal>)getObjects(Animal.class); // get all animals
+        aliveAnimals.removeIf(a -> !a.isAlive()); // filter out dead ones
+        if (aliveAnimals.size() == 0) { // If no alive animals are alive
             simulationSound.stop();
             Rain.stopRainSound();
             Snowstorm.stopSnowSound(); 
-            Greenfoot.setWorld(new EndingWorld(true));
+            Greenfoot.setWorld(new EndingWorld(false)); // Bad ending
+        }
+        else if (dayCount == endingDay) { // survived long enough!
+            simulationSound.stop();
+            Rain.stopRainSound();
+            Snowstorm.stopSnowSound(); 
+            Greenfoot.setWorld(new EndingWorld(true)); // good ending
         }
     }
+    /**
+     * Manages spawning the world effects, such as night, rain, etc.
+     */
     public void spawn() 
     {
         if (actCount >= 2400) {
@@ -109,8 +121,10 @@ public class SimulationWorld extends World
         }
 
         statUpdates(); 
-        scoreBar.update(new int[]{dayCount, time, Goat.getNumOfGoats(), Rabbit.getNumOfRabbits(), Vulture.getNumOfVultures(), Wolf.getNumOfWolves()}); 
     }
+    /**
+     * Spawn all of the animals at initial setup
+     */
     private void spawnAnimals(String animal, int num) 
     {
         for(int i = 0; i < num; i++){
@@ -132,20 +146,39 @@ public class SimulationWorld extends World
             
         }
     }
+    /**
+     * Set whether it is currently nighttime.
+     * @param newNight if it is nighttime or not
+     */
     public static void setNight(boolean newNight)
     {
         isNight = newNight; 
     }
+    /**
+     * Get whether it is nighttime or not
+     * @return whether it is nighttime or not
+     */
     public static boolean getNight()
     {
         return isNight;
     }
+    /**
+     * Set whether it is currently snowing in the world
+     * @param isSnowing whether it is snowing.
+     */
     public static void setSnowing(boolean isSnowing) {
         SimulationWorld.isSnowing = isSnowing; 
     }
+    /**
+     * Set whether it is raining in the world.
+     * @param isRaining whether it is raining.
+     */
     public static void setRaining(boolean isRaining) {
         SimulationWorld.isRaining = isRaining;
     }
+    /**
+     * Update the stats display label.
+     */
     public void statUpdates() {
         if (actCount % 100 == 0) {
             time += 1;
@@ -158,6 +191,7 @@ public class SimulationWorld extends World
         if (time == 24) {
             time = 0;
         }
+        scoreBar.update(new int[]{dayCount, time, Goat.getNumOfGoats(), Rabbit.getNumOfRabbits(), Vulture.getNumOfVultures(), Wolf.getNumOfWolves()}); 
     }
 
 }

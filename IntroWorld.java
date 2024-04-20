@@ -1,22 +1,29 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class IntroWorld here.
+ * ==================== ECOSYSTEM SIMULATOR ====================
+ * [story description]
+ * ======== INSTRUCTIONS =========
+ * [what to do]
+ * ======== FEATURES ========
+ * [cool stuff]
+ * ======= KNOWN BUGS =======
+ * [everything]
  * 
- * @author (your name) 
- * @version (a version number or a date)
- * Images from /u/Voidentir at https://old.reddit.com/r/DigitalArt/comments/1akfavq/my_old_landscape_artworks/
+ * 
+ * ==================================
+ * The IntroWorld is the first World that the player sees. It's only use is to look cool before the Player goes to the next World.
+ * 
+ * @author Freeman Wang
+ * @version 2024-04-20
  */
 public class IntroWorld extends CursorWorld
 {
     private GreenfootSound introWorldMusic; 
-    /**
-     * Constructor for objects of class IntroWorld.
-     * 
-     */
     BreathingTextBox promptBox;
     TextBox title;
     private int actCount;
+    // Images from /u/Voidentir at https://old.reddit.com/r/DigitalArt/comments/1akfavq/my_old_landscape_artworks/
     private static String[] backgroundImages = new String[] {
         "landscape1.png",
         "landscape2.png",
@@ -27,6 +34,9 @@ public class IntroWorld extends CursorWorld
     private int index;
     //private Vector titleAnchor, promptAnchor, worldCenter;
     //private static final double DELTA_FACTOR = 0.1; // Scrapped, for making textboxs move with cursor.
+    /**
+     * Create an intro world where the music <strong>will not</strong> start automatically
+     */
     public IntroWorld()
     {
         super();
@@ -53,6 +63,23 @@ public class IntroWorld extends CursorWorld
         nextImage = new Picture(backgroundImages[nextIndex()]);
         nextImage.setTranslation(Utility.randomVector(0.5, 1, 0.2, 0.5));
         nextImage.setTransparency(0); // hidden for now.
+        
+        Greenfoot.setSpeed(50); // Control speed to 50.
+    }
+    /**
+     * <p>Create an Introworld where music <strong>will</strong> start automatically.</p>
+     * <p>The boolean passed has no effect. Do whatever you want.</p>
+     * <p>Basically, the normal constructor without any parameters will not play the music first, so Greenfoot can
+     * construct the World normally with the music starting only when the player presses the Run button. However,
+     * when returning to the intro world from another world, the Run button is never pressed (since it's already running),
+     * thus the started() would never run, leading to a music-less Intro world.</p>
+     * <p>So, I simply made another constructor to overload it and then simply use that constructor instead, which would run the music
+     * automatically<p>
+     * @param overloadingConstructorSinceNoTimeForBetterSolution This is one of the parameters of all time.
+     */
+    public IntroWorld(boolean overloadingConstructorSinceNoTimeForBetterSolution) {
+        this(); // Run the real constructor.
+        introWorldMusic.playLoop(); // Run this one (1) line of code.
     }
     public void act() {
         // parallax effect for text boxes, unused.

@@ -1,6 +1,5 @@
 /**
- * Simlply an enum to manage stats for fading transitions
- * 
+ * Simlply an enum to manage states for fading transitions
  */
 public enum FadeState {
     IN,

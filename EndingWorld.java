@@ -1,29 +1,26 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class EndingWorld here.
+ * The ending world will simply give a short cutscene that reacts to whether the player has gotten a good
+ * or a bad ending.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Freeman Wang
+ * @version 2024-04-20
  */
 public class EndingWorld extends CursorWorld
 {
-
-    /**
-     * Constructor for objects of class EndingWorld.
-     * 
-     */
     private GreenfootSound storyWorldMusic;
-    private static String[] dialogue;
-    private static TextBox dialogueBox;
-    private static BreathingTextBox promptBox;
-    private static Button nextWorldButton;
-    private static int line;
-    private static int visibleActCount;
-    private static int lineForButtonToAppear;
-    private static int lineForEventPictureToAppear;
-    private static boolean goodEnding;
-    private static Picture eventPicture;
+    private String[] dialogue;
+    private TextBox dialogueBox;
+    private BreathingTextBox promptBox;
+    private Button nextWorldButton;
+    private int line;
+    private int visibleActCount;
+    private int lineForButtonToAppear;
+    private int lineForEventPictureToAppear;
+    private boolean goodEnding;
+    private Picture eventPicture;
+    private Button skipButton;
     /**
      * Creates an EndingWorld. The ending type is determined based on the boolean given/
      */
@@ -105,6 +102,9 @@ public class EndingWorld extends CursorWorld
         dialogueBox = new TextBox(dialogue[line], 24, Color.WHITE, null, 1, 100);
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
+        skipButton = new Button(this::goToNextWorld, 128, 64, new GreenfootImage("skipbutton_idle.png"), new GreenfootImage("skipbutton_hovered.png"), new GreenfootImage("skipbutton_pressed.png"));
+        addObject(skipButton, getWidth()-64 - 10, 32 + 10);
+        
         promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
         nextWorldButton = new Button(() -> goToNextWorld(), 200, 75, new GreenfootImage("goButton.png"), new GreenfootImage("goButtonHovered.png"), new GreenfootImage("goButtonPressed.png"));    }
     public void started() {
@@ -144,13 +144,23 @@ public class EndingWorld extends CursorWorld
             addObject(new BreathingTextBox("YOU WIN", 76, Color.WHITE, null, 60), getWidth()/2, getHeight()/2-200);
         }
     }
+    /**
+     * Goes to the next world.
+     */
     private void goToNextWorld() {
         storyWorldMusic.stop();
-        Greenfoot.setWorld(new IntroWorld());
+        Greenfoot.setWorld(new IntroWorld(true)); // use the other constructor so muci also plays 
     }
+    /**
+     * Plays the next dialogue line.
+     */
     private void playDialogue(int line) {
         dialogueBox.display(dialogue[line]);
     }
+    /**
+     * Returns whether there still is more dialogue.
+     * @return true if still are dialogue remaining.
+     */
     private Boolean stillMoreDialogue() {
         int nextLine = line + 1;
         return nextLine < dialogue.length;

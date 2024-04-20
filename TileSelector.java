@@ -126,11 +126,11 @@ public class TileSelector extends UI
     }
     public void act()
     {
-        
+        // Checks if the tile selector is transitioned from closed to open or vice versa
         if(transition){
-            if (!closed && menuWidth < 124){
+            if (!closed && menuWidth < 124){ // if its open and the menu is still visible
                 menuWidth+= 6;
-                
+                // move menu and buttons
                 menuButton.setLocation(menuButton.getX() - 6, getY());
                 
                 
@@ -146,8 +146,9 @@ public class TileSelector extends UI
                 
             }
             
-            else if(menuWidth > 0 && closed){
+            else if(menuWidth > 0 && closed){ // if its closed and the menu is not fully visible
                 menuWidth-= 6;
+                // move menu and buttons
                 menuButton.setLocation(menuButton.getX() + 6, getY());
                 setLocation(getX() + 6, getY());
                 for(int i = 0; i < tileButtons.length; i++){

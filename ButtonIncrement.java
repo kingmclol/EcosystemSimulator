@@ -10,11 +10,11 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class ButtonIncrement extends UI
 {
     private int maxVal;
-   
+
     private int width;
     private int height;
     private int textBoxWidth;
-    
+
     private int value;
     private Button decrementButton;
     private Button incrementButton;
@@ -27,6 +27,7 @@ public class ButtonIncrement extends UI
      * @param width         Total width of the entire object(buttons + textbox)
      * @param height        Height of the object
      * @param textBoxWidth  Width of the text box
+     * @param maxValue      Maximum value that can be displayed to.
      */
     public ButtonIncrement(int width, int height, int textBoxWidth, int maxVal){
         this.width = width;
@@ -41,15 +42,25 @@ public class ButtonIncrement extends UI
         value = 0;
         this.maxVal = maxVal;
         textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(24), true, textBoxWidth, 0, Color.BLACK);
-        
+
     }
+
+    /**
+     * Constructor with button images
+     * @param width             Total width of the entire object(buttons + textbox)
+     * @param height            Height of the object
+     * @param textBoxWidth      Width of the text box
+     * @param maxValue          Maximum value that can be displayed to
+     * @param leftButtonImage   The image for the left button
+     * @param rightButtonImage  The image for the right button
+     */
     public ButtonIncrement(int width, int height, int textBoxWidth, int maxVal, String label, GreenfootImage leftButtonImg, GreenfootImage rightButtonImg){
-        
+
         this.width = width;
         this.height = height;
         this.textBoxWidth = textBoxWidth;
         labelText = new SuperTextBox(label, new Font(24), 150);
-  
+
         img = new GreenfootImage(width, height + 100);
         img.setTransparency(0);
         img.setColor(Color.BLACK);
@@ -60,15 +71,24 @@ public class ButtonIncrement extends UI
         value = 0;
         this.maxVal = maxVal;
         textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(24), true, textBoxWidth, 0, Color.BLACK);
-        
+
     }
+    /**
+     * Detailed Constructor with multiple button images
+     * @param width             Total width of the entire object(buttons + textbox)
+     * @param height            Height of the object
+     * @param textBoxWidth      Width of the text box
+     * @param maxValue          Maximum value that can be displayed to
+     * @param leftButtonImages  The images for the left button in an array containing the default image, hovered image, and pressed image
+     * @param rightButtonImages The images for the right button in an array containing the default image, hovered image, and pressed image
+     */
     public ButtonIncrement(int width, int height, int textBoxWidth, int maxVal, String label, GreenfootImage[] leftButtonImg, GreenfootImage[] rightButtonImg){
-        
+
         this.width = width;
         this.height = height;
         this.textBoxWidth = textBoxWidth;
         labelText = new SuperTextBox(label, new Font(24), 150);
-  
+
         img = new GreenfootImage(width, height + 100);
         img.setTransparency(0);
         img.setColor(Color.BLACK);
@@ -79,8 +99,9 @@ public class ButtonIncrement extends UI
         value = 0;
         this.maxVal = maxVal;
         textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(24), true, textBoxWidth, 0, Color.BLACK);
-        
+
     }
+
     public void addedToWorld(World w){
         cursor = getCursor();
         w.addObject(decrementButton, (getX() - width/2) + (width - textBoxWidth)/4, getY());
@@ -88,6 +109,7 @@ public class ButtonIncrement extends UI
         w.addObject(textBox, getX(), getY());
         w.addObject(labelText, getX(), getY() - 60);
     }
+
     /**
      * Gets the integer value of the ButtonIncrement.
      * @return Integer value stored .
@@ -95,17 +117,20 @@ public class ButtonIncrement extends UI
     public int getValue(){
         return value;
     }
+
     /**
      * Increases the integer value by 1, as long as it is below the max value set.
      * 
      */
     public void incrementValue() {
-
+        // Increases the value by 1 when the right button is pressed
+        // Makes sure its within range 
         value = Math.min(maxVal, value + 1);
 
         textBox.update(String.valueOf(value));
         playButtonSound();
     }
+
     /**
      * Removes the object and all its related objects.
      */
@@ -117,15 +142,19 @@ public class ButtonIncrement extends UI
         w.removeObject(labelText);
         w.removeObject(this);
     }
+
     /**
      * Reduces the integer value by 1, as long as it is above 0.
      */
-    
+
     public void decrementValue() {
+        // Decreases the value by 1 when the right button is pressed
+        // Makes sure its within range
         value = Math.max(0, value -1);
         textBox.update(String.valueOf(value));
         playButtonSound();
     }
+
     public void act()
     {
 

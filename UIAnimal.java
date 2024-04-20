@@ -17,6 +17,7 @@ public class UIAnimal extends UI
     private int indexAnimation;
     public UIAnimal(String animal){
         animation = new GreenfootImage[4];
+        // Gets an animation array of the chosen animal and scales it up
         if(animal.equals("rabbit")){
             animation = new GreenfootImage[4];
             img = new GreenfootImage("images/Rabbit/Walking/Right/Rabbit_WalkingRight1.png");

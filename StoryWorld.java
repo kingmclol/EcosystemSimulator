@@ -59,8 +59,8 @@ public class StoryWorld extends CursorWorld
         dialogueBox = new TextBox(dialogue[line], 24, Color.WHITE, null, 1, 100);
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
-        skipButton = new Button(this::goToNextWorld, 128, 64, new GreenfootImage("skipbutton_idle.png"), new GreenfootImage("skipbutton_hovered.png"), new GreenfootImage("skipbutton_pressed.png"));
-        addObject(skipButton, getWidth()-64 - 10, 32 + 10);
+        skipButton = new Button(this::goToNextWorld, 120, 21, new GreenfootImage("skipbutton_idle_v2.png"), new GreenfootImage("skipbutton_hovered_v2.png"), new GreenfootImage("skipbutton_pressed_v2.png"));
+        addObject(skipButton, getWidth()-60 - 10, 10 + 10);
         
         promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
         nextWorldButton = new Button(() -> goToNextWorld(), 200, 75, new GreenfootImage("goButton.png"), new GreenfootImage("goButtonHovered.png"), new GreenfootImage("goButtonPressed.png"));

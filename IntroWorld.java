@@ -92,8 +92,8 @@ public class IntroWorld extends CursorWorld
             actCount = 0;
         }
         if ("l".equals(Greenfoot.getKey())) { // once L is pressed, move to the next world.
-            Greenfoot.setWorld(new StoryWorld());
             introWorldMusic.stop(); 
+            Greenfoot.setWorld(new StoryWorld());
         }
     }
     /**

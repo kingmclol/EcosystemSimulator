@@ -9,7 +9,7 @@ import greenfoot.*;
 public abstract class Tile extends SuperActor
 {
     protected static boolean isRaining = false;
-    
+    protected static boolean alwaysAnimate = false;
     private static int size;
     protected GreenfootImage[] animationImages;
     protected int animationIndex = 0;
@@ -126,6 +126,12 @@ public abstract class Tile extends SuperActor
      */
     public void setTransparency(int x) {
         getImage().setTransparency(x);
+    }
+    /**
+     * Set whether the tiles should be animated, even when time flowing is false.
+     */
+    public static void setAlwaysAnimate(boolean value) {
+        alwaysAnimate = value;
     }
 }
  

@@ -38,10 +38,9 @@ public class BushTile extends Tile
     }
     public void act()
     {
+        if (alwaysAnimate || timeFlowing) animate();
         if (!timeFlowing) return;
         growBerries();
-        actsPassed++;
-        animate();
         if (shouldDropSeed()) {
             dropSeed();
         }
@@ -130,7 +129,7 @@ public class BushTile extends Tile
     
     public void animate()
     {
-        if(actsPassed%30 == 0)
+        if(++actsPassed%30 == 0)
         {
             if(berriesAvailable)
             {

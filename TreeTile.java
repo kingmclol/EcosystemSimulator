@@ -41,10 +41,10 @@ public class TreeTile extends Tile
     }
     public void act()
     {
+        if (alwaysAnimate || timeFlowing) animate();
         if (!timeFlowing) return;
-        actsPassed++;
         lifespan--;
-        animate();
+        
         if (shouldDropSeed()) {
             dropSeed();
         }
@@ -100,7 +100,7 @@ public class TreeTile extends Tile
     
     public void animate()
     {
-        if(actsPassed%30 == 0)
+        if(++actsPassed%30 == 0)
         {
             if (!aboutToDie) setTile(new GreenfootImage(animationNormal[index])); // normal
             else setTile(new GreenfootImage(animationDying[index])); // dying

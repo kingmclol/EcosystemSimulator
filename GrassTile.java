@@ -66,10 +66,9 @@ public class GrassTile extends Tile
 
     public void act()
     {
-        
+        if (alwaysAnimate || timeFlowing) animate();
         if (!timeFlowing) return;
-        actPassed++;
-        animate();
+        
         grow();
         
         if(shouldSelfSeed()) {
@@ -140,7 +139,7 @@ public class GrassTile extends Tile
 
     public void animate()
     {
-        if(actPassed%30 == 0)
+        if(++actPassed%30 == 0)
         {
             if(grassAvailable)
             {

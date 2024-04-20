@@ -22,7 +22,7 @@ public class EndingWorld extends CursorWorld
     private Picture eventPicture;
     private Button skipButton;
     /**
-     * Creates an EndingWorld. The ending type is determined based on the boolean given/
+     * Creates an EndingWorld. The ending type is determined based on the boolean given.
      */
     public EndingWorld(boolean goodEnding)
     {
@@ -43,7 +43,7 @@ public class EndingWorld extends CursorWorld
             dialogue = new String[]{
                 "Ah. Sorry about that.",
                 "Those who are above even *I* did not make transitions between Worlds.",
-                "But if you haven't noticed, your " + SettingsWorld.getSimulationLength() + " days are over.",
+                "But if you haven't noticed, your " + SettingsWorld.getSimulationLength() + " day" + (SettingsWorld.getSimulationLength() == 1 ? " is" : "s are") + " over.",
                 "I'm reluctant to come back, but I don't have a choice.",
                 "The Voices speak of \"needing two endings.\"",
                 "Now, let me see...",
@@ -149,7 +149,7 @@ public class EndingWorld extends CursorWorld
      */
     private void goToNextWorld() {
         storyWorldMusic.stop();
-        Greenfoot.setWorld(new IntroWorld(true)); // use the other constructor so muci also plays 
+        Greenfoot.setWorld(new SummaryWorld());
     }
     /**
      * Plays the next dialogue line.

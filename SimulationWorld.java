@@ -1,5 +1,7 @@
 import greenfoot.*; 
 import java.util.ArrayList; // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
+
 /**
  * <p>The SimulationWorld will be where the main simulation takes place. 
  * It keeps track of various stats, such as the time, day, # of animals, etc.</p>.
@@ -30,6 +32,7 @@ public class SimulationWorld extends World
     private int endingDay;
     private SuperDisplayLabel scoreBar; 
     private GreenfootSound simulationSound;
+    private static ArrayList<String> dailyBoards;
     /**
      * Constructor for objects of class SimulationWorld.
      * 
@@ -68,6 +71,9 @@ public class SimulationWorld extends World
         addObject(scoreBar, 504, 24);
         addObject(new Sun(), 900, 200);
         addObject(new Moon(), 100, 810);
+        
+        dailyBoards = new ArrayList<String>();
+        dailyBoards.add(Board.getBuildString()); // Zeroth day.
     }
     
     public void started() {
@@ -187,11 +193,17 @@ public class SimulationWorld extends World
         if (hours == 24) {
             hours = 0;
             dayCount += 1;
+            dailyBoards.add(Board.getBuildString());
         }
         if (time == 24) {
             time = 0;
         }
         scoreBar.update(new int[]{dayCount, time, Goat.getNumOfGoats(), Rabbit.getNumOfRabbits(), Vulture.getNumOfVultures(), Wolf.getNumOfWolves()}); 
     }
-
+    /**
+     * Return the state of the world every day represented by build strings.
+     */
+    public static List<String> getDailyBoards() {
+        return dailyBoards;
+    }
 }

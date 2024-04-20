@@ -22,11 +22,8 @@ public class WaterTile extends Tile
     }
     public void act()
     {
-        // Add your action code here.
+        if (alwaysAnimate || timeFlowing) animate();
         if(!timeFlowing) return;
-        actsPassed++;
-        animate();
-        
     }
     
     public String toString() {
@@ -34,7 +31,7 @@ public class WaterTile extends Tile
     }
     public void animate()
     {
-        if(actsPassed%30 == 0)
+        if(++actsPassed%30 == 0)
         {
             setTile(new GreenfootImage(animation[index]));
             index = (index+1)%(animation.length);

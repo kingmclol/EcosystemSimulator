@@ -11,15 +11,16 @@ import java.util.ArrayList;
 public class DrawWorld extends CursorWorld
 {
     
-    private static Vector currentTilePos, previousTilePos;
+    private Vector currentTilePos, previousTilePos;
     private static int mouseDrawType;
-    private static boolean drawing;
+    private boolean drawing;
     // private static Node pathStart, pathEnd; // for testing
     
 
     private static final String preset1 = "21~16~48~wwwwwwwwwwwwwwwwwwwwwwwwwwwwgggggwwwwwwbwwwwtggggmtbggggwwwwgwwwwbggbgtgggwwwwwgggwwwggggggggwwwbbgggtgwwwggmtgbwwwgggmmggtgwwwbbmggwwgggtggggbgbwwwgggggwgbgggggwwggggwwgggbwwtggbgggwwgmmmwwwbgwwgggggmtggggggmwwwwwwgtgbgbgtggggtggwwwwggggmgggggtmgbggwwmbwgtgbggwggwgggggwwwtgwggwwgwwwwwwggttwwwwgwwwwwwwgbgwwwwgtwwwwwwwwwwwwwwwwwwwwwwww";
     private static final String preset2 = "21~16~48~ttttttttttttttttttttttbbbggggggmgggggggggttbwwggggggbbggggggggttbwwggggggggggggmbbgttgwwggggggmmggggmbbgttgwwgggwwwwwwwwgggggttggggggwtmbbmtwgggggttggggggwtmbbmtwgttttttttttggwtmbbmtwgggggttggggggwtmbbmtwgggggttggggggwwwwwwwwggwwgttgbbmgggggmmgggggwwgttgbbmggggggggggggwwbttgggggggggbbgggggwwbttggggggggggmgggggbbbtttttttttttttttttttttt";
     private static final String preset3 = "21~16~48~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
+    private boolean forceUpdateTransparency;
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -58,7 +59,7 @@ public class DrawWorld extends CursorWorld
         }
         
         // Manage the transparency highlighting current tile hovered.
-        else if (!currentTilePos.equals(previousTilePos)) { // mouse moved into another cell
+        else if (!currentTilePos.equals(previousTilePos) || forceUpdateTransparency) { // mouse moved into another cell
             // Make previous tile at the previous position opaque (moved off that tile).
             Tile previousTile = Board.getTile((int)previousTilePos.getX(), (int)previousTilePos.getY());
             if (previousTile != null) previousTile.setTransparency(255);
@@ -99,29 +100,29 @@ public class DrawWorld extends CursorWorld
      */
     private void manageKeyInput() {
         String key = Greenfoot.getKey();
-        if ("0".equals(key)) {
+        if ("5".equals(key)) {
             mouseDrawType = 0;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("1".equals(key)) {
             mouseDrawType = 1;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("2".equals(key)) {
             mouseDrawType = 2;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("3".equals(key)) {
             mouseDrawType = 3;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("4".equals(key)) {
             mouseDrawType = 5;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("e".equals(key)) {
             mouseDrawType = 4;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("[".equals(key)) {
             Board.loadBoard(this, preset1);

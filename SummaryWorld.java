@@ -20,7 +20,7 @@ public class SummaryWorld extends CursorWorld
         prompt = new BreathingTextBox("PRESS [L] TO LEAVE", 40, Color.RED, null, 120);
         addObject(prompt, getWidth()/2, getHeight()-100);
         
-        TextBox tempBox = new TextBox("See your World grow!", 50, Color.WHITE, null, 1, 255);
+        TextBox tempBox = new TextBox("Watch your World change!", 50, Color.WHITE, null, 1, 255);
         tempBox.fadeOut();
         addObject(tempBox, getWidth()/2, getHeight()/2);
         

@@ -38,9 +38,10 @@ public class Wolf extends Animal
         huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfWolf();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 1;
         breedingThreshold = 2500;
-        
         wolfSound = new GreenfootSound("wolf.mp3");
         for(int i = 0; i<4; i++)
         {
@@ -68,9 +69,10 @@ public class Wolf extends Animal
         huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfWolf();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 1;
         breedingThreshold = 2500;
-        
         wolfSound = new GreenfootSound("wolf.mp3");
         for(int i = 0; i<4; i++)
         {

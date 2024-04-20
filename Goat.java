@@ -30,9 +30,10 @@ public class Goat extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfGoat();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 2;
         breedingThreshold = 2000;
-        
         goatSound = new GreenfootSound("goatsound.mp3");
         goatSound.setVolume(50);
         for(int i = 0; i<3; i++)
@@ -55,10 +56,11 @@ public class Goat extends Animal
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfGoat();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 2;
         breedingThreshold = 2000;
-        
         goatSound = new GreenfootSound("goatsound.mp3");
         goatSound.setVolume(50);
         for(int i = 0; i < 3; i++)
@@ -93,7 +95,7 @@ public class Goat extends Animal
     public void breed() {
         // Find another goat nearby
         if (!(target instanceof Goat)) { // Find a goat if the target is null, or not a goat.
-            SuperActor search = (Goat) getClosestInRange(this.getClass(), viewRadius, g -> !((Goat)g).isAbleToBreed() || !((Goat)g).isAlive()); // Adjust range as needed
+            SuperActor search = (Goat) getClosestInRange(this.getClass(), currentViewRadius, g -> !((Goat)g).isAbleToBreed() || !((Goat)g).isAlive()); // Adjust range as needed
             if (search != null){ // found one!
                 target = search; // set it as the target.
             }
@@ -182,12 +184,12 @@ public class Goat extends Animal
      */
     public void findOrEatFood() {
         if (!(target instanceof BushTile)) { // force the target to be a bush tile
-            SuperActor search = (BushTile)getClosestInRange(BushTile.class, viewRadius/4, b -> !((BushTile)b).berriesAvailable());
+            SuperActor search = (BushTile)getClosestInRange(BushTile.class, currentViewRadius/4, b -> !((BushTile)b).berriesAvailable());
             if(search == null) {
-                search = (BushTile)getClosestInRange(BushTile.class, viewRadius/2, b -> !((BushTile)b).berriesAvailable());
+                search = (BushTile)getClosestInRange(BushTile.class, currentViewRadius/2, b -> !((BushTile)b).berriesAvailable());
             }
             if(search == null) {
-                search = (BushTile)getClosestInRange(BushTile.class, viewRadius, b -> !((BushTile)b).berriesAvailable());
+                search = (BushTile)getClosestInRange(BushTile.class, currentViewRadius, b -> !((BushTile)b).berriesAvailable());
             }
 
             if (search != null) { // found one!

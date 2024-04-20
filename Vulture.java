@@ -40,10 +40,11 @@ public class Vulture extends Animal
         huntSpeed = 1.2 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfVulture();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
-        
         vultureSound = new GreenfootSound("vulture.mp3"); 
         for(int i = 0; i<3; i++)
         {
@@ -70,10 +71,11 @@ public class Vulture extends Animal
         huntSpeed = 1.2 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfVulture();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
-        
         vultureSound = new GreenfootSound("vulture.mp3"); 
         for(int i = 0; i<3; i++)
         {
@@ -125,7 +127,7 @@ public class Vulture extends Animal
     public void breed() {
         // Find another vulture nearby
         if (!(target instanceof Vulture)) { // attempt to find a Vulture eligble
-            SuperActor search = (Vulture) getClosestInRange(this.getClass(), viewRadius, v -> !((Vulture)v).isAbleToBreed() || !((Vulture)v).isAlive()); // Adjust range as needed
+            SuperActor search = (Vulture) getClosestInRange(this.getClass(), currentViewRadius, v -> !((Vulture)v).isAbleToBreed() || !((Vulture)v).isAlive()); // Adjust range as needed
             
             if (search != null) { // found a Vulture!
                 target = search;
@@ -165,12 +167,12 @@ public class Vulture extends Animal
      */
     public void findOrEatFood() {
         if (!(target instanceof Animal)) { // force the target to be of correct type
-            SuperActor search = (Animal)getClosestInRange(Animal.class, viewRadius/4, a -> ((Animal)a).isAlive());
+            SuperActor search = (Animal)getClosestInRange(Animal.class, currentViewRadius/4, a -> ((Animal)a).isAlive());
             if(search == null) {
-                search = (Animal)getClosestInRange(Animal.class, viewRadius/2, a -> ((Animal)a).isAlive());
+                search = (Animal)getClosestInRange(Animal.class, currentViewRadius/2, a -> ((Animal)a).isAlive());
             }
             if(search == null) {
-                search = (Animal)getClosestInRange(Animal.class, viewRadius, a-> ((Animal)a).isAlive());
+                search = (Animal)getClosestInRange(Animal.class, currentViewRadius, a-> ((Animal)a).isAlive());
             }
             
             if (search != null) {

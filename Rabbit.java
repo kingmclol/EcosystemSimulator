@@ -54,6 +54,8 @@ public class Rabbit extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfRabbit();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         breedingThreshold = 2000;
         numOfRabbits++;
     }
@@ -83,6 +85,8 @@ public class Rabbit extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfRabbit();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         breedingThreshold = 2000;
         numOfRabbits++;
     }
@@ -107,7 +111,7 @@ public class Rabbit extends Animal
         // Find another rabbit nearby
         if (!(target instanceof Rabbit)) { // if target is null, or the target is currently not a rabbit.
             // find a rabbit as the target.
-            SuperActor search = (Rabbit) getClosestInRange(this.getClass(), viewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
+            SuperActor search = (Rabbit) getClosestInRange(this.getClass(), currentViewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
             if (search != null){ // found one.
                 target = search;
             }
@@ -167,12 +171,12 @@ public class Rabbit extends Animal
     public void findOrEatFood() {
         if(!(target instanceof GrassTile)) { // if target is null, or not a grasstile (forcing target to be grasstile only)
             //find a target
-            SuperActor search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
+            SuperActor search = (GrassTile)getClosestInRange(GrassTile.class, currentViewRadius/4, g -> !((GrassTile)g).grassAvailable());
             if(search == null) {
-                search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/2, g -> !((GrassTile)g).grassAvailable());
+                search = (GrassTile)getClosestInRange(GrassTile.class, currentViewRadius/2, g -> !((GrassTile)g).grassAvailable());
             }
             if(search == null) {
-                search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
+                search = (GrassTile)getClosestInRange(GrassTile.class, currentViewRadius, g -> !((GrassTile)g).grassAvailable());
             }
             
             if (search != null) { // found a grass tiel.

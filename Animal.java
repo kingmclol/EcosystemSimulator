@@ -44,6 +44,8 @@ public abstract class Animal extends SuperActor {
     protected int walkHeight;
 
     protected int viewRadius; //How far animals can detect other animals
+    protected int currentViewRadius;
+    protected int loweredViewRadius;
 
     protected double defaultSpeed;
     protected double currentSpeed;
@@ -186,7 +188,12 @@ public abstract class Animal extends SuperActor {
                 baby = false;
             }
         }
-        //inTree();
+        
+        if(isSnowing){//animals cannot see as far when it is snowing
+            currentViewRadius = loweredViewRadius;
+        }else{
+            currentViewRadius = viewRadius;
+        }
     }
     
     /**

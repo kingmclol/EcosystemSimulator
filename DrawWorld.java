@@ -209,7 +209,7 @@ public class DrawWorld extends CursorWorld
             hoveredTile.setTransparency(255); // make it opaque now (tiles no need to be hovered over)
             Greenfoot.setWorld(new SimulationWorld());
         }
-        else System.out.println("There are still empty Tiles on the Board!");
+        else display("There are still empty Tiles on the Board!");
     }
     /**
      * Set the mouse draw type based on the given int

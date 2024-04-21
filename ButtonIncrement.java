@@ -41,7 +41,7 @@ public class ButtonIncrement extends UI
         incrementButton = new Button(this::incrementValue,(width - textBoxWidth)/2, height);
         value = 0;
         this.maxVal = maxVal;
-        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(24), true, textBoxWidth, 0, Color.BLACK);
+        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(18), true, textBoxWidth, 0, Color.BLACK);
 
     }
 
@@ -70,7 +70,7 @@ public class ButtonIncrement extends UI
         incrementButton = new Button(this::incrementValue,(width - textBoxWidth)/2, height, rightButtonImg, rightButtonImg, rightButtonImg);
         value = 0;
         this.maxVal = maxVal;
-        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(24), true, textBoxWidth, 0, Color.BLACK);
+        textBox = new SuperTextBox(String.valueOf(value), Color.WHITE, Color.BLACK, new Font(18), true, textBoxWidth, 0, Color.BLACK);
 
     }
     /**
@@ -87,7 +87,7 @@ public class ButtonIncrement extends UI
         this.width = width;
         this.height = height;
         this.textBoxWidth = textBoxWidth;
-        labelText = new SuperTextBox(label, new Font(20), 150);
+        labelText = new SuperTextBox(label, new Font(18), 150);
 
         img = new GreenfootImage(width, height + 100);
         img.setTransparency(0);

@@ -202,10 +202,20 @@ public class DrawWorld extends CursorWorld
         System.out.println("err: tried to draw tile, but not cannot recognize mouseDrawType: " + mouseDrawType);
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
     }
+
+    public void startSimulation(){
+        if (Board.isReady()) {
+            Tile hoveredTile = Board.getTile(cursor.getPosition());
+            hoveredTile.setTransparency(255); // make it opaque now (tiles no need to be hovered over)
+            Greenfoot.setWorld(new SimulationWorld());
+        }
+        else System.out.println("There are still empty Tiles on the Board!");
+    }
     /**
      * Set the mouse draw type based on the given int
      * @param type the type of tile to draw.
      */
+
     public static void setMouseDrawType(int type){
         if(type > -1 && type < 7){
             mouseDrawType = type;

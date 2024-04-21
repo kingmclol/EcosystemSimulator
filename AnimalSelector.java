@@ -37,7 +37,7 @@ public class AnimalSelector extends UI
         buttonIncrementers = new ButtonIncrement[4];
         sliders = new Slider[4];
         for (int i = 0; i < buttonIncrementers.length; i++){
-            buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 50, "Num", leftButtonImgs, rightButtonImgs);
+            buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 15, "Starting Amount", leftButtonImgs, rightButtonImgs);
             
         }
         for(int i = 0; i < 3; i ++){
@@ -64,11 +64,15 @@ public class AnimalSelector extends UI
      * Cycles forward through the types of animals, switching the animal type to the next one. 
      */
     private void incrementValue(){
+        // gets the world for removing objects
         World w = getWorld();
+        // removes all current objects related to specific animal type
         w.removeObject(animals[animalIndex]);
         sliders[animalIndex].removeObject();
         buttonIncrementers[animalIndex].removeObject();
+        // cycles through the animal indexes to the next one, going back to 0 if it is 3
         animalIndex = (animalIndex+1) % 4;
+        // adds the new objects for that specific animal type
         w.addObject(sliders[animalIndex], getX(), getY() + 150);
         w.addObject(animals[animalIndex],getX(), getY() - 10);
         w.addObject(buttonIncrementers[animalIndex], getX(), getY() - 125);
@@ -77,11 +81,15 @@ public class AnimalSelector extends UI
      * Cycles backward through the types of animals, switching the animal type to the last one. 
      */
     private void decrementValue(){ 
+        // gets the world for removing objects
         World w = getWorld();
+        // removes all current objects related to specific animal type
         w.removeObject(animals[animalIndex]);
         sliders[animalIndex].removeObject();
         buttonIncrementers[animalIndex].removeObject();
+        // cycles through the animal indexes to the previous one, going  to 3 if it is 0
         animalIndex = (animalIndex+ 3) % 4;
+        // adds the new objects for that specific animal type
         w.addObject(sliders[animalIndex], getX(), getY() + 150);
         w.addObject(animals[animalIndex], getX(), getY() - 10);
         w.addObject(buttonIncrementers[animalIndex],  getX(), getY() - 125);

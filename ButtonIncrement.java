@@ -59,7 +59,7 @@ public class ButtonIncrement extends UI
         this.width = width;
         this.height = height;
         this.textBoxWidth = textBoxWidth;
-        labelText = new SuperTextBox(label, new Font(24), 150);
+        labelText = new SuperTextBox(label, new Font(20), 150);
 
         img = new GreenfootImage(width, height + 100);
         img.setTransparency(0);
@@ -87,7 +87,7 @@ public class ButtonIncrement extends UI
         this.width = width;
         this.height = height;
         this.textBoxWidth = textBoxWidth;
-        labelText = new SuperTextBox(label, new Font(24), 150);
+        labelText = new SuperTextBox(label, new Font(20), 150);
 
         img = new GreenfootImage(width, height + 100);
         img.setTransparency(0);

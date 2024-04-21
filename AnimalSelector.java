@@ -37,7 +37,7 @@ public class AnimalSelector extends UI
         buttonIncrementers = new ButtonIncrement[4];
         sliders = new Slider[4];
         for (int i = 0; i < buttonIncrementers.length; i++){
-            buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 50, "Num", leftButtonImgs, rightButtonImgs);
+            buttonIncrementers[i] = new ButtonIncrement(225, 50, 125, 15, "Starting Amount", leftButtonImgs, rightButtonImgs);
             
         }
         for(int i = 0; i < 3; i ++){

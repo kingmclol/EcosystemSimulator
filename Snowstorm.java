@@ -39,6 +39,7 @@ public class Snowstorm extends Effect
     public void stopEffect() {
         world.setSnowing(false); 
         Animal.setSnowing(false);
+        stopSnowSound();
     }
     public void slowAnimals()
     {

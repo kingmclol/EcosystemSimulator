@@ -13,6 +13,8 @@ public class Rabbit extends Animal
     //Animation
     private int indexAnimation = 0;
     private boolean spawnOne = true;
+    
+    //Arrays that store rabbit animation images
     private GreenfootImage[] eatingAnimationUp = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationDown = new GreenfootImage[4];
     private GreenfootImage[] eatingAnimationLeft = new GreenfootImage[4];
@@ -24,6 +26,12 @@ public class Rabbit extends Animal
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[4];
     //https://opengameart.org/content/reorganised-lpc-rabbit
     private static int numOfRabbits = 0;
+    
+    /**
+     * Constructor for rabbit that takes in a parameter
+     * 
+     * @param  boolean that determines if rabbit is a baby
+     */
     public Rabbit(boolean isBaby) {
         super(isBaby);
         facing = "right";
@@ -46,10 +54,15 @@ public class Rabbit extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfRabbit();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         breedingThreshold = 2000;
         numOfRabbits++;
     }
     
+    /**
+     * Default constructor for rabbit
+     */
     public Rabbit() {
         super(false);
         facing = "right";
@@ -72,14 +85,12 @@ public class Rabbit extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfRabbit();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         breedingThreshold = 2000;
         numOfRabbits++;
     }
 
-    /**
-     * Act - do whatever the Rabbit wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public void act() {
         super.act();
         
@@ -92,11 +103,15 @@ public class Rabbit extends Animal
         }
     }
 
+    /**
+     * Method for rabbits to search for a breeding partner when they are ready
+     * If partner exists, they will proceed to breed
+     */
     public void breed() {
         // Find another rabbit nearby
         if (!(target instanceof Rabbit)) { // if target is null, or the target is currently not a rabbit.
             // find a rabbit as the target.
-            SuperActor search = (Rabbit) getClosestInRange(this.getClass(), viewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
+            SuperActor search = (Rabbit) getClosestInRange(this.getClass(), currentViewRadius, r -> !((Rabbit)r).isAbleToBreed() || !((Rabbit)r).isAlive()); // Adjust range as needed
             if (search != null){ // found one.
                 target = search;
             }
@@ -145,21 +160,23 @@ public class Rabbit extends Animal
             }else{
                 moveTowards(target, currentSpeed, walkHeight);
             }
-        } else { // no elible rabbit!!!!!!!!!!
+        } else { // no elible partner so move randomly
             moveRandomly(); // Rip. no partner nearby. better luck next time.
         }
     }
 
+    /**
+     * Method for rabbits to find and eat food
+     */
     public void findOrEatFood() {
-        //System.out.println("attempt for food");
         if(!(target instanceof GrassTile)) { // if target is null, or not a grasstile (forcing target to be grasstile only)
             //find a target
-            SuperActor search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/4, g -> !((GrassTile)g).grassAvailable());
+            SuperActor search = (GrassTile)getClosestInRange(GrassTile.class, currentViewRadius/4, g -> !((GrassTile)g).grassAvailable());
             if(search == null) {
-                search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius/2, g -> !((GrassTile)g).grassAvailable());
+                search = (GrassTile)getClosestInRange(GrassTile.class, currentViewRadius/2, g -> !((GrassTile)g).grassAvailable());
             }
             if(search == null) {
-                search = (GrassTile)getClosestInRange(GrassTile.class, viewRadius, g -> !((GrassTile)g).grassAvailable());
+                search = (GrassTile)getClosestInRange(GrassTile.class, currentViewRadius, g -> !((GrassTile)g).grassAvailable());
             }
             
             if (search != null) { // found a grass tiel.
@@ -192,7 +209,9 @@ public class Rabbit extends Animal
             moveRandomly(); // Should move randomly for this act instead...
         }
     }
-
+    /**
+     * Method that animates rabbit
+     */
     public void animate()
     {
         if(eating)
@@ -239,12 +258,22 @@ public class Rabbit extends Animal
         }
     }
     
+    /**
+     * Method that gets the number of rabbits current alive
+     * 
+     * @return numOfRabbits  the number of rabbits in world alive
+     */
     public static int getNumOfRabbits() {
         return numOfRabbits;
     }
     
-    public static void decreaseNumOfRabbits(){
-        numOfRabbits = numOfRabbits - 1;
+    /**
+     * Method sets number of rabbits
+     * 
+     * @param num  the new number of rabbits
+     */
+    public static void setNumOfRabbits(int num){
+        numOfRabbits = num;
     }
     
 

@@ -3,13 +3,13 @@ import greenfoot.*;
  * Tiles are the basic building block of the Board (or more accurately, the World). Tiles are simply a square
  * Actor with an image, but can have more specific behaviours in their subclasses.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Freeman Wang
+ * @version 2024-04-20
  */
 public abstract class Tile extends SuperActor
 {
     protected static boolean isRaining = false;
-    
+    protected static boolean alwaysAnimate = false;
     private static int size;
     protected GreenfootImage[] animationImages;
     protected int animationIndex = 0;
@@ -22,7 +22,7 @@ public abstract class Tile extends SuperActor
      * The tilePosition is the current Position of this specific tile on the Board.
      */
     protected Vector tilePosition;
-    private static final boolean drawBorders = false;
+    private static final boolean drawBorders = false; // determine whether to draw borders on the tiles.
     /**
      * timeFlowing determines whether Tiles should act on their own.
      */
@@ -31,9 +31,31 @@ public abstract class Tile extends SuperActor
         // drawBorders = visible;
         // Board.drawBorders(visible);
     // }
+    /**
+     * Creates a Tile, given an image.
+     * @param image The image for the tile to take on.
+     */
+    public Tile(GreenfootImage image) {
+        setTile(image);
+    }
+    /**
+     * Creates a Tile, given a Color to use. For debugging, but unused now
+     * @param c The color for the tile to take on.
+     */
+    public Tile(Color c) {
+        setTile(c);
+    }
+    /**
+     * Set whether it is currently raining in the world. I know this is weird place to have this but whatever.
+     * @param raining whether it is raining or not.
+     */
     public static void setRaining(boolean raining) {
         isRaining = raining; 
     }
+    /**
+     * Returns the height level of this tile, for determing whether an animal can walk over this tile or not
+     * @return the heightLevel of this tile.
+     */
     public int getHeightLevel() {
         return heightLevel;
     }
@@ -49,18 +71,6 @@ public abstract class Tile extends SuperActor
      */
     public static void setTimeFlow(boolean flow) {
         timeFlowing = flow;
-    }
-    /**
-     * Creates a Tile, given an image.
-     */
-    public Tile(GreenfootImage image) {
-        setTile(image);
-    }
-    /**
-     * Creates a Tile, given a Color to use.
-     */
-    public Tile(Color c) {
-        setTile(c);
     }
     public void addedToWorld(World w) {
         tilePosition = Board.convertRealToTilePosition(getPosition());
@@ -87,7 +97,7 @@ public abstract class Tile extends SuperActor
     }
     protected abstract void animate();
     /**
-     * Draws the border (edge) for the Tile.
+     * Draws the border (edge) for the Tile. Only does stuff if drawBorders is on.
      */
     public void drawBorder(){
         if (!drawBorders) return;
@@ -112,12 +122,16 @@ public abstract class Tile extends SuperActor
     }
     /**
      * Sets the image of this tile as the given transparency;
+     * @param x Transparency to set to, [0-255]
      */
     public void setTransparency(int x) {
-        if (x < 0 || x > 255) {
-            System.out.println("tried to change tile transparency but given invalid value!");
-        }
         getImage().setTransparency(x);
+    }
+    /**
+     * Set whether the tiles should be animated, even when time flowing is false.
+     */
+    public static void setAlwaysAnimate(boolean value) {
+        alwaysAnimate = value;
     }
 }
  

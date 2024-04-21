@@ -113,6 +113,9 @@ public class Node extends Actor
         }
         else return 14 * dX + 10*(dY - dX);
     }
+    /**
+     * Returns the node represented as a coordinate
+     */
     public String toString() {
         return "[" + x + ", " + y + "]";
     }

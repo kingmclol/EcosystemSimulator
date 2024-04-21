@@ -8,6 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Goat extends Animal
 {   
     //https://www.pinterest.com/pin/387028161720848437/
+    // Arrays that store goat animation images
     private GreenfootImage[] animationUp = new GreenfootImage[3];
     private GreenfootImage[] animationDown = new GreenfootImage[3];
     private GreenfootImage[] animationLeft = new GreenfootImage[3];
@@ -15,6 +16,13 @@ public class Goat extends Animal
     private int indexAnimation = 0;
     private static int numOfGoats = 0;
     
+    private GreenfootSound goatSound; 
+    
+    /**
+     * Goat constructor that takes in a parameter
+     * 
+     * @param  boolean that determines if goat is a baby
+     */
     public Goat(boolean isBaby) {
         super(isBaby);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.5;
@@ -22,8 +30,12 @@ public class Goat extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfGoat();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 2;
         breedingThreshold = 2000;
+        goatSound = new GreenfootSound("goatsound.mp3");
+        goatSound.setVolume(50);
         for(int i = 0; i<3; i++)
         {
             animationUp[i] = new GreenfootImage("images/Goat/Up/Up" + (i+1) + ".png");
@@ -35,15 +47,22 @@ public class Goat extends Animal
         numOfGoats++;
     }
 
+    /**
+     * Default constructor for goat
+     */
     public Goat() {
         super(false);
         defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.5;
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
-        viewRadius = 400;
+        viewRadius = SettingsWorld.getStartEnergyOfGoat();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 2;
         breedingThreshold = 2000;
+        goatSound = new GreenfootSound("goatsound.mp3");
+        goatSound.setVolume(50);
         for(int i = 0; i < 3; i++)
         {
             animationUp[i] = new GreenfootImage("images/Goat/Up/Up" + (i+1) + ".png");
@@ -55,10 +74,6 @@ public class Goat extends Animal
         numOfGoats++;
     }
 
-    /**
-     * Act - do whatever the goat wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public void act()
     {
         super.act();
@@ -68,12 +83,19 @@ public class Goat extends Animal
         }else{
             ableToBreed = false;
         }
+        if (Greenfoot.getRandomNumber(12000) == 0) {
+            goatSound.play();
+        }
     }
 
+    /**
+     * Method for goats to search for a breeding partner when they are ready
+     * If partner exists, they will proceed to breed
+     */
     public void breed() {
         // Find another goat nearby
         if (!(target instanceof Goat)) { // Find a goat if the target is null, or not a goat.
-            SuperActor search = (Goat) getClosestInRange(this.getClass(), viewRadius, g -> !((Goat)g).isAbleToBreed() || !((Goat)g).isAlive()); // Adjust range as needed
+            SuperActor search = (Goat) getClosestInRange(this.getClass(), currentViewRadius, g -> !((Goat)g).isAbleToBreed() || !((Goat)g).isAlive()); // Adjust range as needed
             if (search != null){ // found one!
                 target = search; // set it as the target.
             }
@@ -92,17 +114,14 @@ public class Goat extends Animal
                 breedingCounter++;
                 if(breedingCounter > BREEDING_DELAY){
                     // Add the baby to the world
-
                     getWorld().addObject(new Goat(true), getX(), getY());
                     ableToBreed = false;
                     targetGoat.setAbleToBreed(false);
                     breeding = false;
                     targetGoat.setIsBreeding(false);
                     breedingCounter = 0;
-
                     target = null; // no target anymore.
                     actsSinceLastBreeding = 0;
-
                 }
             }else{ // far, move closer
                 moveTowards(target, currentSpeed, walkHeight);
@@ -112,6 +131,9 @@ public class Goat extends Animal
         }
     }
 
+    /**
+     * Method to animate goats
+     */
     public void animate() {
         if(eating)
         {
@@ -156,15 +178,18 @@ public class Goat extends Animal
             indexAnimation = (indexAnimation + 1)%(animationRight.length);
         }
     }
-
+    
+    /**
+     * Method for goats to find and eat food
+     */
     public void findOrEatFood() {
         if (!(target instanceof BushTile)) { // force the target to be a bush tile
-            SuperActor search = (BushTile)getClosestInRange(BushTile.class, viewRadius/4, b -> !((BushTile)b).berriesAvailable());
+            SuperActor search = (BushTile)getClosestInRange(BushTile.class, currentViewRadius/4, b -> !((BushTile)b).berriesAvailable());
             if(search == null) {
-                search = (BushTile)getClosestInRange(BushTile.class, viewRadius/2, b -> !((BushTile)b).berriesAvailable());
+                search = (BushTile)getClosestInRange(BushTile.class, currentViewRadius/2, b -> !((BushTile)b).berriesAvailable());
             }
             if(search == null) {
-                search = (BushTile)getClosestInRange(BushTile.class, viewRadius, b -> !((BushTile)b).berriesAvailable());
+                search = (BushTile)getClosestInRange(BushTile.class, currentViewRadius, b -> !((BushTile)b).berriesAvailable());
             }
 
             if (search != null) { // found one!
@@ -196,11 +221,21 @@ public class Goat extends Animal
         }
     }
     
+    /**
+     * Getter method for number of goats
+     * 
+     * @return  the number of goats alive in the world right now
+     */
     public static int getNumOfGoats() {
         return numOfGoats;
     }
     
-    public static void decreaseNumOfGoats(){
-        numOfGoats = numOfGoats - 1;
+    /**
+     * Method sets number of goats
+     * 
+     * @param num  the new number of goats
+     */
+    public static void setNumOfGoats(int num){
+        numOfGoats = num;
     }
 }

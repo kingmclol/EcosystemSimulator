@@ -4,7 +4,7 @@ import java.util.Collections;
 /**
  * <p>The Board is a class that is used to manage the tilemap for the World. It represents the map as a 
  * 2D array, and is the thing that manages building and adding each tile to the World assigned to the Board class
- * as well as other utilities, such as finding the Tile coordinate depending on a real coordinate.<p>
+ * as well as other utilities, such as finding the Tile coordinate depending on a real coordinate.</p>
  * 
  * <p>Boards should created using loadBoard().</p>
  * 
@@ -13,7 +13,10 @@ import java.util.Collections;
  * 
  * <p>Also, if you're wondering why everything is static, me in my infinite Wisdom (that is, sleep deprivity) couldn't think of a
  * easy solution to access a Board reference stored in a World. This way, you can <i>always</i> access this Board, no matter what
- * World you are currently using!!!1!!1!!</p>
+ * World you are currently using. Its a stupid way to do it though.</p>
+ * 
+ * <p>Sorry for the method spam. It's just... yeah I give up. I kept on intendeing to fix this class, but there always were...
+ * some <i>other</i> things to do.</p>
  * 
  * @author Freeman Wang 
  * @version 2023-03-31
@@ -26,8 +29,7 @@ public class Board
     private static World w;
     private static int width, height;
     /**
-     * Act - do whatever the Board wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
+     * Since everything is static, make constructor private so cannot initialize any instances.
      */
     private Board() {}
     /**
@@ -171,11 +173,17 @@ public class Board
         return map[y][x];
     }
     /**
-     * Temporray
+     * Given a real position, get the node that the real position is residing in.
+     * @param realPosition the position, in terms of pixels.
+     * @return the Node the realPosition is in.
      */
     public static Node getNodeWithRealPosition(Vector realPosition) {
         return nodeGrid.getNode(nodeGrid.getNodePosition(realPosition));
     }
+    /**
+     * Given a Node, convert it into a real position in terms of pixels.
+     * @return A Vector representing its position in pixels.
+     */
     public static Vector getRealPositionWithNode(Node node) {
         return new Vector(nodeGrid.getTrueX(node.getX()), nodeGrid.getTrueY(node.getY()));
     }

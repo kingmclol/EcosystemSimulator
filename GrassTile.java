@@ -66,10 +66,9 @@ public class GrassTile extends Tile
 
     public void act()
     {
-        
+        if (alwaysAnimate || timeFlowing) animate();
         if (!timeFlowing) return;
-        actPassed++;
-        animate();
+        
         grow();
         
         if(shouldSelfSeed()) {
@@ -79,7 +78,10 @@ public class GrassTile extends Tile
             else setSeed(new TreeTile(), TreeTile.getGrowTime());
         }
     }
-
+    /**
+     * Determine whether the grass tile should self seed itself (set its own seed.) Don't ask why they can do that.
+     * @return true if the grasstile should self seed.
+     */
     private boolean shouldSelfSeed() {
         double probability = (!isRaining) ? PROBABILITY_SEED_SELF : PROBABILITY_SEED_SELF * 2;
         return mySeed == null && Greenfoot.getRandomNumber((int)Math.round(1/probability)) == 0;
@@ -99,6 +101,7 @@ public class GrassTile extends Tile
 
     /**
      * Returns the amount of grass current grass tile has
+     * @return the current grassAmount
      */
     public int getGrassAmount() {
         return grassAmount;
@@ -106,6 +109,7 @@ public class GrassTile extends Tile
 
     /**
      * Returns whether the grass has availalbe grass.
+     * @true if the grasstile has grass available to eat right now.
      */
     public boolean grassAvailable() {
         return grassAvailable;
@@ -135,7 +139,7 @@ public class GrassTile extends Tile
 
     public void animate()
     {
-        if(actPassed%30 == 0)
+        if(++actPassed%30 == 0)
         {
             if(grassAvailable)
             {

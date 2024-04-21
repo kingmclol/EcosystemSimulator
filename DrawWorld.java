@@ -5,25 +5,22 @@ import java.util.ArrayList;
  * draw on the Board being displayed. Once satisfied, the user can submit this board to the SimulationWorld, where the simulation
  * begins.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Freeman Wang, Neelan
+ * @version 2024-04-24
  */
 public class DrawWorld extends CursorWorld
 {
     
-    private static Vector currentTilePos, previousTilePos;
+    private Vector currentTilePos, previousTilePos;
     private static int mouseDrawType;
-    private static boolean drawing;
-    private static Node pathStart, pathEnd;
+    private boolean drawing;
+    // private static Node pathStart, pathEnd; // for testing
     
 
-    //private static final String preset1 = "16~12~64~wwwwwwwwwwwwwwwwwwwbtgwtgwggbwwwwwwttgggggggggwwwwgggbgggbtgtggwwwbgggttgggggtbwwwtggggttgtbgggwwwggbgbgtggggwgwwwwggggggbbggwwwwgwwtgggtgggtgwwwtgwttbggbgttgwwwwwwwwgwwwgggwwwwwwwwwwwwwwwwwww";
     private static final String preset1 = "21~16~48~wwwwwwwwwwwwwwwwwwwwwwwwwwwwgggggwwwwwwbwwwwtggggmtbggggwwwwgwwwwbggbgtgggwwwwwgggwwwggggggggwwwbbgggtgwwwggmtgbwwwgggmmggtgwwwbbmggwwgggtggggbgbwwwgggggwgbgggggwwggggwwgggbwwtggbgggwwgmmmwwwbgwwgggggmtggggggmwwwwwwgtgbgbgtggggtggwwwwggggmgggggtmgbggwwmbwgtgbggwggwgggggwwwtgwggwwgwwwwwwggttwwwwgwwwwwwwgbgwwwwgtwwwwwwwwwwwwwwwwwwwwwwww";
-    //private static final String preset2 = "16~12~64~tttttttttttttttttggggggttggggggttggggggttggggggttggggbbbbbbggggttggggbwwwwbggggttgbggbwbbwbggbgttgbggbwbbwbggbgttggggbwwwwbggggttggggbbbbbbggggttggggggttggggggttggggggttggggggttttttttttttttttt";
     private static final String preset2 = "21~16~48~ttttttttttttttttttttttbbbggggggmgggggggggttbwwggggggbbggggggggttbwwggggggggggggmbbgttgwwggggggmmggggmbbgttgwwgggwwwwwwwwgggggttggggggwtmbbmtwgggggttggggggwtmbbmtwgttttttttttggwtmbbmtwgggggttggggggwtmbbmtwgggggttggggggwwwwwwwwggwwgttgbbmgggggmmgggggwwgttgbbmggggggggggggwwbttgggggggggbbgggggwwbttggggggggggmgggggbbbtttttttttttttttttttttt";
-    //private static final String preset3 = "16~12~64~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
     private static final String preset3 = "21~16~48~gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg";
-    //private static final String preset3 = "32~24~32~eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeteeeeeeeweeeeeeeeeeeeeeeeeeeeettbeeeeeeweeeeeeeeeeewwweeeeeeettebeeeeeeweeeeeeeewwweeeeeeeteetebeeeeeeeeeeeeeeewweeeeeeeeeteeetbeeeeeeweeeeeeeettettttteeetteetbeeeeeeweeeeeeetwweeeeeteeettttteeeeeeeeeeeeeteeeweeeeeteeeteebeeeeeeeeweeeeteeeeewweeeteeetewteeeeeeeeweeeteeeeeeeteeeteeetwwtteeeeeeeweebbeeeeeeteeeeteeewbetteeeeeeewwebtbbbeeteeeeetewwbeeeeeeeeeeeewwbettbbbbeeeettwweeeeeeeeeeeeeeewbeeeeeebbbbbbwweeeeeewwweeeeeeeewweeeeeeeeeeeweeeeewweeweeeeeeeeeewwebebebebewwwewweeeeweeeeeeeeeeeewwweeeeeeeeeeeeeeewweeeeeeeeeeeeeeewweeeeeeeeeeeeweeeeeeeeeeeeeeeeeeeweweeeeeeeewweeeeeeeeeeeeeeeeeeeeeewewweweweeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee";
+    private boolean forceUpdateTransparency;
     /**
      * Constructor for objects of class MyWorld.
      * 
@@ -47,24 +44,22 @@ public class DrawWorld extends CursorWorld
         addObject(new TileSelector(), getWidth() + 42, getHeight()/2);
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
-        Tile.setTimeFlow(false);
+        Tile.setTimeFlow(false); // Tiles added should not act right now
     }
     public void act() {
-        checkMouseState();
+        checkMouseState(); // Get whether the mouse is clicked/released to determine if the user is drawing
         keepInBounds(cursor);
-        currentTilePos = Board.convertRealToTilePosition(cursor.getPosition());
-        if (drawing) {
-            
+        currentTilePos = Board.convertRealToTilePosition(cursor.getPosition()); // Get the current tile position of the cursor
+        if (drawing) { // If the user is drawing (clicked/held down)
             ArrayList<Actor> hoveredActors = (ArrayList<Actor>)cursor.getHoveredActors();
-            
-            Tile tileHovered  = getCurrentTile(hoveredActors);
+            Tile tileHovered  = getCurrentTile(hoveredActors); // Get a tile that is being hovered on
             if (tileHovered != null) {
-                tileHovered.replaceMe(getDrawnTile());
+                tileHovered.replaceMe(getDrawnTile()); // Draw the selecetd tile type onto that tile
             }
         }
         
         // Manage the transparency highlighting current tile hovered.
-        if (!currentTilePos.equals(previousTilePos)) { // mouse moved into another cell
+        else if (!currentTilePos.equals(previousTilePos) || forceUpdateTransparency) { // mouse moved into another cell
             // Make previous tile at the previous position opaque (moved off that tile).
             Tile previousTile = Board.getTile((int)previousTilePos.getX(), (int)previousTilePos.getY());
             if (previousTile != null) previousTile.setTransparency(255);
@@ -75,16 +70,11 @@ public class DrawWorld extends CursorWorld
                 if(hoveredTile != null){
                     hoveredTile.setTransparency(150);
                 }
-                
             }
-            
-
-
-            
         }
-        previousTilePos = currentTilePos;
+        previousTilePos = currentTilePos; // set the previous tile position to the current itle position
         
-        manageKeyInput();
+        manageKeyInput(); // read key input for keybinds
     }
     private Tile getCurrentTile(ArrayList<Actor> actors) {
         Tile tile = null;
@@ -104,31 +94,35 @@ public class DrawWorld extends CursorWorld
         }
         return tile;
     }
+    /**
+     * While this does check for key inputs and stuff, it is mainly used for debugging purposes. A general user
+     * is meant to use the tile selector.
+     */
     private void manageKeyInput() {
         String key = Greenfoot.getKey();
-        if ("0".equals(key)) {
+        if ("5".equals(key)) {
             mouseDrawType = 0;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("1".equals(key)) {
             mouseDrawType = 1;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("2".equals(key)) {
             mouseDrawType = 2;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("3".equals(key)) {
             mouseDrawType = 3;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("4".equals(key)) {
             mouseDrawType = 5;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("e".equals(key)) {
             mouseDrawType = 4;
-            previousTilePos = new Vector(-1, -1);
+            forceUpdateTransparency = true;
         }
         else if ("[".equals(key)) {
             Board.loadBoard(this, preset1);
@@ -145,22 +139,22 @@ public class DrawWorld extends CursorWorld
                 hoveredTile.setTransparency(255); // make it opaque now (tiles no need to be hovered over)
                 Greenfoot.setWorld(new SimulationWorld());
             }
-            else System.out.println("There are still empty Tiles on the Board!");
+            else display("There are still empty Tiles on the Board!");
         }
         else if ("p".equals(key)) { // prints out the board
             Board.printBuildString();
         }
-        else if (",".equals(key)) {
-            pathStart = Board.getNodeWithRealPosition(cursor.getPosition());
-        }
-        else if (".".equals(key)) {
-            pathEnd = Board.getNodeWithRealPosition(cursor.getPosition());
-            if (pathStart != null && pathEnd != null) {
-                ArrayList<Node> path = Board.findPath(pathStart, pathEnd, 1);
-                Board.displayPath(path, Color.YELLOW);
-            }
-            else System.out.println("one of the nodes are not existing");
-        }
+        // else if (",".equals(key)) {
+            // pathStart = Board.getNodeWithRealPosition(cursor.getPosition());
+        // }
+        // else if (".".equals(key)) {
+            // pathEnd = Board.getNodeWithRealPosition(cursor.getPosition());
+            // if (pathStart != null && pathEnd != null) {
+                // ArrayList<Node> path = Board.findPath(pathStart, pathEnd, 1);
+                // Board.displayPath(path, Color.YELLOW);
+            // }
+            // else System.out.println("one of the nodes are not existing");
+        // }
     }
     private void checkMouseState() {
         if (Greenfoot.mousePressed(null)) { // Mouse has went not pressed to pressed.
@@ -187,6 +181,9 @@ public class DrawWorld extends CursorWorld
             a.setLocation(a.getX(), 0);
         }
     }
+    /**
+     * Depending on the current mouse draw type, return the tile that would be drawn (think of the tile instance as the ink of a pen)
+     */
     private Tile getDrawnTile() {
         switch(mouseDrawType) {
             case 0:
@@ -205,6 +202,7 @@ public class DrawWorld extends CursorWorld
         System.out.println("err: tried to draw tile, but not cannot recognize mouseDrawType: " + mouseDrawType);
         return new EmptyTile(); // Some thing went wrong so give EmptyTile
     }
+
     public void startSimulation(){
         if (Board.isReady()) {
             Tile hoveredTile = Board.getTile(cursor.getPosition());
@@ -213,12 +211,19 @@ public class DrawWorld extends CursorWorld
         }
         else System.out.println("There are still empty Tiles on the Board!");
     }
+    /**
+     * Set the mouse draw type based on the given int
+     * @param type the type of tile to draw.
+     */
+
     public static void setMouseDrawType(int type){
         if(type > -1 && type < 7){
             mouseDrawType = type;
         }
-        
     }
+    /**
+     * Loads a preset board.
+     */
     public  void loadPreset(int type){
         if(type == 1){
             Board.loadBoard(this, preset1);
@@ -226,7 +231,17 @@ public class DrawWorld extends CursorWorld
         else if (type == 2){
             Board.loadBoard(this, preset2);
         }
-        
     }
-
+    /**
+     * Dispalys a given string onto the world.
+     * @param text the text to display.
+     */
+    private void display(String text) {
+        // quick way to prevent spamming to reduce performance. why would you do that though :(
+        if (getObjects(TextBox.class).size() > 3) return;
+        
+        TextBox box = new TextBox(text, 48, Color.WHITE, null, 3, 255);
+        box.fadeOut();
+        addObject(box, getWidth()/2, 100);
+    }
 }

@@ -70,6 +70,14 @@ public class SettingsWorld extends CursorWorld
         vultureEnergy = animalSelect.getEnergyOfVultures();
         wolfEnergy = animalSelect.getEnergyOfWolves();
         simulationLength = dayCounter.getValue();
+        
+        // Check for is all animal nums are zero. If so, then continue selecting until at least one animal chosen
+        if (rabbitCount + goatCount + vultureCount + wolfCount == 0) {
+            display("At least one animal must exist!");
+            return;
+        }
+        
+        
         Greenfoot.setWorld(new DrawWorld());
         
         settingsWorldMusic.stop();
@@ -100,5 +108,17 @@ public class SettingsWorld extends CursorWorld
     }
     public static int getSimulationLength(){
         return simulationLength;
+    }
+    /**
+     * Dispalys a given string onto the world.
+     * @param text the text to display.
+     */
+    private void display(String text) {
+        // quick way to prevent spamming to reduce performance. why would you do that though :(
+        if (getObjects(TextBox.class).size() > 3) return;
+        
+        TextBox box = new TextBox(text, 48, Color.WHITE, null, 3, 255);
+        box.fadeOut();
+        addObject(box, getWidth()/2, 100);
     }
 }

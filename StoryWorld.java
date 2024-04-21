@@ -1,20 +1,22 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class StoryWorld here.
+ * The Story world introduces the simulation to the player. It is self-serving, and there should not be any need
+ * to do something here somewhere else not in this world.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Freeman Wang
+ * @version 2024-04-20
  */
 public class StoryWorld extends CursorWorld
 {
     private GreenfootSound storyWorldMusic;
-    private static String[] dialogue;
-    private static TextBox dialogueBox;
-    private static BreathingTextBox promptBox;
-    private static Button nextWorldButton;
-    private static int line;
-    private static int visibleActCount;
+    private String[] dialogue;
+    private TextBox dialogueBox;
+    private BreathingTextBox promptBox;
+    private Button nextWorldButton;
+    private int line;
+    private int visibleActCount;
+    private Button skipButton;
     /**
      * Constructor for objects of class StoryWorld.
      * 
@@ -57,8 +59,11 @@ public class StoryWorld extends CursorWorld
         dialogueBox = new TextBox(dialogue[line], 24, Color.WHITE, null, 1, 100);
         addObject(dialogueBox, getWidth()/2, getHeight()/2-100);
         
+        skipButton = new Button(this::goToNextWorld, 120, 21, new GreenfootImage("skipbutton_idle_v2.png"), new GreenfootImage("skipbutton_hovered_v2.png"), new GreenfootImage("skipbutton_pressed_v2.png"));
+        addObject(skipButton, getWidth()-60 - 10, 10 + 10);
+        
         promptBox = new BreathingTextBox("Click to continue...", 18, Color.WHITE, null, 240);
-        nextWorldButton = new Button(() -> goToNextWorld(), 200, 75);
+        nextWorldButton = new Button(() -> goToNextWorld(), 200, 75, new GreenfootImage("goButton.png"), new GreenfootImage("goButtonHovered.png"), new GreenfootImage("goButtonPressed.png"));
     }
     public void started() {
         storyWorldMusic.playLoop();
@@ -81,16 +86,25 @@ public class StoryWorld extends CursorWorld
         
         if (!stillMoreDialogue() && nextWorldButton.getWorld() == null) { // once dialogue is exhausted, add the next world button.
             addObject(nextWorldButton, getWidth()/2, getHeight()/2 + 50);
-            storyWorldMusic.pause();
         }
     }
+    /**
+     * Goes to the next world.
+     */
     private void goToNextWorld() {
         storyWorldMusic.stop();
         Greenfoot.setWorld(new SettingsWorld());
     }
+    /**
+     * Progresses the main dialogue.
+     */
     private void playDialogue(int line) {
         dialogueBox.display(dialogue[line]);
     }
+    /**
+     * Check whether all dialogue has been exhausted.
+     * @return true if there still is more dialogue.
+     */
     private Boolean stillMoreDialogue() {
         int nextLine = line + 1;
         return nextLine < dialogue.length;

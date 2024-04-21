@@ -11,8 +11,8 @@ public class Vulture extends Animal
 {
     private Animal targetAnimal;
     private static int numOfVultures = 0;
-    
-    //Animation:
+    private double huntSpeed;
+    //Arrays that store vulture's animation images:
     private int indexAnimation = 0;
     private GreenfootImage[] eatingAnimationUp = new GreenfootImage[3];
     private GreenfootImage[] eatingAnimationDown = new GreenfootImage[3];
@@ -24,16 +24,28 @@ public class Vulture extends Animal
     private GreenfootImage[] walkingAnimationLeft = new GreenfootImage[3];
     private GreenfootImage[] walkingAnimationRight = new GreenfootImage[3];
     //https://www.deviantart.com/lostchild14000/art/Animal-Sprite-Sheet-654707851
+
+    private GreenfootSound vultureSound;
+    
+    /**
+     * Vulture constructor that takes in a parameter
+     * 
+     * @param isBaby  boolean that determines if vulture is a baby
+     */
     public Vulture(boolean isBaby) {
         super(isBaby);
         energy = 3500;
         defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
+        huntSpeed = 1.2 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfVulture();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
+        vultureSound = new GreenfootSound("vulture.mp3"); 
         for(int i = 0; i<3; i++)
         {
            walkingAnimationUp[i] = new GreenfootImage("images/Vulture/Walking/Up/Up" + (i+1) + ".png");
@@ -48,16 +60,23 @@ public class Vulture extends Animal
         }
     }
     
+    /**
+     * Default vulture constructor
+     */
     public Vulture() {
         super(false);
         energy = 3500;
         defaultSpeed = ((double)Greenfoot.getRandomNumber(21)/100.0) + 0.6;
         currentSpeed = defaultSpeed;
+        huntSpeed = 1.2 * defaultSpeed;
         wantToEat = false;
         viewRadius = SettingsWorld.getStartEnergyOfVulture();
+        currentViewRadius = viewRadius;
+        loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 3;
         breedingThreshold = 3500;
         numOfVultures++;
+        vultureSound = new GreenfootSound("vulture.mp3"); 
         for(int i = 0; i<3; i++)
         {
            walkingAnimationUp[i] = new GreenfootImage("images/Vulture/Walking/Up/Up" + (i+1) + ".png");
@@ -82,10 +101,6 @@ public class Vulture extends Animal
         }
     }
 
-    /**
-     * Act - do whatever the Vulture wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     public void act()
     {
         super.act();
@@ -96,12 +111,23 @@ public class Vulture extends Animal
         }else{
             ableToBreed = false;
         }
+        
+        if(!wantToEat){
+            currentSpeed = defaultSpeed;
+        }
+        if (Greenfoot.getRandomNumber(8000) == 0) {
+            vultureSound.play();
+        }
     }
 
+    /**
+     * Method for vultures to search for a breeding partner when they are ready
+     * If partner exists, they will proceed to breed
+     */
     public void breed() {
         // Find another vulture nearby
         if (!(target instanceof Vulture)) { // attempt to find a Vulture eligble
-            SuperActor search = (Vulture) getClosestInRange(this.getClass(), viewRadius, v -> !((Vulture)v).isAbleToBreed() || !((Vulture)v).isAlive()); // Adjust range as needed
+            SuperActor search = (Vulture) getClosestInRange(this.getClass(), currentViewRadius, v -> !((Vulture)v).isAbleToBreed() || !((Vulture)v).isAlive()); // Adjust range as needed
             
             if (search != null) { // found a Vulture!
                 target = search;
@@ -114,7 +140,7 @@ public class Vulture extends Animal
             // Check if retargeting needed.
             if (targetVulture.getWorld() == null || !targetVulture.isAlive() || !targetVulture.isAbleToBreed()) {
                 target = null; // neccessiate retargeting
-                return; // nothign else t do
+                return; // nothing else to do
             }
             else if(distanceFrom(target) < 40){ // close to target Vulture! breed
                 breeding = true;
@@ -136,14 +162,17 @@ public class Vulture extends Animal
         }
     }
 
+    /**
+     * Method for vultures to find and eat food
+     */
     public void findOrEatFood() {
         if (!(target instanceof Animal)) { // force the target to be of correct type
-            SuperActor search = (Animal)getClosestInRange(Animal.class, viewRadius/4, a -> ((Animal)a).isAlive());
+            SuperActor search = (Animal)getClosestInRange(Animal.class, currentViewRadius/4, a -> ((Animal)a).isAlive());
             if(search == null) {
-                search = (Animal)getClosestInRange(Animal.class, viewRadius/2, a -> ((Animal)a).isAlive());
+                search = (Animal)getClosestInRange(Animal.class, currentViewRadius/2, a -> ((Animal)a).isAlive());
             }
             if(search == null) {
-                search = (Animal)getClosestInRange(Animal.class, viewRadius, a-> ((Animal)a).isAlive());
+                search = (Animal)getClosestInRange(Animal.class, currentViewRadius, a-> ((Animal)a).isAlive());
             }
             
             if (search != null) {
@@ -153,6 +182,7 @@ public class Vulture extends Animal
         
         if (target instanceof Animal){ // if target exists
             Animal targetPrey = (Animal) target; // cast as type Anial
+            currentSpeed = huntSpeed;
             
             if (targetPrey.getWorld() == null) { // check for retargeting required
                 eating = false;
@@ -173,6 +203,9 @@ public class Vulture extends Animal
         }
     }
 
+    /**
+     * Method that animates vultures
+     */
     public void animate()
     {
         if(eating)
@@ -219,11 +252,21 @@ public class Vulture extends Animal
         }
     }
     
+    /**
+     * Method that gets the number of vultures alive in world
+     * 
+     * @return numOfVultures  the number of vultures alive in world
+     */
     public static int getNumOfVultures() {
         return numOfVultures;
     }
     
-    public static void decreaseNumOfVultures(){
-        numOfVultures = numOfVultures - 1;
+    /**
+     * Method sets number of vultures
+     * 
+     * @param num  the new number of vultures
+     */
+    public static void setNumOfVultures(int num){
+        numOfVultures = num;
     }
 }

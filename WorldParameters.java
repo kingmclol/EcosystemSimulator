@@ -1,5 +1,5 @@
 /**
- * Write a description of class WorldParameters here.
+ * unused class. should delete later.
  * 
  * @author (your name) 
  * @version (a version number or a date)

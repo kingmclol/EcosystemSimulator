@@ -44,6 +44,8 @@ public abstract class Animal extends SuperActor {
     protected int walkHeight;
 
     protected int viewRadius; //How far animals can detect other animals
+    protected int currentViewRadius;
+    protected int loweredViewRadius;
 
     protected double defaultSpeed;
     protected double currentSpeed;
@@ -122,7 +124,7 @@ public abstract class Animal extends SuperActor {
 
         currentTile = Board.getTile(getPosition()); //gets the current tile the animal is on
 
-        if(currentTile instanceof WaterTile){ // If the animal is on a water tile right now
+        if(currentTile instanceof WaterTile && !(this instanceof Vulture)){ // If the animal is on a water tile right now
             swimming = true; // it is swmming.
             currentSpeed = waterSpeed; // adjust speed accordingly.
         }else{ // otherwise, it is moving normally.
@@ -186,7 +188,12 @@ public abstract class Animal extends SuperActor {
                 baby = false;
             }
         }
-        //inTree();
+        
+        if(isSnowing){//animals cannot see as far when it is snowing
+            currentViewRadius = loweredViewRadius;
+        }else{
+            currentViewRadius = viewRadius;
+        }
     }
     
     /**
@@ -245,13 +252,13 @@ public abstract class Animal extends SuperActor {
      */
     public void die() {
         if(this instanceof Rabbit){
-            Rabbit.decreaseNumOfRabbits();
+            Rabbit.setNumOfRabbits(Rabbit.getNumOfRabbits() - 1);
         }else if(this instanceof Goat){
-            Goat.decreaseNumOfGoats();
+            Goat.setNumOfGoats(Goat.getNumOfGoats() - 1);
         }else if(this instanceof Vulture){
-            Vulture.decreaseNumOfVultures();
+            Vulture.setNumOfVultures(Vulture.getNumOfVultures() - 1);
         }else if(this instanceof Wolf){
-            Wolf.decreaseNumOfWolves();
+            Wolf.setNumOfWolves(Wolf.getNumOfWolves() - 1);
         }
         alive = false;
         disableStaticRotation();
@@ -270,10 +277,10 @@ public abstract class Animal extends SuperActor {
     /**
      * Getter method to access energy value
      * 
-     * @return energy   current energy value of animal
+     * @return hp   current hp value of animal
      */
-    public int getEnergy() {
-        return energy;
+    public int getHp() {
+        return hp;
     }
 
     /**

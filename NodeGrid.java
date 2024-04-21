@@ -14,6 +14,7 @@ public class NodeGrid
     private Node[][] grid;
     private int width, height;
     private int tileSize;
+    private static final boolean SHOW_LOGS = false;
     /**
      * Creates a NodeGrid, for pathfinding.
      * @param width The width of the grid
@@ -159,7 +160,7 @@ public class NodeGrid
                 }
             }
         }
-        System.out.println("warn: no path was found in a pathfinding attempt");
+        if (SHOW_LOGS) System.out.println("warn: no path was found in a pathfinding attempt");
         return null;
     } 
     /**

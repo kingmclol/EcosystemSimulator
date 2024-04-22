@@ -4,15 +4,17 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class SettingsWorld extends CursorWorld
 {
     private GreenfootSound settingsWorldMusic;
+    // Set up counter and settings variables
     private static int goatCount;
     private static int wolfCount;
     private static int rabbitCount;
     private static int vultureCount;
-    private static int goatEnergy;
-    private static int wolfEnergy;
-    private static int rabbitEnergy;
-    private static int vultureEnergy;
+    private static int goatView;
+    private static int wolfView;
+    private static int rabbitView;
+    private static int vultureView;
     private static int simulationLength;
+    
     private Slider dayCounter;
     
     private Button leaveButton;
@@ -31,6 +33,7 @@ public class SettingsWorld extends CursorWorld
         settingsWorldMusic.setVolume(50);
         settingsWorldMusic.playLoop();
         UI.init();
+        // Initialize image variables
         GreenfootImage leftButtonImg = new GreenfootImage("images/incrementLeft.png");
         GreenfootImage leftButtonImg1 = new GreenfootImage("images/incrementLeftHovered.png");
         GreenfootImage leftButtonImg2 = new GreenfootImage("images/incrementLeftPressed.png");
@@ -60,15 +63,19 @@ public class SettingsWorld extends CursorWorld
     public void started() {
         settingsWorldMusic.playLoop();
     }
+    /**
+     * When the leave button is clicked, the settings are saved and world is switched.
+     */
     private void onClick(){
+        // Save all settings values into static variables;
         rabbitCount = animalSelect.getNumOfRabbits();
         goatCount = animalSelect.getNumOfGoats();
         vultureCount = animalSelect.getNumOfVultures();
         wolfCount = animalSelect.getNumOfWolves();
-        rabbitEnergy = animalSelect.getEnergyOfRabbits();
-        goatEnergy = animalSelect.getEnergyOfGoat();
-        vultureEnergy = animalSelect.getEnergyOfVultures();
-        wolfEnergy = animalSelect.getEnergyOfWolves();
+        rabbitView = animalSelect.getViewRadiusOfRabbits();
+        goatView = animalSelect.getViewRadiusOfGoat();
+        vultureView = animalSelect.getViewRadiusOfVultures();
+        wolfView = animalSelect.getViewRadiusOfWolves();
         simulationLength = dayCounter.getValue();
         
         // Check for is all animal nums are zero. If so, then continue selecting until at least one animal chosen
@@ -77,35 +84,71 @@ public class SettingsWorld extends CursorWorld
             return;
         }
         
-        
+        // Move to next world
         Greenfoot.setWorld(new DrawWorld());
         
         settingsWorldMusic.stop();
     }
+    /**
+     * Gets the number of goats that are to be spawned at the beginning of the simulation.
+     * @return Number of goats to be spawned
+     */
     public static int getNumOfGoatToSpawn(){
         return goatCount;
     }
+    /**
+     * Gets the number of rabbits that are to be spawned at the beginning of the simulation.
+     * @return Number of rabbits to be spawned
+     */
     public static int getNumOfRabbitToSpawn(){
         return rabbitCount;
     }
+    /**
+     * Gets the number of wolves that are to be spawned at the beginning of the simulation.
+     * @return Number of wolves to be spawned
+     */
     public static int getNumOfWolfToSpawn(){
         return wolfCount;
     }
+    /**
+     * Gets the number of vultures that are to be spawned at the beginning of the simulation.
+     * @return Number of vultures to be spawned
+     */
     public static int getNumOfVultureToSpawn(){
         return vultureCount;
     }
-    public static int getStartEnergyOfRabbit(){
-        return rabbitEnergy;
+    /**
+     * Gets the starting view radius of rabbits that are to be spawned at the beginning of the simulation.
+     * @return View radius of rabbits
+     */
+    public static int getStartViewOfRabbit(){
+        return rabbitView;
     }
-    public static int getStartEnergyOfWolf(){
-        return wolfEnergy;
+    /**
+     * Gets the starting view radius of wolves that are to be spawned at the beginning of the simulation.
+     * @return View radius of wolves
+     */
+    public static int getStartViewOfWolf(){
+        return wolfView;
     }
-    public static int getStartEnergyOfGoat(){
-        return goatEnergy;
+    /**
+     * Gets the starting view radius of goats that are to be spawned at the beginning of the simulation.
+     * @return View radius of goats
+     */
+    public static int getStartViewOfGoat(){
+        return goatView;
     }
-    public static int getStartEnergyOfVulture(){
-        return vultureEnergy;
+    /**
+     * Gets the starting view radius of vultures that are to be spawned at the beginning of the simulation.
+     * @return View radius of vultures
+     */
+    public static int getStartViewOfVulture(){
+        return vultureView;
     }
+    /**
+     * Gets the simulation length in days.
+     * @return Number of days the simulation lasts
+     */
     public static int getSimulationLength(){
         return simulationLength;
     }

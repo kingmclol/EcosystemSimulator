@@ -8,17 +8,18 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Rain extends Effect
 {
-    private static GreenfootSound rainSound = new GreenfootSound("Rain.mp3");    
+    private static GreenfootSound rainSound = new GreenfootSound("Rain.mp3");
     public Rain() {
-        super(600, 100);
+        super(500, 300);
     }
     
     public void addedToWorld(World w) {
         super.addedToWorld(w);
-        GreenfootImage image = Utility.drawRain(1024, 768, 50);
+        GreenfootImage image = new GreenfootImage("rain.png");
         image.setTransparency(0);
         setImage(image);
         setLocation(w.getWidth()/2, w.getHeight()/2);
+        rainSound.setVolume(100);
         rainSound.play(); 
     }
     /**

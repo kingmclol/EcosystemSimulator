@@ -145,13 +145,7 @@ public class DrawWorld extends CursorWorld
             Board.loadBoard(this, preset3);
         }
         else if ("l".equals(key)) { // submit
-            if (Board.isReady()) {
-                Tile hoveredTile = Board.getTile(cursor.getPosition());
-                hoveredTile.setTransparency(255); // make it opaque now (tiles no need to be hovered over)
-                Greenfoot.setWorld(new SimulationWorld());
-                drawWorldMusic.stop(); 
-            }
-            else display("There are still empty Tiles on the Board!");
+            startSimulation();
         }
         else if ("p".equals(key)) { // prints out the board
             Board.printBuildString();
@@ -217,6 +211,10 @@ public class DrawWorld extends CursorWorld
 
     public void startSimulation(){
         if (Board.isReady()) {
+            if (!Board.containsSpawnableTiles()) {
+                display("At least one Bush or Grass Tile must exist!");
+                return;
+            }
             Tile hoveredTile = Board.getTile(cursor.getPosition());
             hoveredTile.setTransparency(255); // make it opaque now (tiles no need to be hovered over)
             Greenfoot.setWorld(new SimulationWorld());

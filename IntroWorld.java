@@ -2,15 +2,59 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
  * ==================== ECOSYSTEM SIMULATOR ====================
- * [story description]
+ * What a catastrophe. The World's God has given up on their job and the player is tasked to 
+ * take their place! Just for a little while, though.
+ * 
+ * With God leaving you to your devices, you are able to create an World for yourself! Are you going to be a 
+ * sadistic person and create animals solely to let them die, or attempt to make a sustainable ecosystem that makes
+ * everyone happy? The choice is yours.
  * ======== INSTRUCTIONS =========
- * [what to do]
+ * After progressing through the introduction, you will be presented some settings.
+ *  "# of Days": How long the simulation should last for. It is the target day number for the good ending.
+ *  "[animal species]": The animal species being considered for the following settings:
+ *      "Starting Amount": How many animals of the current species should spawn initially. Range from [0, 50]
+ *      "View Radius": The radius of the circle, in pixels, that the current animal species can see.
+ * 
+ * - After setting your settings (and having a minimum of 1 animal starting), you will be in the 
+ *   DrawWorld, where you are to draw out your desired environment.
+ * - Use the tile selector (at the right side) to change your "ink" (tile type), use a preset, or start the simulation.
+ * - If you are too lazy, or want to start from a preset, you can do so using the bottom two buttons in the tile selector.
+ * - Once you are ready, and the board does not contain any empty (gray) tiles, press the start button.
  * ======== FEATURES ========
- * [cool stuff]
+ * - Cool title screen
+ * - "Storyline"
+ * - A SKIP BUTTON YAY
+ * - Ability to draw out your own environment
+ * - Ability to use presets
+ * - Two endings
+ * - World events, NOT effects (rain, snowstorm, nights)
+ *   - Nights are purely visual.
+ *   - Rain doubles grow speed of berries, grass, and probability of seeds existing (through any method)
+ *   - Snowstorms decrease the vision radius of animals.
+ * - Summary world of the worl'ds progressino over time.
+ * - Animal pathfinding (e.g. rabbits will not go on tiles.)
+ * - Current stats tracking (# of animals, time, day num)
+ * - Animated tiles and animals
+ * 
+ * The simulation focuses on observing interactions between the animals and the tiles.
+ * - Goats eat berries in BushTiles. When BushTiles have 0 berries left, they enter a cooldown period before
+ *   berries are available again. Additionally, BushTiles have a chance of turning into a GrassTile when berries depelted.
+ * - Rabbits eat grass in GrassTiles.
+ * - Wolves target Goats and Rabbits to eat them.
+ * - Vultures only target dead animals.
+ * - Bush tiles and tree tiles have a chance to drop a seed into a nearby grass tile. The seed, once
+ *   fully grown, will turn the grass tile into the respective seed tile.
+ * - Grass tiles have a chance to self-seed into a bush or tree tile.
  * ======= KNOWN BUGS =======
- * [everything]
- * 
- * 
+ * - Sound files may error.
+ * - Animals may sometimes get stuck in the corner of a tile which is higher than what they can walk to.
+ * - The top-left corner may be highlighted for no apparent reason during starting of DrawWorld.
+ * ======= CREDITS ======
+ * SuperSmoothMover, SuperDisplayLabel, SuperTextBox by Jordan Cohen.
+ * IntroWorld images by from /u/Voidentir from https://old.reddit.com/r/DigitalArt/comments/1akfavq/my_old_landscape_artworks/
+ * Traumatized sonic image from imgflip
+ * Picture of a kitten from Wikipedia
+ * [...]
  * ==================================
  * The IntroWorld is the first World that the player sees. It's only use is to look cool before the Player goes to the next World.
  * 
@@ -40,7 +84,7 @@ public class IntroWorld extends CursorWorld
     public IntroWorld()
     {
         super();
-        promptBox = new BreathingTextBox("PRESS (L) TO START", 52, Color.RED, null, 120);
+        promptBox = new BreathingTextBox("PRESS [L] TO START", 52, Color.RED, null, 120);
         //promptAnchor = new Vector(getWidth()/2, getHeight()/2 + 300);
         addObject(promptBox, getWidth()/2, getHeight()/2+300);
         

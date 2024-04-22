@@ -29,7 +29,7 @@ public class Goat extends Animal
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
-        viewRadius = SettingsWorld.getStartEnergyOfGoat();
+        viewRadius = SettingsWorld.getStartViewOfGoat();
         currentViewRadius = viewRadius;
         loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 2;
@@ -56,7 +56,7 @@ public class Goat extends Animal
         currentSpeed = defaultSpeed;
         waterSpeed = 0.7 * defaultSpeed;
         wantToEat = false;
-        viewRadius = SettingsWorld.getStartEnergyOfGoat();
+        viewRadius = SettingsWorld.getStartViewOfGoat();
         currentViewRadius = viewRadius;
         loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 2;

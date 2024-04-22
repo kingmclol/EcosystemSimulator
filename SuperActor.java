@@ -59,7 +59,7 @@ public abstract class SuperActor extends SuperSmoothMover
         displace(getDisplacement(target, distance));
     }
     /** 
-     * Move towards a SuperActor. This time, with pathfidning involved.
+     * Move towards a SuperActor. This time, with pathfinding involved.
      * @param target The SuperActor to move towards.
      * @param The distance the SuperActor should travel. Also can be seen as the "speed."
      * @param maxTileHeight the maximum tile height that the superactor can walk on.

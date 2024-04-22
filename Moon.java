@@ -1,13 +1,14 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Moon here.
+ * The indicator that tells the viewer whether it is day or night time.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Tony Lin
+ * @version Mon April 22, 2024
  */
 public class Moon extends SuperActor
 {
+    //Instance Variables:
     private GreenfootImage moon;
     
     /**

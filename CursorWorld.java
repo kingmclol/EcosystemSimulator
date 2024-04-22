@@ -26,6 +26,5 @@ public abstract class CursorWorld extends World
     }
     protected static Cursor getCursor(){
         return cursor;
-        
     }
 }

@@ -11,18 +11,17 @@ public class Snowstorm extends Effect
 {
     private static GreenfootSound snowSound = new GreenfootSound("snowstorm.mp3");
     public Snowstorm () {
-        super(600, 100);
+        super(500, 300);
     }
 
     public void addedToWorld (World w){
         super.addedToWorld(w);
-        GreenfootImage image = Utility.drawSnow(w.getWidth(), w.getHeight(), 50);
+        GreenfootImage image = new GreenfootImage("snow.png");
         image.setTransparency(0);
         setImage(image);
         setLocation (w.getWidth()/ 2, w.getHeight()/2);
-        
         snowSound.setVolume(100);
-        snowSound.playLoop(); 
+        snowSound.play(); 
     }
 
     /**

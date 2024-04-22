@@ -14,6 +14,8 @@ public class SummaryWorld extends CursorWorld
     private int actCount;
     private BreathingTextBox prompt;
     private int day; // or index
+    
+    private GreenfootSound summaryWorldMusic;
     public SummaryWorld()
     {
         boards = (ArrayList<String>) SimulationWorld.getDailyBoards(); // recieve daily board data.
@@ -33,6 +35,9 @@ public class SummaryWorld extends CursorWorld
         
         Board.setWorld(this); // make the board use the summary world for adding/removing
         displayBoard(0); // display zeroth world
+        
+        summaryWorldMusic = new GreenfootSound("endworld.mp3");
+        summaryWorldMusic.play();
     }
     public void act() {
         manageKeyInput();
@@ -59,6 +64,7 @@ public class SummaryWorld extends CursorWorld
     }
     private void goToNextWorld() {
         Greenfoot.setWorld(new IntroWorld(true)); // use the other constructor so muci also plays 
+        summaryWorldMusic.stop();
     }
     /**
      * Get the next day (cycles back to zero if out of the boards size limit)
@@ -75,5 +81,11 @@ public class SummaryWorld extends CursorWorld
         TextBox box = new TextBox(text, 52, Color.BLACK, null, 2, 255);
         box.fadeOut();
         addObject(box, getWidth()/2, 100);
+    }
+    public void started() {
+        summaryWorldMusic.play(); 
+    }
+    public void stopped() {
+        summaryWorldMusic.pause();
     }
 }

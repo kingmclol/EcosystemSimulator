@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public class DrawWorld extends CursorWorld
 {
+    private GreenfootSound drawWorldMusic;
     
     private Vector currentTilePos, previousTilePos;
     private static int mouseDrawType;
@@ -45,6 +46,10 @@ public class DrawWorld extends CursorWorld
         previousTilePos = new Vector(-1, -1);
         currentTilePos = new Vector(-1, -1);
         Tile.setTimeFlow(false); // Tiles added should not act right now
+        
+        drawWorldMusic = new GreenfootSound("drawworld.mp3");
+        drawWorldMusic.setVolume(30); 
+        drawWorldMusic.play();
     }
     public void act() {
         checkMouseState(); // Get whether the mouse is clicked/released to determine if the user is drawing
@@ -75,6 +80,12 @@ public class DrawWorld extends CursorWorld
         previousTilePos = currentTilePos; // set the previous tile position to the current itle position
         
         manageKeyInput(); // read key input for keybinds
+    }
+    public void started() {
+        drawWorldMusic.play(); 
+    }
+    public void stopped() {
+        drawWorldMusic.pause();
     }
     private Tile getCurrentTile(ArrayList<Actor> actors) {
         Tile tile = null;
@@ -138,6 +149,7 @@ public class DrawWorld extends CursorWorld
                 Tile hoveredTile = Board.getTile(cursor.getPosition());
                 hoveredTile.setTransparency(255); // make it opaque now (tiles no need to be hovered over)
                 Greenfoot.setWorld(new SimulationWorld());
+                drawWorldMusic.stop(); 
             }
             else display("There are still empty Tiles on the Board!");
         }
@@ -208,6 +220,7 @@ public class DrawWorld extends CursorWorld
             Tile hoveredTile = Board.getTile(cursor.getPosition());
             hoveredTile.setTransparency(255); // make it opaque now (tiles no need to be hovered over)
             Greenfoot.setWorld(new SimulationWorld());
+            drawWorldMusic.stop();
         }
         else display("There are still empty Tiles on the Board!");
     }

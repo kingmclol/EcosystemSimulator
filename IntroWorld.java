@@ -84,7 +84,7 @@ public class IntroWorld extends CursorWorld
     public IntroWorld()
     {
         super();
-        promptBox = new BreathingTextBox("PRESS (L) TO START", 52, Color.RED, null, 120);
+        promptBox = new BreathingTextBox("PRESS [L] TO START", 52, Color.RED, null, 120);
         //promptAnchor = new Vector(getWidth()/2, getHeight()/2 + 300);
         addObject(promptBox, getWidth()/2, getHeight()/2+300);
         

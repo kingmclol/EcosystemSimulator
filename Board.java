@@ -306,6 +306,18 @@ public class Board
         return true;
     }
     /**
+     * Check if the board contains a spawnable tile (grass or bush tile.)
+     * @return whether the board contains at least one bush or grass tile.
+     */
+    public static boolean containsSpawnableTiles() {
+        for (Tile [] row : map) {
+            for (Tile t : row) {
+                if (t instanceof BushTile || t instanceof GrassTile) return true;
+            }
+        }
+        return false;
+    }
+    /**
      * In terms of world coordinates.
      * @param start The start position, in world coordinates
      * @param end the end position, in world coordinates

@@ -6,7 +6,7 @@ import greenfoot.*;
  *  in the simulation to adjust their respective settings.</p>
  * <p>There is a ButtonIncrement object for each animal type used for changing and storing values 
  * related to starting numbers for the simulation. There is also a Slider object for each animal type for
- * changing the starting energy for the simulation.</p>
+ * changing the starting View Radius for the simulation.</p>
  */
 public class AnimalSelector extends UI
 {
@@ -123,32 +123,32 @@ public class AnimalSelector extends UI
         return buttonIncrementers[3].getValue();
     }
     /**
-     * Gets the energy value of rabbits to spawn with at the beginning of the simulation. 
-     * @return Starting energy value of a vulture.
+     * Gets the ViewRadius value of rabbits to spawn with at the beginning of the simulation. 
+     * @return Starting ViewRadius value of a vulture.
      */
-    public int getEnergyOfRabbits(){
+    public int getViewRadiusOfRabbits(){
         return sliders[0].getValue();
     }
     
     /**
-     * Gets the energy value of goats to spawn with at the beginning of the simulation. 
-     * @return Starting energy value of a goat.
+     * Gets the ViewRadius value of goats to spawn with at the beginning of the simulation. 
+     * @return Starting ViewRadius value of a goat.
      */
-    public int getEnergyOfGoat(){
+    public int getViewRadiusOfGoat(){
         return sliders[1].getValue();
     }
     /**
-     * Gets the energy value of wolves to spawn with at the beginning of the simulation. 
-     * @return Starting energy value of a wolf.
+     * Gets the ViewRadius value of wolves to spawn with at the beginning of the simulation. 
+     * @return Starting ViewRadius value of a wolf.
      */
-    public int getEnergyOfWolves(){
+    public int getViewRadiusOfWolves(){
         return sliders[2].getValue();
     }
     /**
-     * Gets the energy value of vultures to spawn with at the beginning of the simulation. 
-     * @return Starting energy value of a vulture.
+     * Gets the ViewRadius value of vultures to spawn with at the beginning of the simulation. 
+     * @return Starting ViewRadius value of a vulture.
      */
-    public int getEnergyOfVultures(){
+    public int getViewRadiusOfVultures(){
         return sliders[3].getValue();
     }
 }

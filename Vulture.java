@@ -39,7 +39,7 @@ public class Vulture extends Animal
         currentSpeed = defaultSpeed;
         huntSpeed = 1.2 * defaultSpeed;
         wantToEat = false;
-        viewRadius = SettingsWorld.getStartEnergyOfVulture();
+        viewRadius = SettingsWorld.getStartViewOfVulture();
         currentViewRadius = viewRadius;
         loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 3;
@@ -70,7 +70,7 @@ public class Vulture extends Animal
         currentSpeed = defaultSpeed;
         huntSpeed = 1.2 * defaultSpeed;
         wantToEat = false;
-        viewRadius = SettingsWorld.getStartEnergyOfVulture();
+        viewRadius = SettingsWorld.getStartViewOfVulture();
         currentViewRadius = viewRadius;
         loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 3;

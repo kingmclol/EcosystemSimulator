@@ -37,7 +37,7 @@ public class Wolf extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
-        viewRadius = SettingsWorld.getStartEnergyOfWolf();
+        viewRadius = SettingsWorld.getStartViewOfWolf();
         currentViewRadius = viewRadius;
         loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 1;
@@ -68,7 +68,7 @@ public class Wolf extends Animal
         waterSpeed = 0.7 * defaultSpeed;
         huntSpeed = defaultSpeed * 1.2;
         wantToEat = false;
-        viewRadius = SettingsWorld.getStartEnergyOfWolf();
+        viewRadius = SettingsWorld.getStartViewOfWolf();
         currentViewRadius = viewRadius;
         loweredViewRadius = (int)(0.8 * viewRadius);
         walkHeight = 1;

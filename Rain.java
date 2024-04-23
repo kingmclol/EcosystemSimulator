@@ -10,7 +10,7 @@ public class Rain extends Effect
 {
     private static GreenfootSound rainSound = new GreenfootSound("Rain.mp3");
     public Rain() {
-        super(500, 300);
+        super(500, 255);
     }
     
     public void addedToWorld(World w) {

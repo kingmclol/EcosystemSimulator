@@ -11,7 +11,7 @@ public class Snowstorm extends Effect
 {
     private static GreenfootSound snowSound = new GreenfootSound("snowstorm.mp3");
     public Snowstorm () {
-        super(500, 300);
+        super(500, 255);
     }
 
     public void addedToWorld (World w){

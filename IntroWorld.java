@@ -54,7 +54,19 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * IntroWorld images by from /u/Voidentir from https://old.reddit.com/r/DigitalArt/comments/1akfavq/my_old_landscape_artworks/
  * Traumatized sonic image from imgflip
  * Picture of a kitten from Wikipedia
- * [...]
+ * All Sounds:
+ * IntroWorld music: https://www.youtube.com/watch?v=nW5bQ39Ldp8
+ * StoryWorld and ending world music: https://www.youtube.com/watch?v=KoxxBeH7J3Q&t=1s
+ * SettingsWorld music: https://www.youtube.com/watch?v=55TD9gnMt3Y
+ * DrawWorld music: https://www.youtube.com/watch?v=DSWYAclv2I8
+ * SimulationWorld music: https://www.youtube.com/watch?v=xNN7iTA57jM&t=4003s
+ * SummaryWorld music: https://www.youtube.com/watch?v=waKumDkYrDY&list=PLw9AcE2IomDM_7XmIy0m2v9_QzbaE-Vrj&index=4 
+ * Rain sound: https://www.youtube.com/watch?v=C-hzP3mOBGY
+ * Snowstorm sound: https://www.youtube.com/watch?v=KqJ37MVf16Y
+ * Goat sound: https://www.youtube.com/watch?v=WfMiMLA56z4
+ * Vulture sound: https://www.youtube.com/watch?v=N5bXcr9OTwE
+ * Wolf sound: https://www.youtube.com/watch?v=1BwXK3L7OaQ
+ * Button sound: https://www.youtube.com/watch?v=BZvS2Bno8R4
  * ==================================
  * The IntroWorld is the first World that the player sees. It's only use is to look cool before the Player goes to the next World.
  * 

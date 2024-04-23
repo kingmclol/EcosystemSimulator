@@ -43,10 +43,13 @@ public class SimulationWorld extends World
         super(1008, 768, 1); 
 
         setPaintOrder(UI.class, SuperDisplayLabel.class,Sun.class, Moon.class, Effect.class, BreedingEffect.class, Animal.class, Node.class, Tile.class);
-
+        Goat.setNumOfGoats(0);
+        Rabbit.setNumOfRabbits(0);
+        Wolf.setNumOfWolves(0);
+        Vulture.setNumOfVultures(0);
         Board.setWorld(this);
         Tile.setTimeFlow(true);
-        
+        // Get the grass and bush tiles in array 
         spawnableTiles = (ArrayList<Tile>)((ArrayList<?>)getObjects(GrassTile.class));
         spawnableTiles.addAll((ArrayList<Tile>)((ArrayList<?>)getObjects(BushTile.class)));
         spawnAnimals("Goat", SettingsWorld.getNumOfGoatToSpawn());
@@ -77,10 +80,7 @@ public class SimulationWorld extends World
     }
     
     public void started() {
-        Goat.setNumOfGoats(0);
-        Rabbit.setNumOfRabbits(0);
-        Wolf.setNumOfWolves(0);
-        Vulture.setNumOfVultures(0);
+
         simulationSound.playLoop();
     }
     public void stopped() {

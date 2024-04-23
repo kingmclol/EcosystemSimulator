@@ -251,6 +251,7 @@ public abstract class Animal extends SuperActor {
      * Method for when animals die
      */
     public void die() {
+        
         if(this instanceof Rabbit){
             Rabbit.setNumOfRabbits(Rabbit.getNumOfRabbits() - 1);
         }else if(this instanceof Goat){

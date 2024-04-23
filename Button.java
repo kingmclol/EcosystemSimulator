@@ -4,7 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * Buttons are simple objects that run a body of code or method when clicked upon.
  * 
  * @author Neelan Thurairajah
- * @version (a version number or a date)
+ * @version 2024/04/20
  */
 public class Button extends UI
 {

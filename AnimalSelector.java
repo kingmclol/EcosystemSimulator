@@ -7,6 +7,9 @@ import greenfoot.*;
  * <p>There is a ButtonIncrement object for each animal type used for changing and storing values 
  * related to starting numbers for the simulation. There is also a Slider object for each animal type for
  * changing the starting View Radius for the simulation.</p>
+ * 
+ * @author Neelan Thurairajah
+ * @version 2024/04/20
  */
 public class AnimalSelector extends UI
 {

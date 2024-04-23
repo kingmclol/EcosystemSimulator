@@ -1,9 +1,9 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * This is the UI for selecting tiles for drawing before the simulation starts.
+ * This is the UI for selecting tiles for drawing before the simulation starts. Uses the cursor for user input.
  * @author Neelan Thurairajah 
- * @version (a version number or a date)
+ * @version 2024/04/20
  */
 public class TileSelector extends UI
 {

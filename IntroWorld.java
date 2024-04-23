@@ -31,8 +31,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  *   - Nights are purely visual.
  *   - Rain doubles grow speed of berries, grass, and probability of seeds existing (through any method)
  *   - Snowstorms decrease the vision radius of animals.
- * - Summary world of the worl'ds progressino over time.
- * - Animal pathfinding (e.g. rabbits will not go on tiles.)
+ * - Summary world of the world's progression over time.
+ * - Animal pathfinding (e.g. rabbits will not go on certain tiles.)
  * - Current stats tracking (# of animals, time, day num)
  * - Animated tiles and animals
  * 

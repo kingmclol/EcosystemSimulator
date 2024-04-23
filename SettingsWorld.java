@@ -1,8 +1,15 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-
+/**
+ * This class is where the user changes the various settings of the game. Values are
+ * stored in static variables for use in the simulation.
+ * @author Neelan Thurairajah
+ * @version 2024/04/20
+ *
+ */
 public class SettingsWorld extends CursorWorld
 {
+   
     private GreenfootSound settingsWorldMusic;
     // Set up counter and settings variables
     private static int goatCount;
@@ -19,7 +26,9 @@ public class SettingsWorld extends CursorWorld
     
     private Button leaveButton;
     private AnimalSelector animalSelect;
-    
+    /**
+     * Basic constructor
+     */
     public SettingsWorld()
     {    
         super();
@@ -57,9 +66,15 @@ public class SettingsWorld extends CursorWorld
         
         addObject(leaveButton, getWidth()/2, getHeight() - 100);
     }
+    /**
+     * Pauses music when the simulation is paused.
+     */
     public void stopped() {
         settingsWorldMusic.pause(); 
     }
+    /**
+     * Pauses music when the simulation is started or unpaused.
+     */
     public void started() {
         settingsWorldMusic.playLoop();
     }

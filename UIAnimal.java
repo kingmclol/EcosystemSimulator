@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  *
  * 
  * @author Neelan Thurairajah 
- * @version (a version number or a date)
+ * @version 2024/04/20
  */
 public class UIAnimal extends UI
 {

@@ -1,11 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * ButtonIncrement generates an object composed of a text box that displays an 
+ * ButtonIncrement creates an object composed of a text box that displays an 
  * integer value and 2 buttons for changing that integer value. There are 2 buttons that can increment that values on either side of the text box.
  * 
  * @author Neelan Thurairajah
- * @version
+ * @version 2024/04/20
  */
 public class ButtonIncrement extends UI
 {

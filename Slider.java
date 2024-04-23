@@ -5,7 +5,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * 
  * 
  * @author Neelan Thurairajah
- * @version (a version number or a date)
+ * @version 2024/04/20
  */
 public class Slider extends UI
 {
@@ -119,8 +119,5 @@ public class Slider extends UI
         
         w.removeObject(this);
     }
-    public void act()
-    {
-        // Add your action code here.
-    }
+
 }

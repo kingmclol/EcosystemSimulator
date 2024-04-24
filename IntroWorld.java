@@ -54,6 +54,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * IntroWorld images by from /u/Voidentir from https://old.reddit.com/r/DigitalArt/comments/1akfavq/my_old_landscape_artworks/
  * Traumatized sonic image from imgflip
  * Picture of a kitten from Wikipedia
+ * Background for the Settings World from https://www.hiclipart.com/free-transparent-background-png-clipart-ytatg
+ * Wood pixel art image for buttons and other UI elements from https://www.reddit.com/r/PixelArt/comments/1351ptn/looked_up_pixel_art_wood_texture_and_couldnt_find/
  * All Sounds:
  * IntroWorld music: https://www.youtube.com/watch?v=nW5bQ39Ldp8
  * StoryWorld and ending world music: https://www.youtube.com/watch?v=KoxxBeH7J3Q&t=1s

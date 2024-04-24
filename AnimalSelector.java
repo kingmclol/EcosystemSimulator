@@ -56,7 +56,6 @@ public class AnimalSelector extends UI
     }
 
     public void addedToWorld(World w){
-        
         w.addObject(animals[animalIndex], getX(), getY() - 10);
         w.addObject(buttonIncrementers[animalIndex], getX(), getY() - 125);
         w.addObject(sliders[animalIndex], getX(), getY() + 150);

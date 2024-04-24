@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class BreedingEffect here.
+ * Effect that shows when animals breed.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Tony Lin 
+ * @version 04-23-2024
  */
 public class BreedingEffect extends SuperActor
 {

@@ -19,6 +19,6 @@ public class MountainTile extends Tile
     }
     public void animate()
     {
-        
+        return;
     }
 }

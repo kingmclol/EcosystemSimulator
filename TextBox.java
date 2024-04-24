@@ -1,27 +1,40 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class TextBox here.
+ * A Textbox is a textbox that displays a string. It can fade in too look cool.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Freeman Wang
+ * @version 2024-0-04-24
  */
 public class TextBox extends UI
 {
-    /**
-     * Act - do whatever the TextBox wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
     private int initialTransparency;
     protected GreenfootImage img;
     protected FadeState state;
     protected int size, step;
     protected Color textColor, backgroundColor;
     protected boolean removeWhenTransparent;
+    /**
+     * Creates a textbox.
+     * @param text The text to initially display
+     * @param size the fontsize
+     * @param textColor the color of the text.
+     * @param backgroundColor the background color of the textbox. null for transparent
+     * @param step How much delta in transparency per act.
+     * @param initialTransparency the starting transparency of the textbox
+     */
     public TextBox(String text, int size, Color textColor, Color backgroundColor, int step, int initialTransparency) {
         this(size, textColor, backgroundColor, step, initialTransparency);
         display(text);
     }
+    /**
+     * Creates a textbox without an initial text.
+     * @param size the font size
+     * @param textColor the color of the text.
+     * @param backgroundColor the background color of the textbox. null for transparent
+     * @param step How much delta in transparency per act.
+     * @param initialTransparency the starting transparency of the textbox
+     */
     public TextBox(int size, Color textColor, Color backgroundColor, int step, int initialTransparency) {
         this.size = size;
         this.textColor = textColor;
